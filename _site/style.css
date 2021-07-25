@@ -202,6 +202,7 @@ section.success {
     }
 }
 
+/*指定分类页样式 start*/
 #portfolio .portfolio-item {
     right: 0;
     margin: 0 0 15px;
@@ -258,6 +259,186 @@ section.success {
         margin: 0 0 30px;
     }
 }
+/*指定分类页样式 end*/
+
+
+/*Home分类页样式 start*/
+#home .portfolio-item {
+    right: 0;
+    margin: 0 0 15px;
+}
+
+#home .portfolio-item .portfolio-link {
+    display: block;
+    position: relative;
+    margin: 0 auto;
+    max-width: 400px;
+}
+
+#home .portfolio-item .portfolio-link .caption {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+background: rgba(24,288,156,.9);
+-webkit-transition: all ease .5s;
+-moz-transition: all ease .5s;
+transition: all ease .5s;
+}
+
+#home .portfolio-item .portfolio-link .caption:hover {
+    opacity: 1;
+}
+
+#home .portfolio-item .portfolio-link .caption .caption-content {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    height: 20px;
+    margin-top: -12px;
+    text-align: center;
+    font-size: 20px;
+    color: #fff;
+}
+
+#home .portfolio-item .portfolio-link .caption .caption-content i {
+    margin-top: -12px;
+}
+
+#home .portfolio-item .portfolio-link .caption .caption-content h3,
+#home .portfolio-item .portfolio-link .caption .caption-content h4 {
+    margin: 0;
+}
+
+#home * {
+    z-index: 2;
+}
+
+@media(min-width:767px) {
+    #home .portfolio-item {
+        margin: 0 0 30px;
+    }
+}
+/*home分类页样式 end*/
+
+/* spring 分类页样式 start */
+#spring .portfolio-item {
+    right: 0;
+    margin: 0 0 15px;
+}
+
+#spring .portfolio-item .portfolio-link {
+    display: block;
+    position: relative;
+    margin: 0 auto;
+    max-width: 400px;
+}
+
+#spring .portfolio-item .portfolio-link .caption {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+background: rgba(24,288,156,.9);
+-webkit-transition: all ease .5s;
+-moz-transition: all ease .5s;
+transition: all ease .5s;
+}
+
+#spring .portfolio-item .portfolio-link .caption:hover {
+    opacity: 1;
+}
+
+#spring .portfolio-item .portfolio-link .caption .caption-content {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    height: 20px;
+    margin-top: -12px;
+    text-align: center;
+    font-size: 20px;
+    color: #fff;
+}
+
+#spring .portfolio-item .portfolio-link .caption .caption-content i {
+    margin-top: -12px;
+}
+
+#spring .portfolio-item .portfolio-link .caption .caption-content h3,
+#spring .portfolio-item .portfolio-link .caption .caption-content h4 {
+    margin: 0;
+}
+
+#spring * {
+    z-index: 2;
+}
+
+@media(min-width:767px) {
+    #spring .portfolio-item {
+        margin: 0 0 30px;
+    }
+}
+/* spring 分类页样式 end */
+
+/* springboot 分类页样式 start */
+#springboot .portfolio-item {
+    right: 0;
+    margin: 0 0 15px;
+}
+
+#springboot .portfolio-item .portfolio-link {
+    display: block;
+    position: relative;
+    margin: 0 auto;
+    max-width: 400px;
+}
+
+#springboot .portfolio-item .portfolio-link .caption {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+background: rgba(24,288,156,.9);
+-webkit-transition: all ease .5s;
+-moz-transition: all ease .5s;
+transition: all ease .5s;
+}
+
+#springboot .portfolio-item .portfolio-link .caption:hover {
+    opacity: 1;
+}
+
+#springboot .portfolio-item .portfolio-link .caption .caption-content {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    height: 20px;
+    margin-top: -12px;
+    text-align: center;
+    font-size: 20px;
+    color: #fff;
+}
+
+#springboot .portfolio-item .portfolio-link .caption .caption-content i {
+    margin-top: -12px;
+}
+
+#springboot .portfolio-item .portfolio-link .caption .caption-content h3,
+#springboot .portfolio-item .portfolio-link .caption .caption-content h4 {
+    margin: 0;
+}
+
+#springboot * {
+    z-index: 2;
+}
+
+@media(min-width:767px) {
+    #springboot .portfolio-item {
+        margin: 0 0 30px;
+    }
+}
+/* springboot 分类页样式 end */
+
 
 /* Flexbox Portfolio Grid */
 @media (min-width: 640px) {

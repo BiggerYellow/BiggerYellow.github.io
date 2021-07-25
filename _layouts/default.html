@@ -4,16 +4,10 @@
     <body id="page-top" class="index">
     {% include nav.html %}
     {% include header.html %}
-    {% include portfolio_grid.html %}
-    {% include about.html %}
-
-    {% if site.contact == "static" %}
-    {% include contact_static.html %}
-    {% elsif site.contact == "disqus" %}
-    {% include contact_disqus.html %}
-    {% else %}
-    {% include contact.html %}
-    {% endif %}
+    <!-- 栏目添加: 添加新栏目需要在这里加模板  这里需要将html删除 注释掉还是会显示 -->
+    {% include home.html %}
+    {% include spring.html %}
+    {% include springboot.html %}
 
     {% include footer.html %}
     {% include modals.html %}

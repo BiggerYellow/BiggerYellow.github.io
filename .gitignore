@@ -12,6 +12,7 @@
 .factorypath
 .gradle
 .idea
+.jekyll-cache
 .metadata
 .project
 .recommenders
