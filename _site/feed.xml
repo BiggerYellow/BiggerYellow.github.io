@@ -4,7 +4,7 @@
   <generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator>
   <link href="https://github.com/jeromelachaud/freelancer-theme/feed.xml" rel="self" type="application/atom+xml" />
   <link href="https://github.com/jeromelachaud/freelancer-theme/" rel="alternate" type="text/html" />
-  <updated>2021-07-25T17:07:15+08:00</updated>
+  <updated>2021-07-25T17:26:45+08:00</updated>
   <id>https://github.com/jeromelachaud/freelancer-theme/</id>
 
   
@@ -50,6 +50,80 @@
 
       
         <summary type="html">springboot springboot test test</summary>
+      
+
+      
+      
+    </entry>
+  
+    <entry>
+      <title type="html">Project 10</title>
+      <link href="https://github.com/jeromelachaud/freelancer-theme/" rel="alternate" type="text/html" title="Project 10" />
+      <published>2021-07-22T00:00:00+08:00</published>
+      <updated>2021-07-22T00:00:00+08:00</updated>
+      <id>https://github.com/jeromelachaud/freelancer-theme/project-10</id>
+      <content type="html" xml:base="https://github.com/jeromelachaud/freelancer-theme/">&lt;h1 id=&quot;springboot2&quot;&gt;springboot2&lt;/h1&gt;
+&lt;p&gt;springboot test2&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;test2
+&lt;/code&gt;&lt;/pre&gt;</content>
+
+      
+      
+      
+      
+      
+
+      <author>
+          <name></name>
+        
+        
+      </author>
+
+      
+        <category term="springboot" />
+      
+
+      
+
+      
+        <summary type="html">springboot2 springboot test2 test2</summary>
+      
+
+      
+      
+    </entry>
+  
+    <entry>
+      <title type="html">Project 9</title>
+      <link href="https://github.com/jeromelachaud/freelancer-theme/" rel="alternate" type="text/html" title="Project 9" />
+      <published>2021-07-22T00:00:00+08:00</published>
+      <updated>2021-07-22T00:00:00+08:00</updated>
+      <id>https://github.com/jeromelachaud/freelancer-theme/project-9</id>
+      <content type="html" xml:base="https://github.com/jeromelachaud/freelancer-theme/">&lt;h1 id=&quot;spring2&quot;&gt;spring2&lt;/h1&gt;
+&lt;p&gt;spring test2&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;test2
+&lt;/code&gt;&lt;/pre&gt;</content>
+
+      
+      
+      
+      
+      
+
+      <author>
+          <name></name>
+        
+        
+      </author>
+
+      
+        <category term="spring" />
+      
+
+      
+
+      
+        <summary type="html">spring2 spring test2 test2</summary>
       
 
       

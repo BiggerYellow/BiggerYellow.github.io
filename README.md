@@ -30,3 +30,22 @@ View this jekyll theme in action [here](https://jeromelachaud.com/freelancer-the
 
 ---------
 For more details, read the [documentation](http://jekyllrb.com/)
+```
+
+#### 图片素材
+https://www.pexels.com/zh-cn/
+
+### 创建分类
+1. 在_includes中新建一个分类.html, 以spring.html为例
+2. 在_post中新建一个spring文件夹用来存放spring相关的markdown文章,同时新建的文章需要加上spring标记 spring: true
+3. 在spring.html中填充内容,遍历所有spring为true的文章并设置标签<section id="spring">,注意同时需要在_includes.css.main.css中设置标签为spring的样式
+4. 在_includes.nav.html中添加sping滚动轴
+```
+<li class="page-scroll">
+    <a href="#spring">Spring</a>
+</li>
+```
+5. 在_layouts.default.html中添加新增的spring.html,注意这里如果想删除某一个栏目,不是使用注释掉,需要直接从文件中删除
+```
+    {% include spring.html %}
+```
