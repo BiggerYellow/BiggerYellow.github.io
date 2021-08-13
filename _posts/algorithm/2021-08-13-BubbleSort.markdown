@@ -1,7 +1,7 @@
 ---
 layout: default
 algorithm: true
-modal-id: 8
+modal-id: 11
 date: 2021-08-13
 img: pexels-rachel-claire-4846299.jpg
 alt: bubbleSort

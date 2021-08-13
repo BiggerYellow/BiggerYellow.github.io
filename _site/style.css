@@ -519,12 +519,12 @@ transition: all ease .5s;
     }
   }
   /* A large grid might need four columns on widescreen layouts */
-  /* @media (min-width: 1380px) {
+   @media (min-width: 1380px) {
     .portfolio-flex-grid .portfolio-flex-row .portfolio-flex-item {
       flex: 1 0 23.5%;
       max-width: 23.5%;
     }
-  } */
+  }
 
 .btn-outline {
     margin-top: 15px;

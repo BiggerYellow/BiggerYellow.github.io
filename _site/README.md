@@ -40,7 +40,7 @@ https://www.pexels.com/zh-cn/
 
 ### 创建分类
 1. 在_includes中新建一个分类.html, 以spring.html为例
-2. 在_post中新建一个spring文件夹用来存放spring相关的markdown文章,同时新建的文章需要加上spring标记 spring: true
+2. 在_post中新建一个spring文件夹用来存放spring相关的markdown文章,同时新建的文章需要加上spring标记 spring: true, 同时modal-id属性必须不一样
 3. 在spring.html中填充内容,遍历所有spring为true的文章并设置标签<section id="spring">,注意同时需要在_includes.css.main.css中设置标签为spring的样式
 4. 在_includes.nav.html中添加sping滚动轴
 ```
