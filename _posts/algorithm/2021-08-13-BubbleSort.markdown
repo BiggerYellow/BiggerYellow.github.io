@@ -8,7 +8,7 @@ alt: bubbleSort
 project-date: April 2021
 client: Start Bootstrap
 category: algorithm
-description: bubbleSort
+description: 冒泡排序
 ---
 # 思路
 基本思想就是两两比较然后交换位置，将较小值不断向前移动
@@ -20,7 +20,7 @@ description: bubbleSort
 - 从后往前：j从nums.len一直遍历到 i 处，同时比较nums[j-1]和nums[j]的值，只有nums[j-1]>nums[j]时才将nums[j]向前移动，每次循环结束保证最小值在开头
 
 # 内层逆序图解
-
+![bubbleSort](https://raw.githubusercontent.com/BiggerYellow/BiggerYellow.github.io/master/img/algorithm/bubbleSort/BubbleSort.jpg){:class="img-responsive img-centered"}
 
 ```
 //内层逆序遍历
