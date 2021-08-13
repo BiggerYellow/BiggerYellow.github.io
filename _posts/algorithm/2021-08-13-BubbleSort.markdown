@@ -58,7 +58,8 @@ private static void bubbleSort(int[] nums) {
 
 # 算法优化
 没有什么大的优化，主要是若一次遍历过后中间没有移动的动作说明数组已经有序，无需继续往后遍历，直接结束
-```
+
+```java
 private static void bubbleSort(int[] nums) {
     int temp;
     boolean flag = true;

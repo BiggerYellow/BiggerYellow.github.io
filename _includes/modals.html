@@ -12,15 +12,18 @@
                 <div class="row">
                     <div class="col-lg-8 col-lg-offset-2">
                         <div class="modal-body">
+                            <div align="center">
                             <h2>{{ post.title }}</h2>
                             <hr class="star-primary">
                             <img src="img/portfolio/{{ post.img }}" class="img-responsive img-centered" alt="{{ post.alt }}">
                             {% if post.description %}
                                 <p>{{ post.description }}</p>
                             {% endif %}
+                            </div>
 
                             <p>{{ post.content }}</p>
 
+                            <div align="center">
                             <ul class="list-inline item-details">
                                 {% if post.client %}
                                     <li>Client:
@@ -41,7 +44,10 @@
                                     </li>
                                 {% endif %}
                             </ul>
-                            <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+                            </div>
+                            <div align="center">
+                                <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+                            </div>
                         </div>
                     </div>
                 </div>

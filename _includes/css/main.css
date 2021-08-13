@@ -658,7 +658,7 @@ footer .footer-below {
     min-height: 100%;
     border: 0;
     border-radius: 0;
-    text-align: center;
+    /*text-align: center;*/
     background-clip: border-box;
     -webkit-box-shadow: none;
     box-shadow: none;
@@ -722,3 +722,4 @@ footer .footer-below {
     transform: translateZ(0);
     -webkit-transform: translateZ(0);
 }
+
