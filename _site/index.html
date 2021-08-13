@@ -67,6 +67,9 @@
                     <li class="page-scroll">
                         <a href="#springboot">SpringBoot</a>
                     </li>
+                    <li class="page-scroll">
+                        <a href="#algorithm">Algorithm</a>
+                    </li>
 <!--                    <li class="page-scroll">-->
 <!--                        <a href="#about">About</a>-->
 <!--                    </li>-->
@@ -107,6 +110,17 @@
                 </div>
             </div>
             <div class="portfolio-flex-row">
+                
+                    <div class="portfolio-flex-item portfolio-item">
+                        <a href="#portfolioModal-8" class="portfolio-link" data-toggle="modal">
+                            <div class="caption">
+                                <div class="caption-content">
+                                    <i class="fa fa-search-plus fa-3x"></i>
+                                </div>
+                            </div>
+                            <img src="img/portfolio/pexels-rachel-claire-4846299.jpg" class="img-responsive" alt="bubbleSort">
+                        </a>
+                    </div>
                 
                     <div class="portfolio-flex-item portfolio-item">
                         <a href="#portfolioModal-8" class="portfolio-link" data-toggle="modal">
@@ -238,6 +252,8 @@
                     
                 
                     
+                
+                    
                 <div class="portfolio-flex-item portfolio-item">
                         <a href="#portfolioModal-9" class="portfolio-link" data-toggle="modal">
                             <div class="caption">
@@ -291,6 +307,8 @@
             <div class="portfolio-flex-row">
                 
                     
+                
+                    
                 <div class="portfolio-flex-item portfolio-item">
                         <a href="#portfolioModal-8" class="portfolio-link" data-toggle="modal">
                             <div class="caption">
@@ -314,6 +332,54 @@
                             <img src="img/portfolio/pexels-anastasia-pavlova-8692301.jpg" class="img-responsive" alt="image-alt">
                         </a>
                     </div>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </div>
+        </div>
+    </section>
+    
+    <!-- Spring Boot -->
+    <section id="algorithm">
+        <div class="container portfolio-flex-grid">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2>算法与数据结构</h2>
+                    <hr class="star-primary">
+                </div>
+            </div>
+            <div class="portfolio-flex-row">
+                
+                    
+                <div class="portfolio-flex-item portfolio-item">
+                        <a href="#portfolioModal-8" class="portfolio-link" data-toggle="modal">
+                            <div class="caption">
+                                <div class="caption-content">
+                                    <i class="fa fa-search-plus fa-3x"></i>
+                                </div>
+                            </div>
+                            <img src="img/portfolio/pexels-rachel-claire-4846299.jpg" class="img-responsive" alt="bubbleSort">
+                        </a>
+                    </div>
+                    
+                
+                    
+                
                     
                 
                     
@@ -388,6 +454,123 @@
 
      <!-- Portfolio Modals -->
  
+    <div class="portfolio-modal modal fade" id="portfolioModal-8" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-content">
+            <div class="close-modal" data-dismiss="modal">
+                <div class="lr">
+                    <div class="rl">
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2">
+                        <div class="modal-body">
+                            <h2>Bubblesort</h2>
+                            <hr class="star-primary">
+                            <img src="img/portfolio/pexels-rachel-claire-4846299.jpg" class="img-responsive img-centered" alt="bubbleSort">
+                            
+                                <p>bubbleSort</p>
+                            
+
+                            <p><h1 id="思路">思路</h1>
+<p>基本思想就是两两比较然后交换位置，将较小值不断向前移动</p>
+<ol>
+  <li>首先需要两层循环，外层从i=0开始</li>
+  <li>内层循环的主要作用就根据遍历顺序保证最大值或最小值已经移动到数组的末尾或者开头</li>
+</ol>
+
+<p>内层有两者方式：</p>
+<ul>
+  <li>从前往后：j从0一直遍历到nums.len-1-i 处，同时比较nums[j]和nums[j+1]的值，只有nums[j]&gt;nums[j+1]时才将nums[j]向后移动，每次循环结束保证最大值在末尾</li>
+  <li>从后往前：j从nums.len一直遍历到 i 处，同时比较nums[j-1]和nums[j]的值，只有nums[j-1]&gt;nums[j]时才将nums[j]向前移动，每次循环结束保证最小值在开头</li>
+</ul>
+
+<h1 id="内层逆序图解">内层逆序图解</h1>
+
+<pre><code>//内层逆序遍历
+public static void bubbleSort(int[] nums){
+     int temp;
+    for (int i = 0; i&lt; nums.length - 1; i++ ){
+        for (int j = nums.length -1; j&gt;i; j--){
+            if (nums[j-1]&gt; nums[j]){
+                temp = nums[j-1];
+                nums[j-1] = nums[j];
+                nums[j] = temp;
+            }
+        }
+    }
+}
+
+//内层正序遍历
+private static void bubbleSort(int[] nums) {
+        if(nums==null || nums.length &lt; 2 ){
+            return;
+        }
+        for (int i = 0; i &lt; nums.length - 1; i++) {
+            for (int j = 0; j &lt; nums.length - i -1; j++) {   
+                if (nums[j] &gt; nums[j + 1]) {
+                    int temp = nums[j];
+                    nums[j] = nums[j + 1];
+                    nums[j + 1] = temp;
+                }
+            }
+        }
+    }
+</code></pre>
+<p>时间复杂度:O(n^2)
+空间复杂度:O(1)</p>
+
+<h1 id="算法优化">算法优化</h1>
+<p>没有什么大的优化，主要是若一次遍历过后中间没有移动的动作说明数组已经有序，无需继续往后遍历，直接结束</p>
+<pre><code>private static void bubbleSort(int[] nums) {
+    int temp;
+    boolean flag = true;
+    for (int i = 0; i&lt; nums.length - 1; i++ ){
+        for (int j = nums.length -1; j&gt;i; j--){
+            if (nums[j-1]&gt; nums[j]){
+                temp = nums[j-1];
+                nums[j-1] = nums[j];
+                nums[j] = temp;
+                flag = false;
+            }
+        }
+        if (flag){
+            break;
+        }
+    }
+}
+</code></pre>
+</p>
+
+                            <ul class="list-inline item-details">
+                                
+                                    <li>Client:
+                                        <strong><a href="http://startbootstrap.com">Start Bootstrap</a>
+                                        </strong>
+                                    </li>
+                                
+                                
+                                    <li>Date:
+                                        <strong><a href="http://startbootstrap.com">April 2021</a>
+                                        </strong>
+                                    </li>
+                                
+                                
+                                    <li>Service:
+                                        <strong><a href="http://startbootstrap.com">algorithm</a>
+                                        </strong>
+                                    </li>
+                                
+                            </ul>
+                            <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="portfolio-modal modal fade" id="portfolioModal-8" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-content">
             <div class="close-modal" data-dismiss="modal">

@@ -4,7 +4,7 @@
   <generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator>
   <link href="https://github.com/jeromelachaud/freelancer-theme/feed.xml" rel="self" type="application/atom+xml" />
   <link href="https://github.com/jeromelachaud/freelancer-theme/" rel="alternate" type="text/html" />
-  <updated>2021-08-13T19:29:53+08:00</updated>
+  <updated>2021-08-13T20:49:47+08:00</updated>
   <id>https://github.com/jeromelachaud/freelancer-theme/</id>
 
   
@@ -18,6 +18,107 @@
   
 
   
+  
+    <entry>
+      <title type="html">Bubblesort</title>
+      <link href="https://github.com/jeromelachaud/freelancer-theme/" rel="alternate" type="text/html" title="Bubblesort" />
+      <published>2021-08-13T00:00:00+08:00</published>
+      <updated>2021-08-13T00:00:00+08:00</updated>
+      <id>https://github.com/jeromelachaud/freelancer-theme/BubbleSort</id>
+      <content type="html" xml:base="https://github.com/jeromelachaud/freelancer-theme/">&lt;h1 id=&quot;思路&quot;&gt;思路&lt;/h1&gt;
+&lt;p&gt;基本思想就是两两比较然后交换位置，将较小值不断向前移动&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;首先需要两层循环，外层从i=0开始&lt;/li&gt;
+  &lt;li&gt;内层循环的主要作用就根据遍历顺序保证最大值或最小值已经移动到数组的末尾或者开头&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;内层有两者方式：&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;从前往后：j从0一直遍历到nums.len-1-i 处，同时比较nums[j]和nums[j+1]的值，只有nums[j]&amp;gt;nums[j+1]时才将nums[j]向后移动，每次循环结束保证最大值在末尾&lt;/li&gt;
+  &lt;li&gt;从后往前：j从nums.len一直遍历到 i 处，同时比较nums[j-1]和nums[j]的值，只有nums[j-1]&amp;gt;nums[j]时才将nums[j]向前移动，每次循环结束保证最小值在开头&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;内层逆序图解&quot;&gt;内层逆序图解&lt;/h1&gt;
+
+&lt;pre&gt;&lt;code&gt;//内层逆序遍历
+public static void bubbleSort(int[] nums){
+     int temp;
+    for (int i = 0; i&amp;lt; nums.length - 1; i++ ){
+        for (int j = nums.length -1; j&amp;gt;i; j--){
+            if (nums[j-1]&amp;gt; nums[j]){
+                temp = nums[j-1];
+                nums[j-1] = nums[j];
+                nums[j] = temp;
+            }
+        }
+    }
+}
+
+//内层正序遍历
+private static void bubbleSort(int[] nums) {
+        if(nums==null || nums.length &amp;lt; 2 ){
+            return;
+        }
+        for (int i = 0; i &amp;lt; nums.length - 1; i++) {
+            for (int j = 0; j &amp;lt; nums.length - i -1; j++) {   
+                if (nums[j] &amp;gt; nums[j + 1]) {
+                    int temp = nums[j];
+                    nums[j] = nums[j + 1];
+                    nums[j + 1] = temp;
+                }
+            }
+        }
+    }
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;时间复杂度:O(n^2)
+空间复杂度:O(1)&lt;/p&gt;
+
+&lt;h1 id=&quot;算法优化&quot;&gt;算法优化&lt;/h1&gt;
+&lt;p&gt;没有什么大的优化，主要是若一次遍历过后中间没有移动的动作说明数组已经有序，无需继续往后遍历，直接结束&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;private static void bubbleSort(int[] nums) {
+    int temp;
+    boolean flag = true;
+    for (int i = 0; i&amp;lt; nums.length - 1; i++ ){
+        for (int j = nums.length -1; j&amp;gt;i; j--){
+            if (nums[j-1]&amp;gt; nums[j]){
+                temp = nums[j-1];
+                nums[j-1] = nums[j];
+                nums[j] = temp;
+                flag = false;
+            }
+        }
+        if (flag){
+            break;
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;</content>
+
+      
+      
+      
+      
+      
+
+      <author>
+          <name></name>
+        
+        
+      </author>
+
+      
+        <category term="algorithm" />
+      
+
+      
+
+      
+        <summary type="html">思路 基本思想就是两两比较然后交换位置，将较小值不断向前移动 首先需要两层循环，外层从i=0开始 内层循环的主要作用就根据遍历顺序保证最大值或最小值已经移动到数组的末尾或者开头</summary>
+      
+
+      
+      
+    </entry>
   
     <entry>
       <title type="html">Project 8</title>
@@ -348,40 +449,6 @@
 
       
         <summary type="html">6</summary>
-      
-
-      
-      
-    </entry>
-  
-    <entry>
-      <title type="html">Project 5</title>
-      <link href="https://github.com/jeromelachaud/freelancer-theme/" rel="alternate" type="text/html" title="Project 5" />
-      <published>2014-07-14T00:00:00+08:00</published>
-      <updated>2014-07-14T00:00:00+08:00</updated>
-      <id>https://github.com/jeromelachaud/freelancer-theme/project-5</id>
-      <content type="html" xml:base="https://github.com/jeromelachaud/freelancer-theme/">&lt;h4 id=&quot;5&quot;&gt;5&lt;/h4&gt;</content>
-
-      
-      
-      
-      
-      
-
-      <author>
-          <name></name>
-        
-        
-      </author>
-
-      
-        <category term="Web Development" />
-      
-
-      
-
-      
-        <summary type="html">5</summary>
       
 
       
