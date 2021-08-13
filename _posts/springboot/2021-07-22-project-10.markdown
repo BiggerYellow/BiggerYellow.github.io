@@ -14,17 +14,16 @@ description: springboot
 
 <p align="right">右对齐</p>
 
+# test{:align="left"}
 
 
-![test](https://raw.githubusercontent.com/BiggerYellow/BiggerYellow.github.io/master/img/algorithm/bubbleSort/2021-08-13_133456.png)
+![rr](https://raw.githubusercontent.com/BiggerYellow/BiggerYellow.github.io/master/img/algorithm/bubbleSort/BubbleSort1.jpg){:class="img-responsive img-centered"}
 
-![rr](/img/algorithm/bubbleSort/BubbleSort.png)
+---------
+---------
+
 <p align="left">左对齐</p>
-
 
 ```
 test2
 ```
-<a target="_blank" rel="noopener noreferrer" herf="https://raw.githubusercontent.com/BiggerYellow/BiggerYellow.github.io/master/img/algorithm/bubbleSort/2021-08-13_133456.png">
-<img src="https://raw.githubusercontent.com/BiggerYellow/BiggerYellow.github.io/master/img/algorithm/bubbleSort/2021-08-13_133456.png" class="img-responsive img-centered" align="middle" />
-</a>

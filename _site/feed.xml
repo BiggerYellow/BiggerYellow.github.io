@@ -4,7 +4,7 @@
   <generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator>
   <link href="https://github.com/jeromelachaud/freelancer-theme/feed.xml" rel="self" type="application/atom+xml" />
   <link href="https://github.com/jeromelachaud/freelancer-theme/" rel="alternate" type="text/html" />
-  <updated>2021-08-13T15:04:57+08:00</updated>
+  <updated>2021-08-13T19:27:02+08:00</updated>
   <id>https://github.com/jeromelachaud/freelancer-theme/</id>
 
   
@@ -66,16 +66,17 @@
 
 &lt;p align=&quot;right&quot;&gt;右对齐&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/BiggerYellow/BiggerYellow.github.io/master/img/algorithm/bubbleSort/2021-08-13_133456.png&quot; alt=&quot;test&quot; /&gt;&lt;/p&gt;
+&lt;h1 id=&quot;testalignleft&quot;&gt;test{:align=”left”}&lt;/h1&gt;
 
-&lt;p&gt;&lt;img src=&quot;/img/algorithm/bubbleSort/BubbleSort.png&quot; alt=&quot;rr&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/BiggerYellow/BiggerYellow.github.io/master/img/algorithm/bubbleSort/BubbleSort1.jpg&quot; alt=&quot;rr&quot; class=&quot;img-responsive img-centered&quot; /&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+&lt;hr /&gt;
+
 &lt;p align=&quot;left&quot;&gt;左对齐&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;test2
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;a target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot; herf=&quot;https://raw.githubusercontent.com/BiggerYellow/BiggerYellow.github.io/master/img/algorithm/bubbleSort/2021-08-13_133456.png&quot;&gt;
-&lt;img src=&quot;https://raw.githubusercontent.com/BiggerYellow/BiggerYellow.github.io/master/img/algorithm/bubbleSort/2021-08-13_133456.png&quot; class=&quot;img-responsive img-centered&quot; align=&quot;middle&quot; /&gt;
-&lt;/a&gt;&lt;/p&gt;</content>
+&lt;/code&gt;&lt;/pre&gt;</content>
 
       
       
