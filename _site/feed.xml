@@ -4,7 +4,7 @@
   <generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator>
   <link href="https://github.com/jeromelachaud/freelancer-theme/feed.xml" rel="self" type="application/atom+xml" />
   <link href="https://github.com/jeromelachaud/freelancer-theme/" rel="alternate" type="text/html" />
-  <updated>2021-07-25T17:26:45+08:00</updated>
+  <updated>2021-08-13T14:24:12+08:00</updated>
   <id>https://github.com/jeromelachaud/freelancer-theme/</id>
 
   
@@ -62,8 +62,15 @@
       <published>2021-07-22T00:00:00+08:00</published>
       <updated>2021-07-22T00:00:00+08:00</updated>
       <id>https://github.com/jeromelachaud/freelancer-theme/project-10</id>
-      <content type="html" xml:base="https://github.com/jeromelachaud/freelancer-theme/">&lt;h1 id=&quot;springboot2&quot;&gt;springboot2&lt;/h1&gt;
-&lt;p&gt;springboot test2&lt;/p&gt;
+      <content type="html" xml:base="https://github.com/jeromelachaud/freelancer-theme/">&lt;div align=&quot;center&quot;&gt;&lt;font size=&quot;70&quot;&gt;springboot2&lt;/font&gt;&lt;/div&gt;
+
+&lt;p align=&quot;right&quot;&gt;右对齐&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/algorithm/bubbleSort/2021-08-13_133456.png&quot; alt=&quot;test&quot; /&gt;&lt;/p&gt;
+
+&lt;p align=&quot;left&quot;&gt;左对齐&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/algorithm/bubbleSort/2021-08-13_133456.png&quot; align=&quot;middle&quot; /&gt;&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;test2
 &lt;/code&gt;&lt;/pre&gt;</content>
 
@@ -86,7 +93,7 @@
       
 
       
-        <summary type="html">springboot2 springboot test2 test2</summary>
+        <summary type="html">springboot2</summary>
       
 
       

@@ -10,8 +10,18 @@ client: Start Bootstrap
 category: springboot
 description: springboot
 ---
-# springboot2
-springboot test2
+<div align='center' ><font size='70'>springboot2</font></div>
+
+<p align="right">右对齐</p>
+
+
+
+![test](/img/algorithm/bubbleSort/2021-08-13_133456.png)
+
+<p align="left">左对齐</p>
+
+
+<img src="/img/algorithm/bubbleSort/2021-08-13_133456.png" align="middle" />
 ```
 test2
 ```
