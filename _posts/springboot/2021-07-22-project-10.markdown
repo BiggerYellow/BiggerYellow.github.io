@@ -16,12 +16,15 @@ description: springboot
 
 
 
-![test](/img/algorithm/bubbleSort/2021-08-13_133456.png)
+![test](https://raw.githubusercontent.com/BiggerYellow/BiggerYellow.github.io/master/img/algorithm/bubbleSort/2021-08-13_133456.png)
 
+![rr](/img/algorithm/bubbleSort/BubbleSort.png)
 <p align="left">左对齐</p>
 
 
-<img src="/img/algorithm/bubbleSort/2021-08-13_133456.png" align="middle" />
 ```
 test2
 ```
+<a target="_blank" rel="noopener noreferrer" herf="https://raw.githubusercontent.com/BiggerYellow/BiggerYellow.github.io/master/img/algorithm/bubbleSort/2021-08-13_133456.png">
+<img src="https://raw.githubusercontent.com/BiggerYellow/BiggerYellow.github.io/master/img/algorithm/bubbleSort/2021-08-13_133456.png" class="img-responsive img-centered" align="middle" />
+</a>
