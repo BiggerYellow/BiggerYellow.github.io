@@ -13,6 +13,7 @@ description: 快速排序
 ### 基本思想
 - - -
 是一种分治的排序算法,他将一个数组分成两个子数组,将两部分独立的排序.
+- - -
 
 ### 思路
 - - -
@@ -22,17 +23,20 @@ description: 快速排序
 4. 接着将左指针从左往右遍历,当left<right且nums[left]<=base时,将左指针左移,否则将左指针的值赋值给右指针 (此步同步骤三相反,即找到最左侧大于基准值base的值,并将此值赋值给右指针的值)
 5. 最后当两个指针相交时,将base值赋值给nums[left],并同时将left返回作为下个区间的中间值
 6. 接下来就是递归遍历[left,temp-1]和[temp+1,right],遍历结束即数组有序
+- - -
 
 ### 图解
 - - -
 第一层排序[0, 4]
-![quickSort1](){:class="img-responsive img-centered"}
+![quickSort1](https://raw.githubusercontent.com/BiggerYellow/BiggerYellow.github.io/master/img/algorithm/quickSort/quickSort1.jpg){:class="img-responsive img-centered"}
 第二层排序[0,-1]和[1,4]
-![quickSort2](){:class="img-responsive img-centered"}
+![quickSort2](https://raw.githubusercontent.com/BiggerYellow/BiggerYellow.github.io/master/img/algorithm/quickSort/quickSort2.jpg){:class="img-responsive img-centered"}
 第三轮排序[1,1]和[3,4]
-![quickSort3](){:class="img-responsive img-centered"}
+![quickSort3](https://raw.githubusercontent.com/BiggerYellow/BiggerYellow.github.io/master/img/algorithm/quickSort/quickSort3.jpg){:class="img-responsive img-centered"}
 
-#### java代码
+#### 代码
+>java
+
 ```
 public static void quickSort(int[] nums, int left, int right){
     if (left< right){
@@ -61,3 +65,89 @@ public static int division(int[] nums, int left, int right){
 >时间复杂度:O(nlogn)
 >
 >空间复杂度:O(1)
+
+### 其他语言
+- - -
+> c++
+
+```
+class Solution {
+public:
+	void quickSort(vector<int>& nums, int left, int right) 
+	{
+		if (left<right)
+		{
+			int temp = division(nums, left, right);
+			quickSort(nums, left, temp - 1);
+			quickSort(nums, temp + 1, right);
+		}
+	}
+
+	int division(vector<int>& nums, int left, int right)
+	{
+		int base = nums[left];
+		while (left<right)
+		{
+			while (left < right && nums[right] >= base) {
+				right--;
+			}
+			nums[left] = nums[right];
+			while (left < right && nums[left] <= base) {
+				left++;
+			}
+			nums[right] = nums[left];
+		}
+		nums[left] = base;
+		return left;
+	}
+};
+```
+> python3
+
+```
+class Solution:
+    def quickSort(self, nums:List[int], left:int, right:int):
+        def division(nums:List[int], left:int, right:int)->int:
+            base = nums[left]
+            while left<right:
+                while left<right and nums[right]>=base:
+                    right-=1
+                nums[left]=nums[right]
+                while left<right and nums[left]<=base:
+                    left+=1
+                nums[right]=nums[left]
+            nums[left]=base
+            return left
+        if left<right:
+            temp = division(nums, left ,right)
+            self.quickSort(nums, left, temp-1)
+            self.quickSort(nums, temp+1, right)
+```
+> go
+
+```
+func quickSort(nums []int, left int, right int)  {
+		var division func(nums []int, left int, right int) int
+		division = func(nums []int, left int, right int) int {
+			base := nums[left]
+			for left<right {
+				for left<right && nums[right]>=base {
+					right--
+				}
+				nums[left] = nums[right]
+				for left<right && nums[left]<=base {
+					left++
+				}
+				nums[right] = nums[left]
+			}
+			nums[left]=base
+			return left
+		}
+
+		if left<right {
+			temp:=division(nums, left, right)
+			quickSort(nums, left, temp-1)
+			quickSort(nums, temp+1, right)
+		}
+}
+```

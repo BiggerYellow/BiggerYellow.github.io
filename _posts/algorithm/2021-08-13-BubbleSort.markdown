@@ -11,11 +11,12 @@ category: algorithm
 description: 冒泡排序
 ---
 ### 基本思想
----
+- - -
 就是两两比较然后交换位置，将较小值不断向前移动
+- - -
 
 ### 思路
--   -   -
+- - -
 1. 首先需要两层循环，外层从i=0开始
 2. 内层循环的主要作用就根据遍历顺序保证最大值或最小值已经移动到数组的末尾或者开头
 
@@ -23,11 +24,15 @@ description: 冒泡排序
 - 从前往后：j从0一直遍历到nums.len-1-i 处，同时比较nums[j]和nums[j+1]的值，只有nums[j]>nums[j+1]时才将nums[j]向后移动，每次循环结束保证最大值在末尾
 - 从后往前：j从nums.len一直遍历到 i 处，同时比较nums[j-1]和nums[j]的值，只有nums[j-1]>nums[j]时才将nums[j]向前移动，每次循环结束保证最小值在开头
 
+- - -
+
 ### 内层逆序图解
 - - -
 ![bubbleSort](https://raw.githubusercontent.com/BiggerYellow/BiggerYellow.github.io/master/img/algorithm/bubbleSort/BubbleSort.jpg){:class="img-responsive img-centered"}
 
-#### java代码
+#### 代码
+>java
+
 ``` 
 //内层逆序遍历
 public static void bubbleSort(int[] nums){
@@ -67,7 +72,7 @@ private static void bubbleSort(int[] nums) {
 ### 算法优化
 - - -
 没有什么大的优化，主要是若一次遍历过后中间没有移动的动作说明数组已经有序，无需继续往后遍历，直接结束
-
+- - -
 
 ``` java
 private static void bubbleSort(int[] nums) {
@@ -91,7 +96,8 @@ private static void bubbleSort(int[] nums) {
 
 ### 其他语言
 - - -
-#### C++
+> C++
+
 ```
 class Solution {
 public:
@@ -133,7 +139,8 @@ public:
 };
 
 ```
-#### python3
+> python3
+
 ```
 class Solution:
     #内部正序
@@ -156,7 +163,8 @@ class Solution:
                     nums[j] = nums[j-1]
                     nums[j-1] = temp
 ```
-#### go
+> go
+
 ```
 //内部逆序
 func bubbleSort(nums []int) {
