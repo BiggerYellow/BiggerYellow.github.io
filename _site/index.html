@@ -112,6 +112,20 @@
             <div class="portfolio-flex-row">
                 
                     <div class="portfolio-flex-item portfolio-item">
+                        <a href="#portfolioModal-12" class="portfolio-link" data-toggle="modal">
+                            <div class="caption">
+                                <div class="caption-content">
+                                    <i class="fa fa-search-plus fa-3x"></i>
+                                    <p>Quicksort</p>
+
+                                </div>
+                            </div>
+                            <img src="img/portfolio/pexels-jo-jesus-4198220.jpg" class="img-responsive" alt="quickSort">
+
+                        </a>
+                    </div>
+                
+                    <div class="portfolio-flex-item portfolio-item">
                         <a href="#portfolioModal-11" class="portfolio-link" data-toggle="modal">
                             <div class="caption">
                                 <div class="caption-content">
@@ -287,6 +301,8 @@
                     
                 
                     
+                
+                    
                 <div class="portfolio-flex-item portfolio-item">
                         <a href="#portfolioModal-9" class="portfolio-link" data-toggle="modal">
                             <div class="caption">
@@ -338,6 +354,8 @@
                 </div>
             </div>
             <div class="portfolio-flex-row">
+                
+                    
                 
                     
                 
@@ -397,6 +415,19 @@
                 </div>
             </div>
             <div class="portfolio-flex-row">
+                
+                    
+                <div class="portfolio-flex-item portfolio-item">
+                        <a href="#portfolioModal-12" class="portfolio-link" data-toggle="modal">
+                            <div class="caption">
+                                <div class="caption-content">
+                                    <i class="fa fa-search-plus fa-3x"></i>
+                                </div>
+                            </div>
+                            <img src="img/portfolio/pexels-jo-jesus-4198220.jpg" class="img-responsive" alt="quickSort">
+                        </a>
+                    </div>
+                    
                 
                     
                 <div class="portfolio-flex-item portfolio-item">
@@ -487,6 +518,115 @@
 
      <!-- Portfolio Modals -->
  
+    <div class="portfolio-modal modal fade" id="portfolioModal-12" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-content">
+            <div class="close-modal" data-dismiss="modal">
+                <div class="lr">
+                    <div class="rl">
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2">
+                        <div class="modal-body">
+                            <div align="center">
+                            <h2>Quicksort</h2>
+                            <hr class="star-primary">
+                            <img src="img/portfolio/pexels-jo-jesus-4198220.jpg" class="img-responsive img-centered" alt="quickSort">
+                            
+                                <p>快速排序</p>
+                            
+                            </div>
+
+                            <p><h3 id="基本思想">基本思想</h3>
+<hr />
+<p>是一种分治的排序算法,他将一个数组分成两个子数组,将两部分独立的排序.</p>
+
+<h3 id="思路">思路</h3>
+<hr />
+<ol>
+  <li>首先以left=0,right=nums.len-1进行排序,最外层需要保证left&lt;right</li>
+  <li>排序首先以nums[left]为基准值base</li>
+  <li>然后将右指针从右往左遍历,当left&lt;right且nums[right]&gt;=base时,将右指针右移,否则就将右指针的值替换到左指针处 (此步的意义就是找到最右侧小于基准值base并将右侧值赋值到左指针的值)</li>
+  <li>接着将左指针从左往右遍历,当left&lt;right且nums[left]&lt;=base时,将左指针左移,否则将左指针的值赋值给右指针 (此步同步骤三相反,即找到最左侧大于基准值base的值,并将此值赋值给右指针的值)</li>
+  <li>最后当两个指针相交时,将base值赋值给nums[left],并同时将left返回作为下个区间的中间值</li>
+  <li>接下来就是递归遍历[left,temp-1]和[temp+1,right],遍历结束即数组有序</li>
+</ol>
+
+<h3 id="图解">图解</h3>
+<hr />
+<p>第一层排序[0, 4]
+<img src="" alt="quickSort1" class="img-responsive img-centered" />
+第二层排序[0,-1]和[1,4]
+<img src="" alt="quickSort2" class="img-responsive img-centered" />
+第三轮排序[1,1]和[3,4]
+<img src="" alt="quickSort3" class="img-responsive img-centered" /></p>
+
+<h4 id="java代码">java代码</h4>
+<pre><code>public static void quickSort(int[] nums, int left, int right){
+    if (left&lt; right){
+        int base = division(nums, left, right);
+        quickSort(nums, left, base-1);
+        quickSort(nums, base+1, right);
+    }
+}
+
+public static int division(int[] nums, int left, int right){
+    int base = nums[left];
+    while (left&lt;right){
+        while (left&lt;right &amp;&amp; nums[right]&gt;=base){
+            right--;
+        }
+        nums[left] = nums[right];
+        while (left&lt;right &amp;&amp; nums[left]&lt;=base){
+            left++;
+        }
+        nums[right] = nums[left];
+    }
+    nums[left]=base;
+    return left;
+}
+</code></pre>
+<blockquote>
+  <p>时间复杂度:O(nlogn)</p>
+
+  <p>空间复杂度:O(1)</p>
+</blockquote>
+</p>
+
+                            <div align="center">
+                            <ul class="list-inline item-details">
+                                
+                                    <li>Client:
+                                        <strong><a href="http://startbootstrap.com">Start Bootstrap</a>
+                                        </strong>
+                                    </li>
+                                
+                                
+                                    <li>Date:
+                                        <strong><a href="http://startbootstrap.com">April 2021</a>
+                                        </strong>
+                                    </li>
+                                
+                                
+                                    <li>Service:
+                                        <strong><a href="http://startbootstrap.com">algorithm</a>
+                                        </strong>
+                                    </li>
+                                
+                            </ul>
+                            </div>
+                            <div align="center">
+                                <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="portfolio-modal modal fade" id="portfolioModal-11" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-content">
             <div class="close-modal" data-dismiss="modal">
@@ -508,8 +648,12 @@
                             
                             </div>
 
-                            <p><h1 id="思路">思路</h1>
-<p>基本思想就是两两比较然后交换位置，将较小值不断向前移动</p>
+                            <p><h3 id="基本思想">基本思想</h3>
+<hr />
+<p>就是两两比较然后交换位置，将较小值不断向前移动</p>
+
+<h3 id="思路">思路</h3>
+<hr />
 <ol>
   <li>首先需要两层循环，外层从i=0开始</li>
   <li>内层循环的主要作用就根据遍历顺序保证最大值或最小值已经移动到数组的末尾或者开头</li>
@@ -521,9 +665,11 @@
   <li>从后往前：j从nums.len一直遍历到 i 处，同时比较nums[j-1]和nums[j]的值，只有nums[j-1]&gt;nums[j]时才将nums[j]向前移动，每次循环结束保证最小值在开头</li>
 </ul>
 
-<h1 id="内层逆序图解">内层逆序图解</h1>
+<h3 id="内层逆序图解">内层逆序图解</h3>
+<hr />
 <p><img src="https://raw.githubusercontent.com/BiggerYellow/BiggerYellow.github.io/master/img/algorithm/bubbleSort/BubbleSort.jpg" alt="bubbleSort" class="img-responsive img-centered" /></p>
 
+<h4 id="java代码">java代码</h4>
 <pre><code>//内层逆序遍历
 public static void bubbleSort(int[] nums){
      int temp;
@@ -554,10 +700,15 @@ private static void bubbleSort(int[] nums) {
         }
     }
 </code></pre>
-<p>时间复杂度:O(n^2)
-空间复杂度:O(1)</p>
 
-<h1 id="算法优化">算法优化</h1>
+<blockquote>
+  <p>时间复杂度:O(n^2)</p>
+
+  <p>空间复杂度:O(1)</p>
+</blockquote>
+
+<h3 id="算法优化">算法优化</h3>
+<hr />
 <p>没有什么大的优化，主要是若一次遍历过后中间没有移动的动作说明数组已经有序，无需继续往后遍历，直接结束</p>
 
 <pre><code class="language-java">private static void bubbleSort(int[] nums) {
@@ -576,6 +727,100 @@ private static void bubbleSort(int[] nums) {
             break;
         }
     }
+}
+</code></pre>
+
+<h3 id="其他语言">其他语言</h3>
+<hr />
+<h4 id="c">C++</h4>
+<pre><code>class Solution {
+public:
+	//内部正序
+	void bubbleSort(vector&lt;int&gt;&amp; nums)
+	{
+		int len = nums.size();
+		for (int i = 0; i &lt; len - 1; i++)
+		{
+			for (int j = 0; j &lt; len-i-1; j++)
+			{
+				if (nums[j + 1] &lt; nums[j])
+				{
+					int temp = nums[j];
+					nums[j] = nums[j + 1];
+					nums[j + 1] = temp;
+				}
+			}
+		}
+	}
+
+	//内部逆序
+	void bubbleSort1(vector&lt;int&gt;&amp; nums)
+	{
+		int len = nums.size();
+		for (int i = 0; i &lt; len; i++)
+		{
+			for (int  j = len-1; j &gt;i; j--)
+			{
+				if (nums[j-1]&gt;nums[j])
+				{
+					int temp = nums[j];
+					nums[j] = nums[j - 1];
+					nums[j - 1] = temp;
+				}
+			}
+		}
+	}
+};
+
+</code></pre>
+<h4 id="python3">python3</h4>
+<pre><code>class Solution:
+    #内部正序
+    def bubbleSort(self, nums:List[int]):
+        length = len(nums)
+        for i in range(0, length-1):
+            for j in range(0, length-i-1):
+                if nums[j+1] &lt; nums[j]:
+                    temp = nums[j]
+                    nums[j] = nums[j+1]
+                    nums[j+1] = temp
+
+    #内部正序
+    def bubbleSort1(self, nums:List[int]):
+        length = len(nums)
+        for i in range(0, length):
+            for j in (length-1, i, -1):
+                if nums[j-1]&gt;nums[j]:
+                    temp = nums[j]
+                    nums[j] = nums[j-1]
+                    nums[j-1] = temp
+</code></pre>
+<h4 id="go">go</h4>
+<pre><code>//内部逆序
+func bubbleSort(nums []int) {
+	len :=len(nums)
+	for i:=0;i&lt;len-1;i++ {
+		for j:=0;j&lt;len-i-1;j++ {
+			if nums[j+1]&lt;nums[j] {
+				temp:=nums[j]
+				nums[j]=nums[j+1]
+				nums[j+1]=temp
+			}
+		}
+	}
+}
+
+func bubbleSort1(nums []int){
+	len := len(nums)
+	for i:=0; i&lt;len;i++ {
+		for j:=len-1;j&gt;i;j-- {
+			if nums[j] &lt; nums[j-1] {
+				temp:=nums[j]
+				nums[j]=nums[j-1]
+				nums[j-1]=temp
+			}
+		}
+	}
 }
 </code></pre>
 </p>

@@ -4,7 +4,7 @@
   <generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator>
   <link href="https://github.com/jeromelachaud/freelancer-theme/feed.xml" rel="self" type="application/atom+xml" />
   <link href="https://github.com/jeromelachaud/freelancer-theme/" rel="alternate" type="text/html" />
-  <updated>2021-08-14T00:31:20+08:00</updated>
+  <updated>2021-08-17T20:06:58+08:00</updated>
   <id>https://github.com/jeromelachaud/freelancer-theme/</id>
 
   
@@ -20,13 +20,104 @@
   
   
     <entry>
+      <title type="html">Quicksort</title>
+      <link href="https://github.com/jeromelachaud/freelancer-theme/" rel="alternate" type="text/html" title="Quicksort" />
+      <published>2021-08-17T00:00:00+08:00</published>
+      <updated>2021-08-17T00:00:00+08:00</updated>
+      <id>https://github.com/jeromelachaud/freelancer-theme/QuickSort</id>
+      <content type="html" xml:base="https://github.com/jeromelachaud/freelancer-theme/">&lt;h3 id=&quot;基本思想&quot;&gt;基本思想&lt;/h3&gt;
+&lt;hr /&gt;
+&lt;p&gt;是一种分治的排序算法,他将一个数组分成两个子数组,将两部分独立的排序.&lt;/p&gt;
+
+&lt;h3 id=&quot;思路&quot;&gt;思路&lt;/h3&gt;
+&lt;hr /&gt;
+&lt;ol&gt;
+  &lt;li&gt;首先以left=0,right=nums.len-1进行排序,最外层需要保证left&amp;lt;right&lt;/li&gt;
+  &lt;li&gt;排序首先以nums[left]为基准值base&lt;/li&gt;
+  &lt;li&gt;然后将右指针从右往左遍历,当left&amp;lt;right且nums[right]&amp;gt;=base时,将右指针右移,否则就将右指针的值替换到左指针处 (此步的意义就是找到最右侧小于基准值base并将右侧值赋值到左指针的值)&lt;/li&gt;
+  &lt;li&gt;接着将左指针从左往右遍历,当left&amp;lt;right且nums[left]&amp;lt;=base时,将左指针左移,否则将左指针的值赋值给右指针 (此步同步骤三相反,即找到最左侧大于基准值base的值,并将此值赋值给右指针的值)&lt;/li&gt;
+  &lt;li&gt;最后当两个指针相交时,将base值赋值给nums[left],并同时将left返回作为下个区间的中间值&lt;/li&gt;
+  &lt;li&gt;接下来就是递归遍历[left,temp-1]和[temp+1,right],遍历结束即数组有序&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&quot;图解&quot;&gt;图解&lt;/h3&gt;
+&lt;hr /&gt;
+&lt;p&gt;第一层排序[0, 4]
+&lt;img src=&quot;&quot; alt=&quot;quickSort1&quot; class=&quot;img-responsive img-centered&quot; /&gt;
+第二层排序[0,-1]和[1,4]
+&lt;img src=&quot;&quot; alt=&quot;quickSort2&quot; class=&quot;img-responsive img-centered&quot; /&gt;
+第三轮排序[1,1]和[3,4]
+&lt;img src=&quot;&quot; alt=&quot;quickSort3&quot; class=&quot;img-responsive img-centered&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;java代码&quot;&gt;java代码&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;public static void quickSort(int[] nums, int left, int right){
+    if (left&amp;lt; right){
+        int base = division(nums, left, right);
+        quickSort(nums, left, base-1);
+        quickSort(nums, base+1, right);
+    }
+}
+
+public static int division(int[] nums, int left, int right){
+    int base = nums[left];
+    while (left&amp;lt;right){
+        while (left&amp;lt;right &amp;amp;&amp;amp; nums[right]&amp;gt;=base){
+            right--;
+        }
+        nums[left] = nums[right];
+        while (left&amp;lt;right &amp;amp;&amp;amp; nums[left]&amp;lt;=base){
+            left++;
+        }
+        nums[right] = nums[left];
+    }
+    nums[left]=base;
+    return left;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;时间复杂度:O(nlogn)&lt;/p&gt;
+
+  &lt;p&gt;空间复杂度:O(1)&lt;/p&gt;
+&lt;/blockquote&gt;</content>
+
+      
+      
+      
+      
+      
+
+      <author>
+          <name></name>
+        
+        
+      </author>
+
+      
+        <category term="algorithm" />
+      
+
+      
+
+      
+        <summary type="html">基本思想 是一种分治的排序算法,他将一个数组分成两个子数组,将两部分独立的排序.</summary>
+      
+
+      
+      
+    </entry>
+  
+    <entry>
       <title type="html">Bubblesort</title>
       <link href="https://github.com/jeromelachaud/freelancer-theme/" rel="alternate" type="text/html" title="Bubblesort" />
       <published>2021-08-13T00:00:00+08:00</published>
       <updated>2021-08-13T00:00:00+08:00</updated>
       <id>https://github.com/jeromelachaud/freelancer-theme/BubbleSort</id>
-      <content type="html" xml:base="https://github.com/jeromelachaud/freelancer-theme/">&lt;h1 id=&quot;思路&quot;&gt;思路&lt;/h1&gt;
-&lt;p&gt;基本思想就是两两比较然后交换位置，将较小值不断向前移动&lt;/p&gt;
+      <content type="html" xml:base="https://github.com/jeromelachaud/freelancer-theme/">&lt;h3 id=&quot;基本思想&quot;&gt;基本思想&lt;/h3&gt;
+&lt;hr /&gt;
+&lt;p&gt;就是两两比较然后交换位置，将较小值不断向前移动&lt;/p&gt;
+
+&lt;h3 id=&quot;思路&quot;&gt;思路&lt;/h3&gt;
+&lt;hr /&gt;
 &lt;ol&gt;
   &lt;li&gt;首先需要两层循环，外层从i=0开始&lt;/li&gt;
   &lt;li&gt;内层循环的主要作用就根据遍历顺序保证最大值或最小值已经移动到数组的末尾或者开头&lt;/li&gt;
@@ -38,9 +129,11 @@
   &lt;li&gt;从后往前：j从nums.len一直遍历到 i 处，同时比较nums[j-1]和nums[j]的值，只有nums[j-1]&amp;gt;nums[j]时才将nums[j]向前移动，每次循环结束保证最小值在开头&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h1 id=&quot;内层逆序图解&quot;&gt;内层逆序图解&lt;/h1&gt;
+&lt;h3 id=&quot;内层逆序图解&quot;&gt;内层逆序图解&lt;/h3&gt;
+&lt;hr /&gt;
 &lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/BiggerYellow/BiggerYellow.github.io/master/img/algorithm/bubbleSort/BubbleSort.jpg&quot; alt=&quot;bubbleSort&quot; class=&quot;img-responsive img-centered&quot; /&gt;&lt;/p&gt;
 
+&lt;h4 id=&quot;java代码&quot;&gt;java代码&lt;/h4&gt;
 &lt;pre&gt;&lt;code&gt;//内层逆序遍历
 public static void bubbleSort(int[] nums){
      int temp;
@@ -71,10 +164,15 @@ private static void bubbleSort(int[] nums) {
         }
     }
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;时间复杂度:O(n^2)
-空间复杂度:O(1)&lt;/p&gt;
 
-&lt;h1 id=&quot;算法优化&quot;&gt;算法优化&lt;/h1&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;时间复杂度:O(n^2)&lt;/p&gt;
+
+  &lt;p&gt;空间复杂度:O(1)&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&quot;算法优化&quot;&gt;算法优化&lt;/h3&gt;
+&lt;hr /&gt;
 &lt;p&gt;没有什么大的优化，主要是若一次遍历过后中间没有移动的动作说明数组已经有序，无需继续往后遍历，直接结束&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;private static void bubbleSort(int[] nums) {
@@ -93,6 +191,100 @@ private static void bubbleSort(int[] nums) {
             break;
         }
     }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&quot;其他语言&quot;&gt;其他语言&lt;/h3&gt;
+&lt;hr /&gt;
+&lt;h4 id=&quot;c&quot;&gt;C++&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;class Solution {
+public:
+	//内部正序
+	void bubbleSort(vector&amp;lt;int&amp;gt;&amp;amp; nums)
+	{
+		int len = nums.size();
+		for (int i = 0; i &amp;lt; len - 1; i++)
+		{
+			for (int j = 0; j &amp;lt; len-i-1; j++)
+			{
+				if (nums[j + 1] &amp;lt; nums[j])
+				{
+					int temp = nums[j];
+					nums[j] = nums[j + 1];
+					nums[j + 1] = temp;
+				}
+			}
+		}
+	}
+
+	//内部逆序
+	void bubbleSort1(vector&amp;lt;int&amp;gt;&amp;amp; nums)
+	{
+		int len = nums.size();
+		for (int i = 0; i &amp;lt; len; i++)
+		{
+			for (int  j = len-1; j &amp;gt;i; j--)
+			{
+				if (nums[j-1]&amp;gt;nums[j])
+				{
+					int temp = nums[j];
+					nums[j] = nums[j - 1];
+					nums[j - 1] = temp;
+				}
+			}
+		}
+	}
+};
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h4 id=&quot;python3&quot;&gt;python3&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;class Solution:
+    #内部正序
+    def bubbleSort(self, nums:List[int]):
+        length = len(nums)
+        for i in range(0, length-1):
+            for j in range(0, length-i-1):
+                if nums[j+1] &amp;lt; nums[j]:
+                    temp = nums[j]
+                    nums[j] = nums[j+1]
+                    nums[j+1] = temp
+
+    #内部正序
+    def bubbleSort1(self, nums:List[int]):
+        length = len(nums)
+        for i in range(0, length):
+            for j in (length-1, i, -1):
+                if nums[j-1]&amp;gt;nums[j]:
+                    temp = nums[j]
+                    nums[j] = nums[j-1]
+                    nums[j-1] = temp
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h4 id=&quot;go&quot;&gt;go&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;//内部逆序
+func bubbleSort(nums []int) {
+	len :=len(nums)
+	for i:=0;i&amp;lt;len-1;i++ {
+		for j:=0;j&amp;lt;len-i-1;j++ {
+			if nums[j+1]&amp;lt;nums[j] {
+				temp:=nums[j]
+				nums[j]=nums[j+1]
+				nums[j+1]=temp
+			}
+		}
+	}
+}
+
+func bubbleSort1(nums []int){
+	len := len(nums)
+	for i:=0; i&amp;lt;len;i++ {
+		for j:=len-1;j&amp;gt;i;j-- {
+			if nums[j] &amp;lt; nums[j-1] {
+				temp:=nums[j]
+				nums[j]=nums[j-1]
+				nums[j-1]=temp
+			}
+		}
+	}
 }
 &lt;/code&gt;&lt;/pre&gt;</content>
 
@@ -115,7 +307,7 @@ private static void bubbleSort(int[] nums) {
       
 
       
-        <summary type="html">思路 基本思想就是两两比较然后交换位置，将较小值不断向前移动 首先需要两层循环，外层从i=0开始 内层循环的主要作用就根据遍历顺序保证最大值或最小值已经移动到数组的末尾或者开头</summary>
+        <summary type="html">基本思想 就是两两比较然后交换位置，将较小值不断向前移动</summary>
       
 
       
@@ -417,40 +609,6 @@ private static void bubbleSort(int[] nums) {
 
       
         <summary type="html">4</summary>
-      
-
-      
-      
-    </entry>
-  
-    <entry>
-      <title type="html">Project 6</title>
-      <link href="https://github.com/jeromelachaud/freelancer-theme/" rel="alternate" type="text/html" title="Project 6" />
-      <published>2014-07-15T00:00:00+08:00</published>
-      <updated>2014-07-15T00:00:00+08:00</updated>
-      <id>https://github.com/jeromelachaud/freelancer-theme/project-6</id>
-      <content type="html" xml:base="https://github.com/jeromelachaud/freelancer-theme/">&lt;h4 id=&quot;6&quot;&gt;6&lt;/h4&gt;</content>
-
-      
-      
-      
-      
-      
-
-      <author>
-          <name></name>
-        
-        
-      </author>
-
-      
-        <category term="Web Development" />
-      
-
-      
-
-      
-        <summary type="html">6</summary>
       
 
       
