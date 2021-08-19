@@ -4,7 +4,7 @@
   <generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator>
   <link href="https://github.com/jeromelachaud/freelancer-theme/feed.xml" rel="self" type="application/atom+xml" />
   <link href="https://github.com/jeromelachaud/freelancer-theme/" rel="alternate" type="text/html" />
-  <updated>2021-08-17T20:43:26+08:00</updated>
+  <updated>2021-08-19T09:17:29+08:00</updated>
   <id>https://github.com/jeromelachaud/freelancer-theme/</id>
 
   
@@ -46,11 +46,11 @@
 &lt;h3 id=&quot;图解&quot;&gt;图解&lt;/h3&gt;
 &lt;hr /&gt;
 &lt;p&gt;第一层排序[0, 4]
-&lt;img src=&quot;https://raw.githubusercontent.com/BiggerYellow/BiggerYellow.github.io/master/img/algorithm/quickSort/quickSort1.jpg&quot; alt=&quot;quickSort1&quot; class=&quot;img-responsive img-centered&quot; /&gt;
+&lt;img src=&quot;https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/quickSort/quickSort1.jpg&quot; alt=&quot;quickSort1&quot; class=&quot;img-responsive img-centered&quot; /&gt;
 第二层排序[0,-1]和[1,4]
-&lt;img src=&quot;https://raw.githubusercontent.com/BiggerYellow/BiggerYellow.github.io/master/img/algorithm/quickSort/quickSort2.jpg&quot; alt=&quot;quickSort2&quot; class=&quot;img-responsive img-centered&quot; /&gt;
+&lt;img src=&quot;https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/quickSort/quickSort2.jpg&quot; alt=&quot;quickSort2&quot; class=&quot;img-responsive img-centered&quot; /&gt;
 第三轮排序[1,1]和[3,4]
-&lt;img src=&quot;https://raw.githubusercontent.com/BiggerYellow/BiggerYellow.github.io/master/img/algorithm/quickSort/quickSort3.jpg&quot; alt=&quot;quickSort3&quot; class=&quot;img-responsive img-centered&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/quickSort/quickSort3.jpg&quot; alt=&quot;quickSort3&quot; class=&quot;img-responsive img-centered&quot; /&gt;&lt;/p&gt;
 
 &lt;h4 id=&quot;代码&quot;&gt;代码&lt;/h4&gt;
 &lt;blockquote&gt;
@@ -230,7 +230,7 @@ public:
 
 &lt;h3 id=&quot;内层逆序图解&quot;&gt;内层逆序图解&lt;/h3&gt;
 &lt;hr /&gt;
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/BiggerYellow/BiggerYellow.github.io/master/img/algorithm/bubbleSort/BubbleSort.jpg&quot; alt=&quot;bubbleSort&quot; class=&quot;img-responsive img-centered&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/bubbleSort/BubbleSort.jpg&quot; alt=&quot;bubbleSort&quot; class=&quot;img-responsive img-centered&quot; /&gt;&lt;/p&gt;
 
 &lt;h4 id=&quot;代码&quot;&gt;代码&lt;/h4&gt;
 &lt;blockquote&gt;

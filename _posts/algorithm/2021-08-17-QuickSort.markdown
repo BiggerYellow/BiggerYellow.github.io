@@ -28,11 +28,11 @@ description: 快速排序
 ### 图解
 - - -
 第一层排序[0, 4]
-![quickSort1](https://raw.githubusercontent.com/BiggerYellow/BiggerYellow.github.io/master/img/algorithm/quickSort/quickSort1.jpg){:class="img-responsive img-centered"}
+![quickSort1](https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/quickSort/quickSort1.jpg){:class="img-responsive img-centered"}
 第二层排序[0,-1]和[1,4]
-![quickSort2](https://raw.githubusercontent.com/BiggerYellow/BiggerYellow.github.io/master/img/algorithm/quickSort/quickSort2.jpg){:class="img-responsive img-centered"}
+![quickSort2](https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/quickSort/quickSort2.jpg){:class="img-responsive img-centered"}
 第三轮排序[1,1]和[3,4]
-![quickSort3](https://raw.githubusercontent.com/BiggerYellow/BiggerYellow.github.io/master/img/algorithm/quickSort/quickSort3.jpg){:class="img-responsive img-centered"}
+![quickSort3](https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/quickSort/quickSort3.jpg){:class="img-responsive img-centered"}
 
 #### 代码
 >java

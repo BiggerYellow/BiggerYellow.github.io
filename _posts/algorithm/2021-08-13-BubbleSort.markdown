@@ -28,7 +28,7 @@ description: 冒泡排序
 
 ### 内层逆序图解
 - - -
-![bubbleSort](https://raw.githubusercontent.com/BiggerYellow/BiggerYellow.github.io/master/img/algorithm/bubbleSort/BubbleSort.jpg){:class="img-responsive img-centered"}
+![bubbleSort](https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/bubbleSort/BubbleSort.jpg){:class="img-responsive img-centered"}
 
 #### 代码
 >java
