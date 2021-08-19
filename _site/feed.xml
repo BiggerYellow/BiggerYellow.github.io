@@ -4,7 +4,7 @@
   <generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator>
   <link href="https://github.com/jeromelachaud/freelancer-theme/feed.xml" rel="self" type="application/atom+xml" />
   <link href="https://github.com/jeromelachaud/freelancer-theme/" rel="alternate" type="text/html" />
-  <updated>2021-08-19T09:17:29+08:00</updated>
+  <updated>2021-08-19T09:36:39+08:00</updated>
   <id>https://github.com/jeromelachaud/freelancer-theme/</id>
 
   
@@ -230,7 +230,17 @@ public:
 
 &lt;h3 id=&quot;内层逆序图解&quot;&gt;内层逆序图解&lt;/h3&gt;
 &lt;hr /&gt;
-&lt;p&gt;&lt;img src=&quot;https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/bubbleSort/BubbleSort.jpg&quot; alt=&quot;bubbleSort&quot; class=&quot;img-responsive img-centered&quot; /&gt;&lt;/p&gt;
+&lt;center&gt;
+    &lt;a href=&quot;https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/bubbleSort/BubbleSort.jpg&quot;&gt;
+    &lt;img style=&quot;border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);&quot; class=&quot;img-responsive img-centered&quot; src=&quot;https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/bubbleSort/BubbleSort.jpg&quot; /&gt;
+    &lt;br /&gt;
+    &lt;div style=&quot;color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;&quot;&gt;bubbleSort&lt;/div&gt;
+    &lt;/a&gt;
+&lt;/center&gt;
 
 &lt;h4 id=&quot;代码&quot;&gt;代码&lt;/h4&gt;
 &lt;blockquote&gt;
