@@ -13,12 +13,12 @@ description: 堆排序
 ### 前置概念
 - - -
 完全二叉树:叶子节点只能出现在最下层或次下层,且最下层的叶子节点集中在树的左部。即除了最后一层其他层的节点个数都是满的而且最后一层的叶子节点必须靠左.
+- - -
 <center>
     <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/heapSort/完全二叉树.jpg">
     <img style="border-radius: 0.3125em;
-    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered"
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="完全二叉树"
     src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/heapSort/完全二叉树.jpg">
-    <br>
     <div style="color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
     color: #999;
@@ -27,38 +27,43 @@ description: 堆排序
 </center>
 
 
+
 ### 二叉堆
 - - -
-1. 必须是完全二叉树
-2. 二叉堆中的每一个节点,都必须大于等于(或小于等于)其子树中每个节点的值
+1.  必须是完全二叉树
+2.  二叉堆中的每一个节点,都必须大于等于(或小于等于)其子树中每个节点的值
 
 若每个节点大于等于子树中的每个节点,称之为大顶堆.
 若每个节点小于等于子树中的每个节点,称之为小顶堆.
+- - -
 <center>
     <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/heapSort/大小顶堆.jpg">
     <img style="border-radius: 0.3125em;
-    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered"
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="大小顶堆"
     src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/heapSort/大小顶堆.jpg">
-    <br>
     <div style="color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
     color: #999;
     padding: 2px;">小顶堆/大顶堆</div>
     </a>
 </center>
+
+<br>
+
 我们仔细观察下大顶堆和小顶堆,可以发现如果父节点的位置为0,其左子节点的位置1,右子节点的位置为2,大约可以猜到父节点和左右子节点的关系为:若父节点的位置为1,那么左子节点的位置为 __2×i+1__ ,右子节点的位置为 __2×i+2__ .可以带入到其他节点验证一下.该属性是二叉堆调整的关键.
 注意:我们这里索引是从0开始的,如果索引从1开始的话,那么左右子节点的位置即是 __2×i__ 和 __2×i+1__ .
-
+- - -
 ### 二叉堆的基本操作
+- - -
 >上浮:由下至上的堆有序化
 
 如果堆的有序状态因为某个节点的变得比它的父节点更大而打破,那么我们就需要通过交换它和它的父节点来修复堆,直到这个节点向上移动遇到一个更大的节点.若这个节点位置为k,那他的父节点位置就是 __k/2__,不断和父节点比较并交换位置即可.
+- - -
 <center>
     <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/heapSort/上浮.jpg">
     <img style="border-radius: 0.3125em;
-    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered"
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="上浮"
     src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/heapSort/上浮.jpg">
-    <br>
     <div style="color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
     color: #999;
@@ -78,15 +83,16 @@ private void swim(int[] nums, int k){
 }
 ```
 
+- - -
 >下沉:由上至下的堆有序化
 
 如果堆的有序状态因为某个节点变的比它的两个子节点或者其中之一更小而打破了,那么我们可以通过将它和它的两个子节点中的较大者交换来恢复堆,交换知道它的子节点都比他更小或达到堆的底部.若节点的位置为k,那么它的左右子节点的位置为 __2×k+1__ 和 __2×k+2__,不断和这两个节点比较并交换即可.
+- - -
 <center>
     <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/heapSort/下沉.jpg">
     <img style="border-radius: 0.3125em;
-    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered"
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="下沉"
     src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/heapSort/下沉.jpg">
-    <br>
     <div style="color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
     color: #999;
@@ -126,6 +132,7 @@ private void sink(int[] nums, int k, int N){
 2. 排序：
     - 若为升序排序,那么应该建立大顶堆,然后将根节点和堆的最后一个节点交换,并将新的根节点下沉到合适位置即调整堆为大顶堆,此时数组最后即为最大元素,重复以上步骤,直到处理的数组长度为1.
     - 若为降序排序,那么就应该建立小顶堆,重复上面的交换流程,整个数据交换后数组有序.
+    
 - - -
 
 ### 堆排序图解
@@ -133,9 +140,8 @@ private void sink(int[] nums, int k, int N){
 <center>
     <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/heapSort/堆排序.jpg">
     <img style="border-radius: 0.3125em;
-    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered"
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="堆排序"
     src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/heapSort/堆排序.jpg">
-    <br>
     <div style="color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
     color: #999;
@@ -195,40 +201,46 @@ private void swap(int[] nums, int i, int j){
 ```
 class Solution {
 public:
-	//内部正序
-	void bubbleSort(vector<int>& nums)
+	vector<int> heapSort(vector<int>& nums)
 	{
 		int len = nums.size();
-		for (int i = 0; i < len - 1; i++)
+		//建堆
+		for (int i = len/2; i >=0; i--)
 		{
-			for (int j = 0; j < len-i-1; j++)
+			sink(nums, i, len);
+		}
+		//排序
+		while (len>1)
+		{
+			swap(nums, 0, --len);
+			sink(nums, 0, len);
+		}
+		return nums;
+	}
+
+	void sink(vector<int>& nums, int k, int len)
+	{
+		while (2*k+1<len)
+		{
+			int j = 2 * k + 1;
+			while (j+1<len && nums[j+1]> nums[j])
 			{
-				if (nums[j + 1] < nums[j])
-				{
-					int temp = nums[j];
-					nums[j] = nums[j + 1];
-					nums[j + 1] = temp;
-				}
+				j++;
 			}
+			if (nums[j]<nums[k])
+			{
+				break;
+			}
+			swap(nums, j, k);
+			k = j;
 		}
 	}
 
-	//内部逆序
-	void bubbleSort1(vector<int>& nums)
+	void swap(vector<int>& nums, int i, int j)
 	{
-		int len = nums.size();
-		for (int i = 0; i < len; i++)
-		{
-			for (int  j = len-1; j >i; j--)
-			{
-				if (nums[j-1]>nums[j])
-				{
-					int temp = nums[j];
-					nums[j] = nums[j - 1];
-					nums[j - 1] = temp;
-				}
-			}
-		}
+		int temp = nums[i];
+		nums[i] = nums[j];
+		nums[j] = temp;
 	}
 };
 
@@ -237,53 +249,60 @@ public:
 
 ```
 class Solution:
-    #内部正序
-    def bubbleSort(self, nums:List[int]):
+    def heapSort(self, nums:List[int]):
         length = len(nums)
-        for i in range(0, length-1):
-            for j in range(0, length-i-1):
-                if nums[j+1] < nums[j]:
-                    temp = nums[j]
-                    nums[j] = nums[j+1]
-                    nums[j+1] = temp
+        for i in range(length//2, -1, -1):
+            self.sink(nums, i, length)
 
-    #内部正序
-    def bubbleSort1(self, nums:List[int]):
-        length = len(nums)
-        for i in range(0, length):
-            for j in (length-1, i, -1):
-                if nums[j-1]>nums[j]:
-                    temp = nums[j]
-                    nums[j] = nums[j-1]
-                    nums[j-1] = temp
+        while length>1:
+            length-=1
+            self.swap(nums, 0, length)
+            self.sink(nums, 0, length)
+
+
+
+    def sink(self, nums:List[int], k:int, len:int):
+        while 2*k+1<len:
+            j = 2*k+1
+            while j+1<len and nums[j+1]>nums[j]:
+                j+=1
+            if nums[k]> nums[j]:
+                break
+            self.swap(nums, j, k)
+            k=j
+
+    def swap(self, nums: List[int], i: int, j: int):
+                temp = nums[i]
+                nums[i] = nums[j]
+                nums[j] = temp
 ```
 > go
 
 ```
-//内部逆序
-func bubbleSort(nums []int) {
-	len :=len(nums)
-	for i:=0;i<len-1;i++ {
-		for j:=0;j<len-i-1;j++ {
-			if nums[j+1]<nums[j] {
-				temp:=nums[j]
-				nums[j]=nums[j+1]
-				nums[j+1]=temp
-			}
-		}
+func heapSort(nums []int) []int {
+	len := len(nums)
+	for i:=len/2;i>=0;i-- {
+		sink(nums, i, len)
 	}
+	for len>1 {
+		len -=1
+		swap(nums, 0, len)
+		sink(nums, 0 ,len)
+	}
+	return nums
 }
 
-func bubbleSort1(nums []int){
-	len := len(nums)
-	for i:=0; i<len;i++ {
-		for j:=len-1;j>i;j-- {
-			if nums[j] < nums[j-1] {
-				temp:=nums[j]
-				nums[j]=nums[j-1]
-				nums[j-1]=temp
-			}
+func sink(nums []int, k int, len int)  {
+	for 2*k+1<len {
+		j:=2*k+1
+		for j+1<len && nums[j+1]>nums[j] {
+			j++
 		}
+		if nums[k]> nums[j] {
+			break
+		}
+		swap(nums, j, k)
+		k=j
 	}
 }
 ```

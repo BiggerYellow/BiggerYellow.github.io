@@ -17,12 +17,12 @@ description: 冒泡排序
 
 ### 思路
 - - -
-1. 首先需要两层循环，外层从i=0开始
+1. 首先需要两层循环，外层从 __i=0__ 开始
 2. 内层循环的主要作用就根据遍历顺序保证最大值或最小值已经移动到数组的末尾或者开头
 
 内层有两者方式：
-- 从前往后：j从0一直遍历到nums.len-1-i 处，同时比较nums[j]和nums[j+1]的值，只有nums[j]>nums[j+1]时才将nums[j]向后移动，每次循环结束保证最大值在末尾
-- 从后往前：j从nums.len一直遍历到 i 处，同时比较nums[j-1]和nums[j]的值，只有nums[j-1]>nums[j]时才将nums[j]向前移动，每次循环结束保证最小值在开头
+- 从前往后：j从0一直遍历到nums.len-1-i 处，同时比较 __nums[j]__ 和 __nums[j+1]__ 的值，只有 __nums[j]>nums[j+1]__ 时才将 __nums[j]__ 向后移动，每次循环结束保证最大值在末尾
+- 从后往前：j从nums.len一直遍历到 i 处，同时比较 __nums[j-1]和nums[j]__ 的值，只有 __nums[j-1]>nums[j]__ 时才将 __nums[j]__ 向前移动，每次循环结束保证最小值在开头
 
 - - -
 
@@ -31,9 +31,8 @@ description: 冒泡排序
 <center>
     <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/bubbleSort/BubbleSort.jpg">
     <img style="border-radius: 0.3125em;
-    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered"
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="BubbleSort"
     src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/bubbleSort/BubbleSort.jpg">
-    <br>
     <div style="color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
     color: #999;
