@@ -72,7 +72,7 @@ description: 堆排序
 </center>
 
 #### 代码
-```
+``` java
 private void swim(int[] nums, int k){
     while(k>1 && nums[k/2]<nums[k]){
         int temp = nums[k/2];
@@ -101,7 +101,7 @@ private void swim(int[] nums, int k){
 </center>
 
 #### 代码
-```
+``` java
 private void sink(int[] nums, int k, int N){
     while(2*k<=N){
         int j=2*k;
@@ -152,7 +152,7 @@ private void sink(int[] nums, int k, int N){
 #### 代码
 >java
 
-``` 
+``` java
 private int[] heapSort(int[] nums){
     int len = nums.length();
     //1.利用下沉建立大顶堆
@@ -198,7 +198,7 @@ private void swap(int[] nums, int i, int j){
 - - -
 > C++
 
-```
+``` cpp
 class Solution {
 public:
 	vector<int> heapSort(vector<int>& nums)
@@ -247,7 +247,7 @@ public:
 ```
 > python3
 
-```
+``` python
 class Solution:
     def heapSort(self, nums:List[int]):
         length = len(nums)
@@ -278,7 +278,7 @@ class Solution:
 ```
 > go
 
-```
+``` go
 func heapSort(nums []int) []int {
 	len := len(nums)
 	for i:=len/2;i>=0;i-- {

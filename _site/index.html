@@ -24,7 +24,7 @@
     <link rel="stylesheet" href="/css/font-awesome/css/font-awesome.min.css">
     <link href="//fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
     <link href="//fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
-    <link href="/_includes/css/rouge.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="/css/font-awesome/css/rouge.css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -632,15 +632,15 @@
 </center>
 
 <h4 id="代码">代码</h4>
-<pre><code>private void swim(int[] nums, int k){
-    while(k&gt;1 &amp;&amp; nums[k/2]&lt;nums[k]){
-        int temp = nums[k/2];
-        nums[k/2] = nums[k];
-        nums[k] = temp;
-        k = k/2;
-    }
-}
-</code></pre>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="kt">void</span> <span class="nf">swim</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">nums</span><span class="o">,</span> <span class="kt">int</span> <span class="n">k</span><span class="o">){</span>
+    <span class="k">while</span><span class="o">(</span><span class="n">k</span><span class="o">&gt;</span><span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">nums</span><span class="o">[</span><span class="n">k</span><span class="o">/</span><span class="mi">2</span><span class="o">]&lt;</span><span class="n">nums</span><span class="o">[</span><span class="n">k</span><span class="o">]){</span>
+        <span class="kt">int</span> <span class="n">temp</span> <span class="o">=</span> <span class="n">nums</span><span class="o">[</span><span class="n">k</span><span class="o">/</span><span class="mi">2</span><span class="o">];</span>
+        <span class="n">nums</span><span class="o">[</span><span class="n">k</span><span class="o">/</span><span class="mi">2</span><span class="o">]</span> <span class="o">=</span> <span class="n">nums</span><span class="o">[</span><span class="n">k</span><span class="o">];</span>
+        <span class="n">nums</span><span class="o">[</span><span class="n">k</span><span class="o">]</span> <span class="o">=</span> <span class="n">temp</span><span class="o">;</span>
+        <span class="n">k</span> <span class="o">=</span> <span class="n">k</span><span class="o">/</span><span class="mi">2</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
 
 <hr />
 <blockquote>
@@ -661,22 +661,22 @@
 </center>
 
 <h4 id="代码-1">代码</h4>
-<pre><code>private void sink(int[] nums, int k, int N){
-    while(2*k&lt;=N){
-        int j=2*k;
-        if(j&lt;N &amp;&amp; nums[j+1]&gt;nums[j]){
-            j++;
-        }
-        if(nums[j] &lt; nums[k]){
-            break;
-        }
-        int temp = nums[k];
-        nums[k] = nums[j];
-        nums[j] = temp;
-        k=j
-    }
-}
-</code></pre>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="kt">void</span> <span class="nf">sink</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">nums</span><span class="o">,</span> <span class="kt">int</span> <span class="n">k</span><span class="o">,</span> <span class="kt">int</span> <span class="no">N</span><span class="o">){</span>
+    <span class="k">while</span><span class="o">(</span><span class="mi">2</span><span class="o">*</span><span class="n">k</span><span class="o">&lt;=</span><span class="no">N</span><span class="o">){</span>
+        <span class="kt">int</span> <span class="n">j</span><span class="o">=</span><span class="mi">2</span><span class="o">*</span><span class="n">k</span><span class="o">;</span>
+        <span class="k">if</span><span class="o">(</span><span class="n">j</span><span class="o">&lt;</span><span class="no">N</span> <span class="o">&amp;&amp;</span> <span class="n">nums</span><span class="o">[</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="o">]&gt;</span><span class="n">nums</span><span class="o">[</span><span class="n">j</span><span class="o">]){</span>
+            <span class="n">j</span><span class="o">++;</span>
+        <span class="o">}</span>
+        <span class="k">if</span><span class="o">(</span><span class="n">nums</span><span class="o">[</span><span class="n">j</span><span class="o">]</span> <span class="o">&lt;</span> <span class="n">nums</span><span class="o">[</span><span class="n">k</span><span class="o">]){</span>
+            <span class="k">break</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="kt">int</span> <span class="n">temp</span> <span class="o">=</span> <span class="n">nums</span><span class="o">[</span><span class="n">k</span><span class="o">];</span>
+        <span class="n">nums</span><span class="o">[</span><span class="n">k</span><span class="o">]</span> <span class="o">=</span> <span class="n">nums</span><span class="o">[</span><span class="n">j</span><span class="o">];</span>
+        <span class="n">nums</span><span class="o">[</span><span class="n">j</span><span class="o">]</span> <span class="o">=</span> <span class="n">temp</span><span class="o">;</span>
+        <span class="n">k</span><span class="o">=</span><span class="n">j</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
 
 <h3 id="基本思想">基本思想</h3>
 <hr />
@@ -716,41 +716,41 @@
   <p>java</p>
 </blockquote>
 
-<pre><code>private int[] heapSort(int[] nums){
-    int len = nums.length();
-    //1.利用下沉建立大顶堆
-    for(int i=len/2;i&gt;=0;i--){
-        sink(nums, i, len);
-    }
-    //2.排序
-    while(len &gt; 1){
-        swap(nums, 0 ,--len);
-        sink(nums, 0, len); 
-    }
-    return nums;
-}
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="kt">int</span><span class="o">[]</span> <span class="nf">heapSort</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">nums</span><span class="o">){</span>
+    <span class="kt">int</span> <span class="n">len</span> <span class="o">=</span> <span class="n">nums</span><span class="o">.</span><span class="na">length</span><span class="o">();</span>
+    <span class="c1">//1.利用下沉建立大顶堆</span>
+    <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="n">len</span><span class="o">/</span><span class="mi">2</span><span class="o">;</span><span class="n">i</span><span class="o">&gt;=</span><span class="mi">0</span><span class="o">;</span><span class="n">i</span><span class="o">--){</span>
+        <span class="n">sink</span><span class="o">(</span><span class="n">nums</span><span class="o">,</span> <span class="n">i</span><span class="o">,</span> <span class="n">len</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="c1">//2.排序</span>
+    <span class="k">while</span><span class="o">(</span><span class="n">len</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="o">){</span>
+        <span class="n">swap</span><span class="o">(</span><span class="n">nums</span><span class="o">,</span> <span class="mi">0</span> <span class="o">,--</span><span class="n">len</span><span class="o">);</span>
+        <span class="n">sink</span><span class="o">(</span><span class="n">nums</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="n">len</span><span class="o">);</span> 
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="n">nums</span><span class="o">;</span>
+<span class="o">}</span>
 
-//下沉
-private void sink(int[] nums, int k, int len){
-    while(k*2+1&lt;len){
-        int j=2*k+1;
-        while(j+1&lt;len &amp;&amp; nums[j+1]&gt;nums[j]){
-            j++;
-        }
-        if(nums[j]&lt;nums[k]){
-            break;
-        }
-        swap(nums, k, j);
-        k=j;
-    }
-}
+<span class="c1">//下沉</span>
+<span class="kd">private</span> <span class="kt">void</span> <span class="nf">sink</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">nums</span><span class="o">,</span> <span class="kt">int</span> <span class="n">k</span><span class="o">,</span> <span class="kt">int</span> <span class="n">len</span><span class="o">){</span>
+    <span class="k">while</span><span class="o">(</span><span class="n">k</span><span class="o">*</span><span class="mi">2</span><span class="o">+</span><span class="mi">1</span><span class="o">&lt;</span><span class="n">len</span><span class="o">){</span>
+        <span class="kt">int</span> <span class="n">j</span><span class="o">=</span><span class="mi">2</span><span class="o">*</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="o">;</span>
+        <span class="k">while</span><span class="o">(</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="o">&lt;</span><span class="n">len</span> <span class="o">&amp;&amp;</span> <span class="n">nums</span><span class="o">[</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="o">]&gt;</span><span class="n">nums</span><span class="o">[</span><span class="n">j</span><span class="o">]){</span>
+            <span class="n">j</span><span class="o">++;</span>
+        <span class="o">}</span>
+        <span class="k">if</span><span class="o">(</span><span class="n">nums</span><span class="o">[</span><span class="n">j</span><span class="o">]&lt;</span><span class="n">nums</span><span class="o">[</span><span class="n">k</span><span class="o">]){</span>
+            <span class="k">break</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="n">swap</span><span class="o">(</span><span class="n">nums</span><span class="o">,</span> <span class="n">k</span><span class="o">,</span> <span class="n">j</span><span class="o">);</span>
+        <span class="n">k</span><span class="o">=</span><span class="n">j</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
 
-private void swap(int[] nums, int i, int j){
-    int temp = nums[i];
-    nums[i] = nums[j];
-    nums[j] = temp;
-}
-</code></pre>
+<span class="kd">private</span> <span class="kt">void</span> <span class="nf">swap</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">nums</span><span class="o">,</span> <span class="kt">int</span> <span class="n">i</span><span class="o">,</span> <span class="kt">int</span> <span class="n">j</span><span class="o">){</span>
+    <span class="kt">int</span> <span class="n">temp</span> <span class="o">=</span> <span class="n">nums</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
+    <span class="n">nums</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">nums</span><span class="o">[</span><span class="n">j</span><span class="o">];</span>
+    <span class="n">nums</span><span class="o">[</span><span class="n">j</span><span class="o">]</span> <span class="o">=</span> <span class="n">temp</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div></div>
 
 <blockquote>
   <p>时间复杂度:O(n*logn)</p>
@@ -764,115 +764,115 @@ private void swap(int[] nums, int i, int j){
   <p>C++</p>
 </blockquote>
 
-<pre><code>class Solution {
-public:
-	vector&lt;int&gt; heapSort(vector&lt;int&gt;&amp; nums)
-	{
-		int len = nums.size();
-		//建堆
-		for (int i = len/2; i &gt;=0; i--)
-		{
-			sink(nums, i, len);
-		}
-		//排序
-		while (len&gt;1)
-		{
-			swap(nums, 0, --len);
-			sink(nums, 0, len);
-		}
-		return nums;
-	}
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="nl">public:</span>
+	<span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">heapSort</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">nums</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="kt">int</span> <span class="n">len</span> <span class="o">=</span> <span class="n">nums</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+		<span class="c1">//建堆</span>
+		<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">len</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span> <span class="n">i</span> <span class="o">&gt;=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">--</span><span class="p">)</span>
+		<span class="p">{</span>
+			<span class="n">sink</span><span class="p">(</span><span class="n">nums</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">len</span><span class="p">);</span>
+		<span class="p">}</span>
+		<span class="c1">//排序</span>
+		<span class="k">while</span> <span class="p">(</span><span class="n">len</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">)</span>
+		<span class="p">{</span>
+			<span class="n">swap</span><span class="p">(</span><span class="n">nums</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">--</span><span class="n">len</span><span class="p">);</span>
+			<span class="n">sink</span><span class="p">(</span><span class="n">nums</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">len</span><span class="p">);</span>
+		<span class="p">}</span>
+		<span class="k">return</span> <span class="n">nums</span><span class="p">;</span>
+	<span class="p">}</span>
 
-	void sink(vector&lt;int&gt;&amp; nums, int k, int len)
-	{
-		while (2*k+1&lt;len)
-		{
-			int j = 2 * k + 1;
-			while (j+1&lt;len &amp;&amp; nums[j+1]&gt; nums[j])
-			{
-				j++;
-			}
-			if (nums[j]&lt;nums[k])
-			{
-				break;
-			}
-			swap(nums, j, k);
-			k = j;
-		}
-	}
+	<span class="kt">void</span> <span class="n">sink</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">nums</span><span class="p">,</span> <span class="kt">int</span> <span class="n">k</span><span class="p">,</span> <span class="kt">int</span> <span class="n">len</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="k">while</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="o">&lt;</span><span class="n">len</span><span class="p">)</span>
+		<span class="p">{</span>
+			<span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+			<span class="k">while</span> <span class="p">(</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="o">&lt;</span><span class="n">len</span> <span class="o">&amp;&amp;</span> <span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">&gt;</span> <span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
+			<span class="p">{</span>
+				<span class="n">j</span><span class="o">++</span><span class="p">;</span>
+			<span class="p">}</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">&lt;</span><span class="n">nums</span><span class="p">[</span><span class="n">k</span><span class="p">])</span>
+			<span class="p">{</span>
+				<span class="k">break</span><span class="p">;</span>
+			<span class="p">}</span>
+			<span class="n">swap</span><span class="p">(</span><span class="n">nums</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">);</span>
+			<span class="n">k</span> <span class="o">=</span> <span class="n">j</span><span class="p">;</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
 
-	void swap(vector&lt;int&gt;&amp; nums, int i, int j)
-	{
-		int temp = nums[i];
-		nums[i] = nums[j];
-		nums[j] = temp;
-	}
-};
+	<span class="kt">void</span> <span class="n">swap</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">nums</span><span class="p">,</span> <span class="kt">int</span> <span class="n">i</span><span class="p">,</span> <span class="kt">int</span> <span class="n">j</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="kt">int</span> <span class="n">temp</span> <span class="o">=</span> <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+		<span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
+		<span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp</span><span class="p">;</span>
+	<span class="p">}</span>
+<span class="p">};</span>
 
-</code></pre>
+</code></pre></div></div>
 <blockquote>
   <p>python3</p>
 </blockquote>
 
-<pre><code>class Solution:
-    def heapSort(self, nums:List[int]):
-        length = len(nums)
-        for i in range(length//2, -1, -1):
-            self.sink(nums, i, length)
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">heapSort</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">:</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]):</span>
+        <span class="n">length</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">length</span><span class="o">//</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+            <span class="bp">self</span><span class="p">.</span><span class="n">sink</span><span class="p">(</span><span class="n">nums</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">length</span><span class="p">)</span>
 
-        while length&gt;1:
-            length-=1
-            self.swap(nums, 0, length)
-            self.sink(nums, 0, length)
+        <span class="k">while</span> <span class="n">length</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">:</span>
+            <span class="n">length</span><span class="o">-=</span><span class="mi">1</span>
+            <span class="bp">self</span><span class="p">.</span><span class="n">swap</span><span class="p">(</span><span class="n">nums</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">length</span><span class="p">)</span>
+            <span class="bp">self</span><span class="p">.</span><span class="n">sink</span><span class="p">(</span><span class="n">nums</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">length</span><span class="p">)</span>
 
 
 
-    def sink(self, nums:List[int], k:int, len:int):
-        while 2*k+1&lt;len:
-            j = 2*k+1
-            while j+1&lt;len and nums[j+1]&gt;nums[j]:
-                j+=1
-            if nums[k]&gt; nums[j]:
-                break
-            self.swap(nums, j, k)
-            k=j
+    <span class="k">def</span> <span class="nf">sink</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">:</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">k</span><span class="p">:</span><span class="nb">int</span><span class="p">,</span> <span class="nb">len</span><span class="p">:</span><span class="nb">int</span><span class="p">):</span>
+        <span class="k">while</span> <span class="mi">2</span><span class="o">*</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="o">&lt;</span><span class="nb">len</span><span class="p">:</span>
+            <span class="n">j</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span>
+            <span class="k">while</span> <span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="o">&lt;</span><span class="nb">len</span> <span class="ow">and</span> <span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">&gt;</span><span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="p">]:</span>
+                <span class="n">j</span><span class="o">+=</span><span class="mi">1</span>
+            <span class="k">if</span> <span class="n">nums</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">&gt;</span> <span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="p">]:</span>
+                <span class="k">break</span>
+            <span class="bp">self</span><span class="p">.</span><span class="n">swap</span><span class="p">(</span><span class="n">nums</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
+            <span class="n">k</span><span class="o">=</span><span class="n">j</span>
 
-    def swap(self, nums: List[int], i: int, j: int):
-                temp = nums[i]
-                nums[i] = nums[j]
-                nums[j] = temp
-</code></pre>
+    <span class="k">def</span> <span class="nf">swap</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">i</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">j</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+                <span class="n">temp</span> <span class="o">=</span> <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+                <span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp</span>
+</code></pre></div></div>
 <blockquote>
   <p>go</p>
 </blockquote>
 
-<pre><code>func heapSort(nums []int) []int {
-	len := len(nums)
-	for i:=len/2;i&gt;=0;i-- {
-		sink(nums, i, len)
-	}
-	for len&gt;1 {
-		len -=1
-		swap(nums, 0, len)
-		sink(nums, 0 ,len)
-	}
-	return nums
-}
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">func</span> <span class="n">heapSort</span><span class="p">(</span><span class="n">nums</span> <span class="p">[]</span><span class="kt">int</span><span class="p">)</span> <span class="p">[]</span><span class="kt">int</span> <span class="p">{</span>
+	<span class="nb">len</span> <span class="o">:=</span> <span class="nb">len</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span>
+	<span class="k">for</span> <span class="n">i</span><span class="o">:=</span><span class="nb">len</span><span class="o">/</span><span class="m">2</span><span class="p">;</span><span class="n">i</span><span class="o">&gt;=</span><span class="m">0</span><span class="p">;</span><span class="n">i</span><span class="o">--</span> <span class="p">{</span>
+		<span class="n">sink</span><span class="p">(</span><span class="n">nums</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="nb">len</span><span class="p">)</span>
+	<span class="p">}</span>
+	<span class="k">for</span> <span class="nb">len</span><span class="o">&gt;</span><span class="m">1</span> <span class="p">{</span>
+		<span class="nb">len</span> <span class="o">-=</span><span class="m">1</span>
+		<span class="n">swap</span><span class="p">(</span><span class="n">nums</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">)</span>
+		<span class="n">sink</span><span class="p">(</span><span class="n">nums</span><span class="p">,</span> <span class="m">0</span> <span class="p">,</span><span class="nb">len</span><span class="p">)</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="n">nums</span>
+<span class="p">}</span>
 
-func sink(nums []int, k int, len int)  {
-	for 2*k+1&lt;len {
-		j:=2*k+1
-		for j+1&lt;len &amp;&amp; nums[j+1]&gt;nums[j] {
-			j++
-		}
-		if nums[k]&gt; nums[j] {
-			break
-		}
-		swap(nums, j, k)
-		k=j
-	}
-}
-</code></pre>
+<span class="k">func</span> <span class="n">sink</span><span class="p">(</span><span class="n">nums</span> <span class="p">[]</span><span class="kt">int</span><span class="p">,</span> <span class="n">k</span> <span class="kt">int</span><span class="p">,</span> <span class="nb">len</span> <span class="kt">int</span><span class="p">)</span>  <span class="p">{</span>
+	<span class="k">for</span> <span class="m">2</span><span class="o">*</span><span class="n">k</span><span class="o">+</span><span class="m">1</span><span class="o">&lt;</span><span class="nb">len</span> <span class="p">{</span>
+		<span class="n">j</span><span class="o">:=</span><span class="m">2</span><span class="o">*</span><span class="n">k</span><span class="o">+</span><span class="m">1</span>
+		<span class="k">for</span> <span class="n">j</span><span class="o">+</span><span class="m">1</span><span class="o">&lt;</span><span class="nb">len</span> <span class="o">&amp;&amp;</span> <span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="m">1</span><span class="p">]</span><span class="o">&gt;</span><span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="p">{</span>
+			<span class="n">j</span><span class="o">++</span>
+		<span class="p">}</span>
+		<span class="k">if</span> <span class="n">nums</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">&gt;</span> <span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="p">{</span>
+			<span class="k">break</span>
+		<span class="p">}</span>
+		<span class="n">swap</span><span class="p">(</span><span class="n">nums</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
+		<span class="n">k</span><span class="o">=</span><span class="n">j</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
 </p>
 
                             <div align="center">
@@ -986,30 +986,30 @@ func sink(nums []int, k int, len int)  {
   <p>java</p>
 </blockquote>
 
-<pre><code>public static void quickSort(int[] nums, int left, int right){
-    if (left&lt; right){
-        int base = division(nums, left, right);
-        quickSort(nums, left, base-1);
-        quickSort(nums, base+1, right);
-    }
-}
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">quickSort</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">nums</span><span class="o">,</span> <span class="kt">int</span> <span class="n">left</span><span class="o">,</span> <span class="kt">int</span> <span class="n">right</span><span class="o">){</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">left</span><span class="o">&lt;</span> <span class="n">right</span><span class="o">){</span>
+        <span class="kt">int</span> <span class="n">base</span> <span class="o">=</span> <span class="n">division</span><span class="o">(</span><span class="n">nums</span><span class="o">,</span> <span class="n">left</span><span class="o">,</span> <span class="n">right</span><span class="o">);</span>
+        <span class="n">quickSort</span><span class="o">(</span><span class="n">nums</span><span class="o">,</span> <span class="n">left</span><span class="o">,</span> <span class="n">base</span><span class="o">-</span><span class="mi">1</span><span class="o">);</span>
+        <span class="n">quickSort</span><span class="o">(</span><span class="n">nums</span><span class="o">,</span> <span class="n">base</span><span class="o">+</span><span class="mi">1</span><span class="o">,</span> <span class="n">right</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
 
-public static int division(int[] nums, int left, int right){
-    int base = nums[left];
-    while (left&lt;right){
-        while (left&lt;right &amp;&amp; nums[right]&gt;=base){
-            right--;
-        }
-        nums[left] = nums[right];
-        while (left&lt;right &amp;&amp; nums[left]&lt;=base){
-            left++;
-        }
-        nums[right] = nums[left];
-    }
-    nums[left]=base;
-    return left;
-}
-</code></pre>
+<span class="kd">public</span> <span class="kd">static</span> <span class="kt">int</span> <span class="nf">division</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">nums</span><span class="o">,</span> <span class="kt">int</span> <span class="n">left</span><span class="o">,</span> <span class="kt">int</span> <span class="n">right</span><span class="o">){</span>
+    <span class="kt">int</span> <span class="n">base</span> <span class="o">=</span> <span class="n">nums</span><span class="o">[</span><span class="n">left</span><span class="o">];</span>
+    <span class="k">while</span> <span class="o">(</span><span class="n">left</span><span class="o">&lt;</span><span class="n">right</span><span class="o">){</span>
+        <span class="k">while</span> <span class="o">(</span><span class="n">left</span><span class="o">&lt;</span><span class="n">right</span> <span class="o">&amp;&amp;</span> <span class="n">nums</span><span class="o">[</span><span class="n">right</span><span class="o">]&gt;=</span><span class="n">base</span><span class="o">){</span>
+            <span class="n">right</span><span class="o">--;</span>
+        <span class="o">}</span>
+        <span class="n">nums</span><span class="o">[</span><span class="n">left</span><span class="o">]</span> <span class="o">=</span> <span class="n">nums</span><span class="o">[</span><span class="n">right</span><span class="o">];</span>
+        <span class="k">while</span> <span class="o">(</span><span class="n">left</span><span class="o">&lt;</span><span class="n">right</span> <span class="o">&amp;&amp;</span> <span class="n">nums</span><span class="o">[</span><span class="n">left</span><span class="o">]&lt;=</span><span class="n">base</span><span class="o">){</span>
+            <span class="n">left</span><span class="o">++;</span>
+        <span class="o">}</span>
+        <span class="n">nums</span><span class="o">[</span><span class="n">right</span><span class="o">]</span> <span class="o">=</span> <span class="n">nums</span><span class="o">[</span><span class="n">left</span><span class="o">];</span>
+    <span class="o">}</span>
+    <span class="n">nums</span><span class="o">[</span><span class="n">left</span><span class="o">]=</span><span class="n">base</span><span class="o">;</span>
+    <span class="k">return</span> <span class="n">left</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div></div>
 <blockquote>
   <p>时间复杂度:O(nlogn)</p>
 
@@ -1022,88 +1022,88 @@ public static int division(int[] nums, int left, int right){
   <p>c++</p>
 </blockquote>
 
-<pre><code>class Solution {
-public:
-	void quickSort(vector&lt;int&gt;&amp; nums, int left, int right) 
-	{
-		if (left&lt;right)
-		{
-			int temp = division(nums, left, right);
-			quickSort(nums, left, temp - 1);
-			quickSort(nums, temp + 1, right);
-		}
-	}
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="nl">public:</span>
+	<span class="kt">void</span> <span class="n">quickSort</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">nums</span><span class="p">,</span> <span class="kt">int</span> <span class="n">left</span><span class="p">,</span> <span class="kt">int</span> <span class="n">right</span><span class="p">)</span> 
+	<span class="p">{</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">left</span><span class="o">&lt;</span><span class="n">right</span><span class="p">)</span>
+		<span class="p">{</span>
+			<span class="kt">int</span> <span class="n">temp</span> <span class="o">=</span> <span class="n">division</span><span class="p">(</span><span class="n">nums</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">);</span>
+			<span class="n">quickSort</span><span class="p">(</span><span class="n">nums</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">temp</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
+			<span class="n">quickSort</span><span class="p">(</span><span class="n">nums</span><span class="p">,</span> <span class="n">temp</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">right</span><span class="p">);</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
 
-	int division(vector&lt;int&gt;&amp; nums, int left, int right)
-	{
-		int base = nums[left];
-		while (left&lt;right)
-		{
-			while (left &lt; right &amp;&amp; nums[right] &gt;= base) {
-				right--;
-			}
-			nums[left] = nums[right];
-			while (left &lt; right &amp;&amp; nums[left] &lt;= base) {
-				left++;
-			}
-			nums[right] = nums[left];
-		}
-		nums[left] = base;
-		return left;
-	}
-};
-</code></pre>
+	<span class="kt">int</span> <span class="n">division</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">nums</span><span class="p">,</span> <span class="kt">int</span> <span class="n">left</span><span class="p">,</span> <span class="kt">int</span> <span class="n">right</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="kt">int</span> <span class="n">base</span> <span class="o">=</span> <span class="n">nums</span><span class="p">[</span><span class="n">left</span><span class="p">];</span>
+		<span class="k">while</span> <span class="p">(</span><span class="n">left</span><span class="o">&lt;</span><span class="n">right</span><span class="p">)</span>
+		<span class="p">{</span>
+			<span class="k">while</span> <span class="p">(</span><span class="n">left</span> <span class="o">&lt;</span> <span class="n">right</span> <span class="o">&amp;&amp;</span> <span class="n">nums</span><span class="p">[</span><span class="n">right</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">base</span><span class="p">)</span> <span class="p">{</span>
+				<span class="n">right</span><span class="o">--</span><span class="p">;</span>
+			<span class="p">}</span>
+			<span class="n">nums</span><span class="p">[</span><span class="n">left</span><span class="p">]</span> <span class="o">=</span> <span class="n">nums</span><span class="p">[</span><span class="n">right</span><span class="p">];</span>
+			<span class="k">while</span> <span class="p">(</span><span class="n">left</span> <span class="o">&lt;</span> <span class="n">right</span> <span class="o">&amp;&amp;</span> <span class="n">nums</span><span class="p">[</span><span class="n">left</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">base</span><span class="p">)</span> <span class="p">{</span>
+				<span class="n">left</span><span class="o">++</span><span class="p">;</span>
+			<span class="p">}</span>
+			<span class="n">nums</span><span class="p">[</span><span class="n">right</span><span class="p">]</span> <span class="o">=</span> <span class="n">nums</span><span class="p">[</span><span class="n">left</span><span class="p">];</span>
+		<span class="p">}</span>
+		<span class="n">nums</span><span class="p">[</span><span class="n">left</span><span class="p">]</span> <span class="o">=</span> <span class="n">base</span><span class="p">;</span>
+		<span class="k">return</span> <span class="n">left</span><span class="p">;</span>
+	<span class="p">}</span>
+<span class="p">};</span>
+</code></pre></div></div>
 <blockquote>
   <p>python3</p>
 </blockquote>
 
-<pre><code>class Solution:
-    def quickSort(self, nums:List[int], left:int, right:int):
-        def division(nums:List[int], left:int, right:int)-&gt;int:
-            base = nums[left]
-            while left&lt;right:
-                while left&lt;right and nums[right]&gt;=base:
-                    right-=1
-                nums[left]=nums[right]
-                while left&lt;right and nums[left]&lt;=base:
-                    left+=1
-                nums[right]=nums[left]
-            nums[left]=base
-            return left
-        if left&lt;right:
-            temp = division(nums, left ,right)
-            self.quickSort(nums, left, temp-1)
-            self.quickSort(nums, temp+1, right)
-</code></pre>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">quickSort</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">:</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">left</span><span class="p">:</span><span class="nb">int</span><span class="p">,</span> <span class="n">right</span><span class="p">:</span><span class="nb">int</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">division</span><span class="p">(</span><span class="n">nums</span><span class="p">:</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">left</span><span class="p">:</span><span class="nb">int</span><span class="p">,</span> <span class="n">right</span><span class="p">:</span><span class="nb">int</span><span class="p">)</span><span class="o">-&gt;</span><span class="nb">int</span><span class="p">:</span>
+            <span class="n">base</span> <span class="o">=</span> <span class="n">nums</span><span class="p">[</span><span class="n">left</span><span class="p">]</span>
+            <span class="k">while</span> <span class="n">left</span><span class="o">&lt;</span><span class="n">right</span><span class="p">:</span>
+                <span class="k">while</span> <span class="n">left</span><span class="o">&lt;</span><span class="n">right</span> <span class="ow">and</span> <span class="n">nums</span><span class="p">[</span><span class="n">right</span><span class="p">]</span><span class="o">&gt;=</span><span class="n">base</span><span class="p">:</span>
+                    <span class="n">right</span><span class="o">-=</span><span class="mi">1</span>
+                <span class="n">nums</span><span class="p">[</span><span class="n">left</span><span class="p">]</span><span class="o">=</span><span class="n">nums</span><span class="p">[</span><span class="n">right</span><span class="p">]</span>
+                <span class="k">while</span> <span class="n">left</span><span class="o">&lt;</span><span class="n">right</span> <span class="ow">and</span> <span class="n">nums</span><span class="p">[</span><span class="n">left</span><span class="p">]</span><span class="o">&lt;=</span><span class="n">base</span><span class="p">:</span>
+                    <span class="n">left</span><span class="o">+=</span><span class="mi">1</span>
+                <span class="n">nums</span><span class="p">[</span><span class="n">right</span><span class="p">]</span><span class="o">=</span><span class="n">nums</span><span class="p">[</span><span class="n">left</span><span class="p">]</span>
+            <span class="n">nums</span><span class="p">[</span><span class="n">left</span><span class="p">]</span><span class="o">=</span><span class="n">base</span>
+            <span class="k">return</span> <span class="n">left</span>
+        <span class="k">if</span> <span class="n">left</span><span class="o">&lt;</span><span class="n">right</span><span class="p">:</span>
+            <span class="n">temp</span> <span class="o">=</span> <span class="n">division</span><span class="p">(</span><span class="n">nums</span><span class="p">,</span> <span class="n">left</span> <span class="p">,</span><span class="n">right</span><span class="p">)</span>
+            <span class="bp">self</span><span class="p">.</span><span class="n">quickSort</span><span class="p">(</span><span class="n">nums</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">temp</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+            <span class="bp">self</span><span class="p">.</span><span class="n">quickSort</span><span class="p">(</span><span class="n">nums</span><span class="p">,</span> <span class="n">temp</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">right</span><span class="p">)</span>
+</code></pre></div></div>
 <blockquote>
   <p>go</p>
 </blockquote>
 
-<pre><code>func quickSort(nums []int, left int, right int)  {
-		var division func(nums []int, left int, right int) int
-		division = func(nums []int, left int, right int) int {
-			base := nums[left]
-			for left&lt;right {
-				for left&lt;right &amp;&amp; nums[right]&gt;=base {
-					right--
-				}
-				nums[left] = nums[right]
-				for left&lt;right &amp;&amp; nums[left]&lt;=base {
-					left++
-				}
-				nums[right] = nums[left]
-			}
-			nums[left]=base
-			return left
-		}
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">func</span> <span class="n">quickSort</span><span class="p">(</span><span class="n">nums</span> <span class="p">[]</span><span class="kt">int</span><span class="p">,</span> <span class="n">left</span> <span class="kt">int</span><span class="p">,</span> <span class="n">right</span> <span class="kt">int</span><span class="p">)</span>  <span class="p">{</span>
+		<span class="k">var</span> <span class="n">division</span> <span class="k">func</span><span class="p">(</span><span class="n">nums</span> <span class="p">[]</span><span class="kt">int</span><span class="p">,</span> <span class="n">left</span> <span class="kt">int</span><span class="p">,</span> <span class="n">right</span> <span class="kt">int</span><span class="p">)</span> <span class="kt">int</span>
+		<span class="n">division</span> <span class="o">=</span> <span class="k">func</span><span class="p">(</span><span class="n">nums</span> <span class="p">[]</span><span class="kt">int</span><span class="p">,</span> <span class="n">left</span> <span class="kt">int</span><span class="p">,</span> <span class="n">right</span> <span class="kt">int</span><span class="p">)</span> <span class="kt">int</span> <span class="p">{</span>
+			<span class="n">base</span> <span class="o">:=</span> <span class="n">nums</span><span class="p">[</span><span class="n">left</span><span class="p">]</span>
+			<span class="k">for</span> <span class="n">left</span><span class="o">&lt;</span><span class="n">right</span> <span class="p">{</span>
+				<span class="k">for</span> <span class="n">left</span><span class="o">&lt;</span><span class="n">right</span> <span class="o">&amp;&amp;</span> <span class="n">nums</span><span class="p">[</span><span class="n">right</span><span class="p">]</span><span class="o">&gt;=</span><span class="n">base</span> <span class="p">{</span>
+					<span class="n">right</span><span class="o">--</span>
+				<span class="p">}</span>
+				<span class="n">nums</span><span class="p">[</span><span class="n">left</span><span class="p">]</span> <span class="o">=</span> <span class="n">nums</span><span class="p">[</span><span class="n">right</span><span class="p">]</span>
+				<span class="k">for</span> <span class="n">left</span><span class="o">&lt;</span><span class="n">right</span> <span class="o">&amp;&amp;</span> <span class="n">nums</span><span class="p">[</span><span class="n">left</span><span class="p">]</span><span class="o">&lt;=</span><span class="n">base</span> <span class="p">{</span>
+					<span class="n">left</span><span class="o">++</span>
+				<span class="p">}</span>
+				<span class="n">nums</span><span class="p">[</span><span class="n">right</span><span class="p">]</span> <span class="o">=</span> <span class="n">nums</span><span class="p">[</span><span class="n">left</span><span class="p">]</span>
+			<span class="p">}</span>
+			<span class="n">nums</span><span class="p">[</span><span class="n">left</span><span class="p">]</span><span class="o">=</span><span class="n">base</span>
+			<span class="k">return</span> <span class="n">left</span>
+		<span class="p">}</span>
 
-		if left&lt;right {
-			temp:=division(nums, left, right)
-			quickSort(nums, left, temp-1)
-			quickSort(nums, temp+1, right)
-		}
-}
-</code></pre>
+		<span class="k">if</span> <span class="n">left</span><span class="o">&lt;</span><span class="n">right</span> <span class="p">{</span>
+			<span class="n">temp</span><span class="o">:=</span><span class="n">division</span><span class="p">(</span><span class="n">nums</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">)</span>
+			<span class="n">quickSort</span><span class="p">(</span><span class="n">nums</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">temp</span><span class="o">-</span><span class="m">1</span><span class="p">)</span>
+			<span class="n">quickSort</span><span class="p">(</span><span class="n">nums</span><span class="p">,</span> <span class="n">temp</span><span class="o">+</span><span class="m">1</span><span class="p">,</span> <span class="n">right</span><span class="p">)</span>
+		<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
 </p>
 
                             <div align="center">
@@ -1197,35 +1197,36 @@ public:
   <p>java</p>
 </blockquote>
 
-<figure class="highlight"><pre><code class="language-java" data-lang="java">//内层逆序遍历
-public static void bubbleSort(int[] nums){
-     int temp;
-    for (int i = 0; i&lt; nums.length - 1; i++ ){
-        for (int j = nums.length -1; j&gt;i; j--){
-            if (nums[j-1]&gt; nums[j]){
-                temp = nums[j-1];
-                nums[j-1] = nums[j];
-                nums[j] = temp;
-            }
-        }
-    }
-}
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//内层逆序遍历</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">bubbleSort</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">nums</span><span class="o">){</span>
+     <span class="kt">int</span> <span class="n">temp</span><span class="o">;</span>
+    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span> <span class="n">nums</span><span class="o">.</span><span class="na">length</span> <span class="o">-</span> <span class="mi">1</span><span class="o">;</span> <span class="n">i</span><span class="o">++</span> <span class="o">){</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">nums</span><span class="o">.</span><span class="na">length</span> <span class="o">-</span><span class="mi">1</span><span class="o">;</span> <span class="n">j</span><span class="o">&gt;</span><span class="n">i</span><span class="o">;</span> <span class="n">j</span><span class="o">--){</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">nums</span><span class="o">[</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="o">]&gt;</span> <span class="n">nums</span><span class="o">[</span><span class="n">j</span><span class="o">]){</span>
+                <span class="n">temp</span> <span class="o">=</span> <span class="n">nums</span><span class="o">[</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="o">];</span>
+                <span class="n">nums</span><span class="o">[</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="o">]</span> <span class="o">=</span> <span class="n">nums</span><span class="o">[</span><span class="n">j</span><span class="o">];</span>
+                <span class="n">nums</span><span class="o">[</span><span class="n">j</span><span class="o">]</span> <span class="o">=</span> <span class="n">temp</span><span class="o">;</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
 
-//内层正序遍历
-private static void bubbleSort(int[] nums) {
-        if(nums==null || nums.length &lt; 2 ){
-            return;
-        }
-        for (int i = 0; i &lt; nums.length - 1; i++) {
-            for (int j = 0; j &lt; nums.length - i -1; j++) {   
-                if (nums[j] &gt; nums[j + 1]) {
-                    int temp = nums[j];
-                    nums[j] = nums[j + 1];
-                    nums[j + 1] = temp;
-                }
-            }
-        }
-    }</code></pre></figure>
+<span class="c1">//内层正序遍历</span>
+<span class="kd">private</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">bubbleSort</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">nums</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span><span class="o">(</span><span class="n">nums</span><span class="o">==</span><span class="kc">null</span> <span class="o">||</span> <span class="n">nums</span><span class="o">.</span><span class="na">length</span> <span class="o">&lt;</span> <span class="mi">2</span> <span class="o">){</span>
+            <span class="k">return</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">nums</span><span class="o">.</span><span class="na">length</span> <span class="o">-</span> <span class="mi">1</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">nums</span><span class="o">.</span><span class="na">length</span> <span class="o">-</span> <span class="n">i</span> <span class="o">-</span><span class="mi">1</span><span class="o">;</span> <span class="n">j</span><span class="o">++)</span> <span class="o">{</span>   
+                <span class="k">if</span> <span class="o">(</span><span class="n">nums</span><span class="o">[</span><span class="n">j</span><span class="o">]</span> <span class="o">&gt;</span> <span class="n">nums</span><span class="o">[</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="o">])</span> <span class="o">{</span>
+                    <span class="kt">int</span> <span class="n">temp</span> <span class="o">=</span> <span class="n">nums</span><span class="o">[</span><span class="n">j</span><span class="o">];</span>
+                    <span class="n">nums</span><span class="o">[</span><span class="n">j</span><span class="o">]</span> <span class="o">=</span> <span class="n">nums</span><span class="o">[</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="o">];</span>
+                    <span class="n">nums</span><span class="o">[</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="o">]</span> <span class="o">=</span> <span class="n">temp</span><span class="o">;</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+</code></pre></div></div>
 
 <blockquote>
   <p>时间复杂度:O(n^2)</p>
@@ -1238,24 +1239,24 @@ private static void bubbleSort(int[] nums) {
 <p>没有什么大的优化，主要是若一次遍历过后中间没有移动的动作说明数组已经有序，无需继续往后遍历，直接结束</p>
 <hr />
 
-<pre><code class="language-Java">private static void bubbleSort(int[] nums) {
-    int temp;
-    boolean flag = true;
-    for (int i = 0; i&lt; nums.length - 1; i++ ){
-        for (int j = nums.length -1; j&gt;i; j--){
-            if (nums[j-1]&gt; nums[j]){
-                temp = nums[j-1];
-                nums[j-1] = nums[j];
-                nums[j] = temp;
-                flag = false;
-            }
-        }
-        if (flag){
-            break;
-        }
-    }
-}
-</code></pre>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">bubbleSort</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">nums</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kt">int</span> <span class="n">temp</span><span class="o">;</span>
+    <span class="kt">boolean</span> <span class="n">flag</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span> <span class="n">nums</span><span class="o">.</span><span class="na">length</span> <span class="o">-</span> <span class="mi">1</span><span class="o">;</span> <span class="n">i</span><span class="o">++</span> <span class="o">){</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">nums</span><span class="o">.</span><span class="na">length</span> <span class="o">-</span><span class="mi">1</span><span class="o">;</span> <span class="n">j</span><span class="o">&gt;</span><span class="n">i</span><span class="o">;</span> <span class="n">j</span><span class="o">--){</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">nums</span><span class="o">[</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="o">]&gt;</span> <span class="n">nums</span><span class="o">[</span><span class="n">j</span><span class="o">]){</span>
+                <span class="n">temp</span> <span class="o">=</span> <span class="n">nums</span><span class="o">[</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="o">];</span>
+                <span class="n">nums</span><span class="o">[</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="o">]</span> <span class="o">=</span> <span class="n">nums</span><span class="o">[</span><span class="n">j</span><span class="o">];</span>
+                <span class="n">nums</span><span class="o">[</span><span class="n">j</span><span class="o">]</span> <span class="o">=</span> <span class="n">temp</span><span class="o">;</span>
+                <span class="n">flag</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">flag</span><span class="o">){</span>
+            <span class="k">break</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
 
 <h3 id="其他语言">其他语言</h3>
 <hr />
@@ -1263,102 +1264,102 @@ private static void bubbleSort(int[] nums) {
   <p>C++</p>
 </blockquote>
 
-<pre><code>class Solution {
-public:
-	//内部正序
-	void bubbleSort(vector&lt;int&gt;&amp; nums)
-	{
-		int len = nums.size();
-		for (int i = 0; i &lt; len - 1; i++)
-		{
-			for (int j = 0; j &lt; len-i-1; j++)
-			{
-				if (nums[j + 1] &lt; nums[j])
-				{
-					int temp = nums[j];
-					nums[j] = nums[j + 1];
-					nums[j + 1] = temp;
-				}
-			}
-		}
-	}
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="nl">public:</span>
+	<span class="c1">//内部正序</span>
+	<span class="kt">void</span> <span class="n">bubbleSort</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">nums</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="kt">int</span> <span class="n">len</span> <span class="o">=</span> <span class="n">nums</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+		<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">len</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+		<span class="p">{</span>
+			<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">len</span><span class="o">-</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span>
+			<span class="p">{</span>
+				<span class="k">if</span> <span class="p">(</span><span class="n">nums</span><span class="p">[</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
+				<span class="p">{</span>
+					<span class="kt">int</span> <span class="n">temp</span> <span class="o">=</span> <span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
+					<span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">nums</span><span class="p">[</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">];</span>
+					<span class="n">nums</span><span class="p">[</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp</span><span class="p">;</span>
+				<span class="p">}</span>
+			<span class="p">}</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
 
-	//内部逆序
-	void bubbleSort1(vector&lt;int&gt;&amp; nums)
-	{
-		int len = nums.size();
-		for (int i = 0; i &lt; len; i++)
-		{
-			for (int  j = len-1; j &gt;i; j--)
-			{
-				if (nums[j-1]&gt;nums[j])
-				{
-					int temp = nums[j];
-					nums[j] = nums[j - 1];
-					nums[j - 1] = temp;
-				}
-			}
-		}
-	}
-};
-</code></pre>
+	<span class="c1">//内部逆序</span>
+	<span class="kt">void</span> <span class="n">bubbleSort1</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">nums</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="kt">int</span> <span class="n">len</span> <span class="o">=</span> <span class="n">nums</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+		<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">len</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+		<span class="p">{</span>
+			<span class="k">for</span> <span class="p">(</span><span class="kt">int</span>  <span class="n">j</span> <span class="o">=</span> <span class="n">len</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="n">j</span> <span class="o">&gt;</span><span class="n">i</span><span class="p">;</span> <span class="n">j</span><span class="o">--</span><span class="p">)</span>
+			<span class="p">{</span>
+				<span class="k">if</span> <span class="p">(</span><span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">&gt;</span><span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
+				<span class="p">{</span>
+					<span class="kt">int</span> <span class="n">temp</span> <span class="o">=</span> <span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
+					<span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">nums</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">];</span>
+					<span class="n">nums</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp</span><span class="p">;</span>
+				<span class="p">}</span>
+			<span class="p">}</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+<span class="p">};</span>
+</code></pre></div></div>
 
 <blockquote>
   <p>python3</p>
 </blockquote>
 
-<pre><code>class Solution:
-    #内部正序
-    def bubbleSort(self, nums:List[int]):
-        length = len(nums)
-        for i in range(0, length-1):
-            for j in range(0, length-i-1):
-                if nums[j+1] &lt; nums[j]:
-                    temp = nums[j]
-                    nums[j] = nums[j+1]
-                    nums[j+1] = temp
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
+    <span class="c1">#内部正序
+</span>    <span class="k">def</span> <span class="nf">bubbleSort</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">:</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]):</span>
+        <span class="n">length</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">length</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">length</span><span class="o">-</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="p">]:</span>
+                    <span class="n">temp</span> <span class="o">=</span> <span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+                    <span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+                    <span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp</span>
 
-    #内部正序
-    def bubbleSort1(self, nums:List[int]):
-        length = len(nums)
-        for i in range(0, length):
-            for j in (length-1, i, -1):
-                if nums[j-1]&gt;nums[j]:
-                    temp = nums[j]
-                    nums[j] = nums[j-1]
-                    nums[j-1] = temp
-</code></pre>
+    <span class="c1">#内部正序
+</span>    <span class="k">def</span> <span class="nf">bubbleSort1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">:</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]):</span>
+        <span class="n">length</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">length</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="p">(</span><span class="n">length</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">&gt;</span><span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="p">]:</span>
+                    <span class="n">temp</span> <span class="o">=</span> <span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+                    <span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                    <span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp</span>
+</code></pre></div></div>
 <blockquote>
   <p>go</p>
 </blockquote>
 
-<pre><code>//内部逆序
-func bubbleSort(nums []int) {
-	len :=len(nums)
-	for i:=0;i&lt;len-1;i++ {
-		for j:=0;j&lt;len-i-1;j++ {
-			if nums[j+1]&lt;nums[j] {
-				temp:=nums[j]
-				nums[j]=nums[j+1]
-				nums[j+1]=temp
-			}
-		}
-	}
-}
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">//内部逆序</span>
+<span class="k">func</span> <span class="n">bubbleSort</span><span class="p">(</span><span class="n">nums</span> <span class="p">[]</span><span class="kt">int</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nb">len</span> <span class="o">:=</span><span class="nb">len</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span>
+	<span class="k">for</span> <span class="n">i</span><span class="o">:=</span><span class="m">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="nb">len</span><span class="o">-</span><span class="m">1</span><span class="p">;</span><span class="n">i</span><span class="o">++</span> <span class="p">{</span>
+		<span class="k">for</span> <span class="n">j</span><span class="o">:=</span><span class="m">0</span><span class="p">;</span><span class="n">j</span><span class="o">&lt;</span><span class="nb">len</span><span class="o">-</span><span class="n">i</span><span class="o">-</span><span class="m">1</span><span class="p">;</span><span class="n">j</span><span class="o">++</span> <span class="p">{</span>
+			<span class="k">if</span> <span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="m">1</span><span class="p">]</span><span class="o">&lt;</span><span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="p">{</span>
+				<span class="n">temp</span><span class="o">:=</span><span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+				<span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">=</span><span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="m">1</span><span class="p">]</span>
+				<span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="m">1</span><span class="p">]</span><span class="o">=</span><span class="n">temp</span>
+			<span class="p">}</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+<span class="p">}</span>
 
-func bubbleSort1(nums []int){
-	len := len(nums)
-	for i:=0; i&lt;len;i++ {
-		for j:=len-1;j&gt;i;j-- {
-			if nums[j] &lt; nums[j-1] {
-				temp:=nums[j]
-				nums[j]=nums[j-1]
-				nums[j-1]=temp
-			}
-		}
-	}
-}
-</code></pre>
+<span class="k">func</span> <span class="n">bubbleSort1</span><span class="p">(</span><span class="n">nums</span> <span class="p">[]</span><span class="kt">int</span><span class="p">){</span>
+	<span class="nb">len</span> <span class="o">:=</span> <span class="nb">len</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span>
+	<span class="k">for</span> <span class="n">i</span><span class="o">:=</span><span class="m">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="nb">len</span><span class="p">;</span><span class="n">i</span><span class="o">++</span> <span class="p">{</span>
+		<span class="k">for</span> <span class="n">j</span><span class="o">:=</span><span class="nb">len</span><span class="o">-</span><span class="m">1</span><span class="p">;</span><span class="n">j</span><span class="o">&gt;</span><span class="n">i</span><span class="p">;</span><span class="n">j</span><span class="o">--</span> <span class="p">{</span>
+			<span class="k">if</span> <span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="o">-</span><span class="m">1</span><span class="p">]</span> <span class="p">{</span>
+				<span class="n">temp</span><span class="o">:=</span><span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+				<span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">=</span><span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="o">-</span><span class="m">1</span><span class="p">]</span>
+				<span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="o">-</span><span class="m">1</span><span class="p">]</span><span class="o">=</span><span class="n">temp</span>
+			<span class="p">}</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
 </p>
 
                             <div align="center">
@@ -1416,8 +1417,8 @@ func bubbleSort1(nums []int){
 
                             <p><h1 id="springboot">springboot</h1>
 <p>springboot test</p>
-<pre><code>test
-</code></pre>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>test
+</code></pre></div></div>
 </p>
 
                             <div align="center">
@@ -1486,8 +1487,8 @@ func bubbleSort1(nums []int){
 
 <p align="left">左对齐</p>
 
-<pre><code>test2
-</code></pre>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>test2
+</code></pre></div></div>
 </p>
 
                             <div align="center">
@@ -1545,8 +1546,8 @@ func bubbleSort1(nums []int){
 
                             <p><h1 id="spring2">spring2</h1>
 <p>spring test2</p>
-<pre><code>test2
-</code></pre>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>test2
+</code></pre></div></div>
 </p>
 
                             <div align="center">
@@ -1604,8 +1605,8 @@ func bubbleSort1(nums []int){
 
                             <p><h1 id="spring">spring</h1>
 <p>spring test</p>
-<pre><code>test
-</code></pre>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>test
+</code></pre></div></div>
 </p>
 
                             <div align="center">

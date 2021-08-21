@@ -67,7 +67,7 @@ description: 快速排序
 #### 代码
 >java
 
-```
+``` java
 public static void quickSort(int[] nums, int left, int right){
     if (left< right){
         int base = division(nums, left, right);
@@ -100,7 +100,7 @@ public static int division(int[] nums, int left, int right){
 - - -
 > c++
 
-```
+``` cpp
 class Solution {
 public:
 	void quickSort(vector<int>& nums, int left, int right) 
@@ -134,7 +134,7 @@ public:
 ```
 > python3
 
-```
+``` python
 class Solution:
     def quickSort(self, nums:List[int], left:int, right:int):
         def division(nums:List[int], left:int, right:int)->int:
@@ -155,7 +155,7 @@ class Solution:
 ```
 > go
 
-```
+``` go
 func quickSort(nums []int, left int, right int)  {
 		var division func(nums []int, left int, right int) int
 		division = func(nums []int, left int, right int) int {

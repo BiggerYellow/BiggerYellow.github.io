@@ -44,7 +44,7 @@ description: 冒泡排序
 #### 代码
 >java
 
-{% highlight java %}
+``` java
 //内层逆序遍历
 public static void bubbleSort(int[] nums){
      int temp;
@@ -74,7 +74,7 @@ private static void bubbleSort(int[] nums) {
             }
         }
     }
-{% endhighlight %}
+```
 
 
 > 时间复杂度:O(n^2)
@@ -86,7 +86,7 @@ private static void bubbleSort(int[] nums) {
 没有什么大的优化，主要是若一次遍历过后中间没有移动的动作说明数组已经有序，无需继续往后遍历，直接结束
 - - -
 
-```
+``` java
 private static void bubbleSort(int[] nums) {
     int temp;
     boolean flag = true;
@@ -110,8 +110,7 @@ private static void bubbleSort(int[] nums) {
 - - -
 > C++
 
-{% highlight cpp %}
-
+``` cpp
 class Solution {
 public:
 	//内部正序
@@ -150,13 +149,12 @@ public:
 		}
 	}
 };
-
-{% endhighlight %}
+```
 
 
 > python3
 
-```
+``` python
 class Solution:
     #内部正序
     def bubbleSort(self, nums:List[int]):
@@ -180,7 +178,7 @@ class Solution:
 ```
 > go
 
-```
+``` go
 //内部逆序
 func bubbleSort(nums []int) {
 	len :=len(nums)
