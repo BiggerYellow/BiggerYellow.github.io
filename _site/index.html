@@ -24,6 +24,7 @@
     <link rel="stylesheet" href="/css/font-awesome/css/font-awesome.min.css">
     <link href="//fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
     <link href="//fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+    <link href="/_includes/css/rouge.css" rel="stylesheet" type="text/css"/>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -1196,7 +1197,7 @@ public:
   <p>java</p>
 </blockquote>
 
-<pre><code>//内层逆序遍历
+<figure class="highlight"><pre><code class="language-java" data-lang="java">//内层逆序遍历
 public static void bubbleSort(int[] nums){
      int temp;
     for (int i = 0; i&lt; nums.length - 1; i++ ){
@@ -1224,8 +1225,7 @@ private static void bubbleSort(int[] nums) {
                 }
             }
         }
-    }
-</code></pre>
+    }</code></pre></figure>
 
 <blockquote>
   <p>时间复杂度:O(n^2)</p>
@@ -1238,7 +1238,7 @@ private static void bubbleSort(int[] nums) {
 <p>没有什么大的优化，主要是若一次遍历过后中间没有移动的动作说明数组已经有序，无需继续往后遍历，直接结束</p>
 <hr />
 
-<pre><code class="language-java">private static void bubbleSort(int[] nums) {
+<pre><code class="language-Java">private static void bubbleSort(int[] nums) {
     int temp;
     boolean flag = true;
     for (int i = 0; i&lt; nums.length - 1; i++ ){
@@ -1301,8 +1301,8 @@ public:
 		}
 	}
 };
-
 </code></pre>
+
 <blockquote>
   <p>python3</p>
 </blockquote>

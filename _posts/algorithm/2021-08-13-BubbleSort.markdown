@@ -10,6 +10,7 @@ client: Start Bootstrap
 category: algorithm
 description: 冒泡排序
 ---
+
 ### 基本思想
 - - -
 就是两两比较然后交换位置，将较小值不断向前移动
@@ -43,7 +44,7 @@ description: 冒泡排序
 #### 代码
 >java
 
-``` 
+{% highlight java %}
 //内层逆序遍历
 public static void bubbleSort(int[] nums){
      int temp;
@@ -73,7 +74,8 @@ private static void bubbleSort(int[] nums) {
             }
         }
     }
-```
+{% endhighlight %}
+
 
 > 时间复杂度:O(n^2)
 >
@@ -84,7 +86,7 @@ private static void bubbleSort(int[] nums) {
 没有什么大的优化，主要是若一次遍历过后中间没有移动的动作说明数组已经有序，无需继续往后遍历，直接结束
 - - -
 
-``` java
+```Java
 private static void bubbleSort(int[] nums) {
     int temp;
     boolean flag = true;
@@ -147,8 +149,8 @@ public:
 		}
 	}
 };
-
 ```
+
 > python3
 
 ```

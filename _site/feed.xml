@@ -4,7 +4,7 @@
   <generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator>
   <link href="https://github.com/jeromelachaud/freelancer-theme/feed.xml" rel="self" type="application/atom+xml" />
   <link href="https://github.com/jeromelachaud/freelancer-theme/" rel="alternate" type="text/html" />
-  <updated>2021-08-21T11:14:25+08:00</updated>
+  <updated>2021-08-21T14:57:00+08:00</updated>
   <id>https://github.com/jeromelachaud/freelancer-theme/</id>
 
   
@@ -607,7 +607,7 @@ public:
   &lt;p&gt;java&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;pre&gt;&lt;code&gt;//内层逆序遍历
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;//内层逆序遍历
 public static void bubbleSort(int[] nums){
      int temp;
     for (int i = 0; i&amp;lt; nums.length - 1; i++ ){
@@ -635,8 +635,7 @@ private static void bubbleSort(int[] nums) {
                 }
             }
         }
-    }
-&lt;/code&gt;&lt;/pre&gt;
+    }&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;blockquote&gt;
   &lt;p&gt;时间复杂度:O(n^2)&lt;/p&gt;
@@ -649,7 +648,7 @@ private static void bubbleSort(int[] nums) {
 &lt;p&gt;没有什么大的优化，主要是若一次遍历过后中间没有移动的动作说明数组已经有序，无需继续往后遍历，直接结束&lt;/p&gt;
 &lt;hr /&gt;
 
-&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;private static void bubbleSort(int[] nums) {
+&lt;pre&gt;&lt;code class=&quot;language-Java&quot;&gt;private static void bubbleSort(int[] nums) {
     int temp;
     boolean flag = true;
     for (int i = 0; i&amp;lt; nums.length - 1; i++ ){
@@ -712,8 +711,8 @@ public:
 		}
 	}
 };
-
 &lt;/code&gt;&lt;/pre&gt;
+
 &lt;blockquote&gt;
   &lt;p&gt;python3&lt;/p&gt;
 &lt;/blockquote&gt;
