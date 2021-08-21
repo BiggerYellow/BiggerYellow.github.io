@@ -86,7 +86,7 @@ private static void bubbleSort(int[] nums) {
 没有什么大的优化，主要是若一次遍历过后中间没有移动的动作说明数组已经有序，无需继续往后遍历，直接结束
 - - -
 
-```Java
+```
 private static void bubbleSort(int[] nums) {
     int temp;
     boolean flag = true;
@@ -110,7 +110,8 @@ private static void bubbleSort(int[] nums) {
 - - -
 > C++
 
-```
+{% highlight cpp %}
+
 class Solution {
 public:
 	//内部正序
@@ -149,7 +150,9 @@ public:
 		}
 	}
 };
-```
+
+{% endhighlight %}
+
 
 > python3
 
