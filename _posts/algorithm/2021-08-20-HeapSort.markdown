@@ -103,8 +103,8 @@ private void swim(int[] nums, int k){
 #### 代码
 ``` java
 private void sink(int[] nums, int k, int N){
-    while(2*k<=N){
-        int j=2*k;
+    while(2*k+1<N){
+        int j=2*k+1;
         if(j<N && nums[j+1]>nums[j]){
             j++;
         }
