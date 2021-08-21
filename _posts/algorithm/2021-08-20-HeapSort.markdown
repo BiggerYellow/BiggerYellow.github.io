@@ -105,7 +105,7 @@ private void swim(int[] nums, int k){
 private void sink(int[] nums, int k, int N){
     while(2*k+1<N){
         int j=2*k+1;
-        if(j<N && nums[j+1]>nums[j]){
+        if(j+1<N && nums[j+1]>nums[j]){
             j++;
         }
         if(nums[j] < nums[k]){
