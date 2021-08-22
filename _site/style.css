@@ -16,7 +16,8 @@ body {
 }
 
 p {
-    font-size: 20px;
+    font-size: 18px;
+    line-height: 2;
 }
 
 p.small {
@@ -668,6 +669,9 @@ footer .footer-below {
     background-clip: border-box;
     -webkit-box-shadow: none;
     box-shadow: none;
+    text-align: justify;
+    font-size: 18px;
+    line-height: 2;
 }
 
 .portfolio-modal .modal-content h2 {
