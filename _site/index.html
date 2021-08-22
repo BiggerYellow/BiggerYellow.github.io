@@ -825,7 +825,7 @@
 
                             <p><h3 id="基本思想">基本思想</h3>
 <hr />
-<p>类似于我们打牌时,将每一张牌插入到其他已经有序的牌中的适当位置.
+<p>类似于我们打牌时,将每一张牌插入到其他已经有序的牌中的适当位置.<br />
 为了要给插入的元素腾出空间,需要将其余所有元素在插入之前都向右移动一位.</p>
 <hr />
 
@@ -956,7 +956,7 @@
 
                             <p><h3 id="前置概念">前置概念</h3>
 <hr />
-<p>完全二叉树:叶子节点只能出现在最下层或次下层,且最下层的叶子节点集中在树的左部。即除了最后一层其他层的节点个数都是满的而且最后一层的叶子节点必须靠左.</p>
+<p>完全二叉树:叶子节点只能出现在最下层或次下层,且最下层的叶子节点集中在树的左部.即除了最后一层其他层的节点个数都是满的而且最后一层的叶子节点必须靠左.</p>
 <hr />
 <center>
     <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/heapSort/完全二叉树.jpg">
@@ -973,12 +973,12 @@
 <hr />
 <ol>
   <li>必须是完全二叉树</li>
-  <li>二叉堆中的每一个节点,都必须大于等于(或小于等于)其子树中每个节点的值</li>
+  <li>二叉堆中的每一个节点,都必须大于等于(或小于等于)其子树中每个节点的值<br />
+若每个节点大于等于子树中的每个节点,称之为大顶堆.
+若每个节点小于等于子树中的每个节点,称之为小顶堆.
+    <hr />
+  </li>
 </ol>
-
-<p>若每个节点大于等于子树中的每个节点,称之为大顶堆.
-若每个节点小于等于子树中的每个节点,称之为小顶堆.</p>
-<hr />
 <center>
     <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/heapSort/大小顶堆.jpg">
     <img style="border-radius: 0.3125em;
@@ -992,11 +992,9 @@
 
 <p><br /></p>
 
-<p>我们仔细观察下大顶堆和小顶堆,可以发现如果父节点的位置为0,其左子节点的位置1,右子节点的位置为2.</p>
-
-<p>大约可以猜到父节点和左右子节点的关系为:若父节点的位置为1,那么左子节点的位置为 <strong>2×i+1</strong> ,右子节点的位置为 <strong>2×i+2</strong> .可以带入到其他节点验证一下.该属性是二叉堆调整的关键.</p>
-
-<p>注意:我们这里索引是从0开始的,如果索引从1开始的话,那么左右子节点的位置即是 <strong>2×i</strong> 和 <strong>2×i+1</strong> .</p>
+<p>我们仔细观察下大顶堆和小顶堆,可以发现如果父节点的位置为0,其左子节点的位置1,右子节点的位置为2.<br />
+大约可以猜到父节点和左右子节点的关系为:若父节点的位置为1,那么左子节点的位置为 <strong>2×i+1</strong> ,右子节点的位置为 <strong>2×i+2</strong> .可以带入到其他节点验证一下.该属性是二叉堆调整的关键.<br />
+注意:我们这里索引是从0开始的,如果索引从1开始的话,那么左右子节点的位置即是 <strong>2×i</strong> 和 <strong>2×i+1</strong> .</p>
 <hr />
 <h3 id="二叉堆的基本操作">二叉堆的基本操作</h3>
 <hr />
@@ -1004,9 +1002,8 @@
   <p>上浮:由下至上的堆有序化</p>
 </blockquote>
 
-<p>如果堆的有序状态因为某个节点的变得比它的父节点更大而打破,那么我们就需要通过交换它和它的父节点来修复堆,直到这个节点向上移动遇到一个更大的节点.</p>
-
-<p>若这个节点位置为k,那他的父节点位置就是 <strong>k/2</strong>,不断和父节点比较并交换位置即可.</p>
+<p>如果堆的有序状态因为某个节点的变得比它的父节点更大而打破,那么我们就需要通过交换它和它的父节点来修复堆,直到这个节点向上移动遇到一个更大的节点.<br />
+若这个节点位置为k,那他的父节点位置就是 <strong>k/2</strong>,不断和父节点比较并交换位置即可.</p>
 <hr />
 <center>
     <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/heapSort/上浮.jpg">
@@ -1035,9 +1032,8 @@
   <p>下沉:由上至下的堆有序化</p>
 </blockquote>
 
-<p>如果堆的有序状态因为某个节点变的比它的两个子节点或者其中之一更小而打破了,那么我们可以通过将它和它的两个子节点中的较大者交换来恢复堆,交换知道它的子节点都比他更小或达到堆的底部.</p>
-
-<p>若节点的位置为k,那么它的左右子节点的位置为 <strong>2×k+1</strong> 和 <strong>2×k+2</strong>,不断和这两个节点比较并交换即可.</p>
+<p>如果堆的有序状态因为某个节点变的比它的两个子节点或者其中之一更小而打破了,那么我们可以通过将它和它的两个子节点中的较大者交换来恢复堆,交换知道它的子节点都比他更小或达到堆的底部.<br />
+若节点的位置为k,那么它的左右子节点的位置为 <strong>2×k+1</strong> 和 <strong>2×k+2</strong>,不断和这两个节点比较并交换即可.</p>
 <hr />
 <center>
     <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/heapSort/下沉.jpg">
@@ -1551,20 +1547,20 @@
 
                             <p><h3 id="基本思想">基本思想</h3>
 <hr />
-<p>就是两两比较然后交换位置，将较小值不断向前移动</p>
+<p>就是两两比较然后交换位置,将较小值不断向前移动</p>
 <hr />
 
 <h3 id="思路">思路</h3>
 <hr />
 <ol>
-  <li>首先需要两层循环，外层从 <strong>i=0</strong> 开始</li>
+  <li>首先需要两层循环,外层从 <strong>i=0</strong> 开始</li>
   <li>内层循环的主要作用就根据遍历顺序保证最大值或最小值已经移动到数组的末尾或者开头</li>
 </ol>
 
 <p>内层有两者方式：</p>
 <ul>
-  <li>从前往后：j从0一直遍历到nums.len-1-i 处，同时比较 <strong>nums[j]</strong> 和 <strong>nums[j+1]</strong> 的值，只有 <strong>nums[j]&gt;nums[j+1]</strong> 时才将 <strong>nums[j]</strong> 向后移动，每次循环结束保证最大值在末尾</li>
-  <li>从后往前：j从nums.len一直遍历到 i 处，同时比较 <strong>nums[j-1]和nums[j]</strong> 的值，只有 <strong>nums[j-1]&gt;nums[j]</strong> 时才将 <strong>nums[j]</strong> 向前移动，每次循环结束保证最小值在开头</li>
+  <li>从前往后:j从0一直遍历到nums.len-1-i 处,同时比较 <strong>nums[j]</strong> 和 <strong>nums[j+1]</strong> 的值,只有 <strong>nums[j]&gt;nums[j+1]</strong> 时才将 <strong>nums[j]</strong> 向后移动,每次循环结束保证最大值在末尾</li>
+  <li>从后往前:j从nums.len一直遍历到 i 处,同时比较 <strong>nums[j-1]和nums[j]</strong> 的值,只有 <strong>nums[j-1]&gt;nums[j]</strong> 时才将 <strong>nums[j]</strong> 向前移动,每次循环结束保证最小值在开头</li>
 </ul>
 
 <hr />
@@ -1626,7 +1622,7 @@
 
 <h3 id="算法优化">算法优化</h3>
 <hr />
-<p>没有什么大的优化，主要是若一次遍历过后中间没有移动的动作说明数组已经有序，无需继续往后遍历，直接结束</p>
+<p>没有什么大的优化,主要是若一次遍历过后中间没有移动的动作说明数组已经有序,无需继续往后遍历,直接结束</p>
 <hr />
 
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">bubbleSort</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">nums</span><span class="o">)</span> <span class="o">{</span>

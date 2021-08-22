@@ -4,7 +4,7 @@
   <generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator>
   <link href="https://github.com/jeromelachaud/freelancer-theme/feed.xml" rel="self" type="application/atom+xml" />
   <link href="https://github.com/jeromelachaud/freelancer-theme/" rel="alternate" type="text/html" />
-  <updated>2021-08-22T23:11:16+08:00</updated>
+  <updated>2021-08-22T23:18:59+08:00</updated>
   <id>https://github.com/jeromelachaud/freelancer-theme/</id>
 
   
@@ -195,7 +195,7 @@
       <id>https://github.com/jeromelachaud/freelancer-theme/InsertSort</id>
       <content type="html" xml:base="https://github.com/jeromelachaud/freelancer-theme/">&lt;h3 id=&quot;基本思想&quot;&gt;基本思想&lt;/h3&gt;
 &lt;hr /&gt;
-&lt;p&gt;类似于我们打牌时,将每一张牌插入到其他已经有序的牌中的适当位置.
+&lt;p&gt;类似于我们打牌时,将每一张牌插入到其他已经有序的牌中的适当位置.&lt;br /&gt;
 为了要给插入的元素腾出空间,需要将其余所有元素在插入之前都向右移动一位.&lt;/p&gt;
 &lt;hr /&gt;
 
@@ -304,7 +304,7 @@
       <id>https://github.com/jeromelachaud/freelancer-theme/HeapSort</id>
       <content type="html" xml:base="https://github.com/jeromelachaud/freelancer-theme/">&lt;h3 id=&quot;前置概念&quot;&gt;前置概念&lt;/h3&gt;
 &lt;hr /&gt;
-&lt;p&gt;完全二叉树:叶子节点只能出现在最下层或次下层,且最下层的叶子节点集中在树的左部。即除了最后一层其他层的节点个数都是满的而且最后一层的叶子节点必须靠左.&lt;/p&gt;
+&lt;p&gt;完全二叉树:叶子节点只能出现在最下层或次下层,且最下层的叶子节点集中在树的左部.即除了最后一层其他层的节点个数都是满的而且最后一层的叶子节点必须靠左.&lt;/p&gt;
 &lt;hr /&gt;
 &lt;center&gt;
     &lt;a href=&quot;https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/heapSort/完全二叉树.jpg&quot;&gt;
@@ -321,12 +321,12 @@
 &lt;hr /&gt;
 &lt;ol&gt;
   &lt;li&gt;必须是完全二叉树&lt;/li&gt;
-  &lt;li&gt;二叉堆中的每一个节点,都必须大于等于(或小于等于)其子树中每个节点的值&lt;/li&gt;
+  &lt;li&gt;二叉堆中的每一个节点,都必须大于等于(或小于等于)其子树中每个节点的值&lt;br /&gt;
+若每个节点大于等于子树中的每个节点,称之为大顶堆.
+若每个节点小于等于子树中的每个节点,称之为小顶堆.
+    &lt;hr /&gt;
+  &lt;/li&gt;
 &lt;/ol&gt;
-
-&lt;p&gt;若每个节点大于等于子树中的每个节点,称之为大顶堆.
-若每个节点小于等于子树中的每个节点,称之为小顶堆.&lt;/p&gt;
-&lt;hr /&gt;
 &lt;center&gt;
     &lt;a href=&quot;https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/heapSort/大小顶堆.jpg&quot;&gt;
     &lt;img style=&quot;border-radius: 0.3125em;
@@ -340,11 +340,9 @@
 
 &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
 
-&lt;p&gt;我们仔细观察下大顶堆和小顶堆,可以发现如果父节点的位置为0,其左子节点的位置1,右子节点的位置为2.&lt;/p&gt;
-
-&lt;p&gt;大约可以猜到父节点和左右子节点的关系为:若父节点的位置为1,那么左子节点的位置为 &lt;strong&gt;2×i+1&lt;/strong&gt; ,右子节点的位置为 &lt;strong&gt;2×i+2&lt;/strong&gt; .可以带入到其他节点验证一下.该属性是二叉堆调整的关键.&lt;/p&gt;
-
-&lt;p&gt;注意:我们这里索引是从0开始的,如果索引从1开始的话,那么左右子节点的位置即是 &lt;strong&gt;2×i&lt;/strong&gt; 和 &lt;strong&gt;2×i+1&lt;/strong&gt; .&lt;/p&gt;
+&lt;p&gt;我们仔细观察下大顶堆和小顶堆,可以发现如果父节点的位置为0,其左子节点的位置1,右子节点的位置为2.&lt;br /&gt;
+大约可以猜到父节点和左右子节点的关系为:若父节点的位置为1,那么左子节点的位置为 &lt;strong&gt;2×i+1&lt;/strong&gt; ,右子节点的位置为 &lt;strong&gt;2×i+2&lt;/strong&gt; .可以带入到其他节点验证一下.该属性是二叉堆调整的关键.&lt;br /&gt;
+注意:我们这里索引是从0开始的,如果索引从1开始的话,那么左右子节点的位置即是 &lt;strong&gt;2×i&lt;/strong&gt; 和 &lt;strong&gt;2×i+1&lt;/strong&gt; .&lt;/p&gt;
 &lt;hr /&gt;
 &lt;h3 id=&quot;二叉堆的基本操作&quot;&gt;二叉堆的基本操作&lt;/h3&gt;
 &lt;hr /&gt;
@@ -352,9 +350,8 @@
   &lt;p&gt;上浮:由下至上的堆有序化&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;如果堆的有序状态因为某个节点的变得比它的父节点更大而打破,那么我们就需要通过交换它和它的父节点来修复堆,直到这个节点向上移动遇到一个更大的节点.&lt;/p&gt;
-
-&lt;p&gt;若这个节点位置为k,那他的父节点位置就是 &lt;strong&gt;k/2&lt;/strong&gt;,不断和父节点比较并交换位置即可.&lt;/p&gt;
+&lt;p&gt;如果堆的有序状态因为某个节点的变得比它的父节点更大而打破,那么我们就需要通过交换它和它的父节点来修复堆,直到这个节点向上移动遇到一个更大的节点.&lt;br /&gt;
+若这个节点位置为k,那他的父节点位置就是 &lt;strong&gt;k/2&lt;/strong&gt;,不断和父节点比较并交换位置即可.&lt;/p&gt;
 &lt;hr /&gt;
 &lt;center&gt;
     &lt;a href=&quot;https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/heapSort/上浮.jpg&quot;&gt;
@@ -383,9 +380,8 @@
   &lt;p&gt;下沉:由上至下的堆有序化&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;如果堆的有序状态因为某个节点变的比它的两个子节点或者其中之一更小而打破了,那么我们可以通过将它和它的两个子节点中的较大者交换来恢复堆,交换知道它的子节点都比他更小或达到堆的底部.&lt;/p&gt;
-
-&lt;p&gt;若节点的位置为k,那么它的左右子节点的位置为 &lt;strong&gt;2×k+1&lt;/strong&gt; 和 &lt;strong&gt;2×k+2&lt;/strong&gt;,不断和这两个节点比较并交换即可.&lt;/p&gt;
+&lt;p&gt;如果堆的有序状态因为某个节点变的比它的两个子节点或者其中之一更小而打破了,那么我们可以通过将它和它的两个子节点中的较大者交换来恢复堆,交换知道它的子节点都比他更小或达到堆的底部.&lt;br /&gt;
+若节点的位置为k,那么它的左右子节点的位置为 &lt;strong&gt;2×k+1&lt;/strong&gt; 和 &lt;strong&gt;2×k+2&lt;/strong&gt;,不断和这两个节点比较并交换即可.&lt;/p&gt;
 &lt;hr /&gt;
 &lt;center&gt;
     &lt;a href=&quot;https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/heapSort/下沉.jpg&quot;&gt;
@@ -631,7 +627,7 @@
       
 
       
-        <summary type="html">前置概念 完全二叉树:叶子节点只能出现在最下层或次下层,且最下层的叶子节点集中在树的左部。即除了最后一层其他层的节点个数都是满的而且最后一层的叶子节点必须靠左. 完全二叉树</summary>
+        <summary type="html">前置概念 完全二叉树:叶子节点只能出现在最下层或次下层,且最下层的叶子节点集中在树的左部.即除了最后一层其他层的节点个数都是满的而且最后一层的叶子节点必须靠左. 完全二叉树</summary>
       
 
       
@@ -855,20 +851,20 @@
       <id>https://github.com/jeromelachaud/freelancer-theme/BubbleSort</id>
       <content type="html" xml:base="https://github.com/jeromelachaud/freelancer-theme/">&lt;h3 id=&quot;基本思想&quot;&gt;基本思想&lt;/h3&gt;
 &lt;hr /&gt;
-&lt;p&gt;就是两两比较然后交换位置，将较小值不断向前移动&lt;/p&gt;
+&lt;p&gt;就是两两比较然后交换位置,将较小值不断向前移动&lt;/p&gt;
 &lt;hr /&gt;
 
 &lt;h3 id=&quot;思路&quot;&gt;思路&lt;/h3&gt;
 &lt;hr /&gt;
 &lt;ol&gt;
-  &lt;li&gt;首先需要两层循环，外层从 &lt;strong&gt;i=0&lt;/strong&gt; 开始&lt;/li&gt;
+  &lt;li&gt;首先需要两层循环,外层从 &lt;strong&gt;i=0&lt;/strong&gt; 开始&lt;/li&gt;
   &lt;li&gt;内层循环的主要作用就根据遍历顺序保证最大值或最小值已经移动到数组的末尾或者开头&lt;/li&gt;
 &lt;/ol&gt;
 
 &lt;p&gt;内层有两者方式：&lt;/p&gt;
 &lt;ul&gt;
-  &lt;li&gt;从前往后：j从0一直遍历到nums.len-1-i 处，同时比较 &lt;strong&gt;nums[j]&lt;/strong&gt; 和 &lt;strong&gt;nums[j+1]&lt;/strong&gt; 的值，只有 &lt;strong&gt;nums[j]&amp;gt;nums[j+1]&lt;/strong&gt; 时才将 &lt;strong&gt;nums[j]&lt;/strong&gt; 向后移动，每次循环结束保证最大值在末尾&lt;/li&gt;
-  &lt;li&gt;从后往前：j从nums.len一直遍历到 i 处，同时比较 &lt;strong&gt;nums[j-1]和nums[j]&lt;/strong&gt; 的值，只有 &lt;strong&gt;nums[j-1]&amp;gt;nums[j]&lt;/strong&gt; 时才将 &lt;strong&gt;nums[j]&lt;/strong&gt; 向前移动，每次循环结束保证最小值在开头&lt;/li&gt;
+  &lt;li&gt;从前往后:j从0一直遍历到nums.len-1-i 处,同时比较 &lt;strong&gt;nums[j]&lt;/strong&gt; 和 &lt;strong&gt;nums[j+1]&lt;/strong&gt; 的值,只有 &lt;strong&gt;nums[j]&amp;gt;nums[j+1]&lt;/strong&gt; 时才将 &lt;strong&gt;nums[j]&lt;/strong&gt; 向后移动,每次循环结束保证最大值在末尾&lt;/li&gt;
+  &lt;li&gt;从后往前:j从nums.len一直遍历到 i 处,同时比较 &lt;strong&gt;nums[j-1]和nums[j]&lt;/strong&gt; 的值,只有 &lt;strong&gt;nums[j-1]&amp;gt;nums[j]&lt;/strong&gt; 时才将 &lt;strong&gt;nums[j]&lt;/strong&gt; 向前移动,每次循环结束保证最小值在开头&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;hr /&gt;
@@ -930,7 +926,7 @@
 
 &lt;h3 id=&quot;算法优化&quot;&gt;算法优化&lt;/h3&gt;
 &lt;hr /&gt;
-&lt;p&gt;没有什么大的优化，主要是若一次遍历过后中间没有移动的动作说明数组已经有序，无需继续往后遍历，直接结束&lt;/p&gt;
+&lt;p&gt;没有什么大的优化,主要是若一次遍历过后中间没有移动的动作说明数组已经有序,无需继续往后遍历,直接结束&lt;/p&gt;
 &lt;hr /&gt;
 
 &lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;bubbleSort&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
@@ -1074,7 +1070,7 @@
       
 
       
-        <summary type="html">基本思想 就是两两比较然后交换位置，将较小值不断向前移动</summary>
+        <summary type="html">基本思想 就是两两比较然后交换位置,将较小值不断向前移动</summary>
       
 
       
