@@ -23,7 +23,7 @@ description: 选择排序
 4. 如此往复,直到整个数组有序
 - - -
 
-### 堆排序图解
+### 图解
 - - -
 <center>
     <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/selectSort/selectSort.jpg">

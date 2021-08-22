@@ -4,7 +4,7 @@
   <generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator>
   <link href="https://github.com/jeromelachaud/freelancer-theme/feed.xml" rel="self" type="application/atom+xml" />
   <link href="https://github.com/jeromelachaud/freelancer-theme/" rel="alternate" type="text/html" />
-  <updated>2021-08-22T22:26:07+08:00</updated>
+  <updated>2021-08-22T23:11:16+08:00</updated>
   <id>https://github.com/jeromelachaud/freelancer-theme/</id>
 
   
@@ -41,7 +41,7 @@
   &lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;h3 id=&quot;堆排序图解&quot;&gt;堆排序图解&lt;/h3&gt;
+&lt;h3 id=&quot;图解&quot;&gt;图解&lt;/h3&gt;
 &lt;hr /&gt;
 &lt;center&gt;
     &lt;a href=&quot;https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/selectSort/selectSort.jpg&quot;&gt;
@@ -188,6 +188,115 @@
     </entry>
   
     <entry>
+      <title type="html">Insertsort</title>
+      <link href="https://github.com/jeromelachaud/freelancer-theme/" rel="alternate" type="text/html" title="Insertsort" />
+      <published>2021-08-22T00:00:00+08:00</published>
+      <updated>2021-08-22T00:00:00+08:00</updated>
+      <id>https://github.com/jeromelachaud/freelancer-theme/InsertSort</id>
+      <content type="html" xml:base="https://github.com/jeromelachaud/freelancer-theme/">&lt;h3 id=&quot;基本思想&quot;&gt;基本思想&lt;/h3&gt;
+&lt;hr /&gt;
+&lt;p&gt;类似于我们打牌时,将每一张牌插入到其他已经有序的牌中的适当位置.
+为了要给插入的元素腾出空间,需要将其余所有元素在插入之前都向右移动一位.&lt;/p&gt;
+&lt;hr /&gt;
+
+&lt;h3 id=&quot;思路&quot;&gt;思路&lt;/h3&gt;
+&lt;hr /&gt;
+&lt;ol&gt;
+  &lt;li&gt;首先从外层i=1开始遍历数组,保证前i个元素有序&lt;/li&gt;
+  &lt;li&gt;内层j从i向前遍历,同时比较相邻的两个数,将nums[i]插入到合适位置&lt;/li&gt;
+  &lt;li&gt;每次内循环保证前i个元素有序&lt;/li&gt;
+  &lt;li&gt;重复以上步骤直到外层遍历结束即数组有序
+    &lt;hr /&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&quot;图解&quot;&gt;图解&lt;/h3&gt;
+&lt;hr /&gt;
+&lt;center&gt;
+    &lt;a href=&quot;https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/insertSort/insertSort.jpg&quot;&gt;
+    &lt;img style=&quot;border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);&quot; class=&quot;img-responsive img-centered&quot; alt=&quot;插入排序&quot; src=&quot;https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/insertSort/insertSort.jpg&quot; /&gt;
+    &lt;div style=&quot;color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;&quot;&gt;InsertSort&lt;/div&gt;
+    &lt;/a&gt;
+&lt;/center&gt;
+
+&lt;h4 id=&quot;代码&quot;&gt;代码&lt;/h4&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;java&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;insertSort&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;){&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;len&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;length&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;len&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++){&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;j&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;j&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;j&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;j&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;];&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;j&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;--){&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;swap&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;j&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;j&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;swap&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;j&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;){&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;temp&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;];&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;j&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;];&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;j&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;temp&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;时间复杂度:O(n^2)&lt;/p&gt;
+
+  &lt;p&gt;空间复杂度:O(1)&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&quot;其他语言&quot;&gt;其他语言&lt;/h3&gt;
+&lt;hr /&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;C++&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;div class=&quot;language-cpp highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;python3&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;go&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;div class=&quot;language-go highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content>
+
+      
+      
+      
+      
+      
+
+      <author>
+          <name></name>
+        
+        
+      </author>
+
+      
+        <category term="algorithm" />
+      
+
+      
+
+      
+        <summary type="html">基本思想 类似于我们打牌时,将每一张牌插入到其他已经有序的牌中的适当位置. 为了要给插入的元素腾出空间,需要将其余所有元素在插入之前都向右移动一位.</summary>
+      
+
+      
+      
+    </entry>
+  
+    <entry>
       <title type="html">Heapsort</title>
       <link href="https://github.com/jeromelachaud/freelancer-theme/" rel="alternate" type="text/html" title="Heapsort" />
       <published>2021-08-20T00:00:00+08:00</published>
@@ -231,8 +340,11 @@
 
 &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
 
-&lt;p&gt;我们仔细观察下大顶堆和小顶堆,可以发现如果父节点的位置为0,其左子节点的位置1,右子节点的位置为2,大约可以猜到父节点和左右子节点的关系为:若父节点的位置为1,那么左子节点的位置为 &lt;strong&gt;2×i+1&lt;/strong&gt; ,右子节点的位置为 &lt;strong&gt;2×i+2&lt;/strong&gt; .可以带入到其他节点验证一下.该属性是二叉堆调整的关键.
-注意:我们这里索引是从0开始的,如果索引从1开始的话,那么左右子节点的位置即是 &lt;strong&gt;2×i&lt;/strong&gt; 和 &lt;strong&gt;2×i+1&lt;/strong&gt; .&lt;/p&gt;
+&lt;p&gt;我们仔细观察下大顶堆和小顶堆,可以发现如果父节点的位置为0,其左子节点的位置1,右子节点的位置为2.&lt;/p&gt;
+
+&lt;p&gt;大约可以猜到父节点和左右子节点的关系为:若父节点的位置为1,那么左子节点的位置为 &lt;strong&gt;2×i+1&lt;/strong&gt; ,右子节点的位置为 &lt;strong&gt;2×i+2&lt;/strong&gt; .可以带入到其他节点验证一下.该属性是二叉堆调整的关键.&lt;/p&gt;
+
+&lt;p&gt;注意:我们这里索引是从0开始的,如果索引从1开始的话,那么左右子节点的位置即是 &lt;strong&gt;2×i&lt;/strong&gt; 和 &lt;strong&gt;2×i+1&lt;/strong&gt; .&lt;/p&gt;
 &lt;hr /&gt;
 &lt;h3 id=&quot;二叉堆的基本操作&quot;&gt;二叉堆的基本操作&lt;/h3&gt;
 &lt;hr /&gt;
@@ -240,7 +352,9 @@
   &lt;p&gt;上浮:由下至上的堆有序化&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;如果堆的有序状态因为某个节点的变得比它的父节点更大而打破,那么我们就需要通过交换它和它的父节点来修复堆,直到这个节点向上移动遇到一个更大的节点.若这个节点位置为k,那他的父节点位置就是 &lt;strong&gt;k/2&lt;/strong&gt;,不断和父节点比较并交换位置即可.&lt;/p&gt;
+&lt;p&gt;如果堆的有序状态因为某个节点的变得比它的父节点更大而打破,那么我们就需要通过交换它和它的父节点来修复堆,直到这个节点向上移动遇到一个更大的节点.&lt;/p&gt;
+
+&lt;p&gt;若这个节点位置为k,那他的父节点位置就是 &lt;strong&gt;k/2&lt;/strong&gt;,不断和父节点比较并交换位置即可.&lt;/p&gt;
 &lt;hr /&gt;
 &lt;center&gt;
     &lt;a href=&quot;https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/heapSort/上浮.jpg&quot;&gt;
@@ -269,7 +383,9 @@
   &lt;p&gt;下沉:由上至下的堆有序化&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;如果堆的有序状态因为某个节点变的比它的两个子节点或者其中之一更小而打破了,那么我们可以通过将它和它的两个子节点中的较大者交换来恢复堆,交换知道它的子节点都比他更小或达到堆的底部.若节点的位置为k,那么它的左右子节点的位置为 &lt;strong&gt;2×k+1&lt;/strong&gt; 和 &lt;strong&gt;2×k+2&lt;/strong&gt;,不断和这两个节点比较并交换即可.&lt;/p&gt;
+&lt;p&gt;如果堆的有序状态因为某个节点变的比它的两个子节点或者其中之一更小而打破了,那么我们可以通过将它和它的两个子节点中的较大者交换来恢复堆,交换知道它的子节点都比他更小或达到堆的底部.&lt;/p&gt;
+
+&lt;p&gt;若节点的位置为k,那么它的左右子节点的位置为 &lt;strong&gt;2×k+1&lt;/strong&gt; 和 &lt;strong&gt;2×k+2&lt;/strong&gt;,不断和这两个节点比较并交换即可.&lt;/p&gt;
 &lt;hr /&gt;
 &lt;center&gt;
     &lt;a href=&quot;https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/heapSort/下沉.jpg&quot;&gt;
@@ -320,7 +436,7 @@
 
 &lt;hr /&gt;
 
-&lt;h3 id=&quot;堆排序图解&quot;&gt;堆排序图解&lt;/h3&gt;
+&lt;h3 id=&quot;图解&quot;&gt;图解&lt;/h3&gt;
 &lt;hr /&gt;
 &lt;center&gt;
     &lt;a href=&quot;https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/heapSort/堆排序.jpg&quot;&gt;
@@ -1158,40 +1274,6 @@
 
       
         <summary type="html">###　test</summary>
-      
-
-      
-      
-    </entry>
-  
-    <entry>
-      <title type="html">Project 2</title>
-      <link href="https://github.com/jeromelachaud/freelancer-theme/" rel="alternate" type="text/html" title="Project 2" />
-      <published>2014-07-17T00:00:00+08:00</published>
-      <updated>2014-07-17T00:00:00+08:00</updated>
-      <id>https://github.com/jeromelachaud/freelancer-theme/project-2</id>
-      <content type="html" xml:base="https://github.com/jeromelachaud/freelancer-theme/">&lt;p&gt;2&lt;/p&gt;</content>
-
-      
-      
-      
-      
-      
-
-      <author>
-          <name></name>
-        
-        
-      </author>
-
-      
-        <category term="Web Development" />
-      
-
-      
-
-      
-        <summary type="html">2</summary>
       
 
       
