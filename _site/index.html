@@ -113,6 +113,20 @@
             <div class="portfolio-flex-row">
                 
                     <div class="portfolio-flex-item portfolio-item">
+                        <a href="#portfolioModal-16" class="portfolio-link" data-toggle="modal">
+                            <div class="caption">
+                                <div class="caption-content">
+                                    <i class="fa fa-search-plus fa-3x"></i>
+                                    <p>Shellsort</p>
+
+                                </div>
+                            </div>
+                            <img src="img/portfolio/pexels-alena-beliaeva-8697338.jpg" class="img-responsive" alt="shellSort">
+
+                        </a>
+                    </div>
+                
+                    <div class="portfolio-flex-item portfolio-item">
                         <a href="#portfolioModal-14" class="portfolio-link" data-toggle="modal">
                             <div class="caption">
                                 <div class="caption-content">
@@ -352,6 +366,8 @@
                     
                 
                     
+                
+                    
                 <div class="portfolio-flex-item portfolio-item">
                         <a href="#portfolioModal-9" class="portfolio-link" data-toggle="modal">
                             <div class="caption">
@@ -403,6 +419,8 @@
                 </div>
             </div>
             <div class="portfolio-flex-row">
+                
+                    
                 
                     
                 
@@ -470,6 +488,19 @@
                 </div>
             </div>
             <div class="portfolio-flex-row">
+                
+                    
+                <div class="portfolio-flex-item portfolio-item">
+                        <a href="#portfolioModal-16" class="portfolio-link" data-toggle="modal">
+                            <div class="caption">
+                                <div class="caption-content">
+                                    <i class="fa fa-search-plus fa-3x"></i>
+                                </div>
+                            </div>
+                            <img src="img/portfolio/pexels-alena-beliaeva-8697338.jpg" class="img-responsive" alt="shellSort">
+                        </a>
+                    </div>
+                    
                 
                     
                 <div class="portfolio-flex-item portfolio-item">
@@ -612,6 +643,231 @@
 
      <!-- Portfolio Modals -->
  
+    <div class="portfolio-modal modal fade" id="portfolioModal-16" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-content">
+            <div class="close-modal" data-dismiss="modal">
+                <div class="lr">
+                    <div class="rl">
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2">
+                        <div class="modal-body">
+                            <div align="center">
+                            <h2>Shellsort</h2>
+                            <hr class="star-primary">
+                            <img src="img/portfolio/pexels-alena-beliaeva-8697338.jpg" class="img-responsive img-centered" alt="shellSort">
+                            
+                                <p>希尔排序</p>
+                            
+                            </div>
+
+                            <p><h3 id="缘由">缘由</h3>
+<hr />
+
+<p>对于大规模乱序数组插入排序很慢,因为它只会交换相邻的元素,因此元素只能一点点的从数组的一端移动到另一端.<br />
+例如,如果主键最小的元素正好在数组的尽头,要将它挪到正确的位置就需要N-1次移动.<br />
+希尔排序为了加速简单地改进了插入排序,交换不相邻的元素以对数组的局部进行排序并最终用插入排序将局域有序的数组排序.</p>
+
+<hr />
+
+<h3 id="基本思想">基本思想</h3>
+<hr />
+<p>使数组中任意间隔为h的元素都是有序的,这样的数组称为h有序数组.<br />
+换句话说,一个h有序数组就是h个互相独立的有序数组编织在一起组成的一个数组,在进行排序时,如果h很大,我们就能将元素移动到很远的地方,为实现更小的h有序创造方便.<br />
+用这种方法,对于任意以1结尾的h序列,我们都能够将数组排序.</p>
+<hr />
+
+<h3 id="思路">思路</h3>
+<hr />
+<p>对于每个h,用插入排序将h个子数组独立的排序.但因为子数组是相互独立的,一个更简单的方法是在h-子数组中将每个元素交换到比它大的元素之前去（将比它大的元素向右移动一格）.只需要在插入排序的代码中将移动元素的距离由1改为h即可.这样,希尔排序的实现就转化为了一个类似于插入排序但使用不同增量的过程.<br />
+希尔排序更高效的原因是它权衡了子数组的规模和有序性.排序之初,各个子数组都很短,排序之后子数组都是部分有序的,这两种情况都很适合插入排序.子数组部分有序的程度取决于递增序列的选择.</p>
+<hr />
+
+<h3 id="如何选择递增序列">如何选择递增序列</h3>
+<hr />
+<p>算法的性能不仅取决于h,还取决于h之间的数学性质,比如他们的公因子等.这个需要视情况而定.</p>
+<hr />
+
+<h3 id="图解">图解</h3>
+<hr />
+<center>
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/shellSort/shellSort.jpg">
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="希尔排序" src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/shellSort/shellSort.jpg" />
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">ShellSort</div>
+    </a>
+</center>
+
+<h4 id="代码">代码</h4>
+<blockquote>
+  <p>java</p>
+</blockquote>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">shellSort</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">nums</span><span class="o">){</span>
+    <span class="kt">int</span> <span class="n">len</span> <span class="o">=</span> <span class="n">nums</span><span class="o">.</span><span class="na">length</span><span class="o">;</span>
+    <span class="kt">int</span> <span class="n">factor</span> <span class="o">=</span> <span class="mi">2</span><span class="o">;</span>
+    <span class="kt">int</span> <span class="n">h</span><span class="o">=</span><span class="mi">1</span><span class="o">;</span>
+    <span class="k">while</span> <span class="o">(</span><span class="n">h</span><span class="o">&lt;</span><span class="n">len</span><span class="o">/</span><span class="n">factor</span><span class="o">){</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="n">h</span><span class="o">*</span><span class="n">factor</span><span class="o">+</span><span class="mi">1</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="k">while</span> <span class="o">(</span><span class="n">h</span><span class="o">&gt;=</span><span class="mi">1</span><span class="o">){</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="n">h</span><span class="o">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">len</span><span class="o">;</span><span class="n">i</span><span class="o">++){</span>
+            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span><span class="o">=</span><span class="n">i</span><span class="o">;</span><span class="n">j</span><span class="o">&gt;=</span><span class="n">h</span> <span class="o">&amp;&amp;</span> <span class="n">nums</span><span class="o">[</span><span class="n">j</span><span class="o">]&lt;</span><span class="n">nums</span><span class="o">[</span><span class="n">j</span><span class="o">-</span><span class="n">h</span><span class="o">];</span><span class="n">j</span><span class="o">-=</span><span class="n">h</span><span class="o">){</span>
+                <span class="n">swap</span><span class="o">(</span><span class="n">nums</span><span class="o">,</span> <span class="n">j</span><span class="o">,</span> <span class="n">j</span><span class="o">-</span><span class="n">h</span><span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="n">h</span><span class="o">/=</span><span class="n">factor</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">swap</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">nums</span><span class="o">,</span> <span class="kt">int</span> <span class="n">i</span><span class="o">,</span> <span class="kt">int</span> <span class="n">j</span><span class="o">){</span>
+    <span class="kt">int</span> <span class="n">temp</span> <span class="o">=</span> <span class="n">nums</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
+    <span class="n">nums</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">nums</span><span class="o">[</span><span class="n">j</span><span class="o">];</span>
+    <span class="n">nums</span><span class="o">[</span><span class="n">j</span><span class="o">]</span> <span class="o">=</span> <span class="n">temp</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>时间复杂度:O(n^3/2)</p>
+
+  <p>空间复杂度:O(1)</p>
+</blockquote>
+
+<h3 id="其他语言">其他语言</h3>
+<hr />
+<blockquote>
+  <p>C++</p>
+</blockquote>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="nl">public:</span>
+	<span class="kt">void</span> <span class="n">shellSort</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">nums</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="kt">int</span> <span class="n">len</span> <span class="o">=</span> <span class="n">nums</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+		<span class="kt">int</span> <span class="n">factor</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+		<span class="kt">int</span> <span class="n">h</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+		<span class="k">while</span> <span class="p">(</span><span class="n">h</span><span class="o">&lt;</span><span class="n">len</span><span class="o">/</span><span class="n">factor</span><span class="p">)</span>
+		<span class="p">{</span>
+			<span class="n">h</span> <span class="o">=</span> <span class="n">h</span> <span class="o">*</span> <span class="n">factor</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+		<span class="p">}</span>
+
+		<span class="k">while</span> <span class="p">(</span><span class="n">h</span><span class="o">&gt;=</span><span class="mi">1</span><span class="p">)</span>
+		<span class="p">{</span>
+			<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">h</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">len</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+			<span class="p">{</span>
+				<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span> <span class="n">j</span> <span class="o">&gt;=</span><span class="n">h</span><span class="p">;</span> <span class="n">j</span><span class="o">-=</span><span class="n">h</span><span class="p">)</span>
+				<span class="p">{</span>
+					<span class="k">if</span> <span class="p">(</span><span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">&lt;</span> <span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="o">-</span><span class="n">h</span><span class="p">])</span>
+					<span class="p">{</span>
+						<span class="n">swap</span><span class="p">(</span><span class="n">nums</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">j</span> <span class="o">-</span> <span class="n">h</span><span class="p">);</span>
+					<span class="p">}</span>
+				<span class="p">}</span>
+			<span class="p">}</span>
+			<span class="n">h</span> <span class="o">/=</span> <span class="n">factor</span><span class="p">;</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+
+	<span class="kt">void</span> <span class="n">swap</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">nums</span><span class="p">,</span> <span class="kt">int</span> <span class="n">i</span><span class="p">,</span><span class="kt">int</span> <span class="n">j</span><span class="p">)</span> 
+	<span class="p">{</span>
+		<span class="kt">int</span> <span class="n">temp</span> <span class="o">=</span> <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+		<span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
+		<span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp</span><span class="p">;</span>
+	<span class="p">}</span>
+<span class="p">};</span>
+</code></pre></div></div>
+<blockquote>
+  <p>python3</p>
+</blockquote>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">shellSort</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">:</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]):</span>
+        <span class="n">length</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span>
+        <span class="n">factor</span> <span class="o">=</span> <span class="mi">2</span>
+        <span class="n">h</span><span class="o">=</span><span class="mi">1</span>
+        <span class="k">while</span> <span class="n">h</span><span class="o">&lt;</span><span class="n">length</span><span class="o">//</span><span class="n">factor</span><span class="p">:</span>
+            <span class="n">h</span><span class="o">=</span><span class="n">h</span><span class="o">*</span><span class="n">factor</span><span class="o">+</span><span class="mi">1</span>
+
+        <span class="k">while</span> <span class="n">h</span><span class="o">&gt;=</span><span class="mi">1</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">length</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">h</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">2</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="o">-</span><span class="n">h</span><span class="p">]:</span>
+                        <span class="bp">self</span><span class="p">.</span><span class="n">swap3</span><span class="p">(</span><span class="n">nums</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">j</span><span class="o">-</span><span class="n">h</span><span class="p">)</span>
+            <span class="n">h</span><span class="o">//=</span><span class="n">factor</span>
+
+
+    <span class="k">def</span> <span class="nf">swap3</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">nums</span><span class="p">:</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">:</span><span class="nb">int</span><span class="p">):</span>
+        <span class="n">temp</span> <span class="o">=</span> <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+        <span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp</span>
+</code></pre></div></div>
+<blockquote>
+  <p>go</p>
+</blockquote>
+
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">func</span> <span class="n">shellSort</span><span class="p">(</span><span class="n">nums</span> <span class="p">[]</span><span class="kt">int</span><span class="p">){</span>
+	<span class="nb">len</span> <span class="o">:=</span> <span class="nb">len</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span>
+	<span class="n">factor</span><span class="o">:=</span><span class="m">2</span>
+	<span class="n">h</span> <span class="o">:=</span><span class="m">1</span>
+	<span class="k">for</span> <span class="n">h</span><span class="o">&lt;</span><span class="nb">len</span><span class="o">/</span><span class="n">factor</span> <span class="p">{</span>
+		<span class="n">h</span> <span class="o">=</span> <span class="n">h</span><span class="o">*</span><span class="n">factor</span><span class="o">+</span><span class="m">1</span>
+	<span class="p">}</span>
+
+	<span class="k">for</span> <span class="n">h</span><span class="o">&gt;=</span><span class="m">1</span> <span class="p">{</span>
+		<span class="k">for</span> <span class="n">i</span><span class="o">:=</span><span class="n">h</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="nb">len</span><span class="p">;</span><span class="n">i</span><span class="o">++</span> <span class="p">{</span>
+			<span class="k">for</span> <span class="n">j</span><span class="o">:=</span><span class="n">i</span><span class="p">;</span><span class="n">j</span><span class="o">&gt;=</span><span class="n">h</span> <span class="o">&amp;&amp;</span> <span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">&lt;</span><span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="o">-</span><span class="n">h</span><span class="p">];</span><span class="n">j</span><span class="o">-=</span><span class="n">h</span> <span class="p">{</span>
+				<span class="n">swap3</span><span class="p">(</span><span class="n">nums</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">j</span><span class="o">-</span><span class="n">h</span><span class="p">)</span>
+			<span class="p">}</span>
+		<span class="p">}</span>
+		<span class="n">h</span><span class="o">/=</span><span class="n">factor</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">func</span> <span class="n">swap3</span><span class="p">(</span><span class="n">nums</span> <span class="p">[]</span><span class="kt">int</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span><span class="n">j</span> <span class="kt">int</span><span class="p">)</span>  <span class="p">{</span>
+	<span class="n">temp</span> <span class="o">:=</span> <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+	<span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+	<span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp</span>
+<span class="p">}</span>
+</code></pre></div></div>
+</p>
+
+                            <div align="center">
+                            <ul class="list-inline item-details">
+                                
+                                    <li>Client:
+                                        <strong><a href="http://startbootstrap.com">Start Bootstrap</a>
+                                        </strong>
+                                    </li>
+                                
+                                
+                                    <li>Date:
+                                        <strong><a href="http://startbootstrap.com">April 2021</a>
+                                        </strong>
+                                    </li>
+                                
+                                
+                                    <li>Service:
+                                        <strong><a href="http://startbootstrap.com">algorithm</a>
+                                        </strong>
+                                    </li>
+                                
+                            </ul>
+                            </div>
+                            <div align="center">
+                                <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="portfolio-modal modal fade" id="portfolioModal-14" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-content">
             <div class="close-modal" data-dismiss="modal">
