@@ -69,14 +69,62 @@ public static void swap(int[] nums, int i, int j){
 > C++
 
 ``` cpp
+class Solution {
+public:
+	void insertSort(vector<int>& nums)
+	{
+		int length = nums.size();
+		for (int i = 1; i < length; i++)
+		{
+			for (int j= i; j>0; j--)
+			{
+				if (nums[j] < nums[j - 1]) {
+					swap(nums, j, j - 1);
+				}
+				
+			}
+		}
+	}
 
+	void swap(vector<int>& nums, int i, int j)
+	{
+		int temp = nums[i];
+		nums[i] = nums[j];
+		nums[j] = temp;
+	}
+};
 ```
 > python3
 
 ``` python
+class Solution:
+    def insertSort(self, nums:List[int]):
+        length = len(nums)
+        for i in range(1, length):
+            for j in range(i, 0,-1):
+                if(nums[j]<nums[j-1]):
+                    self.swap(nums, j, j-1)
+
+    def swap(self, nums:List[int], i,j:int):
+        temp = nums[i]
+        nums[i] = nums[j]
+        nums[j] = temp
 ```
 > go
 
 ``` go
+func insertSort(nums []int)  {
+	len := len(nums)
+	for i:=1;i<len;i++ {
+		for j:=i;j>0 && nums[j]< nums[j-1];j-- {
+			swap2(nums, j, j-1)
+		}
+	}
+}
 
+func swap2(nums []int, i, j int)  {
+	temp := nums[i]
+	nums[i] = nums[j]
+	nums[j] = temp
+}
 ```
