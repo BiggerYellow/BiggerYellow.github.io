@@ -113,6 +113,20 @@
             <div class="portfolio-flex-row">
                 
                     <div class="portfolio-flex-item portfolio-item">
+                        <a href="#portfolioModal-17" class="portfolio-link" data-toggle="modal">
+                            <div class="caption">
+                                <div class="caption-content">
+                                    <i class="fa fa-search-plus fa-3x"></i>
+                                    <p>Mergesort</p>
+
+                                </div>
+                            </div>
+                            <img src="img/portfolio/pexels-anete-lusina-5721167.jpg" class="img-responsive" alt="mergeSort">
+
+                        </a>
+                    </div>
+                
+                    <div class="portfolio-flex-item portfolio-item">
                         <a href="#portfolioModal-16" class="portfolio-link" data-toggle="modal">
                             <div class="caption">
                                 <div class="caption-content">
@@ -368,6 +382,8 @@
                     
                 
                     
+                
+                    
                 <div class="portfolio-flex-item portfolio-item">
                         <a href="#portfolioModal-9" class="portfolio-link" data-toggle="modal">
                             <div class="caption">
@@ -419,6 +435,8 @@
                 </div>
             </div>
             <div class="portfolio-flex-row">
+                
+                    
                 
                     
                 
@@ -488,6 +506,19 @@
                 </div>
             </div>
             <div class="portfolio-flex-row">
+                
+                    
+                <div class="portfolio-flex-item portfolio-item">
+                        <a href="#portfolioModal-17" class="portfolio-link" data-toggle="modal">
+                            <div class="caption">
+                                <div class="caption-content">
+                                    <i class="fa fa-search-plus fa-3x"></i>
+                                </div>
+                            </div>
+                            <img src="img/portfolio/pexels-anete-lusina-5721167.jpg" class="img-responsive" alt="mergeSort">
+                        </a>
+                    </div>
+                    
                 
                     
                 <div class="portfolio-flex-item portfolio-item">
@@ -643,6 +674,353 @@
 
      <!-- Portfolio Modals -->
  
+    <div class="portfolio-modal modal fade" id="portfolioModal-17" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-content">
+            <div class="close-modal" data-dismiss="modal">
+                <div class="lr">
+                    <div class="rl">
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2">
+                        <div class="modal-body">
+                            <div align="center">
+                            <h2>Mergesort</h2>
+                            <hr class="star-primary">
+                            <img src="img/portfolio/pexels-anete-lusina-5721167.jpg" class="img-responsive img-centered" alt="mergeSort">
+                            
+                                <p>归并排序</p>
+                            
+                            </div>
+
+                            <p><h3 id="基本思想">基本思想</h3>
+<hr />
+<p>要将一个数组排序,可以先递归地将它分成两半分别排序,然后将结果归并起来.<br />
+归并排序最吸引人的性质是它能够保证将任意长度为N的数组排序所需时间和 <strong>NlogN</strong> 成正比;它的主要缺点则是它所需的额外空间和 <strong>N</strong> 成正比.</p>
+<hr />
+
+<h3 id="原地归并的抽象方法">原地归并的抽象方法</h3>
+<hr />
+<p>实现的方法很简单,创建一个适当大小的数组然后将两个输入数组中的元素一个个从大到小放入这个数组中.<br />
+之所以需要原地归并,是因为当用归并一个大数组排序时,我们需要进行很多次归并,因此在每次归并时都创建一个新数组来存储排序结果会大大增加空间复杂度.<br />
+如果使用原地归并的方法,这样就可以先将前半部分排序,再将后半部分排序, 然后在数组中移动元素而不需要使用额外的空间.<br />
+原地归并的方法签名为: <strong>merge(a, lo, mid, hi)</strong> ,它会将子数组 <strong>a[lo..mid]</strong> 和 <strong>a[mid+1..hi]</strong> 归并成一个有序的数组并将结果存放在 <strong>a[lo..hi]</strong> 中.</p>
+<hr />
+
+<h3 id="代码">代码</h3>
+<blockquote>
+  <p>java</p>
+</blockquote>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">merge</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">nums</span><span class="o">,</span> <span class="kt">int</span> <span class="n">lo</span><span class="o">,</span> <span class="kt">int</span> <span class="n">mid</span><span class="o">,</span> <span class="kt">int</span> <span class="n">hi</span><span class="o">){</span>
+        <span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="n">lo</span><span class="o">,</span> <span class="n">j</span><span class="o">=</span><span class="n">mid</span><span class="o">+</span><span class="mi">1</span><span class="o">;</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">k</span><span class="o">=</span><span class="n">lo</span><span class="o">;</span><span class="n">k</span><span class="o">&lt;=</span><span class="n">hi</span><span class="o">;</span><span class="n">k</span><span class="o">++){</span>
+            <span class="n">temp</span><span class="o">[</span><span class="n">k</span><span class="o">]</span> <span class="o">=</span> <span class="n">nums</span><span class="o">[</span><span class="n">k</span><span class="o">];</span>
+        <span class="o">}</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">k</span><span class="o">=</span><span class="n">lo</span><span class="o">;</span><span class="n">k</span><span class="o">&lt;=</span><span class="n">hi</span><span class="o">;</span><span class="n">k</span><span class="o">++){</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">i</span><span class="o">&gt;</span><span class="n">mid</span><span class="o">){</span>
+                <span class="n">nums</span><span class="o">[</span><span class="n">k</span><span class="o">]</span> <span class="o">=</span> <span class="n">temp</span><span class="o">[</span><span class="n">j</span><span class="o">++];</span>
+            <span class="o">}</span>
+            <span class="k">else</span> <span class="nf">if</span> <span class="o">(</span><span class="n">j</span><span class="o">&gt;</span><span class="n">hi</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">nums</span><span class="o">[</span><span class="n">k</span><span class="o">]</span> <span class="o">=</span> <span class="n">temp</span><span class="o">[</span><span class="n">i</span><span class="o">++];</span>
+            <span class="o">}</span><span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">temp</span><span class="o">[</span><span class="n">j</span><span class="o">]&lt;</span><span class="n">temp</span><span class="o">[</span><span class="n">i</span><span class="o">]){</span>
+                <span class="n">nums</span><span class="o">[</span><span class="n">k</span><span class="o">]</span> <span class="o">=</span> <span class="n">temp</span><span class="o">[</span><span class="n">j</span><span class="o">++];</span>
+            <span class="o">}</span><span class="k">else</span> <span class="o">{</span>
+                <span class="n">nums</span><span class="o">[</span><span class="n">k</span><span class="o">]</span> <span class="o">=</span> <span class="n">temp</span><span class="o">[</span><span class="n">i</span><span class="o">++];</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="代码分析">代码分析</h3>
+<hr />
+<p>该方法先将所有数组复制到temp[]中,然后在归并回a[]中.<br />
+方法在归并时(第二个for循环)进行了4个判断:</p>
+<ol>
+  <li>i&gt;mid:左半边用完(取右半边的元素)</li>
+  <li>j&gt;hi:右半边用尽(取左半边的元素)</li>
+  <li>temp[j]&lt;temp[i]:右半边的当前元素小于左半边的当前元素(取右半边的元素)</li>
+  <li>temp[j]&gt;temp[i]:右半边的放弃元素大于左半边的当前元素(取左半边的元素)</li>
+</ol>
+
+<p>仔细观察如上规则,其实就是给你两个有序集合,要把这两个有序集合合并成一个有序集合,使用双指针的方式合并.</p>
+<center>
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/mergeSort/归并排序区间分布图.jpg">
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="归并排序区间分布图" src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/mergeSort/归并排序区间分布图.jpg" />
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">归并排序区间分布图</div>
+    </a>
+</center>
+
+<h3 id="自顶向下的归并排序">自顶向下的归并排序</h3>
+<hr />
+<p>这是应用高效算法设计中分治思想的最典型的一个例子.</p>
+<ol>
+  <li>首先归并的排序每一个区间,保证区间大小为1的区间全都有序</li>
+  <li>其次就是归并合并两个区间保证整个区间有序</li>
+  <li>重复以上步骤即整个数组有序</li>
+</ol>
+
+<hr />
+
+<h3 id="图解">图解</h3>
+<center>
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/mergeSort/归并排序.jpg">
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="归并排序" src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/mergeSort/归并排序.jpg" />
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">MergeSort</div>
+    </a>
+</center>
+
+<h4 id="代码-1">代码</h4>
+<blockquote>
+  <p>java</p>
+</blockquote>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kt">int</span><span class="o">[]</span> <span class="n">temp</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">mergeSort</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">nums</span><span class="o">){</span>
+    <span class="n">temp</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="n">nums</span><span class="o">.</span><span class="na">length</span><span class="o">];</span>
+    <span class="n">sort</span><span class="o">(</span><span class="n">nums</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="n">nums</span><span class="o">.</span><span class="na">length</span><span class="o">-</span><span class="mi">1</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">sort</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">nums</span><span class="o">,</span> <span class="kt">int</span> <span class="n">lo</span><span class="o">,</span> <span class="kt">int</span> <span class="n">hi</span><span class="o">){</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">hi</span><span class="o">&lt;=</span><span class="n">lo</span><span class="o">){</span>
+        <span class="k">return</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="kt">int</span> <span class="n">mid</span> <span class="o">=</span> <span class="n">lo</span> <span class="o">+</span> <span class="o">(</span><span class="n">hi</span><span class="o">-</span><span class="n">lo</span><span class="o">)/</span><span class="mi">2</span><span class="o">;</span>
+    <span class="n">sort</span><span class="o">(</span><span class="n">nums</span><span class="o">,</span> <span class="n">lo</span><span class="o">,</span> <span class="n">mid</span><span class="o">);</span>
+    <span class="n">sort</span><span class="o">(</span><span class="n">nums</span><span class="o">,</span> <span class="n">mid</span><span class="o">+</span><span class="mi">1</span><span class="o">,</span> <span class="n">hi</span><span class="o">);</span>
+    <span class="n">merge</span><span class="o">(</span><span class="n">nums</span><span class="o">,</span> <span class="n">lo</span><span class="o">,</span> <span class="n">mid</span><span class="o">,</span> <span class="n">hi</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">merge</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">nums</span><span class="o">,</span> <span class="kt">int</span> <span class="n">lo</span><span class="o">,</span> <span class="kt">int</span> <span class="n">mid</span><span class="o">,</span> <span class="kt">int</span> <span class="n">hi</span><span class="o">){</span>
+    <span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="n">lo</span><span class="o">,</span> <span class="n">j</span><span class="o">=</span><span class="n">mid</span><span class="o">+</span><span class="mi">1</span><span class="o">;</span>
+    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">k</span><span class="o">=</span><span class="n">lo</span><span class="o">;</span><span class="n">k</span><span class="o">&lt;=</span><span class="n">hi</span><span class="o">;</span><span class="n">k</span><span class="o">++){</span>
+        <span class="n">temp</span><span class="o">[</span><span class="n">k</span><span class="o">]</span> <span class="o">=</span> <span class="n">nums</span><span class="o">[</span><span class="n">k</span><span class="o">];</span>
+    <span class="o">}</span>
+    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">k</span><span class="o">=</span><span class="n">lo</span><span class="o">;</span><span class="n">k</span><span class="o">&lt;=</span><span class="n">hi</span><span class="o">;</span><span class="n">k</span><span class="o">++){</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">i</span><span class="o">&gt;</span><span class="n">mid</span><span class="o">){</span>
+            <span class="n">nums</span><span class="o">[</span><span class="n">k</span><span class="o">]</span> <span class="o">=</span> <span class="n">temp</span><span class="o">[</span><span class="n">j</span><span class="o">++];</span>
+        <span class="o">}</span>
+        <span class="k">else</span> <span class="nf">if</span> <span class="o">(</span><span class="n">j</span><span class="o">&gt;</span><span class="n">hi</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">nums</span><span class="o">[</span><span class="n">k</span><span class="o">]</span> <span class="o">=</span> <span class="n">temp</span><span class="o">[</span><span class="n">i</span><span class="o">++];</span>
+        <span class="o">}</span><span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">temp</span><span class="o">[</span><span class="n">j</span><span class="o">]&lt;</span><span class="n">temp</span><span class="o">[</span><span class="n">i</span><span class="o">]){</span>
+            <span class="n">nums</span><span class="o">[</span><span class="n">k</span><span class="o">]</span> <span class="o">=</span> <span class="n">temp</span><span class="o">[</span><span class="n">j</span><span class="o">++];</span>
+        <span class="o">}</span><span class="k">else</span> <span class="o">{</span>
+            <span class="n">nums</span><span class="o">[</span><span class="n">k</span><span class="o">]</span> <span class="o">=</span> <span class="n">temp</span><span class="o">[</span><span class="n">i</span><span class="o">++];</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>时间复杂度:O(NlogN)</p>
+
+  <p>空间复杂度:O(1)</p>
+</blockquote>
+
+<h3 id="归并排序的缺点及改进方案">归并排序的缺点及改进方案</h3>
+<hr />
+<ul>
+  <li>
+    <p>缺点: 辅助数组所使用的额外空间和N的大小成正比.</p>
+  </li>
+  <li>改进点
+    <ol>
+      <li>对小规模子数组使用插入排序:用不同的方法处理小规模问题能改进大多数递归算法的性能,因为递归会使小规模问题中方法的调用过于频繁,所以改进对它们的处理方法就是改进整个算法.</li>
+      <li>测试数组是否已经有序:可以添加一个判断条件,如果 <strong>a[mid]</strong> 小于等于 <strong>a[mid+1]</strong> ,我们就冉伟数组已经有序的并跳过merge()方法.</li>
+      <li>不将元素复制到辅助数组:可以节省将数组元素复制到用于归并的辅助数组所用的时间(但空间不行).要做到这一点我们要调用两种排序方法,一种将数据从输入数组排序到辅助数组,一种将数据从辅助数组排序到输入数组.</li>
+    </ol>
+  </li>
+  <li>
+    <ul>
+      <li>-</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="自底向上的归并排序">自底向上的归并排序</h3>
+
+<h3 id="其他语言">其他语言</h3>
+<hr />
+<blockquote>
+  <p>C++</p>
+</blockquote>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="nl">public:</span>
+	<span class="kt">void</span> <span class="n">mergeSort</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">nums</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="kt">int</span> <span class="n">length</span> <span class="o">=</span> <span class="n">nums</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+		<span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">temp</span><span class="p">(</span><span class="n">length</span><span class="p">);</span>
+		<span class="n">sort</span><span class="p">(</span><span class="n">nums</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">temp</span><span class="p">);</span>
+	<span class="p">}</span>
+
+	<span class="kt">void</span> <span class="n">sort</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">nums</span><span class="p">,</span> <span class="kt">int</span> <span class="n">lo</span><span class="p">,</span> <span class="kt">int</span> <span class="n">hi</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">temp</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">hi</span><span class="o">&lt;=</span><span class="n">lo</span><span class="p">)</span>
+		<span class="p">{</span>
+			<span class="k">return</span><span class="p">;</span>
+		<span class="p">}</span>
+		<span class="kt">int</span> <span class="n">mid</span> <span class="o">=</span> <span class="p">(</span><span class="n">hi</span> <span class="o">+</span> <span class="n">lo</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
+		<span class="n">sort</span><span class="p">(</span><span class="n">nums</span><span class="p">,</span> <span class="n">lo</span><span class="p">,</span> <span class="n">mid</span><span class="p">,</span> <span class="n">temp</span><span class="p">);</span>
+		<span class="n">sort</span><span class="p">(</span><span class="n">nums</span><span class="p">,</span> <span class="n">mid</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">hi</span><span class="p">,</span> <span class="n">temp</span><span class="p">);</span>
+		<span class="n">merge</span><span class="p">(</span><span class="n">nums</span><span class="p">,</span> <span class="n">lo</span><span class="p">,</span> <span class="n">mid</span><span class="p">,</span> <span class="n">hi</span><span class="p">,</span> <span class="n">temp</span><span class="p">);</span>
+	<span class="p">}</span>
+
+	<span class="kt">void</span> <span class="n">merge</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">nums</span><span class="p">,</span> <span class="kt">int</span> <span class="n">lo</span><span class="p">,</span> <span class="kt">int</span> <span class="n">mid</span><span class="p">,</span> <span class="kt">int</span> <span class="n">hi</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">temp</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">lo</span><span class="p">;</span>
+		<span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">mid</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+		<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="n">lo</span><span class="p">;</span> <span class="n">k</span> <span class="o">&lt;=</span> <span class="n">hi</span><span class="p">;</span> <span class="n">k</span><span class="o">++</span><span class="p">)</span>
+		<span class="p">{</span>
+			<span class="n">temp</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">nums</span><span class="p">[</span><span class="n">k</span><span class="p">];</span>
+		<span class="p">}</span>
+		<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="n">lo</span><span class="p">;</span> <span class="n">k</span> <span class="o">&lt;=</span> <span class="n">hi</span><span class="p">;</span> <span class="n">k</span><span class="o">++</span><span class="p">)</span>
+		<span class="p">{</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">&gt;</span> <span class="n">mid</span><span class="p">)</span> 
+			<span class="p">{</span>
+				<span class="n">nums</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp</span><span class="p">[</span><span class="n">j</span><span class="o">++</span><span class="p">];</span>
+			<span class="p">}</span>
+			<span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">j</span><span class="o">&gt;</span><span class="n">hi</span><span class="p">)</span>
+			<span class="p">{</span>
+				<span class="n">nums</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp</span><span class="p">[</span><span class="n">i</span><span class="o">++</span><span class="p">];</span>
+			<span class="p">}</span>
+			<span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">temp</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">&lt;</span><span class="n">temp</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+			<span class="p">{</span>
+				<span class="n">nums</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp</span><span class="p">[</span><span class="n">j</span><span class="o">++</span><span class="p">];</span>
+			<span class="p">}</span>
+			<span class="k">else</span>
+			<span class="p">{</span>
+				<span class="n">nums</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp</span><span class="p">[</span><span class="n">i</span><span class="o">++</span><span class="p">];</span>
+			<span class="p">}</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+<span class="p">};</span>
+</code></pre></div></div>
+<blockquote>
+  <p>python3</p>
+</blockquote>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">mergeSort</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">:</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]):</span>
+    <span class="n">temp</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">sort</span><span class="p">(</span><span class="n">nums</span><span class="p">:</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">lo</span><span class="p">:</span><span class="nb">int</span><span class="p">,</span> <span class="n">hi</span><span class="p">:</span><span class="nb">int</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">hi</span><span class="o">&lt;=</span><span class="n">lo</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="n">mid</span> <span class="o">=</span> <span class="n">lo</span> <span class="o">+</span> <span class="p">(</span><span class="n">hi</span><span class="o">-</span><span class="n">lo</span><span class="p">)</span><span class="o">//</span><span class="mi">2</span>
+        <span class="n">sort</span><span class="p">(</span><span class="n">nums</span><span class="p">,</span> <span class="n">lo</span><span class="p">,</span> <span class="n">mid</span><span class="p">)</span>
+        <span class="n">sort</span><span class="p">(</span><span class="n">nums</span><span class="p">,</span> <span class="n">mid</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">hi</span><span class="p">)</span>
+        <span class="n">merge</span><span class="p">(</span><span class="n">nums</span><span class="p">,</span> <span class="n">lo</span><span class="p">,</span> <span class="n">mid</span><span class="p">,</span> <span class="n">hi</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">merge</span><span class="p">(</span><span class="n">nums</span><span class="p">:</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">lo</span><span class="p">:</span><span class="nb">int</span><span class="p">,</span> <span class="n">mid</span><span class="p">:</span><span class="nb">int</span><span class="p">,</span> <span class="n">hi</span><span class="p">:</span><span class="nb">int</span><span class="p">):</span>
+        <span class="n">i</span><span class="p">,</span><span class="n">j</span> <span class="o">=</span> <span class="n">lo</span><span class="p">,</span> <span class="n">mid</span><span class="o">+</span><span class="mi">1</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">lo</span><span class="p">,</span> <span class="n">hi</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+            <span class="n">temp</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">nums</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">lo</span><span class="p">,</span> <span class="n">hi</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">i</span><span class="o">&gt;</span><span class="n">mid</span> <span class="p">:</span>
+                <span class="n">nums</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+                <span class="n">j</span><span class="o">+=</span><span class="mi">1</span>
+            <span class="k">elif</span> <span class="n">j</span><span class="o">&gt;</span><span class="n">hi</span><span class="p">:</span>
+                <span class="n">nums</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="n">i</span><span class="o">+=</span><span class="mi">1</span>
+            <span class="k">elif</span> <span class="n">temp</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">&lt;</span><span class="n">temp</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
+                <span class="n">nums</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+                <span class="n">j</span><span class="o">+=</span><span class="mi">1</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">nums</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="n">i</span><span class="o">+=</span><span class="mi">1</span>
+    <span class="n">sort</span><span class="p">(</span><span class="n">nums</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</code></pre></div></div>
+<blockquote>
+  <p>go</p>
+</blockquote>
+
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">//自顶向下归并排序</span>
+<span class="k">func</span> <span class="n">mergeSort</span><span class="p">(</span><span class="n">nums</span> <span class="p">[]</span><span class="kt">int</span><span class="p">){</span>
+	<span class="n">temp</span> <span class="o">:=</span><span class="nb">make</span><span class="p">([]</span><span class="kt">int</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">nums</span><span class="p">))</span>
+
+	<span class="k">var</span> <span class="n">merge</span> <span class="k">func</span><span class="p">(</span><span class="n">nums</span> <span class="p">[]</span><span class="kt">int</span><span class="p">,</span> <span class="n">lo</span> <span class="kt">int</span><span class="p">,</span> <span class="n">mid</span> <span class="kt">int</span><span class="p">,</span> <span class="n">hi</span> <span class="kt">int</span><span class="p">)</span>
+	<span class="n">merge</span> <span class="o">=</span> <span class="k">func</span><span class="p">(</span><span class="n">nums</span> <span class="p">[]</span><span class="kt">int</span><span class="p">,</span> <span class="n">lo</span> <span class="kt">int</span><span class="p">,</span> <span class="n">mid</span> <span class="kt">int</span><span class="p">,</span> <span class="n">hi</span> <span class="kt">int</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">i</span><span class="o">:=</span><span class="n">lo</span>
+		<span class="n">j</span><span class="o">:=</span><span class="n">mid</span><span class="o">+</span><span class="m">1</span>
+		<span class="k">for</span> <span class="n">k</span><span class="o">:=</span><span class="n">lo</span><span class="p">;</span><span class="n">k</span><span class="o">&lt;=</span><span class="n">hi</span><span class="p">;</span><span class="n">k</span><span class="o">++</span> <span class="p">{</span>
+			<span class="n">temp</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">nums</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+		<span class="p">}</span>
+		<span class="k">for</span> <span class="n">k</span><span class="o">:=</span><span class="n">lo</span><span class="p">;</span><span class="n">k</span><span class="o">&lt;=</span><span class="n">hi</span><span class="p">;</span><span class="n">k</span><span class="o">++</span><span class="p">{</span>
+			<span class="k">if</span> <span class="n">i</span><span class="o">&gt;</span><span class="n">mid</span> <span class="p">{</span>
+				<span class="n">nums</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+				<span class="n">j</span><span class="o">++</span>
+			<span class="p">}</span><span class="k">else</span> <span class="k">if</span> <span class="n">j</span><span class="o">&gt;</span><span class="n">hi</span> <span class="p">{</span>
+				<span class="n">nums</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+				<span class="n">i</span><span class="o">++</span>
+			<span class="p">}</span><span class="k">else</span> <span class="k">if</span> <span class="n">temp</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">&lt;</span><span class="n">temp</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="p">{</span>
+				<span class="n">nums</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+				<span class="n">j</span><span class="o">++</span>
+			<span class="p">}</span><span class="k">else</span> <span class="p">{</span>
+				<span class="n">nums</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+				<span class="n">i</span><span class="o">++</span>
+			<span class="p">}</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+
+	<span class="k">var</span> <span class="n">sort</span> <span class="k">func</span><span class="p">(</span><span class="n">nums</span> <span class="p">[]</span><span class="kt">int</span><span class="p">,</span> <span class="n">lo</span> <span class="kt">int</span><span class="p">,</span> <span class="n">hi</span> <span class="kt">int</span><span class="p">)</span>
+	<span class="n">sort</span> <span class="o">=</span> <span class="k">func</span><span class="p">(</span><span class="n">nums</span> <span class="p">[]</span><span class="kt">int</span><span class="p">,</span> <span class="n">lo</span> <span class="kt">int</span><span class="p">,</span> <span class="n">hi</span> <span class="kt">int</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="n">hi</span><span class="o">&lt;=</span><span class="n">lo</span> <span class="p">{</span>
+			<span class="k">return</span>
+		<span class="p">}</span>
+		<span class="n">mid</span> <span class="o">:=</span> <span class="n">lo</span><span class="o">+</span><span class="p">(</span><span class="n">hi</span><span class="o">-</span><span class="n">lo</span><span class="p">)</span><span class="o">/</span><span class="m">2</span>
+		<span class="n">sort</span><span class="p">(</span><span class="n">nums</span><span class="p">,</span> <span class="n">lo</span><span class="p">,</span> <span class="n">mid</span><span class="p">)</span>
+		<span class="n">sort</span><span class="p">(</span><span class="n">nums</span><span class="p">,</span> <span class="n">mid</span><span class="o">+</span><span class="m">1</span><span class="p">,</span> <span class="n">hi</span><span class="p">)</span>
+		<span class="n">merge</span><span class="p">(</span><span class="n">nums</span><span class="p">,</span> <span class="n">lo</span><span class="p">,</span> <span class="n">mid</span><span class="p">,</span> <span class="n">hi</span><span class="p">)</span>
+	<span class="p">}</span>
+
+	<span class="n">sort</span><span class="p">(</span><span class="n">nums</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span><span class="o">-</span><span class="m">1</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div></div>
+</p>
+
+                            <div align="center">
+                            <ul class="list-inline item-details">
+                                
+                                    <li>Client:
+                                        <strong><a href="http://startbootstrap.com">Start Bootstrap</a>
+                                        </strong>
+                                    </li>
+                                
+                                
+                                    <li>Date:
+                                        <strong><a href="http://startbootstrap.com">April 2021</a>
+                                        </strong>
+                                    </li>
+                                
+                                
+                                    <li>Service:
+                                        <strong><a href="http://startbootstrap.com">algorithm</a>
+                                        </strong>
+                                    </li>
+                                
+                            </ul>
+                            </div>
+                            <div align="center">
+                                <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="portfolio-modal modal fade" id="portfolioModal-16" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-content">
             <div class="close-modal" data-dismiss="modal">
