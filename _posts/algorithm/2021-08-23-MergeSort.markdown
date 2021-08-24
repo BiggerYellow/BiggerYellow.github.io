@@ -145,12 +145,78 @@ public static void merge(int[] nums, int lo, int mid, int hi){
 1. 对小规模子数组使用插入排序:用不同的方法处理小规模问题能改进大多数递归算法的性能,因为递归会使小规模问题中方法的调用过于频繁,所以改进对它们的处理方法就是改进整个算法.
 2. 测试数组是否已经有序:可以添加一个判断条件,如果 __a[mid]__ 小于等于 __a[mid+1]__ ,我们就冉伟数组已经有序的并跳过merge()方法.  
 3. 不将元素复制到辅助数组:可以节省将数组元素复制到用于归并的辅助数组所用的时间(但空间不行).要做到这一点我们要调用两种排序方法,一种将数据从输入数组排序到辅助数组,一种将数据从辅助数组排序到输入数组.
+
 - - -
 
 ### 自底向上的归并排序
+- - -
+同样是分治思想的典型应用.先归并那些微型数组,然后再成对归并得到的数组,如此这般,直到我们将整个数组归并在一起.这种实现方法比标准递归方法所需要的代码量更少.
+1. 首先进行的两两归并(把每个元素想象成一个大小为1的数组)
+2. 然后是四四归并(将两个大小为2的数组归并成一个有4个元素的数组)
+3. 然后是八八的归并,一直下去.
+4. 在每一轮归并中,最后一次归并的第二个子数组可能比第一个子数组要小,如果不是的话所有的归并排序中两个数组大小应该都是一样的,而在下一轮中子数组的大小会翻倍.
+
+- - -
+
+### 代码
+``` java
+public static int[] temp;
+
+public static void mergeSort(int[] nums){
+    int len = nums.length;
+    temp  = new int[len];
+    for (int sz = 1;sz<len;sz = sz+sz){
+        for (int lo=0;lo<len-sz;lo += sz+sz){
+            merge(nums, lo, lo+sz-1, Math.min(lo+sz+sz-1, len-1));
+        }
+    }
+}
+
+public static void merge(int[] nums, int lo, int mid, int hi){
+    int i=lo, j=mid+1;
+    for (int k=lo;k<=hi;k++){
+        temp[k] = nums[k];
+    }
+    for (int k=lo;k<=hi;k++){
+        if (i>mid){
+            nums[k] = temp[j++];
+        }
+        else if (j>hi) {
+            nums[k] = temp[i++];
+        }else if (temp[j]<temp[i]){
+            nums[k] = temp[j++];
+        }else {
+            nums[k] = temp[i++];
+        }
+    }
+}
+```
+
+### 代码分析
+- - - 
+仔细看下mergeSort方法,使用两个循环解决了自底向上归并.  
+第一个循环的作用就是定义归并的子数组,不断递增到数组大小.  
+    - 其中 __sz__ 代表当前要归并的子数组大小,肯定要从1开始慢慢不断乘2扩大子数组,所以sz的大小一定是要小于len的,那递增条件就是不断乘2即 __sz+sz__ .  
+再看第二个循环,他的作用就是将nums中每间隔sz的数组归并排序.  
+    - 其中 __lo__ 代表起始位置,肯定是从 __0__ 开始排序,因为排序每隔 __sz__ 的区间,那么lo的最大长度就是 __len-sz__ ,那最后的递增条件就很容易理解了,要间隔 __2*sz__的区间嘛,肯定是加上 __sz+sz__  
+最后就是将两个有序的子区间合并成一个大的有序子区间, 起点肯定是 __lo__ ,因为我们排序是 __sz+sz__ 长度的子区间,那么这个子区间的中间节点肯定是 __lo+sz-1__ ,那最后就剩下最后区间的末尾了,按理说应该是 __lo+sz+sz-1__ ,但是因为不断递增可能会超过数组长度,所以要取 __lo+sz+sz-1__ 和 __len-1__ 的最小值.
+- - -
+
+### 自底向上轨迹图
+<center>
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/mergeSort/自底向上归并轨迹图.jpg">
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="自底向上归并轨迹图"
+    src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/mergeSort/自底向上归并轨迹图.jpg">
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">自底向上归并轨迹图</div>
+    </a>
+</center>
 
 
-### 其他语言
+### 自顶向下归并其他语言
 - - -
 > C++
 
