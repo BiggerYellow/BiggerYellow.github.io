@@ -2154,6 +2154,91 @@
   <p>空间复杂度:O(1)</p>
 </blockquote>
 
+<h3 id="算法改进">算法改进</h3>
+<hr />
+<ol>
+  <li>切换到插入排序
+    <ul>
+      <li>对于小数组,快速排序比插入排序慢</li>
+      <li>因为递归,快速排序的sort()方法在小数组中也会调用自己</li>
+    </ul>
+  </li>
+  <li>三取样切分
+    <ul>
+      <li>使用子数组的一小部分元素的中位数来切分数组</li>
+    </ul>
+  </li>
+  <li>熵最优的排序
+    <ul>
+      <li>在有大量重复元素的情况下,快速排序的递归性会使元素全部重复的子数组经常出现,这就有很大的改进空间,将当前实现的线性对数级的性能提高到线性级别.</li>
+    </ul>
+  </li>
+</ol>
+
+<hr />
+
+<h4 id="三项切分的快速排序">三项切分的快速排序</h4>
+<h3 id="基本思想-1">基本思想</h3>
+<hr />
+<p>将数组切成三部分,分别对应小于、等于和大于切分元素的数组元素.</p>
+<hr />
+
+<h3 id="思路-1">思路</h3>
+<hr />
+<ol>
+  <li>他从左到右遍历数组一次,维护一个指针 <strong>lt</strong> 使得 <strong>a[lo..lt-1]</strong> 中的元素都小于 <strong>v</strong> ,一个指针 <strong>gt</strong> 使得 <strong>a[gt+1..hi]</strong> 中的元素都大于 <strong>v</strong> ,一个指针 <strong>i</strong> 使得 <strong>a[lt..i-1]</strong> 中的元素都等于 <strong>v</strong> , <strong>a[i..gt]</strong> 中的元素都还未确定.</li>
+  <li>一开始 <strong>i</strong> 和 <strong>lo</strong> 相等,我们使用Comparable接口对 <strong>a[i]</strong> 进行三向比较来处理以下情况:
+    <ul>
+      <li><strong>a[i]</strong> 小于 <strong>v</strong> ,将 <strong>a[lt]</strong> 和 <strong>a[i]</strong> 交换,将 <strong>lt</strong> 和 <strong>i</strong> 加一</li>
+      <li><strong>a[i]</strong> 大于 <strong>v</strong> ,将 <strong>a[gt]</strong> 和 <strong>a[i]</strong> 交换,将 <strong>gt</strong> 减一</li>
+      <li><strong>a[i]</strong> 等于 <strong>v</strong> ,将 <strong>i</strong> 加一</li>
+    </ul>
+  </li>
+</ol>
+
+<p>这些操作都会保证数组元素不变且缩小 <strong>gt-i</strong> 的值(这样循环才会结束).另外,除非和切分元素相等,其他元素都会被交换.</p>
+<hr />
+
+<p>### 三向切分示意图</p>
+
+<center>
+     <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/quickSort/三向切分示意图.jpg">
+     <img style="border-radius: 0.3125em;
+     box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="三向切分" src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/quickSort/三向切分示意图.jpg" />
+     <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+         display: inline-block;
+         color: #999;
+         padding: 2px;">三向切分示意图</div>
+     </a>
+ </center>
+
+<p>### 三向切分代码</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">quick3way</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">nums</span><span class="o">,</span> <span class="kt">int</span> <span class="n">lo</span><span class="o">,</span> <span class="kt">int</span> <span class="n">hi</span><span class="o">){</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">hi</span><span class="o">&lt;=</span><span class="n">lo</span><span class="o">){</span>
+        <span class="k">return</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="kt">int</span> <span class="n">lt</span><span class="o">=</span><span class="n">lo</span><span class="o">,</span> <span class="n">i</span><span class="o">=</span><span class="n">lo</span><span class="o">+</span><span class="mi">1</span><span class="o">,</span><span class="n">gt</span><span class="o">=</span><span class="n">hi</span><span class="o">;</span>
+    <span class="kt">int</span> <span class="n">v</span> <span class="o">=</span> <span class="n">nums</span><span class="o">[</span><span class="n">lo</span><span class="o">];</span>
+    <span class="k">while</span> <span class="o">(</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">gt</span><span class="o">){</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">nums</span><span class="o">[</span><span class="n">i</span><span class="o">]&lt;</span><span class="n">v</span><span class="o">){</span>
+            <span class="n">exchange</span><span class="o">(</span><span class="n">nums</span><span class="o">,</span> <span class="n">lt</span><span class="o">++,</span><span class="n">i</span><span class="o">++);</span>
+        <span class="o">}</span><span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">nums</span><span class="o">[</span><span class="n">i</span><span class="o">]&gt;</span><span class="n">v</span><span class="o">){</span>
+            <span class="n">exchange</span><span class="o">(</span><span class="n">nums</span><span class="o">,</span> <span class="n">i</span><span class="o">,</span> <span class="n">gt</span><span class="o">--);</span>
+        <span class="o">}</span><span class="k">else</span> <span class="o">{</span>
+            <span class="n">i</span><span class="o">++;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+    <span class="n">quick3way</span><span class="o">(</span><span class="n">nums</span><span class="o">,</span> <span class="n">lo</span><span class="o">,</span> <span class="n">lt</span><span class="o">-</span><span class="mi">1</span><span class="o">);</span>
+    <span class="n">quick3way</span><span class="o">(</span><span class="n">nums</span><span class="o">,</span><span class="n">gt</span><span class="o">+</span><span class="mi">1</span><span class="o">,</span> <span class="n">hi</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">exchange</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">nums</span><span class="o">,</span> <span class="kt">int</span> <span class="n">i</span><span class="o">,</span> <span class="kt">int</span> <span class="n">j</span><span class="o">){</span>
+    <span class="kt">int</span> <span class="n">temp</span> <span class="o">=</span> <span class="n">nums</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
+    <span class="n">nums</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">nums</span><span class="o">[</span><span class="n">j</span><span class="o">];</span>
+    <span class="n">nums</span><span class="o">[</span><span class="n">j</span><span class="o">]</span> <span class="o">=</span> <span class="n">temp</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
 <h3 id="其他语言">其他语言</h3>
 <hr />
 <blockquote>

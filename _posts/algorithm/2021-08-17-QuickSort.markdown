@@ -96,6 +96,78 @@ public static int division(int[] nums, int left, int right){
 >
 >空间复杂度:O(1)
 
+
+### 算法改进
+- - -
+1. 切换到插入排序
+- 对于小数组,快速排序比插入排序慢
+- 因为递归,快速排序的sort()方法在小数组中也会调用自己
+2. 三取样切分
+- 使用子数组的一小部分元素的中位数来切分数组
+3. 熵最优的排序
+- 在有大量重复元素的情况下,快速排序的递归性会使元素全部重复的子数组经常出现,这就有很大的改进空间,将当前实现的线性对数级的性能提高到线性级别.
+
+- - -
+
+#### 三项切分的快速排序
+### 基本思想
+- - -
+将数组切成三部分,分别对应小于、等于和大于切分元素的数组元素.
+- - -
+
+### 思路
+- - -
+1. 他从左到右遍历数组一次,维护一个指针 __lt__ 使得 __a[lo..lt-1]__ 中的元素都小于 __v__ ,一个指针 __gt__ 使得 __a[gt+1..hi]__ 中的元素都大于 __v__ ,一个指针 __i__ 使得 __a[lt..i-1]__ 中的元素都等于 __v__ , __a[i..gt]__ 中的元素都还未确定.
+2. 一开始 __i__ 和 __lo__ 相等,我们使用Comparable接口对 __a[i]__ 进行三向比较来处理以下情况:
+- __a[i]__ 小于 __v__ ,将 __a[lt]__ 和 __a[i]__ 交换,将 __lt__ 和 __i__ 加一
+- __a[i]__ 大于 __v__ ,将 __a[gt]__ 和 __a[i]__ 交换,将 __gt__ 减一
+- __a[i]__ 等于 __v__ ,将 __i__ 加一
+
+这些操作都会保证数组元素不变且缩小 __gt-i__ 的值(这样循环才会结束).另外,除非和切分元素相等,其他元素都会被交换.
+ - - -
+ 
+ ### 三向切分示意图
+ 
+ <center>
+     <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/quickSort/三向切分示意图.jpg">
+     <img style="border-radius: 0.3125em;
+     box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="三向切分"
+     src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/quickSort/三向切分示意图.jpg">
+     <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+         display: inline-block;
+         color: #999;
+         padding: 2px;">三向切分示意图</div>
+     </a>
+ </center>
+ 
+ ### 三向切分代码
+``` java
+public static void quick3way(int[] nums, int lo, int hi){
+    if (hi<=lo){
+        return;
+    }
+    int lt=lo, i=lo+1,gt=hi;
+    int v = nums[lo];
+    while (i<=gt){
+        if (nums[i]<v){
+            exchange(nums, lt++,i++);
+        }else if (nums[i]>v){
+            exchange(nums, i, gt--);
+        }else {
+            i++;
+        }
+    }
+    quick3way(nums, lo, lt-1);
+    quick3way(nums,gt+1, hi);
+}
+
+public static void exchange(int[] nums, int i, int j){
+    int temp = nums[i];
+    nums[i] = nums[j];
+    nums[j] = temp;
+}
+```
+
 ### 其他语言
 - - -
 > c++
