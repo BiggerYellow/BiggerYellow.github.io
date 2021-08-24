@@ -856,6 +856,7 @@
   <li>在每一轮归并中,最后一次归并的第二个子数组可能比第一个子数组要小,如果不是的话所有的归并排序中两个数组大小应该都是一样的,而在下一轮中子数组的大小会翻倍.</li>
 </ol>
 
+<p>当数组长度为2的幂时,自顶向下和自底向上的归并排序所用的比较次数和数组访问次数正好相同,只是顺序不同.</p>
 <hr />
 
 <h3 id="代码-2">代码</h3>
@@ -894,11 +895,17 @@
 <h3 id="代码分析-1">代码分析</h3>
 <hr />
 <p>仔细看下mergeSort方法,使用两个循环解决了自底向上归并.<br />
-第一个循环的作用就是定义归并的子数组,不断递增到数组大小.<br />
-    - 其中 <strong>sz</strong> 代表当前要归并的子数组大小,肯定要从1开始慢慢不断乘2扩大子数组,所以sz的大小一定是要小于len的,那递增条件就是不断乘2即 <strong>sz+sz</strong> .<br />
-再看第二个循环,他的作用就是将nums中每间隔sz的数组归并排序.<br />
-    - 其中 <strong>lo</strong> 代表起始位置,肯定是从 <strong>0</strong> 开始排序,因为排序每隔 <strong>sz</strong> 的区间,那么lo的最大长度就是 <strong>len-sz</strong> ,那最后的递增条件就很容易理解了,要间隔 <strong>2*sz__的区间嘛,肯定是加上 __sz+sz</strong><br />
-最后就是将两个有序的子区间合并成一个大的有序子区间, 起点肯定是 <strong>lo</strong> ,因为我们排序是 <strong>sz+sz</strong> 长度的子区间,那么这个子区间的中间节点肯定是 <strong>lo+sz-1</strong> ,那最后就剩下最后区间的末尾了,按理说应该是 <strong>lo+sz+sz-1</strong> ,但是因为不断递增可能会超过数组长度,所以要取 <strong>lo+sz+sz-1</strong> 和 <strong>len-1</strong> 的最小值.</p>
+第一个循环的作用就是定义归并的子数组,不断递增到数组大小.</p>
+<ul>
+  <li>其中 <strong>sz</strong> 代表当前要归并的子数组大小,肯定要从1开始慢慢不断乘2扩大子数组,所以sz的大小一定是要小于len的,那递增条件就是不断乘2即 <strong>sz+sz</strong></li>
+</ul>
+
+<p>再看第二个循环,他的作用就是将nums中每间隔sz的数组归并排序.</p>
+<ul>
+  <li>其中 <strong>lo</strong> 代表起始位置,肯定是从 <strong>0</strong> 开始排序,因为排序每隔 <strong>sz</strong> 的区间,那么lo的最大长度就是 <strong>len-sz</strong> ,那最后的递增条件就很容易理解了,要间隔 <strong>2*sz</strong> 的区间嘛,肯定是加上 <strong>sz+sz</strong></li>
+</ul>
+
+<p>最后就是将两个有序的子区间合并成一个大的有序子区间, 起点肯定是 <strong>lo</strong> ,因为我们排序是 <strong>sz+sz</strong> 长度的子区间,那么这个子区间的中间节点肯定是 <strong>lo+sz-1</strong> ,那最后就剩下最后区间的末尾了,按理说应该是 <strong>lo+sz+sz-1</strong> ,但是因为不断递增可能会超过数组长度,所以要取 <strong>lo+sz+sz-1</strong> 和 <strong>len-1</strong> 的最小值.</p>
 <hr />
 
 <h3 id="自底向上轨迹图">自底向上轨迹图</h3>

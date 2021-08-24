@@ -4,7 +4,7 @@
   <generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator>
   <link href="https://github.com/jeromelachaud/freelancer-theme/feed.xml" rel="self" type="application/atom+xml" />
   <link href="https://github.com/jeromelachaud/freelancer-theme/" rel="alternate" type="text/html" />
-  <updated>2021-08-24T21:39:32+08:00</updated>
+  <updated>2021-08-24T21:53:00+08:00</updated>
   <id>https://github.com/jeromelachaud/freelancer-theme/</id>
 
   
@@ -186,6 +186,7 @@
   &lt;li&gt;在每一轮归并中,最后一次归并的第二个子数组可能比第一个子数组要小,如果不是的话所有的归并排序中两个数组大小应该都是一样的,而在下一轮中子数组的大小会翻倍.&lt;/li&gt;
 &lt;/ol&gt;
 
+&lt;p&gt;当数组长度为2的幂时,自顶向下和自底向上的归并排序所用的比较次数和数组访问次数正好相同,只是顺序不同.&lt;/p&gt;
 &lt;hr /&gt;
 
 &lt;h3 id=&quot;代码-2&quot;&gt;代码&lt;/h3&gt;
@@ -224,11 +225,17 @@
 &lt;h3 id=&quot;代码分析-1&quot;&gt;代码分析&lt;/h3&gt;
 &lt;hr /&gt;
 &lt;p&gt;仔细看下mergeSort方法,使用两个循环解决了自底向上归并.&lt;br /&gt;
-第一个循环的作用就是定义归并的子数组,不断递增到数组大小.&lt;br /&gt;
-    - 其中 &lt;strong&gt;sz&lt;/strong&gt; 代表当前要归并的子数组大小,肯定要从1开始慢慢不断乘2扩大子数组,所以sz的大小一定是要小于len的,那递增条件就是不断乘2即 &lt;strong&gt;sz+sz&lt;/strong&gt; .&lt;br /&gt;
-再看第二个循环,他的作用就是将nums中每间隔sz的数组归并排序.&lt;br /&gt;
-    - 其中 &lt;strong&gt;lo&lt;/strong&gt; 代表起始位置,肯定是从 &lt;strong&gt;0&lt;/strong&gt; 开始排序,因为排序每隔 &lt;strong&gt;sz&lt;/strong&gt; 的区间,那么lo的最大长度就是 &lt;strong&gt;len-sz&lt;/strong&gt; ,那最后的递增条件就很容易理解了,要间隔 &lt;strong&gt;2*sz__的区间嘛,肯定是加上 __sz+sz&lt;/strong&gt;&lt;br /&gt;
-最后就是将两个有序的子区间合并成一个大的有序子区间, 起点肯定是 &lt;strong&gt;lo&lt;/strong&gt; ,因为我们排序是 &lt;strong&gt;sz+sz&lt;/strong&gt; 长度的子区间,那么这个子区间的中间节点肯定是 &lt;strong&gt;lo+sz-1&lt;/strong&gt; ,那最后就剩下最后区间的末尾了,按理说应该是 &lt;strong&gt;lo+sz+sz-1&lt;/strong&gt; ,但是因为不断递增可能会超过数组长度,所以要取 &lt;strong&gt;lo+sz+sz-1&lt;/strong&gt; 和 &lt;strong&gt;len-1&lt;/strong&gt; 的最小值.&lt;/p&gt;
+第一个循环的作用就是定义归并的子数组,不断递增到数组大小.&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;其中 &lt;strong&gt;sz&lt;/strong&gt; 代表当前要归并的子数组大小,肯定要从1开始慢慢不断乘2扩大子数组,所以sz的大小一定是要小于len的,那递增条件就是不断乘2即 &lt;strong&gt;sz+sz&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;再看第二个循环,他的作用就是将nums中每间隔sz的数组归并排序.&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;其中 &lt;strong&gt;lo&lt;/strong&gt; 代表起始位置,肯定是从 &lt;strong&gt;0&lt;/strong&gt; 开始排序,因为排序每隔 &lt;strong&gt;sz&lt;/strong&gt; 的区间,那么lo的最大长度就是 &lt;strong&gt;len-sz&lt;/strong&gt; ,那最后的递增条件就很容易理解了,要间隔 &lt;strong&gt;2*sz&lt;/strong&gt; 的区间嘛,肯定是加上 &lt;strong&gt;sz+sz&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;最后就是将两个有序的子区间合并成一个大的有序子区间, 起点肯定是 &lt;strong&gt;lo&lt;/strong&gt; ,因为我们排序是 &lt;strong&gt;sz+sz&lt;/strong&gt; 长度的子区间,那么这个子区间的中间节点肯定是 &lt;strong&gt;lo+sz-1&lt;/strong&gt; ,那最后就剩下最后区间的末尾了,按理说应该是 &lt;strong&gt;lo+sz+sz-1&lt;/strong&gt; ,但是因为不断递增可能会超过数组长度,所以要取 &lt;strong&gt;lo+sz+sz-1&lt;/strong&gt; 和 &lt;strong&gt;len-1&lt;/strong&gt; 的最小值.&lt;/p&gt;
 &lt;hr /&gt;
 
 &lt;h3 id=&quot;自底向上轨迹图&quot;&gt;自底向上轨迹图&lt;/h3&gt;
