@@ -4,7 +4,7 @@
   <generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator>
   <link href="https://github.com/jeromelachaud/freelancer-theme/feed.xml" rel="self" type="application/atom+xml" />
   <link href="https://github.com/jeromelachaud/freelancer-theme/" rel="alternate" type="text/html" />
-  <updated>2021-08-24T23:21:42+08:00</updated>
+  <updated>2021-08-24T23:27:51+08:00</updated>
   <id>https://github.com/jeromelachaud/freelancer-theme/</id>
 
   
@@ -1397,7 +1397,7 @@
 
 &lt;hr /&gt;
 
-&lt;h4 id=&quot;三项切分的快速排序&quot;&gt;三项切分的快速排序&lt;/h4&gt;
+&lt;h3 id=&quot;三项切分的快速排序&quot;&gt;三项切分的快速排序&lt;/h3&gt;
 &lt;h3 id=&quot;基本思想-1&quot;&gt;基本思想&lt;/h3&gt;
 &lt;hr /&gt;
 &lt;p&gt;将数组切成三部分,分别对应小于、等于和大于切分元素的数组元素.&lt;/p&gt;
@@ -1419,7 +1419,7 @@
 &lt;p&gt;这些操作都会保证数组元素不变且缩小 &lt;strong&gt;gt-i&lt;/strong&gt; 的值(这样循环才会结束).另外,除非和切分元素相等,其他元素都会被交换.&lt;/p&gt;
 &lt;hr /&gt;
 
-&lt;p&gt;### 三向切分示意图&lt;/p&gt;
+&lt;h3 id=&quot;三向切分示意图&quot;&gt;三向切分示意图&lt;/h3&gt;
 
 &lt;center&gt;
      &lt;a href=&quot;https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/quickSort/三向切分示意图.jpg&quot;&gt;
@@ -1432,7 +1432,7 @@
      &lt;/a&gt;
  &lt;/center&gt;
 
-&lt;p&gt;### 三向切分代码&lt;/p&gt;
+&lt;h3 id=&quot;三向切分代码&quot;&gt;三向切分代码&lt;/h3&gt;
 &lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;quick3way&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lo&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;hi&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;){&lt;/span&gt;
     &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;hi&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;lo&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;){&lt;/span&gt;
         &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;

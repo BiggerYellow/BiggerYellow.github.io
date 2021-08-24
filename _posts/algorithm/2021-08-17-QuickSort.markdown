@@ -109,7 +109,7 @@ public static int division(int[] nums, int left, int right){
 
 - - -
 
-#### 三项切分的快速排序
+### 三项切分的快速排序
 ### 基本思想
 - - -
 将数组切成三部分,分别对应小于、等于和大于切分元素的数组元素.
@@ -126,7 +126,7 @@ public static int division(int[] nums, int left, int right){
 这些操作都会保证数组元素不变且缩小 __gt-i__ 的值(这样循环才会结束).另外,除非和切分元素相等,其他元素都会被交换.
  - - -
  
- ### 三向切分示意图
+### 三向切分示意图
  
  <center>
      <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/quickSort/三向切分示意图.jpg">
@@ -140,7 +140,7 @@ public static int division(int[] nums, int left, int right){
      </a>
  </center>
  
- ### 三向切分代码
+### 三向切分代码
 ``` java
 public static void quick3way(int[] nums, int lo, int hi){
     if (hi<=lo){

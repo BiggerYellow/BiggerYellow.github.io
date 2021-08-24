@@ -2177,7 +2177,7 @@
 
 <hr />
 
-<h4 id="三项切分的快速排序">三项切分的快速排序</h4>
+<h3 id="三项切分的快速排序">三项切分的快速排序</h3>
 <h3 id="基本思想-1">基本思想</h3>
 <hr />
 <p>将数组切成三部分,分别对应小于、等于和大于切分元素的数组元素.</p>
@@ -2199,7 +2199,7 @@
 <p>这些操作都会保证数组元素不变且缩小 <strong>gt-i</strong> 的值(这样循环才会结束).另外,除非和切分元素相等,其他元素都会被交换.</p>
 <hr />
 
-<p>### 三向切分示意图</p>
+<h3 id="三向切分示意图">三向切分示意图</h3>
 
 <center>
      <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/quickSort/三向切分示意图.jpg">
@@ -2212,7 +2212,7 @@
      </a>
  </center>
 
-<p>### 三向切分代码</p>
+<h3 id="三向切分代码">三向切分代码</h3>
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">quick3way</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">nums</span><span class="o">,</span> <span class="kt">int</span> <span class="n">lo</span><span class="o">,</span> <span class="kt">int</span> <span class="n">hi</span><span class="o">){</span>
     <span class="k">if</span> <span class="o">(</span><span class="n">hi</span><span class="o">&lt;=</span><span class="n">lo</span><span class="o">){</span>
         <span class="k">return</span><span class="o">;</span>
