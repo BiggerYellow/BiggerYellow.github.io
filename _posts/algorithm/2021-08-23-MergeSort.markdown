@@ -2,7 +2,7 @@
 layout: default
 algorithm: true
 modal-id: 17
-date: 2021-08-24
+date: 2021-08-23
 img: pexels-anete-lusina-5721167.jpg
 alt: mergeSort
 project-date: April 2021
