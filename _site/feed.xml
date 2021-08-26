@@ -4,7 +4,7 @@
   <generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator>
   <link href="https://github.com/jeromelachaud/freelancer-theme/feed.xml" rel="self" type="application/atom+xml" />
   <link href="https://github.com/jeromelachaud/freelancer-theme/" rel="alternate" type="text/html" />
-  <updated>2021-08-25T14:16:02+08:00</updated>
+  <updated>2021-08-26T13:50:25+08:00</updated>
   <id>https://github.com/jeromelachaud/freelancer-theme/</id>
 
   
@@ -18,6 +18,205 @@
   
 
   
+  
+    <entry>
+      <title type="html">Binarytree</title>
+      <link href="https://github.com/jeromelachaud/freelancer-theme/" rel="alternate" type="text/html" title="Binarytree" />
+      <published>2021-08-25T00:00:00+08:00</published>
+      <updated>2021-08-25T00:00:00+08:00</updated>
+      <id>https://github.com/jeromelachaud/freelancer-theme/BinaryTree</id>
+      <content type="html" xml:base="https://github.com/jeromelachaud/freelancer-theme/">&lt;h3 id=&quot;定义&quot;&gt;定义&lt;/h3&gt;
+&lt;hr /&gt;
+&lt;p&gt;二叉树是指树中节点的度不大于2的有序树,他是一种最简单且最重要的树.二叉树的递归定义为:二叉树是一棵空树,或者是一棵由一个根节点和两棵互不相交的,分别称作根的左子树和右子树组成的非空树;左子树和右子树又同样都是二叉树.&lt;/p&gt;
+&lt;hr /&gt;
+
+&lt;h3 id=&quot;相关术语&quot;&gt;相关术语&lt;/h3&gt;
+&lt;ol&gt;
+  &lt;li&gt;节点:包含一个数据元素及若干指向子树分支的信息&lt;/li&gt;
+  &lt;li&gt;节点的度:一个节点拥有子树的数目称为节点的度&lt;/li&gt;
+  &lt;li&gt;叶子节点:也成为终端节点,没有子树的节点或者度为零的节点&lt;/li&gt;
+  &lt;li&gt;分支节点:也称为非终端节点,度不为零的节点称为非终端节点&lt;/li&gt;
+  &lt;li&gt;树的度:树中所有节点的度的最大值&lt;/li&gt;
+  &lt;li&gt;节点的层次:从根节点开始,假设根节点为第1层,根节点的子节点为第2层,以此类推,如果第一个节点位于第L层,则其子节点位于第L+1层&lt;/li&gt;
+  &lt;li&gt;树的深度:也称为树的高度,树中所有节点的层次最大值称为树的深度&lt;/li&gt;
+  &lt;li&gt;有序树:如果树中各棵树的次序是有先后次序的,则称该树为有序树&lt;/li&gt;
+  &lt;li&gt;无序树:如果树中各棵子树的次序没有先后次序,则称该树为无序树&lt;/li&gt;
+  &lt;li&gt;森林:由m(m&amp;gt;=0)棵互不相交的树构成一片森林.如果把一棵非空的树的根节点删除,则该树就变成了一片森林,森林中的树由原来根节点的各棵子树构成&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&quot;常见的树类型&quot;&gt;常见的树类型&lt;/h3&gt;
+&lt;hr /&gt;
+&lt;ol&gt;
+  &lt;li&gt;满二叉树:如果一棵二叉树只有度为0的节点和度为2的节点,并且度为0的节点在同一层上,则这棵二叉树为满二叉树&lt;/li&gt;
+  &lt;li&gt;完全二叉树:深度为k,有n个节点的二叉树当且仅当其每一个节点都与深度为k的满二叉树中编号从1到n的节点一一对应时,称为完全二叉树&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;center&gt;
+    &lt;a href=&quot;https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/binarySort/相关二叉树图解.jpg&quot;&gt;
+    &lt;img style=&quot;border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);&quot; class=&quot;img-responsive img-centered&quot; alt=&quot;相关二叉树图解&quot; src=&quot;https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/binarySort/相关二叉树图解.jpg&quot; /&gt;
+    &lt;div style=&quot;color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;&quot;&gt;相关二叉树图解&lt;/div&gt;
+    &lt;/a&gt;
+&lt;/center&gt;
+&lt;hr /&gt;
+
+&lt;h3 id=&quot;二叉树性质&quot;&gt;二叉树性质&lt;/h3&gt;
+&lt;hr /&gt;
+&lt;ol&gt;
+  &lt;li&gt;二叉树的第 &lt;strong&gt;i&lt;/strong&gt; 层上最多有 &lt;strong&gt;2^i-1&lt;/strong&gt; (i&amp;gt;=1)个节点&lt;/li&gt;
+  &lt;li&gt;深度为 &lt;strong&gt;h&lt;/strong&gt; 的二叉树中至多含有 &lt;strong&gt;2^h -1&lt;/strong&gt; 个节点&lt;/li&gt;
+  &lt;li&gt;若在任意一棵二叉树中,有 &lt;strong&gt;n0&lt;/strong&gt; 个叶子节点,有 &lt;strong&gt;n2&lt;/strong&gt; 个度为2的节点,则必有 &lt;strong&gt;n0=n2+1&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;具有 &lt;strong&gt;n&lt;/strong&gt; 个节点的完全二叉树深为 &lt;strong&gt;log2x+1&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;若对一棵有 &lt;strong&gt;n&lt;/strong&gt; 个节点的完全二叉树进行顺序编号(1&amp;lt;=i&amp;lt;=n),那么对于编号为 &lt;strong&gt;i&lt;/strong&gt; (i&amp;gt;=1)的节点:
+    &lt;ul&gt;
+      &lt;li&gt;当 &lt;strong&gt;i=1&lt;/strong&gt; 时,该节点为根,它无双亲节点&lt;/li&gt;
+      &lt;li&gt;当 &lt;strong&gt;i&amp;gt;1&lt;/strong&gt; 时,该节点的双亲节点的编号为 &lt;strong&gt;i/2&lt;/strong&gt;&lt;/li&gt;
+      &lt;li&gt;若 &lt;strong&gt;2i&amp;lt;=n&lt;/strong&gt; ,则有编号为 &lt;strong&gt;2i&lt;/strong&gt; 的左节点,否则没有左节点&lt;/li&gt;
+      &lt;li&gt;若 &lt;strong&gt;2i+1&amp;lt;=n&lt;/strong&gt; ,则有编号为 &lt;strong&gt;2i+1&lt;/strong&gt; 的右节点,否则没有右节点&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&quot;二叉树的存储方式&quot;&gt;二叉树的存储方式&lt;/h3&gt;
+&lt;hr /&gt;
+&lt;p&gt;一般我们使用TreeNode对象来表示一个节点, &lt;strong&gt;val&lt;/strong&gt; 代表该节点额值, &lt;strong&gt;left&lt;/strong&gt; 代表该节点的左子节点, &lt;strong&gt;right&lt;/strong&gt; 代表该节点的右子节点&lt;/p&gt;
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;TreeNode&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;val&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;nc&quot;&gt;TreeNode&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;left&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;nc&quot;&gt;TreeNode&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;right&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;二叉树的遍历方式&quot;&gt;二叉树的遍历方式&lt;/h3&gt;
+&lt;hr /&gt;
+&lt;p&gt;二叉树可以使用深度优先遍历(DFS)或广度优先遍历(BFS).&lt;br /&gt;
+深度优先遍历又可以分为先序遍历、中序遍历、后序遍历三种方式.每种方式只是访问节点的顺序不同.&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;先序遍历:根节点-&amp;gt;左子节点-&amp;gt;右子节点&lt;/li&gt;
+  &lt;li&gt;中序遍历:左子节点-&amp;gt;根节点-&amp;gt;右子节点&lt;/li&gt;
+  &lt;li&gt;后序遍历:左子节点-&amp;gt;右子节点-&amp;gt;根节点&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;广度优先遍历又被称为层序遍历,即按照二叉树的每一层进行遍历&lt;/p&gt;
+
+&lt;center&gt;
+    &lt;a href=&quot;https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/binarySort/二叉树的遍历方式.jpg&quot;&gt;
+    &lt;img style=&quot;border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);&quot; class=&quot;img-responsive img-centered&quot; alt=&quot;二叉树的遍历方式&quot; src=&quot;https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/binarySort/二叉树的遍历方式.jpg&quot; /&gt;
+    &lt;div style=&quot;color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;&quot;&gt;二叉树的遍历方式&lt;/div&gt;
+    &lt;/a&gt;
+&lt;/center&gt;
+
+&lt;h3 id=&quot;遍历图解&quot;&gt;遍历图解&lt;/h3&gt;
+&lt;center&gt;
+    &lt;a href=&quot;https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/binarySort/二叉树遍历图解.jpg&quot;&gt;
+    &lt;img style=&quot;border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);&quot; class=&quot;img-responsive img-centered&quot; alt=&quot;二叉树遍历图解&quot; src=&quot;https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/binarySort/二叉树遍历图解.jpg&quot; /&gt;
+    &lt;div style=&quot;color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;&quot;&gt;二叉树遍历图解&lt;/div&gt;
+    &lt;/a&gt;
+&lt;/center&gt;
+
+&lt;h3 id=&quot;代码&quot;&gt;代码&lt;/h3&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;java&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Integer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;res&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;ArrayList&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;gt;();&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;dfs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;TreeNode&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;node&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;){&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;node&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;){&lt;/span&gt;
+        &lt;span class=&quot;c1&quot;&gt;//1.先序遍历&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;res&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;node&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;val&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;dfs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;node&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;left&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;c1&quot;&gt;//2.中序遍历&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;res&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;node&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;val&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;dfs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;node&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;right&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;c1&quot;&gt;//3.后序遍历&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;res&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;node&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;val&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;bfs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;TreeNode&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;node&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;){&lt;/span&gt;
+    &lt;span class=&quot;nc&quot;&gt;Queue&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;TreeNode&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;queue&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;LinkedList&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;gt;();&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;queue&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;offer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;node&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;while&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;queue&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;isEmpty&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()){&lt;/span&gt;
+        &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;size&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;queue&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++){&lt;/span&gt;
+            &lt;span class=&quot;nc&quot;&gt;TreeNode&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;poll&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;queue&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;poll&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;res&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;poll&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;val&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;poll&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;left&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;){&lt;/span&gt;
+                &lt;span class=&quot;n&quot;&gt;queue&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;offer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;poll&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;left&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+            &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;poll&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;right&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;){&lt;/span&gt;
+                &lt;span class=&quot;n&quot;&gt;queue&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;offer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;poll&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;right&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+            &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;DFS时间复杂度:O(logn)  BFS时间复杂度:O(n)&lt;br /&gt;
+空间复杂度都为:O(1)&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&quot;其他语言&quot;&gt;其他语言&lt;/h3&gt;
+&lt;hr /&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;C++&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;div class=&quot;language-cpp highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;python3&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;go&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;div class=&quot;language-go highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content>
+
+      
+      
+      
+      
+      
+
+      <author>
+          <name></name>
+        
+        
+      </author>
+
+      
+        <category term="algorithm" />
+      
+
+      
+
+      
+        <summary type="html">定义 二叉树是指树中节点的度不大于2的有序树,他是一种最简单且最重要的树.二叉树的递归定义为:二叉树是一棵空树,或者是一棵由一个根节点和两棵互不相交的,分别称作根的左子树和右子树组成的非空树;左子树和右子树又同样都是二叉树.</summary>
+      
+
+      
+      
+    </entry>
   
     <entry>
       <title type="html">Radixsort</title>
@@ -2082,54 +2281,6 @@
 
       
         <summary type="html">springboot springboot test test</summary>
-      
-
-      
-      
-    </entry>
-  
-    <entry>
-      <title type="html">Project 10</title>
-      <link href="https://github.com/jeromelachaud/freelancer-theme/" rel="alternate" type="text/html" title="Project 10" />
-      <published>2021-07-22T00:00:00+08:00</published>
-      <updated>2021-07-22T00:00:00+08:00</updated>
-      <id>https://github.com/jeromelachaud/freelancer-theme/project-10</id>
-      <content type="html" xml:base="https://github.com/jeromelachaud/freelancer-theme/">&lt;div align=&quot;center&quot;&gt;&lt;font size=&quot;70&quot;&gt;springboot2&lt;/font&gt;&lt;/div&gt;
-
-&lt;p align=&quot;right&quot;&gt;右对齐&lt;/p&gt;
-
-&lt;h1 id=&quot;testalignleft&quot;&gt;test{:align=”left”}&lt;/h1&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/BiggerYellow/BiggerYellow.github.io/master/img/algorithm/bubbleSort/BubbleSort1.jpg&quot; alt=&quot;rr&quot; class=&quot;img-responsive img-centered&quot; /&gt;&lt;/p&gt;
-
-&lt;hr /&gt;
-&lt;hr /&gt;
-
-&lt;p align=&quot;left&quot;&gt;左对齐&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;test2
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content>
-
-      
-      
-      
-      
-      
-
-      <author>
-          <name></name>
-        
-        
-      </author>
-
-      
-        <category term="springboot" />
-      
-
-      
-
-      
-        <summary type="html">springboot2</summary>
       
 
       
