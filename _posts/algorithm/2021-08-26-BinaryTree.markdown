@@ -16,6 +16,7 @@ description: 二叉树基本概念
 - - -
 
 ### 相关术语
+- - -
 1. 节点:包含一个数据元素及若干指向子树分支的信息
 2. 节点的度:一个节点拥有子树的数目称为节点的度
 3. 叶子节点:也成为终端节点,没有子树的节点或者度为零的节点
@@ -27,6 +28,7 @@ description: 二叉树基本概念
 9. 无序树:如果树中各棵子树的次序没有先后次序,则称该树为无序树
 10. 森林:由m(m>=0)棵互不相交的树构成一片森林.如果把一棵非空的树的根节点删除,则该树就变成了一片森林,森林中的树由原来根节点的各棵子树构成
 
+- - -
 ### 常见的树类型
 - - -
 1. 满二叉树:如果一棵二叉树只有度为0的节点和度为2的节点,并且度为0的节点在同一层上,则这棵二叉树为满二叉树
@@ -43,7 +45,6 @@ description: 二叉树基本概念
     padding: 2px;">相关二叉树图解</div>
     </a>
 </center>
-- - -
 
 
 ### 二叉树性质
@@ -153,15 +154,129 @@ public static void bfs(TreeNode node){
 > C++
 
 ``` cpp
+class Solution {
+public:
 
+	vector<int> res;
+
+	vector<int> sort(struct TreeNode* node)
+	{
+		dfs(node);
+		return res;
+	}
+
+	void dfs(TreeNode* node)
+	{
+		if (node)
+		{
+			//1.先序遍历
+			res.push_back(node->val);
+			dfs(node->left);
+			//2.中序遍历
+			res.push_back(node->val);
+			dfs(node->right);
+			//3.后序遍历
+			res.push_back(node->val);
+		}
+	}
+
+	vector<int> sortBFS(struct TreeNode* node)
+	{
+		queue<TreeNode*> queue;
+		queue.push(node);
+		while (!queue.empty())
+		{
+			int size = queue.size();
+			for (int i = 0; i < size; i++)
+			{
+				TreeNode* pop = queue.front();
+				queue.pop();
+				res.push_back(pop->val);
+				if (pop->left)
+				{
+					queue.push(pop->left);
+				}
+				if (pop->right)
+				{
+					queue.push(pop->right);
+				}
+			}
+		}
+		return res;
+	}
+};
 ```
 > python3
 
 ``` python
+class Solution:
+    def traverse(self, node:TreeNode) -> List[int]:
+        res = list()
+        def dfs(node:TreeNode):
+            if node:
+                #1.先序遍历
+                #res.append(node.val)
+                dfs(node.left)
+                #2.中序遍历
+                res.append(node.val)
+                dfs(node.right)
+                #3.后序遍历
+                #res.append(node.val)
+        dfs(node)
+        return res
 
+    def traverseBSF(self,node:TreeNode) -> List[int]:
+        res = list()
+        queue = list()
+        queue.append(node)
+        while len(queue) != 0:
+            size = len(queue)
+            for i in range(size):
+                temp = queue.pop(0)
+                res.append(temp.val)
+                if temp.left:
+                    queue.append(temp.left)
+                if temp.right:
+                    queue.append(temp.right)
+        return res
 ```
 > go
 
 ``` go
+func traverse(node *TreeNode) []int {
+	res := []int{}
+	var dfs func(node *TreeNode)
+	dfs = func(node *TreeNode) {
+		if node != nil {
+			//1.先序遍历
+			res = append(res, node.Val)
+			dfs(node.Left)
+			//2.中序遍历
+			res = append(res, node.Val)
+			dfs(node.Right)
+			//3.后序遍历
+			res = append(res, node.Val)
+		}
+	}
+	dfs(node)
+	return res
+}
 
+func BFS(node *TreeNode) []int {
+	res := make([]int, 0)
+	queue := make([]*TreeNode , 0)
+	queue = append(queue, node)
+	for len(queue)!=0 {
+		temp := queue[0]
+		res = append(res, temp.Val)
+		if temp.Left!=nil {
+			queue = append(queue, temp.Left)
+		}
+		if temp.Right!=nil {
+			queue = append(queue, temp.Right)
+		}
+		queue = queue[1:]
+	}
+	return res
+}
 ```

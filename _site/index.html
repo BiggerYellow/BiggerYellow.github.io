@@ -763,6 +763,7 @@
 <hr />
 
 <h3 id="相关术语">相关术语</h3>
+<hr />
 <ol>
   <li>节点:包含一个数据元素及若干指向子树分支的信息</li>
   <li>节点的度:一个节点拥有子树的数目称为节点的度</li>
@@ -776,6 +777,7 @@
   <li>森林:由m(m&gt;=0)棵互不相交的树构成一片森林.如果把一棵非空的树的根节点删除,则该树就变成了一片森林,森林中的树由原来根节点的各棵子树构成</li>
 </ol>
 
+<hr />
 <h3 id="常见的树类型">常见的树类型</h3>
 <hr />
 <ol>
@@ -784,16 +786,15 @@
 </ol>
 
 <center>
-    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/binarySort/相关二叉树图解.jpg">
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/binaryTree/相关二叉树图解.jpg">
     <img style="border-radius: 0.3125em;
-    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="相关二叉树图解" src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/binarySort/相关二叉树图解.jpg" />
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="相关二叉树图解" src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/binaryTree/相关二叉树图解.jpg" />
     <div style="color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
     color: #999;
     padding: 2px;">相关二叉树图解</div>
     </a>
 </center>
-<hr />
 
 <h3 id="二叉树性质">二叉树性质</h3>
 <hr />
@@ -837,21 +838,21 @@
 <p>广度优先遍历又被称为层序遍历,即按照二叉树的每一层进行遍历</p>
 
 <center>
-    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/binarySort/二叉树的遍历方式.jpg">
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/binaryTree/二叉树的遍历.jpg">
     <img style="border-radius: 0.3125em;
-    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="二叉树的遍历方式" src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/binarySort/二叉树的遍历方式.jpg" />
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="二叉树的遍历" src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/binaryTree/二叉树的遍历.jpg" />
     <div style="color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
     color: #999;
-    padding: 2px;">二叉树的遍历方式</div>
+    padding: 2px;">二叉树的遍历</div>
     </a>
 </center>
 
 <h3 id="遍历图解">遍历图解</h3>
 <center>
-    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/binarySort/二叉树遍历图解.jpg">
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/binaryTree/二叉树遍历图解.jpg">
     <img style="border-radius: 0.3125em;
-    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="二叉树遍历图解" src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/binarySort/二叉树遍历图解.jpg" />
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="二叉树遍历图解" src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/binaryTree/二叉树遍历图解.jpg" />
     <div style="color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
     color: #999;
@@ -909,19 +910,133 @@
   <p>C++</p>
 </blockquote>
 
-<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="nl">public:</span>
+
+	<span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">res</span><span class="p">;</span>
+
+	<span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">sort</span><span class="p">(</span><span class="k">struct</span> <span class="nc">TreeNode</span><span class="o">*</span> <span class="n">node</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">dfs</span><span class="p">(</span><span class="n">node</span><span class="p">);</span>
+		<span class="k">return</span> <span class="n">res</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="kt">void</span> <span class="n">dfs</span><span class="p">(</span><span class="n">TreeNode</span><span class="o">*</span> <span class="n">node</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">node</span><span class="p">)</span>
+		<span class="p">{</span>
+			<span class="c1">//1.先序遍历</span>
+			<span class="n">res</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">val</span><span class="p">);</span>
+			<span class="n">dfs</span><span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">);</span>
+			<span class="c1">//2.中序遍历</span>
+			<span class="n">res</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">val</span><span class="p">);</span>
+			<span class="n">dfs</span><span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">);</span>
+			<span class="c1">//3.后序遍历</span>
+			<span class="n">res</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">val</span><span class="p">);</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+
+	<span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">sortBFS</span><span class="p">(</span><span class="k">struct</span> <span class="nc">TreeNode</span><span class="o">*</span> <span class="n">node</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">queue</span><span class="o">&lt;</span><span class="n">TreeNode</span><span class="o">*&gt;</span> <span class="n">queue</span><span class="p">;</span>
+		<span class="n">queue</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">node</span><span class="p">);</span>
+		<span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">queue</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span>
+		<span class="p">{</span>
+			<span class="kt">int</span> <span class="n">size</span> <span class="o">=</span> <span class="n">queue</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+			<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">size</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+			<span class="p">{</span>
+				<span class="n">TreeNode</span><span class="o">*</span> <span class="n">pop</span> <span class="o">=</span> <span class="n">queue</span><span class="p">.</span><span class="n">front</span><span class="p">();</span>
+				<span class="n">queue</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+				<span class="n">res</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">pop</span><span class="o">-&gt;</span><span class="n">val</span><span class="p">);</span>
+				<span class="k">if</span> <span class="p">(</span><span class="n">pop</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">)</span>
+				<span class="p">{</span>
+					<span class="n">queue</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">pop</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">);</span>
+				<span class="p">}</span>
+				<span class="k">if</span> <span class="p">(</span><span class="n">pop</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">)</span>
+				<span class="p">{</span>
+					<span class="n">queue</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">pop</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">);</span>
+				<span class="p">}</span>
+			<span class="p">}</span>
+		<span class="p">}</span>
+		<span class="k">return</span> <span class="n">res</span><span class="p">;</span>
+	<span class="p">}</span>
+<span class="p">};</span>
 </code></pre></div></div>
 <blockquote>
   <p>python3</p>
 </blockquote>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">traverse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span><span class="n">TreeNode</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="k">def</span> <span class="nf">dfs</span><span class="p">(</span><span class="n">node</span><span class="p">:</span><span class="n">TreeNode</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">node</span><span class="p">:</span>
+                <span class="c1">#1.先序遍历
+</span>                <span class="c1">#res.append(node.val)
+</span>                <span class="n">dfs</span><span class="p">(</span><span class="n">node</span><span class="p">.</span><span class="n">left</span><span class="p">)</span>
+                <span class="c1">#2.中序遍历
+</span>                <span class="n">res</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="p">.</span><span class="n">val</span><span class="p">)</span>
+                <span class="n">dfs</span><span class="p">(</span><span class="n">node</span><span class="p">.</span><span class="n">right</span><span class="p">)</span>
+                <span class="c1">#3.后序遍历
+</span>                <span class="c1">#res.append(node.val)
+</span>        <span class="n">dfs</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">res</span>
+
+    <span class="k">def</span> <span class="nf">traverseBSF</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">node</span><span class="p">:</span><span class="n">TreeNode</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="n">queue</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="n">queue</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">queue</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">queue</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
+                <span class="n">temp</span> <span class="o">=</span> <span class="n">queue</span><span class="p">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+                <span class="n">res</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">temp</span><span class="p">.</span><span class="n">val</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">temp</span><span class="p">.</span><span class="n">left</span><span class="p">:</span>
+                    <span class="n">queue</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">temp</span><span class="p">.</span><span class="n">left</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">temp</span><span class="p">.</span><span class="n">right</span><span class="p">:</span>
+                    <span class="n">queue</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">temp</span><span class="p">.</span><span class="n">right</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">res</span>
 </code></pre></div></div>
 <blockquote>
   <p>go</p>
 </blockquote>
 
-<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">func</span> <span class="n">traverse</span><span class="p">(</span><span class="n">node</span> <span class="o">*</span><span class="n">TreeNode</span><span class="p">)</span> <span class="p">[]</span><span class="kt">int</span> <span class="p">{</span>
+	<span class="n">res</span> <span class="o">:=</span> <span class="p">[]</span><span class="kt">int</span><span class="p">{}</span>
+	<span class="k">var</span> <span class="n">dfs</span> <span class="k">func</span><span class="p">(</span><span class="n">node</span> <span class="o">*</span><span class="n">TreeNode</span><span class="p">)</span>
+	<span class="n">dfs</span> <span class="o">=</span> <span class="k">func</span><span class="p">(</span><span class="n">node</span> <span class="o">*</span><span class="n">TreeNode</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="n">node</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+			<span class="c">//1.先序遍历</span>
+			<span class="n">res</span> <span class="o">=</span> <span class="nb">append</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">Val</span><span class="p">)</span>
+			<span class="n">dfs</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">Left</span><span class="p">)</span>
+			<span class="c">//2.中序遍历</span>
+			<span class="n">res</span> <span class="o">=</span> <span class="nb">append</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">Val</span><span class="p">)</span>
+			<span class="n">dfs</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">Right</span><span class="p">)</span>
+			<span class="c">//3.后序遍历</span>
+			<span class="n">res</span> <span class="o">=</span> <span class="nb">append</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">Val</span><span class="p">)</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+	<span class="n">dfs</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+	<span class="k">return</span> <span class="n">res</span>
+<span class="p">}</span>
+
+<span class="k">func</span> <span class="n">BFS</span><span class="p">(</span><span class="n">node</span> <span class="o">*</span><span class="n">TreeNode</span><span class="p">)</span> <span class="p">[]</span><span class="kt">int</span> <span class="p">{</span>
+	<span class="n">res</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">([]</span><span class="kt">int</span><span class="p">,</span> <span class="m">0</span><span class="p">)</span>
+	<span class="n">queue</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">([]</span><span class="o">*</span><span class="n">TreeNode</span> <span class="p">,</span> <span class="m">0</span><span class="p">)</span>
+	<span class="n">queue</span> <span class="o">=</span> <span class="nb">append</span><span class="p">(</span><span class="n">queue</span><span class="p">,</span> <span class="n">node</span><span class="p">)</span>
+	<span class="k">for</span> <span class="nb">len</span><span class="p">(</span><span class="n">queue</span><span class="p">)</span><span class="o">!=</span><span class="m">0</span> <span class="p">{</span>
+		<span class="n">temp</span> <span class="o">:=</span> <span class="n">queue</span><span class="p">[</span><span class="m">0</span><span class="p">]</span>
+		<span class="n">res</span> <span class="o">=</span> <span class="nb">append</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">temp</span><span class="o">.</span><span class="n">Val</span><span class="p">)</span>
+		<span class="k">if</span> <span class="n">temp</span><span class="o">.</span><span class="n">Left</span><span class="o">!=</span><span class="no">nil</span> <span class="p">{</span>
+			<span class="n">queue</span> <span class="o">=</span> <span class="nb">append</span><span class="p">(</span><span class="n">queue</span><span class="p">,</span> <span class="n">temp</span><span class="o">.</span><span class="n">Left</span><span class="p">)</span>
+		<span class="p">}</span>
+		<span class="k">if</span> <span class="n">temp</span><span class="o">.</span><span class="n">Right</span><span class="o">!=</span><span class="no">nil</span> <span class="p">{</span>
+			<span class="n">queue</span> <span class="o">=</span> <span class="nb">append</span><span class="p">(</span><span class="n">queue</span><span class="p">,</span> <span class="n">temp</span><span class="o">.</span><span class="n">Right</span><span class="p">)</span>
+		<span class="p">}</span>
+		<span class="n">queue</span> <span class="o">=</span> <span class="n">queue</span><span class="p">[</span><span class="m">1</span><span class="o">:</span><span class="p">]</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="n">res</span>
+<span class="p">}</span>
 </code></pre></div></div>
 </p>
 
