@@ -1,13 +1,14 @@
 ---
 layout: default
 algorithm: true
-modal-id: 17
+modal-id: 10000006
 date: 2021-08-23
 img: pexels-anete-lusina-5721167.jpg
 alt: mergeSort
 project-date: April 2021
 client: Start Bootstrap
 category: algorithm
+subtitle: MergeSort
 description: 归并排序
 ---
 ### 基本思想

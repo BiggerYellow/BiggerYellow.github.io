@@ -1,13 +1,14 @@
 ---
 layout: default
 algorithm: true
-modal-id: 16
+modal-id: 10000007
 date: 2021-08-23
 img: pexels-alena-beliaeva-8697338.jpg
 alt: shellSort
 project-date: April 2021
 client: Start Bootstrap
 category: algorithm
+subtitle: ShellSort
 description: 希尔排序
 ---
 ### 缘由

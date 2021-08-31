@@ -1,13 +1,14 @@
 ---
 layout: default
 algorithm: true
-modal-id: 14
+modal-id: 10000005
 date: 2021-08-22
 img: pexels-8906527.jpg
 alt: selectSort
 project-date: April 2021
 client: Start Bootstrap
 category: algorithm
+subtitle: SelectSort
 description: 选择排序
 ---
 ### 基本思想

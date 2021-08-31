@@ -1,13 +1,14 @@
 ---
 layout: default
 algorithm: true
-modal-id: 15
+modal-id: 10000004
 date: 2021-08-22
 img: pexels-nick-wehrli-6524730.jpg
 alt: insertSort
 project-date: April 2021
 client: Start Bootstrap
 category: algorithm
+subtitle: InsertSort
 description: 插入排序
 ---
 ### 基本思想

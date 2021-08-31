@@ -1,13 +1,14 @@
 ---
 layout: default
 algorithm: true
-modal-id: 13
+modal-id: 10000003
 date: 2021-08-20
 img: pexels-valeriya-kobzar-8155476.jpg
 alt: heapSort
 project-date: April 2021
 client: Start Bootstrap
 category: algorithm
+subtitle: HeapSort
 description: 堆排序
 ---
 ### 前置概念
@@ -195,6 +196,10 @@ private void swap(int[] nums, int i, int j){
 >
 > 空间复杂度:O(1)
 
+### 扩展点
+- - -
+1. 常使用大小堆维护中位数, 左边使用大顶堆, 右边使用小顶堆, 这样左边取最大值右边取最小值即可. 见算法题[数据流的中位数](https://leetcode-cn.com/problems/find-median-from-data-stream/)
+- - -
 
 ### 其他语言
 - - -

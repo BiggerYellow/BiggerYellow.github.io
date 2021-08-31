@@ -1,13 +1,14 @@
 ---
 layout: default
 algorithm: true
-modal-id: 18
+modal-id: 10000009
 date: 2021-08-25
 img: pexels-karina-zhukovskaya-7260333.jpg
 alt: binaryTree
 project-date: April 2021
 client: Sort
 category: algorithm
+subtitle: BinaryTree
 description: 二叉树基本概念
 ---
 ### 定义

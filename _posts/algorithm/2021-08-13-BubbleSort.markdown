@@ -1,13 +1,14 @@
 ---
 layout: default
 algorithm: true
-modal-id: 11
+modal-id: 10000001
 date: 2021-08-13
 img: pexels-rachel-claire-4846299.jpg
 alt: bubbleSort
 project-date: April 2021
 client: Start Bootstrap
 category: algorithm
+subtitle: BubbleSort
 description: 冒泡排序
 ---
 

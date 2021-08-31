@@ -1,13 +1,14 @@
 ---
 layout: default
 algorithm: true
-modal-id: 12
+modal-id: 10000002
 date: 2021-08-17
 img: pexels-jo-jesus-4198220.jpg
 alt: quickSort
 project-date: April 2021
 client: Start Bootstrap
 category: algorithm
+subtitle: QuickSort
 description: 快速排序
 ---
 ### 基本思想
