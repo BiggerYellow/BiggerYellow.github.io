@@ -18,6 +18,8 @@ body {
 p {
     font-size: 18px;
     line-height: 2;
+    font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif;
+    text-size-adjust: auto;
 }
 
 p.small {
