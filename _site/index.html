@@ -113,6 +113,20 @@
             <div class="portfolio-flex-row">
                 
                     <div class="portfolio-flex-item portfolio-item">
+                        <a href="#portfolioModal-20000002" class="portfolio-link" data-toggle="modal">
+                            <div class="caption">
+                                <div class="caption-content">
+                                    <i class="fa fa-search-plus fa-3x"></i>
+                                    <p>SpringBootApplication构造方法分析</p>
+
+                                </div>
+                            </div>
+                            <img src="img/portfolio/pexels-irina-iriser-1122625.jpg" class="img-responsive" alt="springboot2">
+
+                        </a>
+                    </div>
+                
+                    <div class="portfolio-flex-item portfolio-item">
                         <a href="#portfolioModal-10000010" class="portfolio-link" data-toggle="modal">
                             <div class="caption">
                                 <div class="caption-content">
@@ -261,7 +275,7 @@
 
                                 </div>
                             </div>
-                            <img src="img/portfolio/pexels-david-selbert-6468061.jpg" class="img-responsive" alt="image-alt">
+                            <img src="img/portfolio/pexels-david-selbert-6468061.jpg" class="img-responsive" alt="springboot1">
 
                         </a>
                     </div>
@@ -416,6 +430,8 @@
                     
                 
                     
+                
+                    
                 <div class="portfolio-flex-item portfolio-item">
                         <a href="#portfolioModal-9" class="portfolio-link" data-toggle="modal">
                             <div class="caption">
@@ -473,6 +489,21 @@
             <div class="portfolio-flex-row">
                 
                     
+                <div class="portfolio-flex-item portfolio-item">
+                        <a href="#portfolioModal-20000002" class="portfolio-link" data-toggle="modal">
+                            <div class="caption">
+                                <div class="caption-content">
+                                    <i class="fa fa-search-plus fa-3x"></i>
+                                    <p>Springboot2</p>
+
+                                </div>
+                            </div>
+                            <img src="img/portfolio/pexels-irina-iriser-1122625.jpg" class="img-responsive" alt="springboot2">
+                        </a>
+                    </div>
+                    
+                
+                    
                 
                     
                 
@@ -502,7 +533,7 @@
 
                                 </div>
                             </div>
-                            <img src="img/portfolio/pexels-david-selbert-6468061.jpg" class="img-responsive" alt="image-alt">
+                            <img src="img/portfolio/pexels-david-selbert-6468061.jpg" class="img-responsive" alt="springboot1">
                         </a>
                     </div>
                     
@@ -537,6 +568,8 @@
                 </div>
             </div>
             <div class="portfolio-flex-row">
+                
+                    
                 
                     
                 <div class="portfolio-flex-item portfolio-item">
@@ -762,6 +795,333 @@
 
      <!-- Portfolio Modals -->
  
+    <div class="portfolio-modal modal fade" id="portfolioModal-20000002" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-content">
+            <div class="close-modal" data-dismiss="modal">
+                <div class="lr">
+                    <div class="rl">
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2">
+                        <div class="modal-body">
+                            <div align="center">
+                            <h2>SpringBoot启动源码解析(二)</h2>
+                            <hr class="star-primary">
+                            <img src="img/portfolio/pexels-irina-iriser-1122625.jpg" class="img-responsive img-centered" alt="springboot2">
+                            
+                                <p>SpringBootApplication构造方法分析</p>
+                            
+                            </div>
+
+                            <p><h3 id="主函数入口">主函数入口</h3>
+<hr />
+<p>我们首先从主函数入口一步一步往下看.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//程序主函数</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+    <span class="nc">SpringApplication</span><span class="o">.</span><span class="na">run</span><span class="o">(</span><span class="nc">DemoApplication</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">args</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="cm">/**
+ * Static helper that can be used to run a {@link SpringApplication} from the
+ * specified source using default settings.
+ * 用于在一个使用默认配置的指定资源中运行 SpringApplication 的静态工具类
+ * @param primarySource the primary source to load
+ * @param args the application arguments (usually passed from a Java main method)
+ * @return the running {@link ApplicationContext}
+ */</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="nc">ConfigurableApplicationContext</span> <span class="nf">run</span><span class="o">(</span><span class="nc">Class</span><span class="o">&lt;?&gt;</span> <span class="n">primarySource</span><span class="o">,</span> <span class="nc">String</span><span class="o">...</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="nf">run</span><span class="o">(</span><span class="k">new</span> <span class="nc">Class</span><span class="o">&lt;?&gt;[]</span> <span class="o">{</span> <span class="n">primarySource</span> <span class="o">},</span> <span class="n">args</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="cm">/**
+ * Static helper that can be used to run a {@link SpringApplication} from the
+ * specified sources using default settings and user supplied arguments.
+ * @param primarySources the primary sources to load
+ * @param args the application arguments (usually passed from a Java main method)
+ * @return the running {@link ApplicationContext}
+ */</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="nc">ConfigurableApplicationContext</span> <span class="nf">run</span><span class="o">(</span><span class="nc">Class</span><span class="o">&lt;?&gt;[]</span> <span class="n">primarySources</span><span class="o">,</span> <span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nf">SpringApplication</span><span class="o">(</span><span class="n">primarySources</span><span class="o">).</span><span class="na">run</span><span class="o">(</span><span class="n">args</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>核心就是 <strong>new SpringApplication(primarySources).run(args)</strong> 这一行.<br />
+我们首先分析一下  <strong>new SpringApplication(primarySources)</strong>.</p>
+
+<h3 id="new-springapplicationprimarysources主构造">new SpringApplication(primarySources)主构造</h3>
+<hr />
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/**
+ * Create a new {@link SpringApplication} instance. The application context will load
+ * beans from the specified primary sources (see {@link SpringApplication class-level}
+ * documentation for details. The instance can be customized before calling
+ * {@link #run(String...)}.
+ * 创建一个SpringApplication实例. 应用上下文将从指定主函数中加载bean. (这个实例可以在调用run方法前自定义)
+ * @param resourceLoader the resource loader to use
+ * @param primarySources the primary bean sources
+ * @see #run(Class, String[])
+ * @see #setSources(Set)
+ */</span>
+<span class="nd">@SuppressWarnings</span><span class="o">({</span> <span class="s">"unchecked"</span><span class="o">,</span> <span class="s">"rawtypes"</span> <span class="o">})</span>
+<span class="kd">public</span> <span class="nf">SpringApplication</span><span class="o">(</span><span class="nc">ResourceLoader</span> <span class="n">resourceLoader</span><span class="o">,</span> <span class="nc">Class</span><span class="o">&lt;?&gt;...</span> <span class="n">primarySources</span><span class="o">)</span> <span class="o">{</span>
+    <span class="c1">//1.设置类加载器</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">resourceLoader</span> <span class="o">=</span> <span class="n">resourceLoader</span><span class="o">;</span>
+    <span class="nc">Assert</span><span class="o">.</span><span class="na">notNull</span><span class="o">(</span><span class="n">primarySources</span><span class="o">,</span> <span class="s">"PrimarySources must not be null"</span><span class="o">);</span>
+    <span class="c1">//2.将主函数封装成集合设置到primarySources中 可以设置多个主类</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">primarySources</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">LinkedHashSet</span><span class="o">&lt;&gt;(</span><span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="n">primarySources</span><span class="o">));</span>
+    <span class="c1">//3.判断当前应用类型 通常使用的都是WebApplicationType.SERVLET</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">webApplicationType</span> <span class="o">=</span> <span class="nc">WebApplicationType</span><span class="o">.</span><span class="na">deduceFromClasspath</span><span class="o">();</span>
+    <span class="c1">//4.获取并实例化所有的ApplicationContextInitializer实现 主要用于在上下文刷新前进行初始化上下文</span>
+    <span class="n">setInitializers</span><span class="o">((</span><span class="nc">Collection</span><span class="o">)</span> <span class="n">getSpringFactoriesInstances</span><span class="o">(</span><span class="nc">ApplicationContextInitializer</span><span class="o">.</span><span class="na">class</span><span class="o">));</span>
+    <span class="c1">//5.获取并实例化所有的ApplicationListener实现 主要用于监听启动过程中发布的各种事件</span>
+    <span class="n">setListeners</span><span class="o">((</span><span class="nc">Collection</span><span class="o">)</span> <span class="n">getSpringFactoriesInstances</span><span class="o">(</span><span class="nc">ApplicationListener</span><span class="o">.</span><span class="na">class</span><span class="o">));</span>
+    <span class="c1">//6.生成main对应主函数的类</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">mainApplicationClass</span> <span class="o">=</span> <span class="n">deduceMainApplicationClass</span><span class="o">();</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>在SpringApplication构造函数中,最重要就是步骤4和步骤5,再看下这两步其实是一样的实现,只不过加载的类不同而已.<br />
+我们再仔细看看这个方法到底做了什么事情:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span> <span class="nc">Collection</span><span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span> <span class="nf">getSpringFactoriesInstances</span><span class="o">(</span><span class="nc">Class</span><span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span> <span class="n">type</span><span class="o">,</span> <span class="nc">Class</span><span class="o">&lt;?&gt;[]</span> <span class="n">parameterTypes</span><span class="o">,</span> <span class="nc">Object</span><span class="o">...</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+    <span class="nc">ClassLoader</span> <span class="n">classLoader</span> <span class="o">=</span> <span class="n">getClassLoader</span><span class="o">();</span>
+    <span class="c1">// Use names and ensure unique to protect against duplicates</span>
+    <span class="c1">//获取指定类型的实现类名称集合</span>
+    <span class="nc">Set</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">names</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">LinkedHashSet</span><span class="o">&lt;&gt;(</span><span class="nc">SpringFactoriesLoader</span><span class="o">.</span><span class="na">loadFactoryNames</span><span class="o">(</span><span class="n">type</span><span class="o">,</span> <span class="n">classLoader</span><span class="o">));</span>
+    <span class="c1">//实例化上面找到的所有实现类</span>
+    <span class="nc">List</span><span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span> <span class="n">instances</span> <span class="o">=</span> <span class="n">createSpringFactoriesInstances</span><span class="o">(</span><span class="n">type</span><span class="o">,</span> <span class="n">parameterTypes</span><span class="o">,</span> <span class="n">classLoader</span><span class="o">,</span> <span class="n">args</span><span class="o">,</span> <span class="n">names</span><span class="o">);</span>
+    <span class="c1">//根据实例的order进行排序</span>
+    <span class="nc">AnnotationAwareOrderComparator</span><span class="o">.</span><span class="na">sort</span><span class="o">(</span><span class="n">instances</span><span class="o">);</span>
+    <span class="k">return</span> <span class="n">instances</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+<p>此方法主要做的就是找到指定类型的实现类并将这些类都进行实例化.我们再来看看它是如何找到这个类的.</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/**
+ * Load the fully qualified class names of factory implementations of the
+ * given type from {@value #FACTORIES_RESOURCE_LOCATION}, using the given
+ * class loader.
+ * 使用给定的类加载器,从 META-INF/spring.factories中加载给定类型的工厂实现的完全限定名
+ * @param factoryType the interface or abstract class representing the factory
+ * @param classLoader the ClassLoader to use for loading resources; can be
+ * {@code null} to use the default
+ * @throws IllegalArgumentException if an error occurs while loading factory names
+ * @see #loadFactories
+ */</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="nf">loadFactoryNames</span><span class="o">(</span><span class="nc">Class</span><span class="o">&lt;?&gt;</span> <span class="n">factoryType</span><span class="o">,</span> <span class="nd">@Nullable</span> <span class="nc">ClassLoader</span> <span class="n">classLoader</span><span class="o">)</span> <span class="o">{</span>
+    <span class="nc">String</span> <span class="n">factoryTypeName</span> <span class="o">=</span> <span class="n">factoryType</span><span class="o">.</span><span class="na">getName</span><span class="o">();</span>
+    <span class="k">return</span> <span class="nf">loadSpringFactories</span><span class="o">(</span><span class="n">classLoader</span><span class="o">).</span><span class="na">getOrDefault</span><span class="o">(</span><span class="n">factoryTypeName</span><span class="o">,</span> <span class="nc">Collections</span><span class="o">.</span><span class="na">emptyList</span><span class="o">());</span>
+<span class="o">}</span>
+
+<span class="cm">/**
+ * The location to look for factories.
+ * 用于查询工厂的位置
+ * &lt;p&gt;Can be present in multiple JAR files.
+ * 可以存在于多个jar文件中
+ */</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">String</span> <span class="no">FACTORIES_RESOURCE_LOCATION</span> <span class="o">=</span> <span class="s">"META-INF/spring.factories"</span><span class="o">;</span>
+
+<span class="kd">private</span> <span class="kd">static</span> <span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;&gt;</span> <span class="nf">loadSpringFactories</span><span class="o">(</span><span class="nd">@Nullable</span> <span class="nc">ClassLoader</span> <span class="n">classLoader</span><span class="o">)</span> <span class="o">{</span>
+    <span class="c1">//首先尝试从缓存中读取,因为该方法执行结束后会将配置文件中所有的信息放到缓存中,如果缓存中有直接返回</span>
+    <span class="nc">MultiValueMap</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">String</span><span class="o">&gt;</span> <span class="n">result</span> <span class="o">=</span> <span class="n">cache</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">classLoader</span><span class="o">);</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">result</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">result</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="k">try</span> <span class="o">{</span>
+        <span class="c1">//读取项目中所有存在 META-INF/spring.factories的URL</span>
+        <span class="nc">Enumeration</span><span class="o">&lt;</span><span class="no">URL</span><span class="o">&gt;</span> <span class="n">urls</span> <span class="o">=</span> <span class="o">(</span><span class="n">classLoader</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">?</span>
+                <span class="n">classLoader</span><span class="o">.</span><span class="na">getResources</span><span class="o">(</span><span class="no">FACTORIES_RESOURCE_LOCATION</span><span class="o">)</span> <span class="o">:</span>
+                <span class="nc">ClassLoader</span><span class="o">.</span><span class="na">getSystemResources</span><span class="o">(</span><span class="no">FACTORIES_RESOURCE_LOCATION</span><span class="o">));</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">LinkedMultiValueMap</span><span class="o">&lt;&gt;();</span>
+        <span class="c1">//读取每一个URL并将属性以K-V的形式保存到Properties中, 再将所有属性保存在result中</span>
+        <span class="k">while</span> <span class="o">(</span><span class="n">urls</span><span class="o">.</span><span class="na">hasMoreElements</span><span class="o">())</span> <span class="o">{</span>
+            <span class="no">URL</span> <span class="n">url</span> <span class="o">=</span> <span class="n">urls</span><span class="o">.</span><span class="na">nextElement</span><span class="o">();</span>
+            <span class="nc">UrlResource</span> <span class="n">resource</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">UrlResource</span><span class="o">(</span><span class="n">url</span><span class="o">);</span>
+            <span class="nc">Properties</span> <span class="n">properties</span> <span class="o">=</span> <span class="nc">PropertiesLoaderUtils</span><span class="o">.</span><span class="na">loadProperties</span><span class="o">(</span><span class="n">resource</span><span class="o">);</span>
+            <span class="k">for</span> <span class="o">(</span><span class="nc">Map</span><span class="o">.</span><span class="na">Entry</span><span class="o">&lt;?,</span> <span class="o">?&gt;</span> <span class="n">entry</span> <span class="o">:</span> <span class="n">properties</span><span class="o">.</span><span class="na">entrySet</span><span class="o">())</span> <span class="o">{</span>
+                <span class="nc">String</span> <span class="n">factoryTypeName</span> <span class="o">=</span> <span class="o">((</span><span class="nc">String</span><span class="o">)</span> <span class="n">entry</span><span class="o">.</span><span class="na">getKey</span><span class="o">()).</span><span class="na">trim</span><span class="o">();</span>
+                <span class="k">for</span> <span class="o">(</span><span class="nc">String</span> <span class="n">factoryImplementationName</span> <span class="o">:</span> <span class="nc">StringUtils</span><span class="o">.</span><span class="na">commaDelimitedListToStringArray</span><span class="o">((</span><span class="nc">String</span><span class="o">)</span> <span class="n">entry</span><span class="o">.</span><span class="na">getValue</span><span class="o">()))</span> <span class="o">{</span>
+                    <span class="n">result</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">factoryTypeName</span><span class="o">,</span> <span class="n">factoryImplementationName</span><span class="o">.</span><span class="na">trim</span><span class="o">());</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="c1">//将result保存到缓存中</span>
+        <span class="n">cache</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">classLoader</span><span class="o">,</span> <span class="n">result</span><span class="o">);</span>
+        <span class="k">return</span> <span class="n">result</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="k">catch</span> <span class="o">(</span><span class="nc">IOException</span> <span class="n">ex</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalArgumentException</span><span class="o">(</span><span class="s">"Unable to load factories from location ["</span> <span class="o">+</span>
+                <span class="no">FACTORIES_RESOURCE_LOCATION</span> <span class="o">+</span> <span class="s">"]"</span><span class="o">,</span> <span class="n">ex</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+<p>通过代码分析发现, <strong>loadSpringFactories</strong> 的主要作用就是读取所有 <strong>META-INF/spring.factories</strong> 中的所有配置信息并保存到缓存中, 并返回指定类型的集合.<br />
+现在我们已经找到指定类的所有实现类了,接下来我们就应该实例化它们.</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span> <span class="nc">List</span><span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span> <span class="nf">createSpringFactoriesInstances</span><span class="o">(</span><span class="nc">Class</span><span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span> <span class="n">type</span><span class="o">,</span> <span class="nc">Class</span><span class="o">&lt;?&gt;[]</span> <span class="n">parameterTypes</span><span class="o">,</span>
+        <span class="nc">ClassLoader</span> <span class="n">classLoader</span><span class="o">,</span> <span class="nc">Object</span><span class="o">[]</span> <span class="n">args</span><span class="o">,</span> <span class="nc">Set</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">names</span><span class="o">)</span> <span class="o">{</span>
+    <span class="nc">List</span><span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span> <span class="n">instances</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;(</span><span class="n">names</span><span class="o">.</span><span class="na">size</span><span class="o">());</span>
+    <span class="k">for</span> <span class="o">(</span><span class="nc">String</span> <span class="n">name</span> <span class="o">:</span> <span class="n">names</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="c1">//加载每一个class类</span>
+            <span class="nc">Class</span><span class="o">&lt;?&gt;</span> <span class="n">instanceClass</span> <span class="o">=</span> <span class="nc">ClassUtils</span><span class="o">.</span><span class="na">forName</span><span class="o">(</span><span class="n">name</span><span class="o">,</span> <span class="n">classLoader</span><span class="o">);</span>
+            <span class="nc">Assert</span><span class="o">.</span><span class="na">isAssignable</span><span class="o">(</span><span class="n">type</span><span class="o">,</span> <span class="n">instanceClass</span><span class="o">);</span>
+            <span class="nc">Constructor</span><span class="o">&lt;?&gt;</span> <span class="n">constructor</span> <span class="o">=</span> <span class="n">instanceClass</span><span class="o">.</span><span class="na">getDeclaredConstructor</span><span class="o">(</span><span class="n">parameterTypes</span><span class="o">);</span>
+            <span class="c1">//使用反射构造该类实例 通常采用默认构造</span>
+            <span class="no">T</span> <span class="n">instance</span> <span class="o">=</span> <span class="o">(</span><span class="no">T</span><span class="o">)</span> <span class="nc">BeanUtils</span><span class="o">.</span><span class="na">instantiateClass</span><span class="o">(</span><span class="n">constructor</span><span class="o">,</span> <span class="n">args</span><span class="o">);</span>
+            <span class="n">instances</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">instance</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">catch</span> <span class="o">(</span><span class="nc">Throwable</span> <span class="n">ex</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalArgumentException</span><span class="o">(</span><span class="s">"Cannot instantiate "</span> <span class="o">+</span> <span class="n">type</span> <span class="o">+</span> <span class="s">" : "</span> <span class="o">+</span> <span class="n">name</span><span class="o">,</span> <span class="n">ex</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="n">instances</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>如果你经常使用反射的话,这段代码就比较容易理解了,无非就是使用反射创建类实例.</p>
+
+<h3 id="总结">总结</h3>
+<hr />
+<p>由上可知,在 <strong>SpringApplication</strong> 构造中主要是做了设置主函数资源、判断当前应用类型和加载并实例化所有 <strong>ApplicationContextInitializer</strong> 和 <strong>ApplicationListener</strong> 的实现类.</p>
+<hr />
+
+<h3 id="扩展">扩展</h3>
+<p>主要就是针对 <strong>ApplicationListener</strong> 和 <strong>ApplicationContextInitializer</strong> 进行扩展.两者扩展类似,那我就以 <strong>ApplicationListener</strong> 为例.</p>
+<ol>
+  <li>第一步肯定是自己创建一个测试类 <strong>MyApplicationListener</strong> 实现 <strong>ApplicationListener</strong> ,这里需要注意下我们需要指定需要监听的事件类型,主要类图见下</li>
+  <li>第二步就是实现需要重写的接口,在接口中添加自己的实现,我们就简单打一行日志</li>
+</ol>
+
+<center>
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/springboot/MyApplicationListener.png">
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="MyApplicationListener" src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/springboot/MyApplicationListener.png" />
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">MyApplicationListener</div>
+    </a>
+</center>
+
+<ol>
+  <li>第三步也就是最重要的一步,你想想我们现在已经自己新建了类,但是应用还是无法找你的类,那么我们就应该让应用扫描到新类,这样才能在调用的时候调用我们自己重写的方法.
+那么就需要我们在 <strong>resources</strong> 目录下新建 <strong>META-INF/spring.factories</strong> 文件,并在该文件中指定你的实现类,这样就能让应用加载到你的类</li>
+</ol>
+
+<center>
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/springboot/spring.factories.png">
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="spring.factories" src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/springboot/spring.factories.png" />
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">spring.factories</div>
+    </a>
+</center>
+
+<p><strong>ApplicationEvent</strong> 对应子类类图如下:</p>
+
+<center>
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/springboot/ApplicationEvent.png">
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="ApplicationEvent" src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/springboot/ApplicationEvent.png" />
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">ApplicationEvent</div>
+    </a>
+</center>
+
+<h3 id="spi机制">SPI机制</h3>
+<hr />
+<h4 id="概念">概念</h4>
+<hr />
+<p>其实上面的加载过程就是SPI机制,SpringBoot加以改造了一下.<br />
+SPI的全名为 Service Provider Interface, 目的是提供接口,让第三方提供自定义实现的服务功能.目前不少框架使用它来做服务的扩展.</p>
+<hr />
+
+<h4 id="实现">实现</h4>
+<hr />
+<p>1.自定义已经接口以及其实现类</p>
+
+<center>
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/springboot/spi基类.png">
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="spi基类" src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/springboot/spi基类.png" />
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">spi基类</div>
+    </a>
+</center>
+
+<p>2.在 <strong>META-INF/services</strong> 目录中创建以接口全限定名命名的文件,文件内容为接口具体实现的全限定名</p>
+
+<center>
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/springboot/services.png">
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="META-INF/services" src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/springboot/services.png" />
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">META-INF/services</div>
+    </a>
+</center>
+
+<p>3.使用 __ServiceLoader.load(Class<T>)__ 类动态加载目录下的实现类</T></p>
+
+<center>
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/springboot/main.png">
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="main" src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/springboot/main.png" />
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">main</div>
+    </a>
+</center>
+
+<p>4.具体实现类必须有一个不带参数的构造方法</p>
+
+<hr />
+
+</p>
+
+                            <div align="center">
+                            <ul class="list-inline item-details">
+                                
+                                    <li>Client:
+                                        <strong><a href="http://startbootstrap.com">SpringBoot</a>
+                                        </strong>
+                                    </li>
+                                
+                                
+                                    <li>Date:
+                                        <strong><a href="http://startbootstrap.com">Sep 2021</a>
+                                        </strong>
+                                    </li>
+                                
+                                
+                                    <li>Service:
+                                        <strong><a href="http://startbootstrap.com">springboot</a>
+                                        </strong>
+                                    </li>
+                                
+                            </ul>
+                            </div>
+                            <div align="center">
+                                <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="portfolio-modal modal fade" id="portfolioModal-10000010" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-content">
             <div class="close-modal" data-dismiss="modal">
@@ -3572,7 +3932,7 @@
                             <div align="center">
                             <h2>SpringBoot启动源码解析(一)</h2>
                             <hr class="star-primary">
-                            <img src="img/portfolio/pexels-david-selbert-6468061.jpg" class="img-responsive img-centered" alt="image-alt">
+                            <img src="img/portfolio/pexels-david-selbert-6468061.jpg" class="img-responsive img-centered" alt="springboot1">
                             
                                 <p>SpringBootApplication注解分析</p>
                             
@@ -4032,7 +4392,7 @@
                             <ul class="list-inline item-details">
                                 
                                     <li>Client:
-                                        <strong><a href="http://startbootstrap.com">Start Bootstrap</a>
+                                        <strong><a href="http://startbootstrap.com">springboot</a>
                                         </strong>
                                     </li>
                                 
