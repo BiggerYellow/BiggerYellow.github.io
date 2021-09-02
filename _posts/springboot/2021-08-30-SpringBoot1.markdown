@@ -244,9 +244,42 @@ public @interface AutoConfigurationPackage {
 }
 ```
 
-可见 __@EnableAutoConfiguration__ 是由 __@AutoConfigurationPackage__ 和 __@Import(AutoConfigurationImportSelector.class)__ 组成, 而 __@AutoConfigurationPackage__ 又是由 __@Import(AutoConfigurationPackages.Registrar.class)__ 组成.    
-所以 __@EnableAutoConfiguration__ 其实就是由两个 __@Import__ 注解组成的, 顾名思义它的作用就是导入指定类的,即 __AutoConfigurationImportSelector.class__ 和 __AutoConfigurationPackages.Registrar.class__ .  
-接下来我们看下这两个类的作用是什么,具体在哪里生效的?  
+可见 __@EnableAutoConfiguration__ 是由 __@AutoConfigurationPackage__ 和 __@Import(AutoConfigurationImportSelector.class)__ 组成, 而 __@AutoConfigurationPackage__ 又是由 __@Import(AutoConfigurationPackages.Registrar.class)__ 组成.  
+所以 __@EnableAutoConfiguration__ 其实就是由两个 __@Import__ 注解组成的, 顾名思义它的作用就是导入指定类的,即 __AutoConfigurationImportSelector.class__ 和 __AutoConfigurationPackages.Registrar.class__ .   
+接下来我们看下这两个类的作用是什么,具体在哪里生效的?    
+首先看下这个两个类的类图,供后面使用  
+<center>
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/springboot/AutoConfigurationImportSelector.jpg">
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="AutoConfigurationImportSelector类图"
+    src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/springboot/AutoConfigurationImportSelector.jpg">
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">AutoConfigurationImportSelector类图</div>
+    </a>
+</center>
+
+主要看实现的 __DeferredImportSelector__ 及其父接口 __ImportSelector__ .    
+__ImportSelector__ :主要作用就是通过 __selectImports__ 方法确定要导入的类,在启动过程中对应导入 __/META_INF/factories__ 中的 __EnableAutoConfiguration.class__ 的子类.  
+__DeferredImportSelector__ :主要作用就是筛选根据父类 __ImportSelector__ 中 __selectImports__ 方法确定要导入的类.  
+
+- - -
+<center>
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/springboot/Registrar.jpg">
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="Registrar类图"
+    src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/springboot/Registrar.jpg">
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">Registrar类图</div>
+    </a>
+</center>
+
+主要看下是实现的 __ImportBeanDefinitionRegistrar__ 和 __DeterminableImports__ 两个类.  
+__ImportBeanDefinitionRegistrar__ :主要作用是在解析 __@Configuration__ 类时,注册额外的bean定义,在启动中对应 __AutoConfigurationPackages.class__ .  
+__DeterminableImports__ :主要作用确定要导入对象的集合.  
 
 ``` java
 //调用路径
