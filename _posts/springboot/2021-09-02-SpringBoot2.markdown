@@ -189,9 +189,11 @@ private <T> List<T> createSpringFactoriesInstances(Class<T> type, Class<?>[] par
 - - -
 
 ### 扩展
+- - -
 主要就是针对 __ApplicationListener__ 和 __ApplicationContextInitializer__ 进行扩展.两者扩展类似,那我就以 __ApplicationListener__ 为例.  
-1. 第一步肯定是自己创建一个测试类 __MyApplicationListener__ 实现 __ApplicationListener__ ,这里需要注意下我们需要指定需要监听的事件类型,主要类图见下  
-2. 第二步就是实现需要重写的接口,在接口中添加自己的实现,我们就简单打一行日志  
+
+1.第一步肯定是自己创建一个测试类 __MyApplicationListener__ 实现 __ApplicationListener__ ,这里需要注意下我们需要指定需要监听的事件类型,主要类图见下  
+2.第二步就是实现需要重写的接口,在接口中添加自己的实现,我们就简单打一行日志  
 
 <center>
     <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/springboot/MyApplicationListener.png">
@@ -205,9 +207,9 @@ private <T> List<T> createSpringFactoriesInstances(Class<T> type, Class<?>[] par
     </a>
 </center>
 
-3. 第三步也就是最重要的一步,你想想我们现在已经自己新建了类,但是应用还是无法找你的类,那么我们就应该让应用扫描到新类,这样才能在调用的时候调用我们自己重写的方法.
-那么就需要我们在 __resources__ 目录下新建 __META-INF/spring.factories__ 文件,并在该文件中指定你的实现类,这样就能让应用加载到你的类 
-
+3.第三步也就是最重要的一步,你想想我们现在已经自己新建了类,但是应用还是无法找你的类,那么我们就应该让应用扫描到新类,这样才能在调用的时候调用我们自己重写的方法.  
+那么就需要我们在 __resources__ 目录下新建 __META-INF/spring.factories__ 文件,并在该文件中指定你的实现类,这样就能让应用加载到你的类  
+ 
 <center>
     <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/springboot/spring.factories.png">
     <img style="border-radius: 0.3125em;
@@ -220,8 +222,8 @@ private <T> List<T> createSpringFactoriesInstances(Class<T> type, Class<?>[] par
     </a>
 </center>
 
+- - -
 __ApplicationEvent__ 对应子类类图如下:
-
 <center>
     <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/springboot/ApplicationEvent.png">
     <img style="border-radius: 0.3125em;

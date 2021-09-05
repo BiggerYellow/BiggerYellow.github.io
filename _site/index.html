@@ -113,6 +113,20 @@
             <div class="portfolio-flex-row">
                 
                     <div class="portfolio-flex-item portfolio-item">
+                        <a href="#portfolioModal-20000003" class="portfolio-link" data-toggle="modal">
+                            <div class="caption">
+                                <div class="caption-content">
+                                    <i class="fa fa-search-plus fa-3x"></i>
+                                    <p>SpringBootApplication Run方法解析</p>
+
+                                </div>
+                            </div>
+                            <img src="img/portfolio/pexels-rachel-claire-5490361.jpg" class="img-responsive" alt="springboot3">
+
+                        </a>
+                    </div>
+                
+                    <div class="portfolio-flex-item portfolio-item">
                         <a href="#portfolioModal-20000002" class="portfolio-link" data-toggle="modal">
                             <div class="caption">
                                 <div class="caption-content">
@@ -432,6 +446,8 @@
                     
                 
                     
+                
+                    
                 <div class="portfolio-flex-item portfolio-item">
                         <a href="#portfolioModal-9" class="portfolio-link" data-toggle="modal">
                             <div class="caption">
@@ -487,6 +503,21 @@
                 </div>
             </div>
             <div class="portfolio-flex-row">
+                
+                    
+                <div class="portfolio-flex-item portfolio-item">
+                        <a href="#portfolioModal-20000003" class="portfolio-link" data-toggle="modal">
+                            <div class="caption">
+                                <div class="caption-content">
+                                    <i class="fa fa-search-plus fa-3x"></i>
+                                    <p>Springboot3</p>
+
+                                </div>
+                            </div>
+                            <img src="img/portfolio/pexels-rachel-claire-5490361.jpg" class="img-responsive" alt="springboot3">
+                        </a>
+                    </div>
+                    
                 
                     
                 <div class="portfolio-flex-item portfolio-item">
@@ -568,6 +599,8 @@
                 </div>
             </div>
             <div class="portfolio-flex-row">
+                
+                    
                 
                     
                 
@@ -795,6 +828,190 @@
 
      <!-- Portfolio Modals -->
  
+    <div class="portfolio-modal modal fade" id="portfolioModal-20000003" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-content">
+            <div class="close-modal" data-dismiss="modal">
+                <div class="lr">
+                    <div class="rl">
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2">
+                        <div class="modal-body">
+                            <div align="center">
+                            <h2>SpringBoot启动源码解析(三)</h2>
+                            <hr class="star-primary">
+                            <img src="img/portfolio/pexels-rachel-claire-5490361.jpg" class="img-responsive img-centered" alt="springboot3">
+                            
+                                <p>SpringBootApplication Run方法解析</p>
+                            
+                            </div>
+
+                            <p><h3 id="run方法入口">Run方法入口</h3>
+<hr />
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/**
+ * Run the Spring application, creating and refreshing a new
+ * {@link ApplicationContext}.
+ * 运行Spring应用，创建和刷新一个新的应用上下文
+ * @param args the application arguments (usually passed from a Java main method)
+ * @return a running {@link ApplicationContext}
+ */</span>
+<span class="kd">public</span> <span class="nc">ConfigurableApplicationContext</span> <span class="nf">run</span><span class="o">(</span><span class="nc">String</span><span class="o">...</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+    <span class="c1">//1.创建启动计时器</span>
+    <span class="nc">StopWatch</span> <span class="n">stopWatch</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">StopWatch</span><span class="o">();</span>
+    <span class="n">stopWatch</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+    <span class="c1">//创建启动上下文并初始化相应的Bootstrapper 目前暂未使用</span>
+    <span class="nc">ConfigurableApplicationContext</span> <span class="n">context</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+    <span class="nc">Collection</span><span class="o">&lt;</span><span class="nc">SpringBootExceptionReporter</span><span class="o">&gt;</span> <span class="n">exceptionReporters</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
+    <span class="c1">//设置系统的配置模式，一般用于服务端开发 默认为true</span>
+    <span class="n">configureHeadlessProperty</span><span class="o">();</span>
+    <span class="c1">//获取spring上下文启动监听者  从META-INF/spring.factories中获取SpringApplicationRunListener的实现类并加载</span>
+    <span class="nc">SpringApplicationRunListeners</span> <span class="n">listeners</span> <span class="o">=</span> <span class="n">getRunListeners</span><span class="o">(</span><span class="n">args</span><span class="o">);</span>
+    <span class="c1">//发布启动中事件</span>
+    <span class="n">listeners</span><span class="o">.</span><span class="na">starting</span><span class="o">();</span>
+    <span class="k">try</span> <span class="o">{</span>
+        <span class="c1">//2.创建默认上下文参数</span>
+        <span class="nc">ApplicationArguments</span> <span class="n">applicationArguments</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">DefaultApplicationArguments</span><span class="o">(</span><span class="n">args</span><span class="o">);</span>
+        <span class="c1">//3.准备环境，将资源属性添加到环境中并与上下文绑定</span>
+        <span class="nc">ConfigurableEnvironment</span> <span class="n">environment</span> <span class="o">=</span> <span class="n">prepareEnvironment</span><span class="o">(</span><span class="n">listeners</span><span class="o">,</span> <span class="n">applicationArguments</span><span class="o">);</span>
+        <span class="c1">//设置spring.beaninfo.ignore中过滤的bean</span>
+        <span class="n">configureIgnoreBeanInfo</span><span class="o">(</span><span class="n">environment</span><span class="o">);</span>
+        <span class="c1">//打印spring标记</span>
+        <span class="nc">Banner</span> <span class="n">printedBanner</span> <span class="o">=</span> <span class="n">printBanner</span><span class="o">(</span><span class="n">environment</span><span class="o">);</span>
+        <span class="c1">//4.根据web应用类型创建指定的应用上下文</span>
+        <span class="c1">//注意:这里反射创建AnnotationConfigServletWebServerApplicationContext时,构造中创建AnnotatedBeanDefinitionReader中的AnnotationConfigUtils.registerAnnotationConfigProcessors(this.registry)方法很重要</span>
+        <span class="c1">//它将几个常见的BeanPostProcessor和BeanFactoryPostProcessor注册到注册表中  最重要的是internalConfigurationAnnotationProcessor来解析Configuration的配置类</span>
+        <span class="n">context</span> <span class="o">=</span> <span class="n">createApplicationContext</span><span class="o">();</span>
+        <span class="n">exceptionReporters</span> <span class="o">=</span> <span class="n">getSpringFactoriesInstances</span><span class="o">(</span><span class="nc">SpringBootExceptionReporter</span><span class="o">.</span><span class="na">class</span><span class="o">,</span>
+                <span class="k">new</span> <span class="nc">Class</span><span class="o">[]</span> <span class="o">{</span> <span class="nc">ConfigurableApplicationContext</span><span class="o">.</span><span class="na">class</span> <span class="o">},</span> <span class="n">context</span><span class="o">);</span>
+        <span class="c1">//5.准备上下文</span>
+        <span class="c1">//主要做了两件事:</span>
+        <span class="c1">// 1.调用前面实例化的ApplicationContextInitializer的initialize方式初始化上下文</span>
+        <span class="c1">// 2.在其中的load方法中将启动主函数bean定义注册到注册表中 beanDefinitionMap</span>
+        <span class="n">prepareContext</span><span class="o">(</span><span class="n">context</span><span class="o">,</span> <span class="n">environment</span><span class="o">,</span> <span class="n">listeners</span><span class="o">,</span> <span class="n">applicationArguments</span><span class="o">,</span> <span class="n">printedBanner</span><span class="o">);</span>
+        <span class="c1">//6.刷新上下文</span>
+        <span class="n">refreshContext</span><span class="o">(</span><span class="n">context</span><span class="o">);</span>
+        <span class="n">afterRefresh</span><span class="o">(</span><span class="n">context</span><span class="o">,</span> <span class="n">applicationArguments</span><span class="o">);</span>
+        <span class="n">stopWatch</span><span class="o">.</span><span class="na">stop</span><span class="o">();</span>
+        <span class="k">if</span> <span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">logStartupInfo</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">new</span> <span class="nf">StartupInfoLogger</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">mainApplicationClass</span><span class="o">).</span><span class="na">logStarted</span><span class="o">(</span><span class="n">getApplicationLog</span><span class="o">(),</span> <span class="n">stopWatch</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="c1">//监听者发布已启动事件</span>
+        <span class="n">listeners</span><span class="o">.</span><span class="na">started</span><span class="o">(</span><span class="n">context</span><span class="o">);</span>
+        <span class="c1">//7.调用所有的ApplicationRunner和CommandLineRunner的实现类</span>
+        <span class="n">callRunners</span><span class="o">(</span><span class="n">context</span><span class="o">,</span> <span class="n">applicationArguments</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="k">catch</span> <span class="o">(</span><span class="nc">Throwable</span> <span class="n">ex</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">handleRunFailure</span><span class="o">(</span><span class="n">context</span><span class="o">,</span> <span class="n">ex</span><span class="o">,</span> <span class="n">exceptionReporters</span><span class="o">,</span> <span class="n">listeners</span><span class="o">);</span>
+        <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalStateException</span><span class="o">(</span><span class="n">ex</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="k">try</span> <span class="o">{</span>
+        <span class="c1">//监听者发布运行中事件</span>
+        <span class="n">listeners</span><span class="o">.</span><span class="na">running</span><span class="o">(</span><span class="n">context</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="k">catch</span> <span class="o">(</span><span class="nc">Throwable</span> <span class="n">ex</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">handleRunFailure</span><span class="o">(</span><span class="n">context</span><span class="o">,</span> <span class="n">ex</span><span class="o">,</span> <span class="n">exceptionReporters</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+        <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalStateException</span><span class="o">(</span><span class="n">ex</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="n">context</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+<p>接下来我们就一些核心方法来仔细分析看看.</p>
+<ol>
+  <li>第一步比较好理解,创建定时器统计启动时间,并获取的事件发布者 <strong>SpringApplicationRunListener</strong> 来发布启动过程中的各个事件,首先发布的就是 <strong>starting</strong> 事件.</li>
+  <li>第二步创建应用参数,默认传入的是空集合,见下源码
+    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="nf">DefaultApplicationArguments</span><span class="o">(</span><span class="nc">String</span><span class="o">...</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+ <span class="nc">Assert</span><span class="o">.</span><span class="na">notNull</span><span class="o">(</span><span class="n">args</span><span class="o">,</span> <span class="s">"Args must not be null"</span><span class="o">);</span>
+ <span class="k">this</span><span class="o">.</span><span class="na">source</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Source</span><span class="o">(</span><span class="n">args</span><span class="o">);</span>
+ <span class="k">this</span><span class="o">.</span><span class="na">args</span> <span class="o">=</span> <span class="n">args</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+  <li>第三步创建环境实例,首先看下 <strong>ConfigurableEnvironment</strong> 相关类图</li>
+</ol>
+<center>
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/springboot/ConfigurableEnvironment.png">
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="ConfigurableEnvironment" src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/springboot/ConfigurableEnvironment.png" />
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">ConfigurableEnvironment</div>
+    </a>
+</center>
+
+<ul>
+  <li>PropertyResolver: 用于针对任何基础源解析属性的接口. 主要提供解析属性和获取属性的方法.</li>
+  <li>ConfigurablePropertyResolver: 提供用于访问和自定义将属性值从一种类型转换为另一种类型时使用的ConversionService的设置.</li>
+  <li>Environment: 应用中表明环境的接口,主要有两个属性: <strong>profile</strong> 和 <strong>properties</strong></li>
+  <li>ConfigurableEnvironment: 继承自 <strong>ConfigurablePropertyResolver</strong> 和 <strong>Environment</strong> ,所以它提供了设置profile和操作底层属性的能力.</li>
+  <li>StandardEnvironment: 继承自 <strong>AbstractEnvironment</strong> 不仅提供了 <strong>ConfigurableEnvironment</strong> 的能力还提供了设置 <strong>systemEnvironment</strong> 和 <strong>systemProperties</strong> 属性源的能力.</li>
+  <li>StandardServletEnvironment: 主要用于 <strong>Servlet</strong> 应用的环境,默认基本都是它.</li>
+  <li>StandardReactiveWebEnvironment: 主要用于 <strong>Reactive</strong> 应用的环境,SpringBoot中是空实现.</li>
+</ul>
+
+<p>相关类及其主要功能了解后,我们在回过头来看看这个 <strong>prepareEnvironment</strong> 方法:</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="nc">ConfigurableEnvironment</span> <span class="nf">prepareEnvironment</span><span class="o">(</span><span class="nc">SpringApplicationRunListeners</span> <span class="n">listeners</span><span class="o">,</span>
+        <span class="nc">ApplicationArguments</span> <span class="n">applicationArguments</span><span class="o">)</span> <span class="o">{</span>
+    <span class="c1">// Create and configure the environment</span>
+    <span class="c1">//3.1根据当前应用类型创建并且配置environment 通常是StandardServletEnvironment</span>
+    <span class="nc">ConfigurableEnvironment</span> <span class="n">environment</span> <span class="o">=</span> <span class="n">getOrCreateEnvironment</span><span class="o">();</span>
+    <span class="c1">//3.2为环境设置属性资源和配置文件</span>
+    <span class="n">configureEnvironment</span><span class="o">(</span><span class="n">environment</span><span class="o">,</span> <span class="n">applicationArguments</span><span class="o">.</span><span class="na">getSourceArgs</span><span class="o">());</span>
+    <span class="c1">//3.3将属性附加到MutablePropertySources中</span>
+    <span class="nc">ConfigurationPropertySources</span><span class="o">.</span><span class="na">attach</span><span class="o">(</span><span class="n">environment</span><span class="o">);</span>
+    <span class="c1">//3.4发布环境准备完成通知</span>
+    <span class="n">listeners</span><span class="o">.</span><span class="na">environmentPrepared</span><span class="o">(</span><span class="n">environment</span><span class="o">);</span>
+    <span class="c1">//3.5将environmrnt绑定到应用中</span>
+    <span class="n">bindToSpringApplication</span><span class="o">(</span><span class="n">environment</span><span class="o">);</span>
+    <span class="k">if</span> <span class="o">(!</span><span class="k">this</span><span class="o">.</span><span class="na">isCustomEnvironment</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">environment</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">EnvironmentConverter</span><span class="o">(</span><span class="n">getClassLoader</span><span class="o">()).</span><span class="na">convertEnvironmentIfNecessary</span><span class="o">(</span><span class="n">environment</span><span class="o">,</span>
+                <span class="n">deduceEnvironmentClass</span><span class="o">());</span>
+    <span class="o">}</span>
+    <span class="c1">//将属性附加到MutablePropertySources中</span>
+    <span class="nc">ConfigurationPropertySources</span><span class="o">.</span><span class="na">attach</span><span class="o">(</span><span class="n">environment</span><span class="o">);</span>
+    <span class="k">return</span> <span class="n">environment</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<hr />
+</p>
+
+                            <div align="center">
+                            <ul class="list-inline item-details">
+                                
+                                    <li>Client:
+                                        <strong><a href="http://startbootstrap.com">springboot</a>
+                                        </strong>
+                                    </li>
+                                
+                                
+                                    <li>Date:
+                                        <strong><a href="http://startbootstrap.com">April 2021</a>
+                                        </strong>
+                                    </li>
+                                
+                                
+                                    <li>Service:
+                                        <strong><a href="http://startbootstrap.com">springboot</a>
+                                        </strong>
+                                    </li>
+                                
+                            </ul>
+                            </div>
+                            <div align="center">
+                                <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="portfolio-modal modal fade" id="portfolioModal-20000002" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-content">
             <div class="close-modal" data-dismiss="modal">
@@ -989,11 +1206,11 @@
 <hr />
 
 <h3 id="扩展">扩展</h3>
+<hr />
 <p>主要就是针对 <strong>ApplicationListener</strong> 和 <strong>ApplicationContextInitializer</strong> 进行扩展.两者扩展类似,那我就以 <strong>ApplicationListener</strong> 为例.</p>
-<ol>
-  <li>第一步肯定是自己创建一个测试类 <strong>MyApplicationListener</strong> 实现 <strong>ApplicationListener</strong> ,这里需要注意下我们需要指定需要监听的事件类型,主要类图见下</li>
-  <li>第二步就是实现需要重写的接口,在接口中添加自己的实现,我们就简单打一行日志</li>
-</ol>
+
+<p>1.第一步肯定是自己创建一个测试类 <strong>MyApplicationListener</strong> 实现 <strong>ApplicationListener</strong> ,这里需要注意下我们需要指定需要监听的事件类型,主要类图见下<br />
+2.第二步就是实现需要重写的接口,在接口中添加自己的实现,我们就简单打一行日志</p>
 
 <center>
     <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/springboot/MyApplicationListener.png">
@@ -1006,10 +1223,8 @@
     </a>
 </center>
 
-<ol>
-  <li>第三步也就是最重要的一步,你想想我们现在已经自己新建了类,但是应用还是无法找你的类,那么我们就应该让应用扫描到新类,这样才能在调用的时候调用我们自己重写的方法.
-那么就需要我们在 <strong>resources</strong> 目录下新建 <strong>META-INF/spring.factories</strong> 文件,并在该文件中指定你的实现类,这样就能让应用加载到你的类</li>
-</ol>
+<p>3.第三步也就是最重要的一步,你想想我们现在已经自己新建了类,但是应用还是无法找你的类,那么我们就应该让应用扫描到新类,这样才能在调用的时候调用我们自己重写的方法.<br />
+那么就需要我们在 <strong>resources</strong> 目录下新建 <strong>META-INF/spring.factories</strong> 文件,并在该文件中指定你的实现类,这样就能让应用加载到你的类</p>
 
 <center>
     <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/springboot/spring.factories.png">
@@ -1022,8 +1237,8 @@
     </a>
 </center>
 
+<hr />
 <p><strong>ApplicationEvent</strong> 对应子类类图如下:</p>
-
 <center>
     <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/springboot/ApplicationEvent.png">
     <img style="border-radius: 0.3125em;
@@ -3424,7 +3639,45 @@ SPI的全名为 Service Provider Interface, 目的是提供接口,让第三方�
   <p>java</p>
 </blockquote>
 
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">quickSort</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">nums</span><span class="o">,</span> <span class="kt">int</span> <span class="n">left</span><span class="o">,</span> <span class="kt">int</span> <span class="n">right</span><span class="o">){</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//解法一</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">quickSort</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">nums</span><span class="o">,</span> <span class="kt">int</span> <span class="n">left</span><span class="o">,</span> <span class="kt">int</span> <span class="n">right</span><span class="o">){</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">right</span> <span class="o">&lt;=</span> <span class="n">left</span><span class="o">)</span> <span class="k">return</span><span class="o">;</span>
+    <span class="kt">int</span> <span class="n">base</span> <span class="o">=</span> <span class="n">division1</span><span class="o">(</span><span class="n">nums</span><span class="o">,</span> <span class="n">left</span><span class="o">,</span> <span class="n">right</span><span class="o">);</span>
+    <span class="n">quickSort1</span><span class="o">(</span><span class="n">nums</span><span class="o">,</span> <span class="n">left</span><span class="o">,</span> <span class="n">base</span><span class="o">-</span><span class="mi">1</span><span class="o">);</span>
+    <span class="n">quickSort1</span><span class="o">(</span><span class="n">nums</span><span class="o">,</span> <span class="n">base</span><span class="o">+</span><span class="mi">1</span><span class="o">,</span> <span class="n">right</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">static</span> <span class="kt">int</span> <span class="nf">division</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">nums</span><span class="o">,</span> <span class="kt">int</span> <span class="n">left</span><span class="o">,</span> <span class="kt">int</span> <span class="n">right</span><span class="o">){</span>
+    <span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="n">left</span><span class="o">,</span> <span class="n">j</span><span class="o">=</span><span class="n">right</span><span class="o">+</span><span class="mi">1</span><span class="o">;</span>
+    <span class="kt">int</span> <span class="n">base</span> <span class="o">=</span> <span class="n">nums</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
+    <span class="k">while</span> <span class="o">(</span><span class="kc">true</span><span class="o">){</span>
+        <span class="k">while</span> <span class="o">(</span><span class="n">base</span> <span class="o">&gt;=</span> <span class="n">nums</span><span class="o">[++</span><span class="n">i</span><span class="o">]){</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">i</span><span class="o">==</span><span class="n">right</span><span class="o">){</span>
+                <span class="k">break</span><span class="o">;</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">while</span> <span class="o">(</span><span class="n">base</span> <span class="o">&lt;=</span> <span class="n">nums</span><span class="o">[--</span><span class="n">j</span><span class="o">]){</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">j</span><span class="o">==</span><span class="n">left</span><span class="o">){</span>
+                <span class="k">break</span><span class="o">;</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">i</span><span class="o">&gt;=</span><span class="n">j</span><span class="o">){</span>
+            <span class="k">break</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="n">exchange</span><span class="o">(</span><span class="n">nums</span><span class="o">,</span> <span class="n">i</span><span class="o">,</span> <span class="n">j</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="n">exchange</span><span class="o">(</span><span class="n">nums</span><span class="o">,</span> <span class="n">left</span><span class="o">,</span> <span class="n">j</span><span class="o">);</span>
+    <span class="k">return</span> <span class="n">j</span><span class="o">;</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">exchange</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">nums</span><span class="o">,</span> <span class="kt">int</span> <span class="n">i</span><span class="o">,</span> <span class="kt">int</span> <span class="n">j</span><span class="o">){</span>
+    <span class="kt">int</span> <span class="n">temp</span> <span class="o">=</span> <span class="n">nums</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
+    <span class="n">nums</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">nums</span><span class="o">[</span><span class="n">j</span><span class="o">];</span>
+    <span class="n">nums</span><span class="o">[</span><span class="n">j</span><span class="o">]</span> <span class="o">=</span> <span class="n">temp</span><span class="o">;</span>
+<span class="o">}</span>
+
+<span class="c1">//解法二</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">quickSort</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">nums</span><span class="o">,</span> <span class="kt">int</span> <span class="n">left</span><span class="o">,</span> <span class="kt">int</span> <span class="n">right</span><span class="o">){</span>
     <span class="k">if</span> <span class="o">(</span><span class="n">left</span><span class="o">&lt;</span> <span class="n">right</span><span class="o">){</span>
         <span class="kt">int</span> <span class="n">base</span> <span class="o">=</span> <span class="n">division</span><span class="o">(</span><span class="n">nums</span><span class="o">,</span> <span class="n">left</span><span class="o">,</span> <span class="n">right</span><span class="o">);</span>
         <span class="n">quickSort</span><span class="o">(</span><span class="n">nums</span><span class="o">,</span> <span class="n">left</span><span class="o">,</span> <span class="n">base</span><span class="o">-</span><span class="mi">1</span><span class="o">);</span>

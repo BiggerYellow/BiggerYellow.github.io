@@ -69,6 +69,44 @@ description: 快速排序
 >java
 
 ``` java
+//解法一
+public static void quickSort(int[] nums, int left, int right){
+    if (right <= left) return;
+    int base = division1(nums, left, right);
+    quickSort1(nums, left, base-1);
+    quickSort1(nums, base+1, right);
+}
+
+public static int division(int[] nums, int left, int right){
+    int i=left, j=right+1;
+    int base = nums[i];
+    while (true){
+        while (base >= nums[++i]){
+            if (i==right){
+                break;
+            }
+        }
+        while (base <= nums[--j]){
+            if (j==left){
+                break;
+            }
+        }
+        if (i>=j){
+            break;
+        }
+        exchange(nums, i, j);
+    }
+    exchange(nums, left, j);
+    return j;
+}
+
+public static void exchange(int[] nums, int i, int j){
+    int temp = nums[i];
+    nums[i] = nums[j];
+    nums[j] = temp;
+}
+
+//解法二
 public static void quickSort(int[] nums, int left, int right){
     if (left< right){
         int base = division(nums, left, right);
