@@ -155,6 +155,20 @@
                     </div>
                 
                     <div class="portfolio-flex-item portfolio-item">
+                        <a href="#portfolioModal-10000011" class="portfolio-link" data-toggle="modal">
+                            <div class="caption">
+                                <div class="caption-content">
+                                    <i class="fa fa-search-plus fa-3x"></i>
+                                    <p>二查叉找树</p>
+
+                                </div>
+                            </div>
+                            <img src="img/portfolio/pexels-julia-volk-5273316.jpg" class="img-responsive" alt="BinarySearchTree">
+
+                        </a>
+                    </div>
+                
+                    <div class="portfolio-flex-item portfolio-item">
                         <a href="#portfolioModal-10000009" class="portfolio-link" data-toggle="modal">
                             <div class="caption">
                                 <div class="caption-content">
@@ -448,6 +462,8 @@
                     
                 
                     
+                
+                    
                 <div class="portfolio-flex-item portfolio-item">
                         <a href="#portfolioModal-9" class="portfolio-link" data-toggle="modal">
                             <div class="caption">
@@ -555,6 +571,8 @@
                     
                 
                     
+                
+                    
                 <div class="portfolio-flex-item portfolio-item">
                         <a href="#portfolioModal-20000001" class="portfolio-link" data-toggle="modal">
                             <div class="caption">
@@ -615,6 +633,21 @@
                                 </div>
                             </div>
                             <img src="img/portfolio/pexels-victoria-borodinova-9201864.jpg" class="img-responsive" alt="BinarySearch">
+                        </a>
+                    </div>
+                    
+                
+                    
+                <div class="portfolio-flex-item portfolio-item">
+                        <a href="#portfolioModal-10000011" class="portfolio-link" data-toggle="modal">
+                            <div class="caption">
+                                <div class="caption-content">
+                                    <i class="fa fa-search-plus fa-3x"></i>
+                                    <p>Binarysearchtree</p>
+
+                                </div>
+                            </div>
+                            <img src="img/portfolio/pexels-julia-volk-5273316.jpg" class="img-responsive" alt="BinarySearchTree">
                         </a>
                     </div>
                     
@@ -962,7 +995,7 @@
     <span class="nc">ConfigurableEnvironment</span> <span class="n">environment</span> <span class="o">=</span> <span class="n">getOrCreateEnvironment</span><span class="o">();</span>
     <span class="c1">//3.2为环境设置属性资源和配置文件</span>
     <span class="n">configureEnvironment</span><span class="o">(</span><span class="n">environment</span><span class="o">,</span> <span class="n">applicationArguments</span><span class="o">.</span><span class="na">getSourceArgs</span><span class="o">());</span>
-    <span class="c1">//3.3将属性附加到MutablePropertySources中</span>
+    <span class="c1">//3.3将已有属性以key为 configurationProperties的形式添加到属性中</span>
     <span class="nc">ConfigurationPropertySources</span><span class="o">.</span><span class="na">attach</span><span class="o">(</span><span class="n">environment</span><span class="o">);</span>
     <span class="c1">//3.4发布环境准备完成通知</span>
     <span class="n">listeners</span><span class="o">.</span><span class="na">environmentPrepared</span><span class="o">(</span><span class="n">environment</span><span class="o">);</span>
@@ -972,13 +1005,442 @@
         <span class="n">environment</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">EnvironmentConverter</span><span class="o">(</span><span class="n">getClassLoader</span><span class="o">()).</span><span class="na">convertEnvironmentIfNecessary</span><span class="o">(</span><span class="n">environment</span><span class="o">,</span>
                 <span class="n">deduceEnvironmentClass</span><span class="o">());</span>
     <span class="o">}</span>
-    <span class="c1">//将属性附加到MutablePropertySources中</span>
+    <span class="c1">//3.6 再次将已有属性以key为 configurationProperties的形式添加到属性中</span>
     <span class="nc">ConfigurationPropertySources</span><span class="o">.</span><span class="na">attach</span><span class="o">(</span><span class="n">environment</span><span class="o">);</span>
     <span class="k">return</span> <span class="n">environment</span><span class="o">;</span>
 <span class="o">}</span>
 </code></pre></div></div>
 
+<p>3.1 首先是创建并获取环境实例,源码如下:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="nc">ConfigurableEnvironment</span> <span class="nf">getOrCreateEnvironment</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">environment</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="k">this</span><span class="o">.</span><span class="na">environment</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="k">switch</span> <span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">webApplicationType</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">case</span> <span class="nl">SERVLET:</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">StandardServletEnvironment</span><span class="o">();</span>
+    <span class="k">case</span> <span class="nl">REACTIVE:</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">StandardReactiveWebEnvironment</span><span class="o">();</span>
+    <span class="k">default</span><span class="o">:</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">StandardEnvironment</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>因为我们当前应用类型是 <strong>Servlet</strong> ,所以我们需要对应就是创建 <strong>StandardServletEnvironment</strong> 实例.我们继续看下对应的构造方法:</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//因为 StandardServletEnvironment extends StandardEnvironment 且 StandardEnvironment extends AbstractEnvironment</span>
+<span class="c1">//我们看下父类AbstractEnvironment的构造</span>
+<span class="cm">/**
+ * Create a new {@code Environment} instance, calling back to
+ * {@link #customizePropertySources(MutablePropertySources)} during construction to
+ * allow subclasses to contribute or manipulate {@link PropertySource} instances as
+ * appropriate.
+ * 创建一个新的Environment实例, 在构造期间回调customizePropertySources方法以允许子类根据需要贡献或操作 PropertySource实例
+ * @see #customizePropertySources(MutablePropertySources)
+ */</span>
+<span class="kd">public</span> <span class="nf">AbstractEnvironment</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">customizePropertySources</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">propertySources</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="c1">//StandardServletEnvironment中重写的customizePropertySourcesf方法</span>
+<span class="cm">/** Servlet context init parameters property source name: {@value}. */</span>
+<span class="c1">//Servlet上下文初始化参数属性源名称</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">String</span> <span class="no">SERVLET_CONTEXT_PROPERTY_SOURCE_NAME</span> <span class="o">=</span> <span class="s">"servletContextInitParams"</span><span class="o">;</span>
+
+<span class="cm">/** Servlet config init parameters property source name: {@value}. */</span>
+<span class="c1">//Serlet配置初始化参数属性源名称</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">String</span> <span class="no">SERVLET_CONFIG_PROPERTY_SOURCE_NAME</span> <span class="o">=</span> <span class="s">"servletConfigInitParams"</span><span class="o">;</span>
+
+<span class="cm">/** JNDI property source name: {@value}. */</span>
+<span class="c1">//JNDI属性源名称</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">String</span> <span class="no">JNDI_PROPERTY_SOURCE_NAME</span> <span class="o">=</span> <span class="s">"jndiProperties"</span><span class="o">;</span>
+
+<span class="cm">/**
+ * Customize the set of property sources with those contributed by superclasses as
+ * well as those appropriate for standard servlet-based environments:
+ * 使用超类提供的属性源以及适用于基于servlet的标准环境的属性源自定义一组属性源:
+ * &lt;ul&gt;
+ * &lt;li&gt;{@value #SERVLET_CONFIG_PROPERTY_SOURCE_NAME}
+ * &lt;li&gt;{@value #SERVLET_CONTEXT_PROPERTY_SOURCE_NAME}
+ * &lt;li&gt;{@value #JNDI_PROPERTY_SOURCE_NAME}
+ * &lt;/ul&gt;
+ */</span>
+<span class="nd">@Override</span>
+<span class="kd">protected</span> <span class="kt">void</span> <span class="nf">customizePropertySources</span><span class="o">(</span><span class="nc">MutablePropertySources</span> <span class="n">propertySources</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">propertySources</span><span class="o">.</span><span class="na">addLast</span><span class="o">(</span><span class="k">new</span> <span class="nc">StubPropertySource</span><span class="o">(</span><span class="no">SERVLET_CONFIG_PROPERTY_SOURCE_NAME</span><span class="o">));</span>
+    <span class="n">propertySources</span><span class="o">.</span><span class="na">addLast</span><span class="o">(</span><span class="k">new</span> <span class="nc">StubPropertySource</span><span class="o">(</span><span class="no">SERVLET_CONTEXT_PROPERTY_SOURCE_NAME</span><span class="o">));</span>
+    <span class="k">if</span> <span class="o">(</span><span class="nc">JndiLocatorDelegate</span><span class="o">.</span><span class="na">isDefaultJndiEnvironmentAvailable</span><span class="o">())</span> <span class="o">{</span>
+        <span class="n">propertySources</span><span class="o">.</span><span class="na">addLast</span><span class="o">(</span><span class="k">new</span> <span class="nc">JndiPropertySource</span><span class="o">(</span><span class="no">JNDI_PROPERTY_SOURCE_NAME</span><span class="o">));</span>
+    <span class="o">}</span>
+    <span class="kd">super</span><span class="o">.</span><span class="na">customizePropertySources</span><span class="o">(</span><span class="n">propertySources</span><span class="o">);</span>
+<span class="o">}</span>
+
+
+<span class="c1">//StandardEnvironment中重写的customizePropertySources方法</span>
+<span class="cm">/** System environment property source name: {@value}. */</span>
+<span class="c1">//系统环境属性源名称</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">String</span> <span class="no">SYSTEM_ENVIRONMENT_PROPERTY_SOURCE_NAME</span> <span class="o">=</span> <span class="s">"systemEnvironment"</span><span class="o">;</span>
+
+<span class="cm">/** JVM system properties property source name: {@value}. */</span>
+<span class="c1">//JVM系统属性源名称</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">String</span> <span class="no">SYSTEM_PROPERTIES_PROPERTY_SOURCE_NAME</span> <span class="o">=</span> <span class="s">"systemProperties"</span><span class="o">;</span>
+
+<span class="cm">/**
+ * Customize the set of property sources with those appropriate for any standard
+ * Java environment:
+ * 使用适用于任何java标准环境的自定义属性源集合
+ * &lt;ul&gt;
+ * &lt;li&gt;{@value #SYSTEM_PROPERTIES_PROPERTY_SOURCE_NAME}
+ * &lt;li&gt;{@value #SYSTEM_ENVIRONMENT_PROPERTY_SOURCE_NAME}
+ * &lt;/ul&gt;
+ */</span>
+<span class="nd">@Override</span>
+<span class="kd">protected</span> <span class="kt">void</span> <span class="nf">customizePropertySources</span><span class="o">(</span><span class="nc">MutablePropertySources</span> <span class="n">propertySources</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">propertySources</span><span class="o">.</span><span class="na">addLast</span><span class="o">(</span>
+            <span class="k">new</span> <span class="nf">PropertiesPropertySource</span><span class="o">(</span><span class="no">SYSTEM_PROPERTIES_PROPERTY_SOURCE_NAME</span><span class="o">,</span> <span class="n">getSystemProperties</span><span class="o">()));</span>
+    <span class="n">propertySources</span><span class="o">.</span><span class="na">addLast</span><span class="o">(</span>
+            <span class="k">new</span> <span class="nf">SystemEnvironmentPropertySource</span><span class="o">(</span><span class="no">SYSTEM_ENVIRONMENT_PROPERTY_SOURCE_NAME</span><span class="o">,</span> <span class="n">getSystemEnvironment</span><span class="o">()));</span>
+<span class="o">}</span>
+</code></pre></div></div>
+<p>可见在创建 <strong>StandardServletEnvironment</strong> 实例时将 <strong>servletContextInitParams</strong> 、 <strong>servletConfigInitParams</strong> 、<strong>systemEnvironment</strong> 和 <strong>systemProperties</strong> 四种属性添加到环境实例中.</p>
+
+<p>3.2 设置环境属性资源和配置文件,源码如下</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/**
+ * Template method delegating to
+ * {@link #configurePropertySources(ConfigurableEnvironment, String[])} and
+ * {@link #configureProfiles(ConfigurableEnvironment, String[])} in that order.
+ * Override this method for complete control over Environment customization, or one of
+ * the above for fine-grained control over property sources or profiles, respectively.
+ * 按照configurePropertySources和configureProfiles的顺序委托给他们的模板方法.
+ * 覆盖此方法以完全控制环境自定义,或上述方法之一以分别对属性源或配置文件进行细粒度控制
+ */</span>
+<span class="kd">protected</span> <span class="kt">void</span> <span class="nf">configureEnvironment</span><span class="o">(</span><span class="nc">ConfigurableEnvironment</span> <span class="n">environment</span><span class="o">,</span> <span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+    <span class="c1">//添加类型装换服务</span>
+    <span class="k">if</span> <span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">addConversionService</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">//使用双层检查创建类型转换服务单例</span>
+        <span class="nc">ConversionService</span> <span class="n">conversionService</span> <span class="o">=</span> <span class="nc">ApplicationConversionService</span><span class="o">.</span><span class="na">getSharedInstance</span><span class="o">();</span>
+        <span class="n">environment</span><span class="o">.</span><span class="na">setConversionService</span><span class="o">((</span><span class="nc">ConfigurableConversionService</span><span class="o">)</span> <span class="n">conversionService</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="c1">//配置属性源</span>
+    <span class="n">configurePropertySources</span><span class="o">(</span><span class="n">environment</span><span class="o">,</span> <span class="n">args</span><span class="o">);</span>
+    <span class="c1">//配置配置文件</span>
+    <span class="n">configureProfiles</span><span class="o">(</span><span class="n">environment</span><span class="o">,</span> <span class="n">args</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="cm">/**
+ * Return a shared default application {@code ConversionService} instance, lazily
+ * building it once needed.
+ * 使用懒加载的方式创建并返回一个共享的默认应用转换实例
+ * 双重检查锁
+ */</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="nc">ConversionService</span> <span class="nf">getSharedInstance</span><span class="o">()</span> <span class="o">{</span>
+    <span class="nc">ApplicationConversionService</span> <span class="n">sharedInstance</span> <span class="o">=</span> <span class="nc">ApplicationConversionService</span><span class="o">.</span><span class="na">sharedInstance</span><span class="o">;</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">sharedInstance</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">synchronized</span> <span class="o">(</span><span class="nc">ApplicationConversionService</span><span class="o">.</span><span class="na">class</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">sharedInstance</span> <span class="o">=</span> <span class="nc">ApplicationConversionService</span><span class="o">.</span><span class="na">sharedInstance</span><span class="o">;</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">sharedInstance</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">sharedInstance</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ApplicationConversionService</span><span class="o">();</span>
+                <span class="nc">ApplicationConversionService</span><span class="o">.</span><span class="na">sharedInstance</span> <span class="o">=</span> <span class="n">sharedInstance</span><span class="o">;</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="n">sharedInstance</span><span class="o">;</span>
+<span class="o">}</span>
+
+<span class="cm">/**
+ * Add, remove or re-order any {@link PropertySource}s in this application's
+ * environment.
+ * 在应用环境中 添加、删除或重排序任何 PropertySources
+ */</span>
+<span class="kd">protected</span> <span class="kt">void</span> <span class="nf">configurePropertySources</span><span class="o">(</span><span class="nc">ConfigurableEnvironment</span> <span class="n">environment</span><span class="o">,</span> <span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+    <span class="c1">//获取当前环境实例已有的属性源</span>
+    <span class="nc">MutablePropertySources</span> <span class="n">sources</span> <span class="o">=</span> <span class="n">environment</span><span class="o">.</span><span class="na">getPropertySources</span><span class="o">();</span>
+    <span class="c1">//若存在defaultProperties且不为空则添加到当前环境实例中  默认为空 直接跳过</span>
+    <span class="k">if</span> <span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">defaultProperties</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="k">this</span><span class="o">.</span><span class="na">defaultProperties</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">())</span> <span class="o">{</span>
+        <span class="n">sources</span><span class="o">.</span><span class="na">addLast</span><span class="o">(</span><span class="k">new</span> <span class="nc">MapPropertySource</span><span class="o">(</span><span class="s">"defaultProperties"</span><span class="o">,</span> <span class="k">this</span><span class="o">.</span><span class="na">defaultProperties</span><span class="o">));</span>
+    <span class="o">}</span>
+    <span class="c1">//是否打开添加命令行属性  且 存在输入的参数  默认无入参 直接跳过</span>
+    <span class="k">if</span> <span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">addCommandLineProperties</span> <span class="o">&amp;&amp;</span> <span class="n">args</span><span class="o">.</span><span class="na">length</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">String</span> <span class="n">name</span> <span class="o">=</span> <span class="nc">CommandLinePropertySource</span><span class="o">.</span><span class="na">COMMAND_LINE_PROPERTY_SOURCE_NAME</span><span class="o">;</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">sources</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="n">name</span><span class="o">))</span> <span class="o">{</span>
+            <span class="nc">PropertySource</span><span class="o">&lt;?&gt;</span> <span class="n">source</span> <span class="o">=</span> <span class="n">sources</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">name</span><span class="o">);</span>
+            <span class="nc">CompositePropertySource</span> <span class="n">composite</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">CompositePropertySource</span><span class="o">(</span><span class="n">name</span><span class="o">);</span>
+            <span class="n">composite</span><span class="o">.</span><span class="na">addPropertySource</span><span class="o">(</span>
+                    <span class="k">new</span> <span class="nf">SimpleCommandLinePropertySource</span><span class="o">(</span><span class="s">"springApplicationCommandLineArgs"</span><span class="o">,</span> <span class="n">args</span><span class="o">));</span>
+            <span class="n">composite</span><span class="o">.</span><span class="na">addPropertySource</span><span class="o">(</span><span class="n">source</span><span class="o">);</span>
+            <span class="n">sources</span><span class="o">.</span><span class="na">replace</span><span class="o">(</span><span class="n">name</span><span class="o">,</span> <span class="n">composite</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">else</span> <span class="o">{</span>
+            <span class="n">sources</span><span class="o">.</span><span class="na">addFirst</span><span class="o">(</span><span class="k">new</span> <span class="nc">SimpleCommandLinePropertySource</span><span class="o">(</span><span class="n">args</span><span class="o">));</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="cm">/**
+ * Configure which profiles are active (or active by default) for this application
+ * environment. Additional profiles may be activated during configuration file
+ * processing via the {@code spring.profiles.active} property.
+ * 为该应用程序配置哪些配置文件是活动的(默认是活动的).
+ * 在配置文件处理期间可以通过spring.profiles.active属性来激活其他配置文件
+ */</span>
+<span class="kd">protected</span> <span class="kt">void</span> <span class="nf">configureProfiles</span><span class="o">(</span><span class="nc">ConfigurableEnvironment</span> <span class="n">environment</span><span class="o">,</span> <span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+    <span class="c1">//默认additionalProfiles 为空</span>
+    <span class="nc">Set</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">profiles</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">LinkedHashSet</span><span class="o">&lt;&gt;(</span><span class="k">this</span><span class="o">.</span><span class="na">additionalProfiles</span><span class="o">);</span>
+    <span class="n">profiles</span><span class="o">.</span><span class="na">addAll</span><span class="o">(</span><span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="n">environment</span><span class="o">.</span><span class="na">getActiveProfiles</span><span class="o">()));</span>
+    <span class="n">environment</span><span class="o">.</span><span class="na">setActiveProfiles</span><span class="o">(</span><span class="nc">StringUtils</span><span class="o">.</span><span class="na">toStringArray</span><span class="o">(</span><span class="n">profiles</span><span class="o">));</span>
+<span class="o">}</span>
+</code></pre></div></div>
+<p>由上可见,第二步主要就是为环境实例添加转换服务、配置属性源和配置文件.</p>
+
+<p>3.3 第三步的源码如下:</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="cm">/**
+ * The name of the {@link PropertySource} {@link #attach(Environment) adapter}.
+ * 属性源适配器的名称
+ */</span>
+<span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">String</span> <span class="no">ATTACHED_PROPERTY_SOURCE_NAME</span> <span class="o">=</span> <span class="s">"configurationProperties"</span><span class="o">;</span>
+
+<span class="cm">/**
+ * Attach a {@link ConfigurationPropertySource} support to the specified
+ * {@link Environment}. Adapts each {@link PropertySource} managed by the environment
+ * to a {@link ConfigurationPropertySource} and allows classic
+ * {@link PropertySourcesPropertyResolver} calls to resolve using
+ * {@link ConfigurationPropertyName configuration property names}.
+ * 将ConfigurationPropertySource支持附加到指定的环境中.
+ * 使由环境管理的每个PropertySource适应ConfigurationPropertySource, 并允许经典的PropertySourcesPropertyResolver调用使用名称解析
+ */</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">attach</span><span class="o">(</span><span class="nc">Environment</span> <span class="n">environment</span><span class="o">)</span> <span class="o">{</span>
+    <span class="nc">Assert</span><span class="o">.</span><span class="na">isInstanceOf</span><span class="o">(</span><span class="nc">ConfigurableEnvironment</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">environment</span><span class="o">);</span>
+    <span class="c1">//判断当前环境实例中 是否存在configurationProperties属性源</span>
+    <span class="c1">//若存在且环境中属性源不等于他本身,则清除configurationProperties属性源, 并将configurationProperties属性源再次添加到sources中</span>
+    <span class="c1">//如果不存在的话直接直接将configurationProperties属性源添加到sources中</span>
+    <span class="nc">MutablePropertySources</span> <span class="n">sources</span> <span class="o">=</span> <span class="o">((</span><span class="nc">ConfigurableEnvironment</span><span class="o">)</span> <span class="n">environment</span><span class="o">).</span><span class="na">getPropertySources</span><span class="o">();</span>
+    <span class="nc">PropertySource</span><span class="o">&lt;?&gt;</span> <span class="n">attached</span> <span class="o">=</span> <span class="n">sources</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="no">ATTACHED_PROPERTY_SOURCE_NAME</span><span class="o">);</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">attached</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">attached</span><span class="o">.</span><span class="na">getSource</span><span class="o">()</span> <span class="o">!=</span> <span class="n">sources</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">sources</span><span class="o">.</span><span class="na">remove</span><span class="o">(</span><span class="no">ATTACHED_PROPERTY_SOURCE_NAME</span><span class="o">);</span>
+        <span class="n">attached</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">attached</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">sources</span><span class="o">.</span><span class="na">addFirst</span><span class="o">(</span><span class="k">new</span> <span class="nc">ConfigurationPropertySourcesPropertySource</span><span class="o">(</span><span class="no">ATTACHED_PROPERTY_SOURCE_NAME</span><span class="o">,</span>
+                <span class="k">new</span> <span class="nf">SpringConfigurationPropertySources</span><span class="o">(</span><span class="n">sources</span><span class="o">)));</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+<p>由上可见,第三步的主要作用就是配置 <strong>configurationProperties</strong> 属性源,为后面的绑定到 <strong>SpringApplication</strong> 而准备.</p>
+
+<p>3.4 第四步就是发布环境准备就绪事件,这里有个监听器比较重要: <strong>ConfigFileApplicationListener</strong> ,我们来看下源码</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//ConfigFileApplicationListener implements EnvironmentPostProcessor, SmartApplicationListener, Ordered {</span>
+<span class="c1">//先看下它的类关系, 它实现自EnvironmentPostProcessor, 即它重写的postProcessEnvironment方法</span>
+
+<span class="nd">@Override</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">onApplicationEvent</span><span class="o">(</span><span class="nc">ApplicationEvent</span> <span class="n">event</span><span class="o">)</span> <span class="o">{</span>
+    <span class="c1">//当前发布的事件属于ApplicationEnvironmentPreparedEvent 继续往下周</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">event</span> <span class="k">instanceof</span> <span class="nc">ApplicationEnvironmentPreparedEvent</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">onApplicationEnvironmentPreparedEvent</span><span class="o">((</span><span class="nc">ApplicationEnvironmentPreparedEvent</span><span class="o">)</span> <span class="n">event</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">event</span> <span class="k">instanceof</span> <span class="nc">ApplicationPreparedEvent</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">onApplicationPreparedEvent</span><span class="o">(</span><span class="n">event</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="c1">//可见获取的是/META-INF/spring.factories中的所有EnvironmentPostProcessor的实现类, 所以此类ConfigFileApplicationListener也在其中</span>
+<span class="nc">List</span><span class="o">&lt;</span><span class="nc">EnvironmentPostProcessor</span><span class="o">&gt;</span> <span class="nf">loadPostProcessors</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="nc">SpringFactoriesLoader</span><span class="o">.</span><span class="na">loadFactories</span><span class="o">(</span><span class="nc">EnvironmentPostProcessor</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">getClass</span><span class="o">().</span><span class="na">getClassLoader</span><span class="o">());</span>
+<span class="o">}</span>
+
+<span class="kd">private</span> <span class="kt">void</span> <span class="nf">onApplicationEnvironmentPreparedEvent</span><span class="o">(</span><span class="nc">ApplicationEnvironmentPreparedEvent</span> <span class="n">event</span><span class="o">)</span> <span class="o">{</span>
+    <span class="c1">//这段就比较好理解了就是使用所有EnvironmentPostProcessor的后置处理器来处理环境实例</span>
+    <span class="nc">List</span><span class="o">&lt;</span><span class="nc">EnvironmentPostProcessor</span><span class="o">&gt;</span> <span class="n">postProcessors</span> <span class="o">=</span> <span class="n">loadPostProcessors</span><span class="o">();</span>
+    <span class="n">postProcessors</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+    <span class="nc">AnnotationAwareOrderComparator</span><span class="o">.</span><span class="na">sort</span><span class="o">(</span><span class="n">postProcessors</span><span class="o">);</span>
+    <span class="k">for</span> <span class="o">(</span><span class="nc">EnvironmentPostProcessor</span> <span class="n">postProcessor</span> <span class="o">:</span> <span class="n">postProcessors</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">postProcessor</span><span class="o">.</span><span class="na">postProcessEnvironment</span><span class="o">(</span><span class="n">event</span><span class="o">.</span><span class="na">getEnvironment</span><span class="o">(),</span> <span class="n">event</span><span class="o">.</span><span class="na">getSpringApplication</span><span class="o">());</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="c1">//具体后置处理器逻辑 其中最重要的就是加载了application.properties属性源</span>
+<span class="nd">@Override</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">postProcessEnvironment</span><span class="o">(</span><span class="nc">ConfigurableEnvironment</span> <span class="n">environment</span><span class="o">,</span> <span class="nc">SpringApplication</span> <span class="n">application</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">addPropertySources</span><span class="o">(</span><span class="n">environment</span><span class="o">,</span> <span class="n">application</span><span class="o">.</span><span class="na">getResourceLoader</span><span class="o">());</span>
+<span class="o">}</span>
+
+<span class="cm">/**
+ * Add config file property sources to the specified environment.
+ * 添加配置文件属性源到指定的环境实例中 其实这里就加载了random和applcation.properties两个属性源
+ */</span>
+<span class="kd">protected</span> <span class="kt">void</span> <span class="nf">addPropertySources</span><span class="o">(</span><span class="nc">ConfigurableEnvironment</span> <span class="n">environment</span><span class="o">,</span> <span class="nc">ResourceLoader</span> <span class="n">resourceLoader</span><span class="o">)</span> <span class="o">{</span>
+    <span class="c1">//添加random属性源</span>
+    <span class="nc">RandomValuePropertySource</span><span class="o">.</span><span class="na">addToEnvironment</span><span class="o">(</span><span class="n">environment</span><span class="o">);</span>
+    <span class="c1">//创建Loader加载器并加载属性</span>
+    <span class="k">new</span> <span class="nf">Loader</span><span class="o">(</span><span class="n">environment</span><span class="o">,</span> <span class="n">resourceLoader</span><span class="o">).</span><span class="na">load</span><span class="o">();</span>
+<span class="o">}</span>
+
+<span class="nc">Loader</span><span class="o">(</span><span class="nc">ConfigurableEnvironment</span> <span class="n">environment</span><span class="o">,</span> <span class="nc">ResourceLoader</span> <span class="n">resourceLoader</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">environment</span> <span class="o">=</span> <span class="n">environment</span><span class="o">;</span>
+    <span class="c1">//创建属性解析器 解析 ${}</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">placeholdersResolver</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">PropertySourcesPlaceholdersResolver</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">environment</span><span class="o">);</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">resourceLoader</span> <span class="o">=</span> <span class="o">(</span><span class="n">resourceLoader</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">?</span> <span class="n">resourceLoader</span> <span class="o">:</span> <span class="k">new</span> <span class="nc">DefaultResourceLoader</span><span class="o">();</span>
+    <span class="c1">//这里最重要,加载/META-INF/spring.factories中的PropertySourceLoader的实现类</span>
+    <span class="c1">//默认是org.springframework.boot.env.PropertiesPropertySourceLoader,org.springframework.boot.env.YamlPropertySourceLoader 其实就是我们应用种配置的 .properties和 .yml配置文件</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">propertySourceLoaders</span> <span class="o">=</span> <span class="nc">SpringFactoriesLoader</span><span class="o">.</span><span class="na">loadFactories</span><span class="o">(</span><span class="nc">PropertySourceLoader</span><span class="o">.</span><span class="na">class</span><span class="o">,</span>
+            <span class="n">getClass</span><span class="o">().</span><span class="na">getClassLoader</span><span class="o">());</span>
+<span class="o">}</span>
+
+<span class="c1">//再来看下真正的load方法</span>
+<span class="kt">void</span> <span class="nf">load</span><span class="o">()</span> <span class="o">{</span>
+    <span class="nc">FilteredPropertySource</span><span class="o">.</span><span class="na">apply</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">environment</span><span class="o">,</span> <span class="no">DEFAULT_PROPERTIES</span><span class="o">,</span> <span class="no">LOAD_FILTERED_PROPERTY</span><span class="o">,</span>
+            <span class="o">(</span><span class="n">defaultProperties</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span>
+                <span class="k">this</span><span class="o">.</span><span class="na">profiles</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">LinkedList</span><span class="o">&lt;&gt;();</span>
+                <span class="k">this</span><span class="o">.</span><span class="na">processedProfiles</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">LinkedList</span><span class="o">&lt;&gt;();</span>
+                <span class="k">this</span><span class="o">.</span><span class="na">activatedProfiles</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+                <span class="k">this</span><span class="o">.</span><span class="na">loaded</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">LinkedHashMap</span><span class="o">&lt;&gt;();</span>
+                <span class="c1">//初始化Profiles 默认初始化default</span>
+                <span class="n">initializeProfiles</span><span class="o">();</span>
+                <span class="k">while</span> <span class="o">(!</span><span class="k">this</span><span class="o">.</span><span class="na">profiles</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">())</span> <span class="o">{</span>
+                    <span class="nc">Profile</span> <span class="n">profile</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">profiles</span><span class="o">.</span><span class="na">poll</span><span class="o">();</span>
+                    <span class="k">if</span> <span class="o">(</span><span class="n">isDefaultProfile</span><span class="o">(</span><span class="n">profile</span><span class="o">))</span> <span class="o">{</span>
+                        <span class="n">addProfileToEnvironment</span><span class="o">(</span><span class="n">profile</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
+                    <span class="o">}</span>
+                    <span class="c1">//根据指定的profile加载资源</span>
+                    <span class="n">load</span><span class="o">(</span><span class="n">profile</span><span class="o">,</span> <span class="k">this</span><span class="o">::</span><span class="n">getPositiveProfileFilter</span><span class="o">,</span>
+                            <span class="n">addToLoaded</span><span class="o">(</span><span class="nl">MutablePropertySources:</span><span class="o">:</span><span class="n">addLast</span><span class="o">,</span> <span class="kc">false</span><span class="o">));</span>
+                    <span class="k">this</span><span class="o">.</span><span class="na">processedProfiles</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">profile</span><span class="o">);</span>
+                <span class="o">}</span>
+                <span class="n">load</span><span class="o">(</span><span class="kc">null</span><span class="o">,</span> <span class="k">this</span><span class="o">::</span><span class="n">getNegativeProfileFilter</span><span class="o">,</span> <span class="n">addToLoaded</span><span class="o">(</span><span class="nl">MutablePropertySources:</span><span class="o">:</span><span class="n">addFirst</span><span class="o">,</span> <span class="kc">true</span><span class="o">));</span>
+                <span class="c1">//将加载过的资源添加到环境中</span>
+                <span class="n">addLoadedPropertySources</span><span class="o">();</span>
+                <span class="c1">//应用激活的profiles</span>
+                <span class="n">applyActiveProfiles</span><span class="o">(</span><span class="n">defaultProperties</span><span class="o">);</span>
+            <span class="o">});</span>
+<span class="o">}</span>
+
+<span class="kd">private</span> <span class="kt">void</span> <span class="nf">load</span><span class="o">(</span><span class="nc">Profile</span> <span class="n">profile</span><span class="o">,</span> <span class="nc">DocumentFilterFactory</span> <span class="n">filterFactory</span><span class="o">,</span> <span class="nc">DocumentConsumer</span> <span class="n">consumer</span><span class="o">)</span> <span class="o">{</span>
+    <span class="c1">//getSearchLocations()是获取搜索路径,默认是这个四个classpath:/,classpath:/config/,file:./,file:./config/</span>
+    <span class="n">getSearchLocations</span><span class="o">().</span><span class="na">forEach</span><span class="o">((</span><span class="n">location</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span>
+        <span class="c1">//判断是否文件夹</span>
+        <span class="kt">boolean</span> <span class="n">isFolder</span> <span class="o">=</span> <span class="n">location</span><span class="o">.</span><span class="na">endsWith</span><span class="o">(</span><span class="s">"/"</span><span class="o">);</span>
+        <span class="nc">Set</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">names</span> <span class="o">=</span> <span class="n">isFolder</span> <span class="o">?</span> <span class="n">getSearchNames</span><span class="o">()</span> <span class="o">:</span> <span class="no">NO_SEARCH_NAMES</span><span class="o">;</span>
+        <span class="c1">//具体的加载动作</span>
+        <span class="n">names</span><span class="o">.</span><span class="na">forEach</span><span class="o">((</span><span class="n">name</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">load</span><span class="o">(</span><span class="n">location</span><span class="o">,</span> <span class="n">name</span><span class="o">,</span> <span class="n">profile</span><span class="o">,</span> <span class="n">filterFactory</span><span class="o">,</span> <span class="n">consumer</span><span class="o">));</span>
+    <span class="o">});</span>
+<span class="o">}</span>
+
+<span class="kd">private</span> <span class="kt">void</span> <span class="nf">load</span><span class="o">(</span><span class="nc">String</span> <span class="n">location</span><span class="o">,</span> <span class="nc">String</span> <span class="n">name</span><span class="o">,</span> <span class="nc">Profile</span> <span class="n">profile</span><span class="o">,</span> <span class="nc">DocumentFilterFactory</span> <span class="n">filterFactory</span><span class="o">,</span>
+            <span class="nc">DocumentConsumer</span> <span class="n">consumer</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(!</span><span class="nc">StringUtils</span><span class="o">.</span><span class="na">hasText</span><span class="o">(</span><span class="n">name</span><span class="o">))</span> <span class="o">{</span>
+            <span class="k">for</span> <span class="o">(</span><span class="nc">PropertySourceLoader</span> <span class="n">loader</span> <span class="o">:</span> <span class="k">this</span><span class="o">.</span><span class="na">propertySourceLoaders</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">canLoadFileExtension</span><span class="o">(</span><span class="n">loader</span><span class="o">,</span> <span class="n">location</span><span class="o">))</span> <span class="o">{</span>
+                    <span class="n">load</span><span class="o">(</span><span class="n">loader</span><span class="o">,</span> <span class="n">location</span><span class="o">,</span> <span class="n">profile</span><span class="o">,</span> <span class="n">filterFactory</span><span class="o">.</span><span class="na">getDocumentFilter</span><span class="o">(</span><span class="n">profile</span><span class="o">),</span> <span class="n">consumer</span><span class="o">);</span>
+                    <span class="k">return</span><span class="o">;</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalStateException</span><span class="o">(</span><span class="s">"File extension of config file location '"</span> <span class="o">+</span> <span class="n">location</span>
+                    <span class="o">+</span> <span class="s">"' is not known to any PropertySourceLoader. If the location is meant to reference "</span>
+                    <span class="o">+</span> <span class="s">"a directory, it must end in '/'"</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="nc">Set</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">processed</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HashSet</span><span class="o">&lt;&gt;();</span>
+        <span class="c1">//这里的propertySourceLoaders就是前面加载的 PropertiesPropertySourceLoader和YamlPropertySourceLoader两个解析器</span>
+        <span class="k">for</span> <span class="o">(</span><span class="nc">PropertySourceLoader</span> <span class="n">loader</span> <span class="o">:</span> <span class="k">this</span><span class="o">.</span><span class="na">propertySourceLoaders</span><span class="o">)</span> <span class="o">{</span>
+            <span class="c1">//每个解析器都有自己的文件后缀并解析</span>
+            <span class="k">for</span> <span class="o">(</span><span class="nc">String</span> <span class="n">fileExtension</span> <span class="o">:</span> <span class="n">loader</span><span class="o">.</span><span class="na">getFileExtensions</span><span class="o">())</span> <span class="o">{</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">processed</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">fileExtension</span><span class="o">))</span> <span class="o">{</span>
+                    <span class="c1">//获得具体路径后在解析成properties 下面就不继续往下看了</span>
+                    <span class="n">loadForFileExtension</span><span class="o">(</span><span class="n">loader</span><span class="o">,</span> <span class="n">location</span> <span class="o">+</span> <span class="n">name</span><span class="o">,</span> <span class="s">"."</span> <span class="o">+</span> <span class="n">fileExtension</span><span class="o">,</span> <span class="n">profile</span><span class="o">,</span> <span class="n">filterFactory</span><span class="o">,</span>
+                            <span class="n">consumer</span><span class="o">);</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+</code></pre></div></div>
+<p>可见第四步通过发布环境准备就绪事件, 通过 <strong>ConfigFileApplicationListener</strong> 来执行所有环境相关的后置处理器, 最典型的就是通过自己本身 <strong>ConfigFileApplicationListener</strong> 来加载 <strong>applicaiton.properties</strong> 中的属性源.
+通过 <strong>PropertySourceLoader</strong> 的两个实现类的 <strong>getFileExtensions()</strong> 方法指定的文件扩展名分别拼接默认路径 <strong>classpath:/,classpath:/config/,file:./,file:./config/</strong> ,找到存在的路径则进行解析属性.</p>
+
+<p>3.5 第五步将环境绑定到当前应用中</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/**
+ * Bind the environment to the {@link SpringApplication}.
+ * 将环境实例绑定到应用中
+ */</span>
+<span class="kd">protected</span> <span class="kt">void</span> <span class="nf">bindToSpringApplication</span><span class="o">(</span><span class="nc">ConfigurableEnvironment</span> <span class="n">environment</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">try</span> <span class="o">{</span>
+        <span class="c1">//首先看这个Binder.get(environment):根据给定环境实例创建Binder</span>
+        <span class="nc">Binder</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">environment</span><span class="o">).</span><span class="na">bind</span><span class="o">(</span><span class="s">"spring.main"</span><span class="o">,</span> <span class="nc">Bindable</span><span class="o">.</span><span class="na">ofInstance</span><span class="o">(</span><span class="k">this</span><span class="o">));</span>
+    <span class="o">}</span>
+    <span class="k">catch</span> <span class="o">(</span><span class="nc">Exception</span> <span class="n">ex</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalStateException</span><span class="o">(</span><span class="s">"Cannot bind to SpringApplication"</span><span class="o">,</span> <span class="n">ex</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">static</span> <span class="nc">Binder</span> <span class="nf">get</span><span class="o">(</span><span class="nc">Environment</span> <span class="n">environment</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="nf">get</span><span class="o">(</span><span class="n">environment</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">static</span> <span class="nc">Binder</span> <span class="nf">get</span><span class="o">(</span><span class="nc">Environment</span> <span class="n">environment</span><span class="o">,</span> <span class="nc">BindHandler</span> <span class="n">defaultBindHandler</span><span class="o">)</span> <span class="o">{</span>
+    <span class="c1">//获取前面通过attach附加到环境实例中的ConfigurationPropertySource</span>
+    <span class="nc">Iterable</span><span class="o">&lt;</span><span class="nc">ConfigurationPropertySource</span><span class="o">&gt;</span> <span class="n">sources</span> <span class="o">=</span> <span class="nc">ConfigurationPropertySources</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">environment</span><span class="o">);</span>
+    <span class="c1">//根据环境创建属性源占位符解析器 即解析 ${}</span>
+    <span class="nc">PropertySourcesPlaceholdersResolver</span> <span class="n">placeholdersResolver</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">PropertySourcesPlaceholdersResolver</span><span class="o">(</span><span class="n">environment</span><span class="o">);</span>
+    <span class="c1">//创建Binder</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nf">Binder</span><span class="o">(</span><span class="n">sources</span><span class="o">,</span> <span class="n">placeholdersResolver</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="n">defaultBindHandler</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="cm">/**
+ * Return a set of {@link ConfigurationPropertySource} instances that have previously
+ * been {@link #attach(Environment) attached} to the {@link Environment}.
+ * 返回之前通过attached附加到环境实例中的ConfigurationPropertySource集合
+ */</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="nc">Iterable</span><span class="o">&lt;</span><span class="nc">ConfigurationPropertySource</span><span class="o">&gt;</span> <span class="nf">get</span><span class="o">(</span><span class="nc">Environment</span> <span class="n">environment</span><span class="o">)</span> <span class="o">{</span>
+    <span class="nc">Assert</span><span class="o">.</span><span class="na">isInstanceOf</span><span class="o">(</span><span class="nc">ConfigurableEnvironment</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">environment</span><span class="o">);</span>
+    <span class="nc">MutablePropertySources</span> <span class="n">sources</span> <span class="o">=</span> <span class="o">((</span><span class="nc">ConfigurableEnvironment</span><span class="o">)</span> <span class="n">environment</span><span class="o">).</span><span class="na">getPropertySources</span><span class="o">();</span>
+    <span class="nc">ConfigurationPropertySourcesPropertySource</span> <span class="n">attached</span> <span class="o">=</span> <span class="o">(</span><span class="nc">ConfigurationPropertySourcesPropertySource</span><span class="o">)</span> <span class="n">sources</span>
+            <span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="no">ATTACHED_PROPERTY_SOURCE_NAME</span><span class="o">);</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">attached</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="nf">from</span><span class="o">(</span><span class="n">sources</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="n">attached</span><span class="o">.</span><span class="na">getSource</span><span class="o">();</span>
+<span class="o">}</span>
+
+<span class="c1">//通过其中的PropertyPlaceholderHelper</span>
+<span class="kd">public</span> <span class="nf">PropertySourcesPlaceholdersResolver</span><span class="o">(</span><span class="nc">Iterable</span><span class="o">&lt;</span><span class="nc">PropertySource</span><span class="o">&lt;?&gt;&gt;</span> <span class="n">sources</span><span class="o">,</span> <span class="nc">PropertyPlaceholderHelper</span> <span class="n">helper</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">sources</span> <span class="o">=</span> <span class="n">sources</span><span class="o">;</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">helper</span> <span class="o">=</span> <span class="o">(</span><span class="n">helper</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">?</span> <span class="n">helper</span> <span class="o">:</span> <span class="k">new</span> <span class="nc">PropertyPlaceholderHelper</span><span class="o">(</span><span class="nc">SystemPropertyUtils</span><span class="o">.</span><span class="na">PLACEHOLDER_PREFIX</span><span class="o">,</span>
+            <span class="nc">SystemPropertyUtils</span><span class="o">.</span><span class="na">PLACEHOLDER_SUFFIX</span><span class="o">,</span> <span class="nc">SystemPropertyUtils</span><span class="o">.</span><span class="na">VALUE_SEPARATOR</span><span class="o">,</span> <span class="kc">true</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="cm">/**
+ * Create a new {@link Binder} instance for the specified sources.
+ * 通过指定的资源中创建一个新的Binder实例
+ */</span>
+<span class="kd">public</span> <span class="nf">Binder</span><span class="o">(</span><span class="nc">Iterable</span><span class="o">&lt;</span><span class="nc">ConfigurationPropertySource</span><span class="o">&gt;</span> <span class="n">sources</span><span class="o">,</span> <span class="nc">PlaceholdersResolver</span> <span class="n">placeholdersResolver</span><span class="o">,</span>
+        <span class="nc">ConversionService</span> <span class="n">conversionService</span><span class="o">,</span> <span class="nc">Consumer</span><span class="o">&lt;</span><span class="nc">PropertyEditorRegistry</span><span class="o">&gt;</span> <span class="n">propertyEditorInitializer</span><span class="o">,</span>
+        <span class="nc">BindHandler</span> <span class="n">defaultBindHandler</span><span class="o">,</span> <span class="nc">BindConstructorProvider</span> <span class="n">constructorProvider</span><span class="o">)</span> <span class="o">{</span>
+    <span class="nc">Assert</span><span class="o">.</span><span class="na">notNull</span><span class="o">(</span><span class="n">sources</span><span class="o">,</span> <span class="s">"Sources must not be null"</span><span class="o">);</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">sources</span> <span class="o">=</span> <span class="n">sources</span><span class="o">;</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">placeholdersResolver</span> <span class="o">=</span> <span class="o">(</span><span class="n">placeholdersResolver</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">?</span> <span class="n">placeholdersResolver</span> <span class="o">:</span> <span class="nc">PlaceholdersResolver</span><span class="o">.</span><span class="na">NONE</span><span class="o">;</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">conversionService</span> <span class="o">=</span> <span class="o">(</span><span class="n">conversionService</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">?</span> <span class="n">conversionService</span>
+            <span class="o">:</span> <span class="nc">ApplicationConversionService</span><span class="o">.</span><span class="na">getSharedInstance</span><span class="o">();</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">propertyEditorInitializer</span> <span class="o">=</span> <span class="n">propertyEditorInitializer</span><span class="o">;</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">defaultBindHandler</span> <span class="o">=</span> <span class="o">(</span><span class="n">defaultBindHandler</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">?</span> <span class="n">defaultBindHandler</span> <span class="o">:</span> <span class="nc">BindHandler</span><span class="o">.</span><span class="na">DEFAULT</span><span class="o">;</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">constructorProvider</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">constructorProvider</span> <span class="o">=</span> <span class="nc">BindConstructorProvider</span><span class="o">.</span><span class="na">DEFAULT</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="nc">ValueObjectBinder</span> <span class="n">valueObjectBinder</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ValueObjectBinder</span><span class="o">(</span><span class="n">constructorProvider</span><span class="o">);</span>
+    <span class="nc">JavaBeanBinder</span> <span class="n">javaBeanBinder</span> <span class="o">=</span> <span class="nc">JavaBeanBinder</span><span class="o">.</span><span class="na">INSTANCE</span><span class="o">;</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">dataObjectBinders</span> <span class="o">=</span> <span class="nc">Collections</span><span class="o">.</span><span class="na">unmodifiableList</span><span class="o">(</span><span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="n">valueObjectBinder</span><span class="o">,</span> <span class="n">javaBeanBinder</span><span class="o">));</span>
+<span class="o">}</span>
+
+<span class="c1">//具体绑定代码不贴了,嵌套层数太深后期有时间在详细分析</span>
+</code></pre></div></div>
+
+<p>3.6 最后一步是再次将已有属性以key为 configurationProperties的形式添加到属性中</p>
+
+<blockquote>
+  <p>总结<br />
+第三步的作用就是将创建 Environment实例,并将各种属性资源添加到Environment中其中包括configurationProperties、servletConfigInitParams、servletContextInitParams、systemProperties、systemEnvironment、以及最重要的applicationConfig: [classpath:/application.properties],最后在将该Environment绑定到应用SpringApplicaiton中.</p>
+</blockquote>
+
 <hr />
+
 </p>
 
                             <div align="center">
@@ -1560,6 +2022,211 @@ SPI的全名为 Service Provider Interface, 目的是提供接口,让第三方�
                                 
                                     <li>Date:
                                         <strong><a href="http://startbootstrap.com">April 2021</a>
+                                        </strong>
+                                    </li>
+                                
+                                
+                                    <li>Service:
+                                        <strong><a href="http://startbootstrap.com">algorithm</a>
+                                        </strong>
+                                    </li>
+                                
+                            </ul>
+                            </div>
+                            <div align="center">
+                                <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="portfolio-modal modal fade" id="portfolioModal-10000011" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-content">
+            <div class="close-modal" data-dismiss="modal">
+                <div class="lr">
+                    <div class="rl">
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2">
+                        <div class="modal-body">
+                            <div align="center">
+                            <h2>BinarySearchTree</h2>
+                            <hr class="star-primary">
+                            <img src="img/portfolio/pexels-julia-volk-5273316.jpg" class="img-responsive img-centered" alt="BinarySearchTree">
+
+                            
+                                <h3>二查叉找树</h3>
+                            
+                            </div>
+
+                            <p><h3 id="定义">定义</h3>
+<hr />
+<p>二叉查找树(BinarySearchTree,简称BST)又称为二叉排序树(BinarySortTree).<br />
+一棵二叉查找树是一棵二叉树,其中每个节点都含有一个 <strong>Comparable</strong> 的键(以及相关联的值)且每个节点的键都大于等于其左子树中的任意节点而小于右子树的任意节点.</p>
+<hr />
+
+<h3 id="基本实现">基本实现</h3>
+<hr />
+<ol>
+  <li>数据表示
+和链表一样,我们嵌套定义了一个所有类来表示二叉查找树上的一个节点.每个节点都含有一个键、一个值、一条左链接、一条右链接和一个节点计数器.左链接指向一棵由小于该节点的所有键组成的二叉树,右链接指向一棵由大于该节点的所有键组成的二叉查找树.变量 <strong>N</strong> 给出了以该节点为根的子树的节点总数.<br />
+一棵二叉查找树代表了一组键(及其相应的值)的集合,而同一个集合可以用多棵不同的二叉查找树表示.如果我们将一棵二叉查找树的所有键投影到一条直线上,保证一个节点的左子树中的键出现在它的左边,右子树中的键出现在它的右边,那么我们一定可以得到一条有序的键列.</li>
+</ol>
+<center>
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/binarySearchTree/两棵能够表示同一组键的二叉查找树.jpg">
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="两棵能够表示同一组键的二叉查找树" src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/binarySearchTree/两棵能够表示同一组键的二叉查找树.jpg" />
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">两棵能够表示同一组键的二叉查找树</div>
+    </a>
+</center>
+<ol>
+  <li>查找
+在二叉查找树中查找一个键的递归算法:如果树是空的,则查找未命中;如果被查找的键和根节点的键相等,则查找命中,否则我们就递归的在适当的子树中继续查找.如果被查找的键较小就选择左子树,较大则选择右子树.</li>
+</ol>
+<center>
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/binarySearchTree/二叉查找树中的查找命中(左)和未命中(右).jpg">
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="二叉查找树中的查找命中(左)和未命中(右)" src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/binarySearchTree/二叉查找树中的查找命中(左)和未命中(右).jpg" />
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">二叉查找树中的查找命中(左)和未命中(右)</div>
+    </a>
+</center>
+<ol>
+  <li>插入
+如果树是空的,就返回一个含有该键值对的新节点;如果被查找的键小于根节点的键,会继续在左子树中插入该键,否则在右子树中插入该键.</li>
+</ol>
+
+<center>
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/binarySearchTree/二叉查找树的插入操作.jpg">
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="二叉查找树的插入操作" src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/binarySearchTree/二叉查找树的插入操作.jpg" />
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">二叉查找树的插入操作</div>
+    </a>
+</center>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">BST</span><span class="o">&lt;</span><span class="nc">Key</span> <span class="kd">extends</span> <span class="nc">Comparable</span><span class="o">&lt;</span><span class="nc">Key</span><span class="o">&gt;,</span> <span class="nc">Value</span><span class="o">&gt;</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="nc">Node</span> <span class="n">root</span><span class="o">;</span>
+
+    <span class="kd">private</span> <span class="kd">class</span> <span class="nc">Node</span><span class="o">{</span>
+        <span class="kd">private</span> <span class="nc">Key</span> <span class="n">key</span><span class="o">;</span>
+        <span class="kd">private</span> <span class="nc">Value</span> <span class="n">value</span><span class="o">;</span>
+        <span class="kd">private</span> <span class="nc">Node</span> <span class="n">left</span><span class="o">,</span><span class="n">right</span><span class="o">;</span>
+        <span class="kd">private</span> <span class="kt">int</span> <span class="no">N</span><span class="o">;</span>
+
+        <span class="kd">public</span> <span class="nf">Node</span><span class="o">(</span><span class="nc">Key</span> <span class="n">key</span><span class="o">,</span> <span class="nc">Value</span> <span class="n">value</span><span class="o">,</span> <span class="kt">int</span> <span class="no">N</span><span class="o">){</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">key</span> <span class="o">=</span> <span class="n">key</span><span class="o">;</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">value</span><span class="o">=</span><span class="n">value</span><span class="o">;</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">N</span> <span class="o">=</span> <span class="no">N</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">size</span><span class="o">(){</span>
+        <span class="k">return</span> <span class="nf">size</span><span class="o">(</span><span class="n">root</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kt">int</span> <span class="nf">size</span><span class="o">(</span><span class="nc">Node</span> <span class="n">x</span><span class="o">){</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">x</span><span class="o">==</span><span class="kc">null</span><span class="o">)</span> <span class="k">return</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="k">else</span> <span class="k">return</span> <span class="n">x</span><span class="o">.</span><span class="na">N</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="nc">Value</span> <span class="nf">get</span><span class="o">(</span><span class="nc">Key</span> <span class="n">key</span><span class="o">){</span>
+        <span class="k">return</span> <span class="nf">get</span><span class="o">(</span><span class="n">root</span><span class="o">,</span> <span class="n">key</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="nc">Value</span> <span class="nf">get</span><span class="o">(</span><span class="nc">Node</span> <span class="n">x</span><span class="o">,</span><span class="nc">Key</span> <span class="n">key</span><span class="o">){</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">x</span><span class="o">==</span><span class="kc">null</span><span class="o">)</span> <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="kt">int</span> <span class="n">cmp</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="na">compareTo</span><span class="o">(</span><span class="n">x</span><span class="o">.</span><span class="na">key</span><span class="o">);</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">cmp</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">)</span> <span class="k">return</span> <span class="n">get</span><span class="o">(</span><span class="n">x</span><span class="o">.</span><span class="na">left</span><span class="o">,</span> <span class="n">key</span><span class="o">);</span>
+        <span class="k">else</span> <span class="nf">if</span> <span class="o">(</span><span class="n">cmp</span><span class="o">&gt;</span><span class="mi">0</span><span class="o">)</span> <span class="k">return</span> <span class="n">get</span><span class="o">(</span><span class="n">x</span><span class="o">.</span><span class="na">right</span><span class="o">,</span> <span class="n">key</span><span class="o">);</span>
+        <span class="k">else</span> <span class="k">return</span> <span class="n">x</span><span class="o">.</span><span class="na">value</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">put</span><span class="o">(</span><span class="nc">Key</span> <span class="n">key</span><span class="o">,</span> <span class="nc">Value</span> <span class="n">value</span><span class="o">){</span>
+        <span class="n">root</span> <span class="o">=</span> <span class="n">put</span><span class="o">(</span><span class="n">root</span><span class="o">,</span> <span class="n">key</span><span class="o">,</span> <span class="n">value</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="nc">Node</span> <span class="nf">put</span><span class="o">(</span><span class="nc">Node</span> <span class="n">x</span><span class="o">,</span> <span class="nc">Key</span> <span class="n">key</span><span class="o">,</span> <span class="nc">Value</span> <span class="n">value</span><span class="o">){</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">x</span><span class="o">==</span><span class="kc">null</span><span class="o">)</span> <span class="k">return</span> <span class="k">new</span> <span class="nc">Node</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="n">value</span><span class="o">,</span> <span class="mi">1</span><span class="o">);</span>
+        <span class="kt">int</span> <span class="n">cmp</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="na">compareTo</span><span class="o">(</span><span class="n">x</span><span class="o">.</span><span class="na">key</span><span class="o">);</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">cmp</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">)</span> <span class="n">x</span><span class="o">.</span><span class="na">left</span> <span class="o">=</span> <span class="n">put</span><span class="o">(</span><span class="n">x</span><span class="o">.</span><span class="na">left</span><span class="o">,</span> <span class="n">key</span><span class="o">,</span> <span class="n">value</span><span class="o">);</span>
+        <span class="k">else</span> <span class="nf">if</span> <span class="o">(</span><span class="n">cmp</span><span class="o">&gt;</span><span class="mi">0</span><span class="o">)</span> <span class="n">x</span><span class="o">.</span><span class="na">right</span> <span class="o">=</span> <span class="n">put</span><span class="o">(</span><span class="n">x</span><span class="o">.</span><span class="na">right</span><span class="o">,</span> <span class="n">key</span><span class="o">,</span> <span class="n">value</span><span class="o">);</span>
+        <span class="k">else</span> <span class="n">x</span><span class="o">.</span><span class="na">value</span> <span class="o">=</span> <span class="n">value</span><span class="o">;</span>
+        <span class="n">x</span><span class="o">.</span><span class="na">N</span> <span class="o">=</span> <span class="n">size</span><span class="o">(</span><span class="n">x</span><span class="o">.</span><span class="na">left</span><span class="o">)</span> <span class="o">+</span> <span class="n">size</span><span class="o">(</span><span class="n">x</span><span class="o">.</span><span class="na">right</span><span class="o">)</span> <span class="o">+</span><span class="mi">1</span><span class="o">;</span>
+        <span class="k">return</span> <span class="n">x</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<hr />
+<h3 id="分析">分析</h3>
+<hr />
+<p>使用二叉查找树的算法运行时间取决于树的形状,而树的形状取决于键被插入的先后顺序.在最好的情况下,一棵含有 <strong>N</strong> 个节点的树是完全平衡的,每条空链接和根节点的距离都为 <strong>lgN</strong> .在最坏的情况下,搜索路径上可能有 <strong>N</strong> 个节点.</p>
+
+<center>
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/binarySearchTree/二叉查找树的可能形状.jpg">
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="二叉查找树的可能形状" src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/binarySearchTree/二叉查找树的可能形状.jpg" />
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">二叉查找树的可能形状</div>
+    </a>
+</center>
+<hr />
+
+<h3 id="有序性相关的方法与删除操作">有序性相关的方法与删除操作</h3>
+<hr />
+<hr />
+
+<h3 id="扩展">扩展</h3>
+
+<h3 id="其他语言">其他语言</h3>
+<hr />
+<blockquote>
+  <p>C++</p>
+</blockquote>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">xxx</span>
+</code></pre></div></div>
+<blockquote>
+  <p>python3</p>
+</blockquote>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">xxx</span>
+</code></pre></div></div>
+<blockquote>
+  <p>go</p>
+</blockquote>
+
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">xxx</span>
+</code></pre></div></div>
+</p>
+
+                            <div align="center">
+                            <ul class="list-inline item-details">
+                                
+                                    <li>Client:
+                                        <strong><a href="http://startbootstrap.com">Tree</a>
+                                        </strong>
+                                    </li>
+                                
+                                
+                                    <li>Date:
+                                        <strong><a href="http://startbootstrap.com">September 2021</a>
                                         </strong>
                                     </li>
                                 
