@@ -666,16 +666,17 @@ footer .footer-below {
     -webkit-box-shadow: none;
     box-shadow: none;
     text-align: justify;
-    font-size: 18px;
+    font-size: 15px;
     line-height: 2;
 }
 
 .portfolio-modal .modal-content h2 {
     margin: 0;
-    font-size: 3em;
+    font-size: 22px;
 }
 
 .portfolio-modal .modal-content img {
+    padding: 20px;
     /*margin-bottom: 30px;*/
 }
 
