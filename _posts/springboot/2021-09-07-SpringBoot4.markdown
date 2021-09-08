@@ -83,7 +83,7 @@ public ConfigurableApplicationContext run(String... args) {
 }
 ```
 本章我们主要看下createApplicationContext:
-4. 第四步就是通过反射创建 __ApplicationContext__ ,相关源码如下:
+第四步就是通过反射创建 __ApplicationContext__ ,相关源码如下:
 
 ``` java
 /**
@@ -157,8 +157,9 @@ public AnnotationConfigServletWebServerApplicationContext() {
 我们首先来看下 __AnnotationConfigServletWebServerApplicationContext__ 的作用:接受带有 __@Configuration__ 、 __@Component__ 和 __inject__ 注解的类,可以指定类进行注册同样可以根据类路径扫描来注册.  
 在它的无参构造中,它又创建了 __AnnotatedBeanDefinitionReader__ 和 __ClassPathBeanDefinitionScanner__ .  
 其中 __AnnotatedBeanDefinitionReader__ 的作用是以编程方式注册Bean类; __ClassPathBeanDefinitionScanner__ 的作用是扫描类路径下所有以 __@Component、@Repository、@Service、@Controller、ManagedBean、Named__ 等注解修饰的类,并注册相关的bean定义.  
+  
+4.1 首先我们先看下 __AnnotatedBeanDefinitionReader__ 的源码:  
 
-4.1 首先我们先看下 __AnnotatedBeanDefinitionReader__ 的源码:
 ``` java
 public AnnotatedBeanDefinitionReader(BeanDefinitionRegistry registry) {
     this(registry, getOrCreateEnvironment(registry));
@@ -305,10 +306,10 @@ public static Set<BeanDefinitionHolder> registerAnnotationConfigProcessors(
 ```
 可见 __AnnotatedBeanDefinitionReader__ 的作用就是注册了多个后置处理器.我们来看这几个后置处理器,先看他们的类图:  
 <center>
-    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/springboot/AnnotatedBeanDefinitionReader.png">
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/springboot/AnnotationConfigProcessors.png">
     <img style="border-radius: 0.3125em;
     box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="AnnotationConfigProcessors"
-    src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/springboot/AnnotatedBeanDefinitionReader.png">
+    src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/springboot/AnnotationConfigProcessors.png">
     <div style="color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
     color: #999;
