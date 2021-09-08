@@ -4,14 +4,14 @@ springboot: true
 modal-id: 20000003
 date: 2021-09-03
 img: pexels-rachel-claire-5490361.jpg
-alt: springboot3
-project-date: April 2021
-client: springboot
-category: springboot
+alt: SpringBoot3
+project-date: September 2021
+client: SpringBoot
+category: SpringBoot
 subtitle: SpringBoot启动源码解析(三)
-description: SpringBootApplication Run方法解析
+description: SpringBootApplication Run方法解析(一):prepareEnvironment
 ---
-### Run方法入口
+### Run方法入口:主要分析prepareEnvironment
 - - -
 ``` java
 /**
@@ -82,16 +82,9 @@ public ConfigurableApplicationContext run(String... args) {
     return context;
 }
 ```
-接下来我们就一些核心方法来仔细分析看看.  
+本章我们主要分析 __prepareEnvironment__ 及其之前的步骤.  
 1. 第一步比较好理解,创建定时器统计启动时间,并获取的事件发布者 __SpringApplicationRunListener__ 来发布启动过程中的各个事件,首先发布的就是 __starting__ 事件.  
-2. 第二步创建应用参数,默认传入的是空集合,见下源码  
-``` java
-public DefaultApplicationArguments(String... args) {
-    Assert.notNull(args, "Args must not be null");
-    this.source = new Source(args);
-    this.args = args;
-}
-```
+2. 第二步创建应用参数,默认传入的是空集合  
 3. 第三步创建环境实例,首先看下 __ConfigurableEnvironment__ 相关类图
 <center>
     <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/springboot/ConfigurableEnvironment.png">
@@ -166,7 +159,6 @@ private ConfigurableEnvironment getOrCreateEnvironment() {
  * allow subclasses to contribute or manipulate {@link PropertySource} instances as
  * appropriate.
  * 创建一个新的Environment实例, 在构造期间回调customizePropertySources方法以允许子类根据需要贡献或操作 PropertySource实例
- * @see #customizePropertySources(MutablePropertySources)
  */
 public AbstractEnvironment() {
     customizePropertySources(this.propertySources);
@@ -232,7 +224,7 @@ protected void customizePropertySources(MutablePropertySources propertySources) 
             new SystemEnvironmentPropertySource(SYSTEM_ENVIRONMENT_PROPERTY_SOURCE_NAME, getSystemEnvironment()));
 }
 ```
-可见在创建 __StandardServletEnvironment__ 实例时将 __servletContextInitParams__ 、 __servletConfigInitParams__ 、__systemEnvironment__ 和 __systemProperties__ 四种属性添加到环境实例中.
+可见在创建 __StandardServletEnvironment__ 实例时根据子类重写的 __customizePropertySources__ 方法将 __servletContextInitParams__ 、 __servletConfigInitParams__ 、__systemEnvironment__ 和 __systemProperties__ 四种属性添加到环境实例中.
 
 3.2 设置环境属性资源和配置文件,源码如下
 ``` java
@@ -321,11 +313,10 @@ protected void configureProfiles(ConfigurableEnvironment environment, String[] a
     environment.setActiveProfiles(StringUtils.toStringArray(profiles));
 }
 ```
-由上可见,第二步主要就是为环境实例添加转换服务、配置属性源和配置文件. 
+由上可见,第二步主要就是为环境实例添加转换服务 __conversionService__ 、检查是否需要配置默认属性源和是否需要根据命令行参数配置、设置profiles. 
 
 3.3 第三步的源码如下:
 ``` java
-
 /**
  * The name of the {@link PropertySource} {@link #attach(Environment) adapter}.
  * 属性源适配器的名称
@@ -358,7 +349,7 @@ public static void attach(Environment environment) {
     }
 }
 ```
-由上可见,第三步的主要作用就是配置 __configurationProperties__ 属性源,为后面的绑定到 __SpringApplication__ 而准备.
+由上可见,第三步的主要作用就是为 __Environment__ 实例配置 __configurationProperties__ 属性源,为后面的绑定到 __SpringApplication__ 而准备.
 
 3.4 第四步就是发布环境准备就绪事件,这里有个监听器比较重要: __ConfigFileApplicationListener__ ,我们来看下源码
 ``` java
@@ -427,14 +418,15 @@ void load() {
                 this.processedProfiles = new LinkedList<>();
                 this.activatedProfiles = false;
                 this.loaded = new LinkedHashMap<>();
-                //初始化Profiles 默认初始化default
+                //初始化Profiles 默认初始化 active-profiles 和 spring.profiles.* 包含的所有profile
                 initializeProfiles();
+                //解析所有的profiles 这里至少有两个 null和default
                 while (!this.profiles.isEmpty()) {
                     Profile profile = this.profiles.poll();
                     if (isDefaultProfile(profile)) {
                         addProfileToEnvironment(profile.getName());
                     }
-                    //根据指定的profile加载资源
+                    //根据指定的profile加载资源 第一次解析null 第二次解析default
                     load(profile, this::getPositiveProfileFilter,
                             addToLoaded(MutablePropertySources::addLast, false));
                     this.processedProfiles.add(profile);
@@ -485,8 +477,8 @@ private void load(String location, String name, Profile profile, DocumentFilterF
         }
     }
 ```
-可见第四步通过发布环境准备就绪事件, 通过 __ConfigFileApplicationListener__ 来执行所有环境相关的后置处理器, 最典型的就是通过自己本身 __ConfigFileApplicationListener__ 来加载 __applicaiton.properties__ 中的属性源.
-通过 __PropertySourceLoader__ 的两个实现类的 __getFileExtensions()__ 方法指定的文件扩展名分别拼接默认路径 __classpath:/,classpath:/config/,file:./,file:./config/__ ,找到存在的路径则进行解析属性.
+可见第四步通过发布环境准备就绪事件,所有的监听器中,最终要的就是 __ConfigFileApplicationListener__,通过 __ConfigFileApplicationListener__ 来执行所有环境相关的后置处理器, 他自己本身实现了 __EnvironmentPostProcessor__ ,通过 __postProcessEnvironment__ 来调用 __addPropertySources__ 方法通过 __Loader__ 来加载配置文件属性源.
+在构造 __Loader__ 中初始化 __PropertySourceLoader__ 的两个实现类 __PropertiesPropertySourceLoader__ 和 __YamlPropertySourceLoader__ 来加载 __"properties","xml"__ 和 __"yml","yaml"__的配置文件,主要通过 __getFileExtensions()__ 方法指定的文件扩展名分别拼接默认路径 __classpath:/,classpath:/config/,file:./,file:./config/__ ,找到存在的路径则进行解析属性.
 
 3.5 第五步将环境绑定到当前应用中
 ``` java
@@ -536,6 +528,7 @@ public static Iterable<ConfigurationPropertySource> get(Environment environment)
 //通过其中的PropertyPlaceholderHelper
 public PropertySourcesPlaceholdersResolver(Iterable<PropertySource<?>> sources, PropertyPlaceholderHelper helper) {
     this.sources = sources;
+    //创建PropertyPlaceholderHelper来解析 ${}
     this.helper = (helper != null) ? helper : new PropertyPlaceholderHelper(SystemPropertyUtils.PLACEHOLDER_PREFIX,
             SystemPropertyUtils.PLACEHOLDER_SUFFIX, SystemPropertyUtils.VALUE_SEPARATOR, true);
 }
@@ -564,12 +557,14 @@ public Binder(Iterable<ConfigurationPropertySource> sources, PlaceholdersResolve
 
 //具体绑定代码不贴了,嵌套层数太深后期有时间在详细分析
 ```
-
+可见第五步就是使用3.3新加入的 __configurationProperties__ 属性源和 __${}__ 占位符解析器 __PropertySourcesPlaceholdersResolver__ 来创建 __Binder__ .
+最后在通过 __Binder__ 来将 __"spring.main"__ 封装的 __ConfigurationProperty__ 和主函数 __SpringApplication__ 进行绑定.
 
 3.6 最后一步是再次将已有属性以key为 configurationProperties的形式添加到属性中
 
-> 总结  
-> 第三步的作用就是将创建 Environment实例,并将各种属性资源添加到Environment中其中包括configurationProperties、servletConfigInitParams、servletContextInitParams、systemProperties、systemEnvironment、以及最重要的applicationConfig: [classpath:/application.properties],最后在将该Environment绑定到应用SpringApplicaiton中.
+> prepareEnvironment总结  
+
+> prepareEnvironment的作用就是将创建 Environment实例,并将各种属性资源添加到Environment中其中包括configurationProperties、servletConfigInitParams、servletContextInitParams、systemProperties、systemEnvironment、以及最重要的applicationConfig: [classpath:/application.properties],最后在通过Environment创建Binder将"spring.main"的属性源与应用SpringApplicaiton进行绑定.
 
 - - -
 

@@ -113,15 +113,29 @@
             <div class="portfolio-flex-row">
                 
                     <div class="portfolio-flex-item portfolio-item">
+                        <a href="#portfolioModal-20000004" class="portfolio-link" data-toggle="modal">
+                            <div class="caption">
+                                <div class="caption-content">
+                                    <i class="fa fa-search-plus fa-3x"></i>
+                                    <p>SpringBootApplication Run方法解析(二):createApplicationContext</p>
+
+                                </div>
+                            </div>
+                            <img src="img/portfolio/pexels-anastasia-pavlova-8692301.jpg" class="img-responsive" alt="SpringBoot4">
+
+                        </a>
+                    </div>
+                
+                    <div class="portfolio-flex-item portfolio-item">
                         <a href="#portfolioModal-20000003" class="portfolio-link" data-toggle="modal">
                             <div class="caption">
                                 <div class="caption-content">
                                     <i class="fa fa-search-plus fa-3x"></i>
-                                    <p>SpringBootApplication Run方法解析</p>
+                                    <p>SpringBootApplication Run方法解析(一):prepareEnvironment</p>
 
                                 </div>
                             </div>
-                            <img src="img/portfolio/pexels-rachel-claire-5490361.jpg" class="img-responsive" alt="springboot3">
+                            <img src="img/portfolio/pexels-rachel-claire-5490361.jpg" class="img-responsive" alt="SpringBoot3">
 
                         </a>
                     </div>
@@ -135,7 +149,7 @@
 
                                 </div>
                             </div>
-                            <img src="img/portfolio/pexels-irina-iriser-1122625.jpg" class="img-responsive" alt="springboot2">
+                            <img src="img/portfolio/pexels-irina-iriser-1122625.jpg" class="img-responsive" alt="SpringBoot2">
 
                         </a>
                     </div>
@@ -303,7 +317,7 @@
 
                                 </div>
                             </div>
-                            <img src="img/portfolio/pexels-david-selbert-6468061.jpg" class="img-responsive" alt="springboot1">
+                            <img src="img/portfolio/pexels-david-selbert-6468061.jpg" class="img-responsive" alt="SpringBoot1">
 
                         </a>
                     </div>
@@ -464,6 +478,8 @@
                     
                 
                     
+                
+                    
                 <div class="portfolio-flex-item portfolio-item">
                         <a href="#portfolioModal-9" class="portfolio-link" data-toggle="modal">
                             <div class="caption">
@@ -522,6 +538,21 @@
                 
                     
                 <div class="portfolio-flex-item portfolio-item">
+                        <a href="#portfolioModal-20000004" class="portfolio-link" data-toggle="modal">
+                            <div class="caption">
+                                <div class="caption-content">
+                                    <i class="fa fa-search-plus fa-3x"></i>
+                                    <p>Springboot4</p>
+
+                                </div>
+                            </div>
+                            <img src="img/portfolio/pexels-anastasia-pavlova-8692301.jpg" class="img-responsive" alt="SpringBoot4">
+                        </a>
+                    </div>
+                    
+                
+                    
+                <div class="portfolio-flex-item portfolio-item">
                         <a href="#portfolioModal-20000003" class="portfolio-link" data-toggle="modal">
                             <div class="caption">
                                 <div class="caption-content">
@@ -530,7 +561,7 @@
 
                                 </div>
                             </div>
-                            <img src="img/portfolio/pexels-rachel-claire-5490361.jpg" class="img-responsive" alt="springboot3">
+                            <img src="img/portfolio/pexels-rachel-claire-5490361.jpg" class="img-responsive" alt="SpringBoot3">
                         </a>
                     </div>
                     
@@ -545,7 +576,7 @@
 
                                 </div>
                             </div>
-                            <img src="img/portfolio/pexels-irina-iriser-1122625.jpg" class="img-responsive" alt="springboot2">
+                            <img src="img/portfolio/pexels-irina-iriser-1122625.jpg" class="img-responsive" alt="SpringBoot2">
                         </a>
                     </div>
                     
@@ -582,7 +613,7 @@
 
                                 </div>
                             </div>
-                            <img src="img/portfolio/pexels-david-selbert-6468061.jpg" class="img-responsive" alt="springboot1">
+                            <img src="img/portfolio/pexels-david-selbert-6468061.jpg" class="img-responsive" alt="SpringBoot1">
                         </a>
                     </div>
                     
@@ -617,6 +648,8 @@
                 </div>
             </div>
             <div class="portfolio-flex-row">
+                
+                    
                 
                     
                 
@@ -861,7 +894,7 @@
 
      <!-- Portfolio Modals -->
  
-    <div class="portfolio-modal modal fade" id="portfolioModal-20000003" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="portfolio-modal modal fade" id="portfolioModal-20000004" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-content">
             <div class="close-modal" data-dismiss="modal">
                 <div class="lr">
@@ -876,14 +909,14 @@
                             <div align="center">
                             <h2>SpringBoot启动源码解析(三)</h2>
                             <hr class="star-primary">
-                            <img src="img/portfolio/pexels-rachel-claire-5490361.jpg" class="img-responsive img-centered" alt="springboot3">
+                            <img src="img/portfolio/pexels-anastasia-pavlova-8692301.jpg" class="img-responsive img-centered" alt="SpringBoot4">
 
                             
-                                <h3>SpringBootApplication Run方法解析</h3>
+                                <h3>SpringBootApplication Run方法解析(二):createApplicationContext</h3>
                             
                             </div>
 
-                            <p><h3 id="run方法入口">Run方法入口</h3>
+                            <p><h3 id="run方法入口createapplicationcontext">Run方法入口:createApplicationContext</h3>
 <hr />
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/**
  * Run the Spring application, creating and refreshing a new
@@ -953,17 +986,564 @@
     <span class="k">return</span> <span class="n">context</span><span class="o">;</span>
 <span class="o">}</span>
 </code></pre></div></div>
-<p>接下来我们就一些核心方法来仔细分析看看.</p>
+<p>本章我们主要看下createApplicationContext:</p>
+<ol>
+  <li>第四步就是通过反射创建 <strong>ApplicationContext</strong> ,相关源码如下:</li>
+</ol>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/**
+ * The class name of application context that will be used by default for non-web
+ * environments.
+ * 默认情况下将用于非web环境的应用程序上下文的类名
+ */</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">String</span> <span class="no">DEFAULT_CONTEXT_CLASS</span> <span class="o">=</span> <span class="s">"org.springframework.context."</span>
+        <span class="o">+</span> <span class="s">"annotation.AnnotationConfigApplicationContext"</span><span class="o">;</span>
+
+<span class="cm">/**
+ * The class name of application context that will be used by default for web
+ * environments.
+ * 默认情况下将用于web环境的应用程序上下文的类名
+ */</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">String</span> <span class="no">DEFAULT_SERVLET_WEB_CONTEXT_CLASS</span> <span class="o">=</span> <span class="s">"org.springframework.boot."</span>
+        <span class="o">+</span> <span class="s">"web.servlet.context.AnnotationConfigServletWebServerApplicationContext"</span><span class="o">;</span>
+
+<span class="cm">/**
+ * The class name of application context that will be used by default for reactive web
+ * environments.
+ * 默认情况下将用于reactive web环境的应用程序上下文的类名
+ */</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">String</span> <span class="no">DEFAULT_REACTIVE_WEB_CONTEXT_CLASS</span> <span class="o">=</span> <span class="s">"org.springframework."</span>
+        <span class="o">+</span> <span class="s">"boot.web.reactive.context.AnnotationConfigReactiveWebServerApplicationContext"</span><span class="o">;</span>
+
+<span class="cm">/**
+ * Strategy method used to create the {@link ApplicationContext}. By default this
+ * method will respect any explicitly set application context or application context
+ * class before falling back to a suitable default.
+ * 创建应用上下文使用的策略方法.默认情况下,此方法将在回退到合适的默认值之前尊重任何显示设置的应用程序上下文或类.
+ */</span>
+<span class="kd">protected</span> <span class="nc">ConfigurableApplicationContext</span> <span class="nf">createApplicationContext</span><span class="o">()</span> <span class="o">{</span>
+    <span class="nc">Class</span><span class="o">&lt;?&gt;</span> <span class="n">contextClass</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">applicationContextClass</span><span class="o">;</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">contextClass</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="k">switch</span> <span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">webApplicationType</span><span class="o">)</span> <span class="o">{</span>
+            <span class="c1">//通常我们的上下文默认是Servlet类型,实例化AnnotationConfigServletWebServerApplicationContext</span>
+            <span class="k">case</span> <span class="nl">SERVLET:</span>
+                <span class="n">contextClass</span> <span class="o">=</span> <span class="nc">Class</span><span class="o">.</span><span class="na">forName</span><span class="o">(</span><span class="no">DEFAULT_SERVLET_WEB_CONTEXT_CLASS</span><span class="o">);</span>
+                <span class="k">break</span><span class="o">;</span>
+            <span class="k">case</span> <span class="nl">REACTIVE:</span>
+                <span class="n">contextClass</span> <span class="o">=</span> <span class="nc">Class</span><span class="o">.</span><span class="na">forName</span><span class="o">(</span><span class="no">DEFAULT_REACTIVE_WEB_CONTEXT_CLASS</span><span class="o">);</span>
+                <span class="k">break</span><span class="o">;</span>
+            <span class="k">default</span><span class="o">:</span>
+                <span class="n">contextClass</span> <span class="o">=</span> <span class="nc">Class</span><span class="o">.</span><span class="na">forName</span><span class="o">(</span><span class="no">DEFAULT_CONTEXT_CLASS</span><span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">catch</span> <span class="o">(</span><span class="nc">ClassNotFoundException</span> <span class="n">ex</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalStateException</span><span class="o">(</span>
+                    <span class="s">"Unable create a default ApplicationContext, please specify an ApplicationContextClass"</span><span class="o">,</span> <span class="n">ex</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+    <span class="c1">//真正的实例化位置</span>
+    <span class="k">return</span> <span class="o">(</span><span class="nc">ConfigurableApplicationContext</span><span class="o">)</span> <span class="nc">BeanUtils</span><span class="o">.</span><span class="na">instantiateClass</span><span class="o">(</span><span class="n">contextClass</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+<p>因为我们的应用类型为 <strong>SERVLET</strong> ,所以应该初始化 <strong>AnnotationConfigServletWebServerApplicationContext</strong> , 下面我们继续看下实例化 <strong>AnnotationConfigServletWebServerApplicationContext</strong> 的源码:</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/**
+ * Create a new {@link AnnotationConfigServletWebServerApplicationContext} that needs
+ * to be populated through {@link #register} calls and then manually
+ * {@linkplain #refresh refreshed}.
+ * 创建新的AnnotationConfigServletWebServerApplicationContext, 他需要通过通过register调用填充然后手动refreshed
+ */</span>
+<span class="kd">public</span> <span class="nf">AnnotationConfigServletWebServerApplicationContext</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">reader</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">AnnotatedBeanDefinitionReader</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">scanner</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ClassPathBeanDefinitionScanner</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+<p>我们首先来看下 <strong>AnnotationConfigServletWebServerApplicationContext</strong> 的作用:接受带有 <strong>@Configuration</strong> 、 <strong>@Component</strong> 和 <strong>inject</strong> 注解的类,可以指定类进行注册同样可以根据类路径扫描来注册.<br />
+在它的无参构造中,它又创建了 <strong>AnnotatedBeanDefinitionReader</strong> 和 <strong>ClassPathBeanDefinitionScanner</strong> .<br />
+其中 <strong>AnnotatedBeanDefinitionReader</strong> 的作用是以编程方式注册Bean类; <strong>ClassPathBeanDefinitionScanner</strong> 的作用是扫描类路径下所有以 <strong>@Component、@Repository、@Service、@Controller、ManagedBean、Named</strong> 等注解修饰的类,并注册相关的bean定义.</p>
+
+<p>4.1 首先我们先看下 <strong>AnnotatedBeanDefinitionReader</strong> 的源码:</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="nf">AnnotatedBeanDefinitionReader</span><span class="o">(</span><span class="nc">BeanDefinitionRegistry</span> <span class="n">registry</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">this</span><span class="o">(</span><span class="n">registry</span><span class="o">,</span> <span class="n">getOrCreateEnvironment</span><span class="o">(</span><span class="n">registry</span><span class="o">));</span>
+<span class="o">}</span>
+
+<span class="cm">/**
+ * Create a new {@code AnnotatedBeanDefinitionReader} for the given registry,
+ * using the given {@link Environment}.
+ * 使用给定的注册表和环境创建AnnotatedBeanDefinitionReader
+ */</span>
+<span class="kd">public</span> <span class="nf">AnnotatedBeanDefinitionReader</span><span class="o">(</span><span class="nc">BeanDefinitionRegistry</span> <span class="n">registry</span><span class="o">,</span> <span class="nc">Environment</span> <span class="n">environment</span><span class="o">)</span> <span class="o">{</span>
+    <span class="nc">Assert</span><span class="o">.</span><span class="na">notNull</span><span class="o">(</span><span class="n">registry</span><span class="o">,</span> <span class="s">"BeanDefinitionRegistry must not be null"</span><span class="o">);</span>
+    <span class="nc">Assert</span><span class="o">.</span><span class="na">notNull</span><span class="o">(</span><span class="n">environment</span><span class="o">,</span> <span class="s">"Environment must not be null"</span><span class="o">);</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">registry</span> <span class="o">=</span> <span class="n">registry</span><span class="o">;</span>
+    <span class="c1">//创建用于处理@Conditional注解的内部类</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">conditionEvaluator</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ConditionEvaluator</span><span class="o">(</span><span class="n">registry</span><span class="o">,</span> <span class="n">environment</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+    <span class="c1">//这里是最重要的地方,注册了多个后置处理器,供后面创建bean的时候调用</span>
+    <span class="nc">AnnotationConfigUtils</span><span class="o">.</span><span class="na">registerAnnotationConfigProcessors</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">registry</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+<p>可见 <strong>AnnotatedBeanDefinitionReader</strong> 主构造中最重要的就是 <strong>AnnotationConfigUtils.registerAnnotationConfigProcessors(this.registry)</strong> 这个方法,我们继续往下看看:</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/**
+ * The bean name of the internally managed Configuration annotation processor.
+ * 内部管理的配置注解处理器的bean名称
+ */</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">String</span> <span class="no">CONFIGURATION_ANNOTATION_PROCESSOR_BEAN_NAME</span> <span class="o">=</span>
+        <span class="s">"org.springframework.context.annotation.internalConfigurationAnnotationProcessor"</span><span class="o">;</span>
+
+<span class="cm">/**
+ * The bean name of the internally managed Autowired annotation processor.
+ * 内部管理的自动注入注解处理器的bean名称
+ */</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">String</span> <span class="no">AUTOWIRED_ANNOTATION_PROCESSOR_BEAN_NAME</span> <span class="o">=</span>
+        <span class="s">"org.springframework.context.annotation.internalAutowiredAnnotationProcessor"</span><span class="o">;</span>
+
+<span class="cm">/**
+ * The bean name of the internally managed JSR-250 annotation processor.
+ * 内部管理的JSR-250注解处理器的bean名称
+ */</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">String</span> <span class="no">COMMON_ANNOTATION_PROCESSOR_BEAN_NAME</span> <span class="o">=</span>
+        <span class="s">"org.springframework.context.annotation.internalCommonAnnotationProcessor"</span><span class="o">;</span>
+
+<span class="cm">/**
+ * The bean name of the internally managed JPA annotation processor.
+ * 内部处理的JPA注解处理器的bean名称
+ */</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">String</span> <span class="no">PERSISTENCE_ANNOTATION_PROCESSOR_BEAN_NAME</span> <span class="o">=</span>
+        <span class="s">"org.springframework.context.annotation.internalPersistenceAnnotationProcessor"</span><span class="o">;</span>
+
+<span class="cm">/**
+ * The bean name of the internally managed @EventListener annotation processor.
+ * 内部处理的@EventListener注解处理器的bean名称
+ */</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">String</span> <span class="no">EVENT_LISTENER_PROCESSOR_BEAN_NAME</span> <span class="o">=</span>
+        <span class="s">"org.springframework.context.event.internalEventListenerProcessor"</span><span class="o">;</span>
+
+<span class="cm">/**
+ * The bean name of the internally managed EventListenerFactory.
+ * 内部处理的EventListenerFactory的bean名称
+ */</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">String</span> <span class="no">EVENT_LISTENER_FACTORY_BEAN_NAME</span> <span class="o">=</span>
+        <span class="s">"org.springframework.context.event.internalEventListenerFactory"</span><span class="o">;</span>
+
+<span class="cm">/**
+ * Register all relevant annotation post processors in the given registry.
+ * 在给定的注册表中注册所有相关注解的后置处理器
+ */</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="nc">Set</span><span class="o">&lt;</span><span class="nc">BeanDefinitionHolder</span><span class="o">&gt;</span> <span class="nf">registerAnnotationConfigProcessors</span><span class="o">(</span>
+        <span class="nc">BeanDefinitionRegistry</span> <span class="n">registry</span><span class="o">,</span> <span class="nd">@Nullable</span> <span class="nc">Object</span> <span class="n">source</span><span class="o">)</span> <span class="o">{</span>
+    <span class="c1">//获取最原始的bean工厂</span>
+    <span class="nc">DefaultListableBeanFactory</span> <span class="n">beanFactory</span> <span class="o">=</span> <span class="n">unwrapDefaultListableBeanFactory</span><span class="o">(</span><span class="n">registry</span><span class="o">);</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">beanFactory</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">//设置AnnotationAwareOrderComparator,主要用于 @Order和@Priority的排序功能</span>
+        <span class="k">if</span> <span class="o">(!(</span><span class="n">beanFactory</span><span class="o">.</span><span class="na">getDependencyComparator</span><span class="o">()</span> <span class="k">instanceof</span> <span class="nc">AnnotationAwareOrderComparator</span><span class="o">))</span> <span class="o">{</span>
+            <span class="n">beanFactory</span><span class="o">.</span><span class="na">setDependencyComparator</span><span class="o">(</span><span class="nc">AnnotationAwareOrderComparator</span><span class="o">.</span><span class="na">INSTANCE</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="c1">//设置ContextAnnotationAutowireCandidateResolver,主要提供对限定符注解以及@Lazy注解的懒加载</span>
+        <span class="k">if</span> <span class="o">(!(</span><span class="n">beanFactory</span><span class="o">.</span><span class="na">getAutowireCandidateResolver</span><span class="o">()</span> <span class="k">instanceof</span> <span class="nc">ContextAnnotationAutowireCandidateResolver</span><span class="o">))</span> <span class="o">{</span>
+            <span class="n">beanFactory</span><span class="o">.</span><span class="na">setAutowireCandidateResolver</span><span class="o">(</span><span class="k">new</span> <span class="nc">ContextAnnotationAutowireCandidateResolver</span><span class="o">());</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="nc">Set</span><span class="o">&lt;</span><span class="nc">BeanDefinitionHolder</span><span class="o">&gt;</span> <span class="n">beanDefs</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">LinkedHashSet</span><span class="o">&lt;&gt;(</span><span class="mi">8</span><span class="o">);</span>
+    <span class="c1">//创建ConfigurationClassPostProcessor后置处理器bean定义,并注册到bean工厂中</span>
+    <span class="c1">//ConfigurationClassPostProcessor的主要作用就是在启动时处理@Configuration修饰的类,其实就是我们的主函数对应的类</span>
+    <span class="k">if</span> <span class="o">(!</span><span class="n">registry</span><span class="o">.</span><span class="na">containsBeanDefinition</span><span class="o">(</span><span class="no">CONFIGURATION_ANNOTATION_PROCESSOR_BEAN_NAME</span><span class="o">))</span> <span class="o">{</span>
+        <span class="nc">RootBeanDefinition</span> <span class="n">def</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">RootBeanDefinition</span><span class="o">(</span><span class="nc">ConfigurationClassPostProcessor</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+        <span class="n">def</span><span class="o">.</span><span class="na">setSource</span><span class="o">(</span><span class="n">source</span><span class="o">);</span>
+        <span class="n">beanDefs</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">registerPostProcessor</span><span class="o">(</span><span class="n">registry</span><span class="o">,</span> <span class="n">def</span><span class="o">,</span> <span class="no">CONFIGURATION_ANNOTATION_PROCESSOR_BEAN_NAME</span><span class="o">));</span>
+    <span class="o">}</span>
+    <span class="c1">//创建AutowiredAnnotationBeanPostProcessor后置处理器Bean定义,并注册到bean工厂中</span>
+    <span class="c1">//AutowiredAnnotationBeanPostProcessor的主要作用是自动装配注解的字段、set方法和任何配置方法,默认通过@Autowired和@Value</span>
+    <span class="k">if</span> <span class="o">(!</span><span class="n">registry</span><span class="o">.</span><span class="na">containsBeanDefinition</span><span class="o">(</span><span class="no">AUTOWIRED_ANNOTATION_PROCESSOR_BEAN_NAME</span><span class="o">))</span> <span class="o">{</span>
+        <span class="nc">RootBeanDefinition</span> <span class="n">def</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">RootBeanDefinition</span><span class="o">(</span><span class="nc">AutowiredAnnotationBeanPostProcessor</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+        <span class="n">def</span><span class="o">.</span><span class="na">setSource</span><span class="o">(</span><span class="n">source</span><span class="o">);</span>
+        <span class="n">beanDefs</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">registerPostProcessor</span><span class="o">(</span><span class="n">registry</span><span class="o">,</span> <span class="n">def</span><span class="o">,</span> <span class="no">AUTOWIRED_ANNOTATION_PROCESSOR_BEAN_NAME</span><span class="o">));</span>
+    <span class="o">}</span>
+
+    <span class="c1">// Check for JSR-250 support, and if present add the CommonAnnotationBeanPostProcessor.</span>
+    <span class="c1">//检查是否支持JSR-250,支持则创建CommonAnnotationBeanPostProcessor后置处理器并注册到bean工厂中</span>
+    <span class="c1">//CommonAnnotationBeanPostProcessor的主要作用是支持开箱即用的java注解,主要是annotation中的注解,一般是@PostConstruct、@PreDestroy,最主要是@Resources</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">jsr250Present</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">registry</span><span class="o">.</span><span class="na">containsBeanDefinition</span><span class="o">(</span><span class="no">COMMON_ANNOTATION_PROCESSOR_BEAN_NAME</span><span class="o">))</span> <span class="o">{</span>
+        <span class="nc">RootBeanDefinition</span> <span class="n">def</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">RootBeanDefinition</span><span class="o">(</span><span class="nc">CommonAnnotationBeanPostProcessor</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+        <span class="n">def</span><span class="o">.</span><span class="na">setSource</span><span class="o">(</span><span class="n">source</span><span class="o">);</span>
+        <span class="n">beanDefs</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">registerPostProcessor</span><span class="o">(</span><span class="n">registry</span><span class="o">,</span> <span class="n">def</span><span class="o">,</span> <span class="no">COMMON_ANNOTATION_PROCESSOR_BEAN_NAME</span><span class="o">));</span>
+    <span class="o">}</span>
+
+    <span class="c1">// Check for JPA support, and if present add the PersistenceAnnotationBeanPostProcessor.</span>
+    <span class="c1">//检查是否支持JPA,支持则创建PersistenceAnnotationBeanPostProcessor后置处理器并注册到bean工厂中</span>
+    <span class="c1">//PersistenceAnnotationBeanPostProcessor的主要作用是为了注入相关EntityManagerFactory和EntityManager资源处理PersistenceUnit和PersistenceContext注解</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">jpaPresent</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">registry</span><span class="o">.</span><span class="na">containsBeanDefinition</span><span class="o">(</span><span class="no">PERSISTENCE_ANNOTATION_PROCESSOR_BEAN_NAME</span><span class="o">))</span> <span class="o">{</span>
+        <span class="nc">RootBeanDefinition</span> <span class="n">def</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">RootBeanDefinition</span><span class="o">();</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="n">def</span><span class="o">.</span><span class="na">setBeanClass</span><span class="o">(</span><span class="nc">ClassUtils</span><span class="o">.</span><span class="na">forName</span><span class="o">(</span><span class="no">PERSISTENCE_ANNOTATION_PROCESSOR_CLASS_NAME</span><span class="o">,</span>
+                    <span class="nc">AnnotationConfigUtils</span><span class="o">.</span><span class="na">class</span><span class="o">.</span><span class="na">getClassLoader</span><span class="o">()));</span>
+        <span class="o">}</span>
+        <span class="k">catch</span> <span class="o">(</span><span class="nc">ClassNotFoundException</span> <span class="n">ex</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalStateException</span><span class="o">(</span>
+                    <span class="s">"Cannot load optional framework class: "</span> <span class="o">+</span> <span class="no">PERSISTENCE_ANNOTATION_PROCESSOR_CLASS_NAME</span><span class="o">,</span> <span class="n">ex</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="n">def</span><span class="o">.</span><span class="na">setSource</span><span class="o">(</span><span class="n">source</span><span class="o">);</span>
+        <span class="n">beanDefs</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">registerPostProcessor</span><span class="o">(</span><span class="n">registry</span><span class="o">,</span> <span class="n">def</span><span class="o">,</span> <span class="no">PERSISTENCE_ANNOTATION_PROCESSOR_BEAN_NAME</span><span class="o">));</span>
+    <span class="o">}</span>
+
+    <span class="c1">//创建EventListenerMethodProcessor后置处理器并注册到bean工厂中</span>
+    <span class="c1">//EventListenerMethodProcessor的主要作用是作为单独的ApplicationListener实例,主要用于早期检索,避免对其处理器bean和他的EventListenerFactory委托者进行aop检查</span>
+    <span class="k">if</span> <span class="o">(!</span><span class="n">registry</span><span class="o">.</span><span class="na">containsBeanDefinition</span><span class="o">(</span><span class="no">EVENT_LISTENER_PROCESSOR_BEAN_NAME</span><span class="o">))</span> <span class="o">{</span>
+        <span class="nc">RootBeanDefinition</span> <span class="n">def</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">RootBeanDefinition</span><span class="o">(</span><span class="nc">EventListenerMethodProcessor</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+        <span class="n">def</span><span class="o">.</span><span class="na">setSource</span><span class="o">(</span><span class="n">source</span><span class="o">);</span>
+        <span class="n">beanDefs</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">registerPostProcessor</span><span class="o">(</span><span class="n">registry</span><span class="o">,</span> <span class="n">def</span><span class="o">,</span> <span class="no">EVENT_LISTENER_PROCESSOR_BEAN_NAME</span><span class="o">));</span>
+    <span class="o">}</span>
+    
+    <span class="c1">//创建DefaultEventListenerFactory bean定义并注册到bean工厂</span>
+    <span class="c1">//DefaultEventListenerFactory主要是为了常规的EventListener注解</span>
+    <span class="k">if</span> <span class="o">(!</span><span class="n">registry</span><span class="o">.</span><span class="na">containsBeanDefinition</span><span class="o">(</span><span class="no">EVENT_LISTENER_FACTORY_BEAN_NAME</span><span class="o">))</span> <span class="o">{</span>
+        <span class="nc">RootBeanDefinition</span> <span class="n">def</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">RootBeanDefinition</span><span class="o">(</span><span class="nc">DefaultEventListenerFactory</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+        <span class="n">def</span><span class="o">.</span><span class="na">setSource</span><span class="o">(</span><span class="n">source</span><span class="o">);</span>
+        <span class="n">beanDefs</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">registerPostProcessor</span><span class="o">(</span><span class="n">registry</span><span class="o">,</span> <span class="n">def</span><span class="o">,</span> <span class="no">EVENT_LISTENER_FACTORY_BEAN_NAME</span><span class="o">));</span>
+    <span class="o">}</span>
+
+    <span class="k">return</span> <span class="n">beanDefs</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+<p>可见 <strong>AnnotatedBeanDefinitionReader</strong> 的作用就是注册了多个后置处理器.我们来看这几个后置处理器,先看他们的类图:</p>
+<center>
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/springboot/AnnotatedBeanDefinitionReader.png">
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="AnnotationConfigProcessors" src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/springboot/AnnotatedBeanDefinitionReader.png" />
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">AnnotationConfigProcessors</div>
+    </a>
+</center>
+
+<p>其中最重要的就是 <strong>ConfigurationClassPostProcessor</strong> 从类图中也可以看到它继承的父类更多,其中最重要的父类就是 <strong>BeanDefinitionRegistryPostProcessor</strong> ,它就是处理主函数的核心,具体后面再介绍.<br />
+我们一一介绍下这几个类的大概作用:</p>
+<ul>
+  <li>ConfigurationClassPostProcessor:最为重要,在启动时处理 <strong>@Configuration</strong> 修饰的类,主要就是我们启动时使用 <strong>@SpringBootApplication</strong> 修饰的主函数</li>
+  <li>AutowiredAnnotationBeanPostProcessor:主要作用是通过 <strong>@Autowired、@Value</strong> 等注解自动装配字段、set方法和任何配置方法</li>
+  <li>CommonAnnotationBeanPostProcessor:主要作用是支持开箱即用的方法,例如 <strong>@PostConstruct、@PreDestroy、@Resources</strong> 等</li>
+  <li>PersistenceAnnotationBeanPostProcessor:主要作用是为了注入相关EntityManagerFactory和EntityManager资源处理PersistenceUnit和PersistenceContext注解</li>
+  <li>EventListenerMethodProcessor:主要作用是作为单独的ApplicationListener实例,主要用于早期检索,避免对其处理器bean和他的EventListenerFactory委托者进行aop检查</li>
+  <li>DefaultEventListenerFactory:主要是为了常规的EventListener注解</li>
+</ul>
+
+<blockquote>
+  <p>综上所述: <strong>AnnotatedBeanDefinitionReader</strong> 的主要作用就是注册多个后置处理器到bean工厂中,为后面解析主函数做准备</p>
+</blockquote>
+
+<p>4.2 接下来我们再看下 <strong>ClassPathBeanDefinitionScanner</strong> 的源码:</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/**
+ * Create a new {@code ClassPathBeanDefinitionScanner} for the given bean factory and
+ * using the given {@link Environment} when evaluating bean definition profile metadata.
+ * 为给定的bean工厂创建ClassPathBeanDefinitionScanner,并在评估bean定义配置元数据时使用给定的Environment
+ */</span>
+<span class="kd">public</span> <span class="nf">ClassPathBeanDefinitionScanner</span><span class="o">(</span><span class="nc">BeanDefinitionRegistry</span> <span class="n">registry</span><span class="o">,</span> <span class="kt">boolean</span> <span class="n">useDefaultFilters</span><span class="o">,</span>
+        <span class="nc">Environment</span> <span class="n">environment</span><span class="o">,</span> <span class="nd">@Nullable</span> <span class="nc">ResourceLoader</span> <span class="n">resourceLoader</span><span class="o">)</span> <span class="o">{</span>
+
+    <span class="nc">Assert</span><span class="o">.</span><span class="na">notNull</span><span class="o">(</span><span class="n">registry</span><span class="o">,</span> <span class="s">"BeanDefinitionRegistry must not be null"</span><span class="o">);</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">registry</span> <span class="o">=</span> <span class="n">registry</span><span class="o">;</span>
+    <span class="c1">//注册默认过滤器 主要是@Component、ManagedBean、Named</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">useDefaultFilters</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">registerDefaultFilters</span><span class="o">();</span>
+    <span class="o">}</span>
+    <span class="c1">//设置environment</span>
+    <span class="n">setEnvironment</span><span class="o">(</span><span class="n">environment</span><span class="o">);</span>
+    <span class="c1">//设置类加载器</span>
+    <span class="n">setResourceLoader</span><span class="o">(</span><span class="n">resourceLoader</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+<p>我们先来看下 <strong>registerDefaultFilters()</strong> 方法具体做了什么:</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/**
+ * Register the default filter for {@link Component @Component}.
+ * &lt;p&gt;This will implicitly register all annotations that have the
+ * {@link Component @Component} meta-annotation including the
+ * {@link Repository @Repository}, {@link Service @Service}, and
+ * {@link Controller @Controller} stereotype annotations.
+ * &lt;p&gt;Also supports Java EE 6's {@link javax.annotation.ManagedBean} and
+ * JSR-330's {@link javax.inject.Named} annotations, if available.
+ * 为@Component注册默认过滤器.他可以注册所有隐式含有@Component元注解,包括@Repository、@Service、@Controller
+ * 同时还可以支持 ManagedBean和Named
+ */</span>
+<span class="nd">@SuppressWarnings</span><span class="o">(</span><span class="s">"unchecked"</span><span class="o">)</span>
+<span class="kd">protected</span> <span class="kt">void</span> <span class="nf">registerDefaultFilters</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">includeFilters</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="nc">AnnotationTypeFilter</span><span class="o">(</span><span class="nc">Component</span><span class="o">.</span><span class="na">class</span><span class="o">));</span>
+    <span class="nc">ClassLoader</span> <span class="n">cl</span> <span class="o">=</span> <span class="nc">ClassPathScanningCandidateComponentProvider</span><span class="o">.</span><span class="na">class</span><span class="o">.</span><span class="na">getClassLoader</span><span class="o">();</span>
+    <span class="k">try</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">includeFilters</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="nc">AnnotationTypeFilter</span><span class="o">(</span>
+                <span class="o">((</span><span class="nc">Class</span><span class="o">&lt;?</span> <span class="kd">extends</span> <span class="nc">Annotation</span><span class="o">&gt;)</span> <span class="nc">ClassUtils</span><span class="o">.</span><span class="na">forName</span><span class="o">(</span><span class="s">"javax.annotation.ManagedBean"</span><span class="o">,</span> <span class="n">cl</span><span class="o">)),</span> <span class="kc">false</span><span class="o">));</span>
+        <span class="n">logger</span><span class="o">.</span><span class="na">trace</span><span class="o">(</span><span class="s">"JSR-250 'javax.annotation.ManagedBean' found and supported for component scanning"</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="k">catch</span> <span class="o">(</span><span class="nc">ClassNotFoundException</span> <span class="n">ex</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// JSR-250 1.1 API (as included in Java EE 6) not available - simply skip.</span>
+    <span class="o">}</span>
+    <span class="k">try</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">includeFilters</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="nc">AnnotationTypeFilter</span><span class="o">(</span>
+                <span class="o">((</span><span class="nc">Class</span><span class="o">&lt;?</span> <span class="kd">extends</span> <span class="nc">Annotation</span><span class="o">&gt;)</span> <span class="nc">ClassUtils</span><span class="o">.</span><span class="na">forName</span><span class="o">(</span><span class="s">"javax.inject.Named"</span><span class="o">,</span> <span class="n">cl</span><span class="o">)),</span> <span class="kc">false</span><span class="o">));</span>
+        <span class="n">logger</span><span class="o">.</span><span class="na">trace</span><span class="o">(</span><span class="s">"JSR-330 'javax.inject.Named' annotation found and supported for component scanning"</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="k">catch</span> <span class="o">(</span><span class="nc">ClassNotFoundException</span> <span class="n">ex</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// JSR-330 API not available - simply skip.</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+<p>下面还有一个方法比较有意思,那就是 <strong>setResourceLoader(resourceLoader)</strong> 方法,乍一眼看上去它就是设置了资源加载器,并没有什么特别的作用,我们翻翻的源码看看:</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/**
+ * Set the {@link ResourceLoader} to use for resource locations.
+ * This will typically be a {@link ResourcePatternResolver} implementation.
+ * &lt;p&gt;Default is a {@code PathMatchingResourcePatternResolver}, also capable of
+ * resource pattern resolving through the {@code ResourcePatternResolver} interface.
+ * 设置资源加载器以用于资源位置. 通常是ResourcePatternResolver的实现.
+ */</span>
+<span class="nd">@Override</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">setResourceLoader</span><span class="o">(</span><span class="nd">@Nullable</span> <span class="nc">ResourceLoader</span> <span class="n">resourceLoader</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">resourcePatternResolver</span> <span class="o">=</span> <span class="nc">ResourcePatternUtils</span><span class="o">.</span><span class="na">getResourcePatternResolver</span><span class="o">(</span><span class="n">resourceLoader</span><span class="o">);</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">metadataReaderFactory</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">CachingMetadataReaderFactory</span><span class="o">(</span><span class="n">resourceLoader</span><span class="o">);</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">componentsIndex</span> <span class="o">=</span> <span class="nc">CandidateComponentsIndexLoader</span><span class="o">.</span><span class="na">loadIndex</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">resourcePatternResolver</span><span class="o">.</span><span class="na">getClassLoader</span><span class="o">());</span>
+<span class="o">}</span>
+
+<span class="cm">/**
+ * The location to look for components.
+ * &lt;p&gt;Can be present in multiple JAR files.
+ * 为了寻找组件的位置.可以出现在多个jar文件中
+ */</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">String</span> <span class="no">COMPONENTS_RESOURCE_LOCATION</span> <span class="o">=</span> <span class="s">"META-INF/spring.components"</span><span class="o">;</span>
+
+<span class="cm">/**
+ * Load and instantiate the {@link CandidateComponentsIndex} from
+ * {@value #COMPONENTS_RESOURCE_LOCATION}, using the given class loader. If no
+ * index is available, return {@code null}.
+ * 使用给定的类加载器加载和实例化来自META-INF/spring.components的CandidateComponentsIndex.没有则返回null
+ */</span>
+<span class="nd">@Nullable</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="nc">CandidateComponentsIndex</span> <span class="nf">loadIndex</span><span class="o">(</span><span class="nd">@Nullable</span> <span class="nc">ClassLoader</span> <span class="n">classLoader</span><span class="o">)</span> <span class="o">{</span>
+    <span class="nc">ClassLoader</span> <span class="n">classLoaderToUse</span> <span class="o">=</span> <span class="n">classLoader</span><span class="o">;</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">classLoaderToUse</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">classLoaderToUse</span> <span class="o">=</span> <span class="nc">CandidateComponentsIndexLoader</span><span class="o">.</span><span class="na">class</span><span class="o">.</span><span class="na">getClassLoader</span><span class="o">();</span>
+    <span class="o">}</span>
+    <span class="c1">//主要就是通过doLoadIndex这个方法 那这里我们其实也可以用于扩展</span>
+    <span class="k">return</span> <span class="n">cache</span><span class="o">.</span><span class="na">computeIfAbsent</span><span class="o">(</span><span class="n">classLoaderToUse</span><span class="o">,</span> <span class="nl">CandidateComponentsIndexLoader:</span><span class="o">:</span><span class="n">doLoadIndex</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="c1">//这段代码就比较好理解了,尝试从META-INF/spring.components中读取配置,没有则返回,有则加载指定位置的文件,同时返回候选者的数量</span>
+<span class="kd">private</span> <span class="kd">static</span> <span class="nc">CandidateComponentsIndex</span> <span class="nf">doLoadIndex</span><span class="o">(</span><span class="nc">ClassLoader</span> <span class="n">classLoader</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">shouldIgnoreIndex</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="k">try</span> <span class="o">{</span>
+        <span class="nc">Enumeration</span><span class="o">&lt;</span><span class="no">URL</span><span class="o">&gt;</span> <span class="n">urls</span> <span class="o">=</span> <span class="n">classLoader</span><span class="o">.</span><span class="na">getResources</span><span class="o">(</span><span class="no">COMPONENTS_RESOURCE_LOCATION</span><span class="o">);</span>
+        <span class="k">if</span> <span class="o">(!</span><span class="n">urls</span><span class="o">.</span><span class="na">hasMoreElements</span><span class="o">())</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Properties</span><span class="o">&gt;</span> <span class="n">result</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
+        <span class="k">while</span> <span class="o">(</span><span class="n">urls</span><span class="o">.</span><span class="na">hasMoreElements</span><span class="o">())</span> <span class="o">{</span>
+            <span class="no">URL</span> <span class="n">url</span> <span class="o">=</span> <span class="n">urls</span><span class="o">.</span><span class="na">nextElement</span><span class="o">();</span>
+            <span class="nc">Properties</span> <span class="n">properties</span> <span class="o">=</span> <span class="nc">PropertiesLoaderUtils</span><span class="o">.</span><span class="na">loadProperties</span><span class="o">(</span><span class="k">new</span> <span class="nc">UrlResource</span><span class="o">(</span><span class="n">url</span><span class="o">));</span>
+            <span class="n">result</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">properties</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">logger</span><span class="o">.</span><span class="na">isDebugEnabled</span><span class="o">())</span> <span class="o">{</span>
+            <span class="n">logger</span><span class="o">.</span><span class="na">debug</span><span class="o">(</span><span class="s">"Loaded "</span> <span class="o">+</span> <span class="n">result</span><span class="o">.</span><span class="na">size</span><span class="o">()</span> <span class="o">+</span> <span class="s">"] index(es)"</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="kt">int</span> <span class="n">totalCount</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">mapToInt</span><span class="o">(</span><span class="nl">Properties:</span><span class="o">:</span><span class="n">size</span><span class="o">).</span><span class="na">sum</span><span class="o">();</span>
+        <span class="k">return</span> <span class="o">(</span><span class="n">totalCount</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">?</span> <span class="k">new</span> <span class="nc">CandidateComponentsIndex</span><span class="o">(</span><span class="n">result</span><span class="o">)</span> <span class="o">:</span> <span class="kc">null</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="k">catch</span> <span class="o">(</span><span class="nc">IOException</span> <span class="n">ex</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalStateException</span><span class="o">(</span><span class="s">"Unable to load indexes from location ["</span> <span class="o">+</span>
+                <span class="no">COMPONENTS_RESOURCE_LOCATION</span> <span class="o">+</span> <span class="s">"]"</span><span class="o">,</span> <span class="n">ex</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+<blockquote>
+  <p>综上所述: <strong>ClassPathBeanDefinitionScanner</strong> 的作用就是扫描所有类路径下所有被@Component、@Repository、@Service、@Controller以及ManagedBean和Named注解的类,并将它们注册为bean定义.</p>
+</blockquote>
+
+<blockquote>
+  <p>createApplicationContext总结</p>
+</blockquote>
+
+<blockquote>
+  <p>第四步主要就是创建AnnotationConfigServletWebServerApplicationContext上下文,在构造AnnotationConfigServletWebServerApplicationContext的同时又创建用于注册所有bean的AnnotatedBeanDefinitionReader和扫描所有指定注解类的ClassPathBeanDefinitionScanner.
+其中AnnotatedBeanDefinitionReader又注册了多个后置处理器为后续做准备,最重要的就是ConfigurationClassPostProcessor.</p>
+</blockquote>
+
+<hr />
+
+<h3 id="组件扫描扩展">组件扫描扩展</h3>
+<hr />
+<p>背景:虽然类路径扫描速度非常快,但是可以通过在编译时创建一个静态候选列表来提高应用程序的启动性能.</p>
+
+<p>首先需要先添加maven</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="n">dependencies</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">dependency</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="n">groupId</span><span class="o">&gt;</span><span class="n">org</span><span class="o">.</span><span class="na">springframework</span><span class="o">&lt;/</span><span class="n">groupId</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="n">artifactId</span><span class="o">&gt;</span><span class="n">spring</span><span class="o">-</span><span class="n">context</span><span class="o">-</span><span class="n">indexer</span><span class="o">&lt;/</span><span class="n">artifactId</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="n">version</span><span class="o">&gt;</span><span class="mf">5.1</span><span class="o">.</span><span class="mi">8</span><span class="o">.</span><span class="na">RELEASE</span><span class="o">&lt;/</span><span class="n">version</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="n">optional</span><span class="o">&gt;</span><span class="kc">true</span><span class="o">&lt;/</span><span class="n">optional</span><span class="o">&gt;</span>
+    <span class="o">&lt;/</span><span class="n">dependency</span><span class="o">&gt;</span>
+<span class="o">&lt;/</span><span class="n">dependencies</span><span class="o">&gt;</span>
+</code></pre></div></div>
+<p>他的作用就是在编译过程中生成一个包含jar文件的META-INF/spring.components文件.此文件中就包含应用中所有以 <strong>@Component以及以@Component为元注解</strong> 的类.
+如下图所示:</p>
+<center>
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/springboot/spring.components示例.png">
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="spring.components示例" src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/springboot/spring.components示例.png" />
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">spring.components示例</div>
+    </a>
+</center>
+
+<p>那我们可以这样使用:</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+    <span class="nc">ConfigurableApplicationContext</span> <span class="n">context</span> <span class="o">=</span> <span class="nc">SpringApplication</span><span class="o">.</span><span class="na">run</span><span class="o">(</span><span class="nc">DemoApplication</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">args</span><span class="o">);</span>
+    <span class="c1">//"META-INF/spring.components"</span>
+    <span class="nc">CandidateComponentsIndex</span> <span class="n">candidateComponentsIndex</span> <span class="o">=</span> <span class="nc">CandidateComponentsIndexLoader</span><span class="o">.</span><span class="na">loadIndex</span><span class="o">(</span><span class="nc">DemoApplication</span><span class="o">.</span><span class="na">class</span><span class="o">.</span><span class="na">getClassLoader</span><span class="o">());</span>
+    <span class="k">if</span> <span class="o">(</span><span class="nc">Objects</span><span class="o">.</span><span class="na">nonNull</span><span class="o">(</span><span class="n">candidateComponentsIndex</span><span class="o">)){</span>
+        <span class="nc">Set</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">candidates</span> <span class="o">=</span> <span class="n">candidateComponentsIndex</span><span class="o">.</span><span class="na">getCandidateTypes</span><span class="o">(</span><span class="s">"com.hcc.example"</span><span class="o">,</span> <span class="s">"org.springframework.stereotype.Component"</span><span class="o">);</span>
+        <span class="k">for</span> <span class="o">(</span><span class="nc">String</span> <span class="nl">candidate:</span><span class="n">candidates</span><span class="o">){</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">candidate</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="s">"MyComponent"</span><span class="o">)){</span>
+                <span class="nc">MyComponent</span> <span class="n">myComponent</span> <span class="o">=</span> <span class="o">(</span><span class="nc">MyComponent</span><span class="o">)</span><span class="n">context</span><span class="o">.</span><span class="na">getBeanFactory</span><span class="o">().</span><span class="na">getBean</span><span class="o">(</span><span class="s">"myComponent"</span><span class="o">);</span>
+                <span class="n">myComponent</span><span class="o">.</span><span class="na">test</span><span class="o">();</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+<p>具体如果扩展就可以根据我们的需要进行了.<br />
+当在类路径上找到META-INF/Spring.components时,索引将自动启用.如果某个索引部分可用于某些库(或用例),但无法为整个应用程序生成,则可以通过将spring.index.ignore设置为true(作为系统属性或类路径根目录下的spring.properties文件)来回滚到常规类路径安排(就像根本没有索引一样).</p>
+<hr />
+</p>
+
+                            <div align="center">
+                            <ul class="list-inline item-details">
+                                
+                                    <li>Client:
+                                        <strong><a href="http://startbootstrap.com">SpringBoot</a>
+                                        </strong>
+                                    </li>
+                                
+                                
+                                    <li>Date:
+                                        <strong><a href="http://startbootstrap.com">Septemper 2021</a>
+                                        </strong>
+                                    </li>
+                                
+                                
+                                    <li>Service:
+                                        <strong><a href="http://startbootstrap.com">SpringBoot</a>
+                                        </strong>
+                                    </li>
+                                
+                            </ul>
+                            </div>
+                            <div align="center">
+                                <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="portfolio-modal modal fade" id="portfolioModal-20000003" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-content">
+            <div class="close-modal" data-dismiss="modal">
+                <div class="lr">
+                    <div class="rl">
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2">
+                        <div class="modal-body">
+                            <div align="center">
+                            <h2>SpringBoot启动源码解析(三)</h2>
+                            <hr class="star-primary">
+                            <img src="img/portfolio/pexels-rachel-claire-5490361.jpg" class="img-responsive img-centered" alt="SpringBoot3">
+
+                            
+                                <h3>SpringBootApplication Run方法解析(一):prepareEnvironment</h3>
+                            
+                            </div>
+
+                            <p><h3 id="run方法入口主要分析prepareenvironment">Run方法入口:主要分析prepareEnvironment</h3>
+<hr />
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/**
+ * Run the Spring application, creating and refreshing a new
+ * {@link ApplicationContext}.
+ * 运行Spring应用，创建和刷新一个新的应用上下文
+ * @param args the application arguments (usually passed from a Java main method)
+ * @return a running {@link ApplicationContext}
+ */</span>
+<span class="kd">public</span> <span class="nc">ConfigurableApplicationContext</span> <span class="nf">run</span><span class="o">(</span><span class="nc">String</span><span class="o">...</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+    <span class="c1">//1.创建启动计时器</span>
+    <span class="nc">StopWatch</span> <span class="n">stopWatch</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">StopWatch</span><span class="o">();</span>
+    <span class="n">stopWatch</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+    <span class="c1">//创建启动上下文并初始化相应的Bootstrapper 目前暂未使用</span>
+    <span class="nc">ConfigurableApplicationContext</span> <span class="n">context</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+    <span class="nc">Collection</span><span class="o">&lt;</span><span class="nc">SpringBootExceptionReporter</span><span class="o">&gt;</span> <span class="n">exceptionReporters</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
+    <span class="c1">//设置系统的配置模式，一般用于服务端开发 默认为true</span>
+    <span class="n">configureHeadlessProperty</span><span class="o">();</span>
+    <span class="c1">//获取spring上下文启动监听者  从META-INF/spring.factories中获取SpringApplicationRunListener的实现类并加载</span>
+    <span class="nc">SpringApplicationRunListeners</span> <span class="n">listeners</span> <span class="o">=</span> <span class="n">getRunListeners</span><span class="o">(</span><span class="n">args</span><span class="o">);</span>
+    <span class="c1">//发布启动中事件</span>
+    <span class="n">listeners</span><span class="o">.</span><span class="na">starting</span><span class="o">();</span>
+    <span class="k">try</span> <span class="o">{</span>
+        <span class="c1">//2.创建默认上下文参数</span>
+        <span class="nc">ApplicationArguments</span> <span class="n">applicationArguments</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">DefaultApplicationArguments</span><span class="o">(</span><span class="n">args</span><span class="o">);</span>
+        <span class="c1">//3.准备环境，将资源属性添加到环境中并与上下文绑定</span>
+        <span class="nc">ConfigurableEnvironment</span> <span class="n">environment</span> <span class="o">=</span> <span class="n">prepareEnvironment</span><span class="o">(</span><span class="n">listeners</span><span class="o">,</span> <span class="n">applicationArguments</span><span class="o">);</span>
+        <span class="c1">//设置spring.beaninfo.ignore中过滤的bean</span>
+        <span class="n">configureIgnoreBeanInfo</span><span class="o">(</span><span class="n">environment</span><span class="o">);</span>
+        <span class="c1">//打印spring标记</span>
+        <span class="nc">Banner</span> <span class="n">printedBanner</span> <span class="o">=</span> <span class="n">printBanner</span><span class="o">(</span><span class="n">environment</span><span class="o">);</span>
+        <span class="c1">//4.根据web应用类型创建指定的应用上下文</span>
+        <span class="c1">//注意:这里反射创建AnnotationConfigServletWebServerApplicationContext时,构造中创建AnnotatedBeanDefinitionReader中的AnnotationConfigUtils.registerAnnotationConfigProcessors(this.registry)方法很重要</span>
+        <span class="c1">//它将几个常见的BeanPostProcessor和BeanFactoryPostProcessor注册到注册表中  最重要的是internalConfigurationAnnotationProcessor来解析Configuration的配置类</span>
+        <span class="n">context</span> <span class="o">=</span> <span class="n">createApplicationContext</span><span class="o">();</span>
+        <span class="n">exceptionReporters</span> <span class="o">=</span> <span class="n">getSpringFactoriesInstances</span><span class="o">(</span><span class="nc">SpringBootExceptionReporter</span><span class="o">.</span><span class="na">class</span><span class="o">,</span>
+                <span class="k">new</span> <span class="nc">Class</span><span class="o">[]</span> <span class="o">{</span> <span class="nc">ConfigurableApplicationContext</span><span class="o">.</span><span class="na">class</span> <span class="o">},</span> <span class="n">context</span><span class="o">);</span>
+        <span class="c1">//5.准备上下文</span>
+        <span class="c1">//主要做了两件事:</span>
+        <span class="c1">// 1.调用前面实例化的ApplicationContextInitializer的initialize方式初始化上下文</span>
+        <span class="c1">// 2.在其中的load方法中将启动主函数bean定义注册到注册表中 beanDefinitionMap</span>
+        <span class="n">prepareContext</span><span class="o">(</span><span class="n">context</span><span class="o">,</span> <span class="n">environment</span><span class="o">,</span> <span class="n">listeners</span><span class="o">,</span> <span class="n">applicationArguments</span><span class="o">,</span> <span class="n">printedBanner</span><span class="o">);</span>
+        <span class="c1">//6.刷新上下文</span>
+        <span class="n">refreshContext</span><span class="o">(</span><span class="n">context</span><span class="o">);</span>
+        <span class="n">afterRefresh</span><span class="o">(</span><span class="n">context</span><span class="o">,</span> <span class="n">applicationArguments</span><span class="o">);</span>
+        <span class="n">stopWatch</span><span class="o">.</span><span class="na">stop</span><span class="o">();</span>
+        <span class="k">if</span> <span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">logStartupInfo</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">new</span> <span class="nf">StartupInfoLogger</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">mainApplicationClass</span><span class="o">).</span><span class="na">logStarted</span><span class="o">(</span><span class="n">getApplicationLog</span><span class="o">(),</span> <span class="n">stopWatch</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="c1">//监听者发布已启动事件</span>
+        <span class="n">listeners</span><span class="o">.</span><span class="na">started</span><span class="o">(</span><span class="n">context</span><span class="o">);</span>
+        <span class="c1">//7.调用所有的ApplicationRunner和CommandLineRunner的实现类</span>
+        <span class="n">callRunners</span><span class="o">(</span><span class="n">context</span><span class="o">,</span> <span class="n">applicationArguments</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="k">catch</span> <span class="o">(</span><span class="nc">Throwable</span> <span class="n">ex</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">handleRunFailure</span><span class="o">(</span><span class="n">context</span><span class="o">,</span> <span class="n">ex</span><span class="o">,</span> <span class="n">exceptionReporters</span><span class="o">,</span> <span class="n">listeners</span><span class="o">);</span>
+        <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalStateException</span><span class="o">(</span><span class="n">ex</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="k">try</span> <span class="o">{</span>
+        <span class="c1">//监听者发布运行中事件</span>
+        <span class="n">listeners</span><span class="o">.</span><span class="na">running</span><span class="o">(</span><span class="n">context</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="k">catch</span> <span class="o">(</span><span class="nc">Throwable</span> <span class="n">ex</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">handleRunFailure</span><span class="o">(</span><span class="n">context</span><span class="o">,</span> <span class="n">ex</span><span class="o">,</span> <span class="n">exceptionReporters</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+        <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalStateException</span><span class="o">(</span><span class="n">ex</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="n">context</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+<p>本章我们主要分析 <strong>prepareEnvironment</strong> 及其之前的步骤.</p>
 <ol>
   <li>第一步比较好理解,创建定时器统计启动时间,并获取的事件发布者 <strong>SpringApplicationRunListener</strong> 来发布启动过程中的各个事件,首先发布的就是 <strong>starting</strong> 事件.</li>
-  <li>第二步创建应用参数,默认传入的是空集合,见下源码
-    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="nf">DefaultApplicationArguments</span><span class="o">(</span><span class="nc">String</span><span class="o">...</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
- <span class="nc">Assert</span><span class="o">.</span><span class="na">notNull</span><span class="o">(</span><span class="n">args</span><span class="o">,</span> <span class="s">"Args must not be null"</span><span class="o">);</span>
- <span class="k">this</span><span class="o">.</span><span class="na">source</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Source</span><span class="o">(</span><span class="n">args</span><span class="o">);</span>
- <span class="k">this</span><span class="o">.</span><span class="na">args</span> <span class="o">=</span> <span class="n">args</span><span class="o">;</span>
-<span class="o">}</span>
-</code></pre></div>    </div>
-  </li>
+  <li>第二步创建应用参数,默认传入的是空集合</li>
   <li>第三步创建环境实例,首先看下 <strong>ConfigurableEnvironment</strong> 相关类图</li>
 </ol>
 <center>
@@ -1037,7 +1617,6 @@
  * allow subclasses to contribute or manipulate {@link PropertySource} instances as
  * appropriate.
  * 创建一个新的Environment实例, 在构造期间回调customizePropertySources方法以允许子类根据需要贡献或操作 PropertySource实例
- * @see #customizePropertySources(MutablePropertySources)
  */</span>
 <span class="kd">public</span> <span class="nf">AbstractEnvironment</span><span class="o">()</span> <span class="o">{</span>
     <span class="n">customizePropertySources</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">propertySources</span><span class="o">);</span>
@@ -1103,7 +1682,7 @@
             <span class="k">new</span> <span class="nf">SystemEnvironmentPropertySource</span><span class="o">(</span><span class="no">SYSTEM_ENVIRONMENT_PROPERTY_SOURCE_NAME</span><span class="o">,</span> <span class="n">getSystemEnvironment</span><span class="o">()));</span>
 <span class="o">}</span>
 </code></pre></div></div>
-<p>可见在创建 <strong>StandardServletEnvironment</strong> 实例时将 <strong>servletContextInitParams</strong> 、 <strong>servletConfigInitParams</strong> 、<strong>systemEnvironment</strong> 和 <strong>systemProperties</strong> 四种属性添加到环境实例中.</p>
+<p>可见在创建 <strong>StandardServletEnvironment</strong> 实例时根据子类重写的 <strong>customizePropertySources</strong> 方法将 <strong>servletContextInitParams</strong> 、 <strong>servletConfigInitParams</strong> 、<strong>systemEnvironment</strong> 和 <strong>systemProperties</strong> 四种属性添加到环境实例中.</p>
 
 <p>3.2 设置环境属性资源和配置文件,源码如下</p>
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/**
@@ -1191,11 +1770,10 @@
     <span class="n">environment</span><span class="o">.</span><span class="na">setActiveProfiles</span><span class="o">(</span><span class="nc">StringUtils</span><span class="o">.</span><span class="na">toStringArray</span><span class="o">(</span><span class="n">profiles</span><span class="o">));</span>
 <span class="o">}</span>
 </code></pre></div></div>
-<p>由上可见,第二步主要就是为环境实例添加转换服务、配置属性源和配置文件.</p>
+<p>由上可见,第二步主要就是为环境实例添加转换服务 <strong>conversionService</strong> 、检查是否需要配置默认属性源和是否需要根据命令行参数配置、设置profiles.</p>
 
 <p>3.3 第三步的源码如下:</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-<span class="cm">/**
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/**
  * The name of the {@link PropertySource} {@link #attach(Environment) adapter}.
  * 属性源适配器的名称
  */</span>
@@ -1227,7 +1805,7 @@
     <span class="o">}</span>
 <span class="o">}</span>
 </code></pre></div></div>
-<p>由上可见,第三步的主要作用就是配置 <strong>configurationProperties</strong> 属性源,为后面的绑定到 <strong>SpringApplication</strong> 而准备.</p>
+<p>由上可见,第三步的主要作用就是为 <strong>Environment</strong> 实例配置 <strong>configurationProperties</strong> 属性源,为后面的绑定到 <strong>SpringApplication</strong> 而准备.</p>
 
 <p>3.4 第四步就是发布环境准备就绪事件,这里有个监听器比较重要: <strong>ConfigFileApplicationListener</strong> ,我们来看下源码</p>
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//ConfigFileApplicationListener implements EnvironmentPostProcessor, SmartApplicationListener, Ordered {</span>
@@ -1295,14 +1873,15 @@
                 <span class="k">this</span><span class="o">.</span><span class="na">processedProfiles</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">LinkedList</span><span class="o">&lt;&gt;();</span>
                 <span class="k">this</span><span class="o">.</span><span class="na">activatedProfiles</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
                 <span class="k">this</span><span class="o">.</span><span class="na">loaded</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">LinkedHashMap</span><span class="o">&lt;&gt;();</span>
-                <span class="c1">//初始化Profiles 默认初始化default</span>
+                <span class="c1">//初始化Profiles 默认初始化 active-profiles 和 spring.profiles.* 包含的所有profile</span>
                 <span class="n">initializeProfiles</span><span class="o">();</span>
+                <span class="c1">//解析所有的profiles 这里至少有两个 null和default</span>
                 <span class="k">while</span> <span class="o">(!</span><span class="k">this</span><span class="o">.</span><span class="na">profiles</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">())</span> <span class="o">{</span>
                     <span class="nc">Profile</span> <span class="n">profile</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">profiles</span><span class="o">.</span><span class="na">poll</span><span class="o">();</span>
                     <span class="k">if</span> <span class="o">(</span><span class="n">isDefaultProfile</span><span class="o">(</span><span class="n">profile</span><span class="o">))</span> <span class="o">{</span>
                         <span class="n">addProfileToEnvironment</span><span class="o">(</span><span class="n">profile</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
                     <span class="o">}</span>
-                    <span class="c1">//根据指定的profile加载资源</span>
+                    <span class="c1">//根据指定的profile加载资源 第一次解析null 第二次解析default</span>
                     <span class="n">load</span><span class="o">(</span><span class="n">profile</span><span class="o">,</span> <span class="k">this</span><span class="o">::</span><span class="n">getPositiveProfileFilter</span><span class="o">,</span>
                             <span class="n">addToLoaded</span><span class="o">(</span><span class="nl">MutablePropertySources:</span><span class="o">:</span><span class="n">addLast</span><span class="o">,</span> <span class="kc">false</span><span class="o">));</span>
                     <span class="k">this</span><span class="o">.</span><span class="na">processedProfiles</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">profile</span><span class="o">);</span>
@@ -1353,8 +1932,8 @@
         <span class="o">}</span>
     <span class="o">}</span>
 </code></pre></div></div>
-<p>可见第四步通过发布环境准备就绪事件, 通过 <strong>ConfigFileApplicationListener</strong> 来执行所有环境相关的后置处理器, 最典型的就是通过自己本身 <strong>ConfigFileApplicationListener</strong> 来加载 <strong>applicaiton.properties</strong> 中的属性源.
-通过 <strong>PropertySourceLoader</strong> 的两个实现类的 <strong>getFileExtensions()</strong> 方法指定的文件扩展名分别拼接默认路径 <strong>classpath:/,classpath:/config/,file:./,file:./config/</strong> ,找到存在的路径则进行解析属性.</p>
+<p>可见第四步通过发布环境准备就绪事件,所有的监听器中,最终要的就是 <strong>ConfigFileApplicationListener</strong>,通过 <strong>ConfigFileApplicationListener</strong> 来执行所有环境相关的后置处理器, 他自己本身实现了 <strong>EnvironmentPostProcessor</strong> ,通过 <strong>postProcessEnvironment</strong> 来调用 <strong>addPropertySources</strong> 方法通过 <strong>Loader</strong> 来加载配置文件属性源.
+在构造 <strong>Loader</strong> 中初始化 <strong>PropertySourceLoader</strong> 的两个实现类 <strong>PropertiesPropertySourceLoader</strong> 和 <strong>YamlPropertySourceLoader</strong> 来加载 <strong>“properties”,”xml”</strong> 和 <strong>“yml”,”yaml”__的配置文件,主要通过 __getFileExtensions()</strong> 方法指定的文件扩展名分别拼接默认路径 <strong>classpath:/,classpath:/config/,file:./,file:./config/</strong> ,找到存在的路径则进行解析属性.</p>
 
 <p>3.5 第五步将环境绑定到当前应用中</p>
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/**
@@ -1403,6 +1982,7 @@
 <span class="c1">//通过其中的PropertyPlaceholderHelper</span>
 <span class="kd">public</span> <span class="nf">PropertySourcesPlaceholdersResolver</span><span class="o">(</span><span class="nc">Iterable</span><span class="o">&lt;</span><span class="nc">PropertySource</span><span class="o">&lt;?&gt;&gt;</span> <span class="n">sources</span><span class="o">,</span> <span class="nc">PropertyPlaceholderHelper</span> <span class="n">helper</span><span class="o">)</span> <span class="o">{</span>
     <span class="k">this</span><span class="o">.</span><span class="na">sources</span> <span class="o">=</span> <span class="n">sources</span><span class="o">;</span>
+    <span class="c1">//创建PropertyPlaceholderHelper来解析 ${}</span>
     <span class="k">this</span><span class="o">.</span><span class="na">helper</span> <span class="o">=</span> <span class="o">(</span><span class="n">helper</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">?</span> <span class="n">helper</span> <span class="o">:</span> <span class="k">new</span> <span class="nc">PropertyPlaceholderHelper</span><span class="o">(</span><span class="nc">SystemPropertyUtils</span><span class="o">.</span><span class="na">PLACEHOLDER_PREFIX</span><span class="o">,</span>
             <span class="nc">SystemPropertyUtils</span><span class="o">.</span><span class="na">PLACEHOLDER_SUFFIX</span><span class="o">,</span> <span class="nc">SystemPropertyUtils</span><span class="o">.</span><span class="na">VALUE_SEPARATOR</span><span class="o">,</span> <span class="kc">true</span><span class="o">);</span>
 <span class="o">}</span>
@@ -1431,12 +2011,17 @@
 
 <span class="c1">//具体绑定代码不贴了,嵌套层数太深后期有时间在详细分析</span>
 </code></pre></div></div>
+<p>可见第五步就是使用3.3新加入的 <strong>configurationProperties</strong> 属性源和 <strong>${}</strong> 占位符解析器 <strong>PropertySourcesPlaceholdersResolver</strong> 来创建 <strong>Binder</strong> .
+最后在通过 <strong>Binder</strong> 来将 <strong>“spring.main”</strong> 封装的 <strong>ConfigurationProperty</strong> 和主函数 <strong>SpringApplication</strong> 进行绑定.</p>
 
 <p>3.6 最后一步是再次将已有属性以key为 configurationProperties的形式添加到属性中</p>
 
 <blockquote>
-  <p>总结<br />
-第三步的作用就是将创建 Environment实例,并将各种属性资源添加到Environment中其中包括configurationProperties、servletConfigInitParams、servletContextInitParams、systemProperties、systemEnvironment、以及最重要的applicationConfig: [classpath:/application.properties],最后在将该Environment绑定到应用SpringApplicaiton中.</p>
+  <p>prepareEnvironment总结</p>
+</blockquote>
+
+<blockquote>
+  <p>prepareEnvironment的作用就是将创建 Environment实例,并将各种属性资源添加到Environment中其中包括configurationProperties、servletConfigInitParams、servletContextInitParams、systemProperties、systemEnvironment、以及最重要的applicationConfig: [classpath:/application.properties],最后在通过Environment创建Binder将”spring.main”的属性源与应用SpringApplicaiton进行绑定.</p>
 </blockquote>
 
 <hr />
@@ -1447,19 +2032,19 @@
                             <ul class="list-inline item-details">
                                 
                                     <li>Client:
-                                        <strong><a href="http://startbootstrap.com">springboot</a>
+                                        <strong><a href="http://startbootstrap.com">SpringBoot</a>
                                         </strong>
                                     </li>
                                 
                                 
                                     <li>Date:
-                                        <strong><a href="http://startbootstrap.com">April 2021</a>
+                                        <strong><a href="http://startbootstrap.com">September 2021</a>
                                         </strong>
                                     </li>
                                 
                                 
                                     <li>Service:
-                                        <strong><a href="http://startbootstrap.com">springboot</a>
+                                        <strong><a href="http://startbootstrap.com">SpringBoot</a>
                                         </strong>
                                     </li>
                                 
@@ -1490,7 +2075,7 @@
                             <div align="center">
                             <h2>SpringBoot启动源码解析(二)</h2>
                             <hr class="star-primary">
-                            <img src="img/portfolio/pexels-irina-iriser-1122625.jpg" class="img-responsive img-centered" alt="springboot2">
+                            <img src="img/portfolio/pexels-irina-iriser-1122625.jpg" class="img-responsive img-centered" alt="SpringBoot2">
 
                             
                                 <h3>SpringBootApplication构造方法分析</h3>
@@ -1779,13 +2364,13 @@ SPI的全名为 Service Provider Interface, 目的是提供接口,让第三方�
                                 
                                 
                                     <li>Date:
-                                        <strong><a href="http://startbootstrap.com">Sep 2021</a>
+                                        <strong><a href="http://startbootstrap.com">September 2021</a>
                                         </strong>
                                     </li>
                                 
                                 
                                     <li>Service:
-                                        <strong><a href="http://startbootstrap.com">springboot</a>
+                                        <strong><a href="http://startbootstrap.com">SpringBoot</a>
                                         </strong>
                                     </li>
                                 
@@ -2079,9 +2664,9 @@ SPI的全名为 Service Provider Interface, 目的是提供接口,让第三方�
 一棵二叉查找树代表了一组键(及其相应的值)的集合,而同一个集合可以用多棵不同的二叉查找树表示.如果我们将一棵二叉查找树的所有键投影到一条直线上,保证一个节点的左子树中的键出现在它的左边,右子树中的键出现在它的右边,那么我们一定可以得到一条有序的键列.</li>
 </ol>
 <center>
-    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/binarySearchTree/两棵能够表示同一组键的二叉查找树.jpg">
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/binarySearchTree/两棵能够表示同一组键的二叉查找树.png">
     <img style="border-radius: 0.3125em;
-    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="两棵能够表示同一组键的二叉查找树" src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/binarySearchTree/两棵能够表示同一组键的二叉查找树.jpg" />
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="两棵能够表示同一组键的二叉查找树" src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/binarySearchTree/两棵能够表示同一组键的二叉查找树.png" />
     <div style="color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
     color: #999;
@@ -2093,9 +2678,9 @@ SPI的全名为 Service Provider Interface, 目的是提供接口,让第三方�
 在二叉查找树中查找一个键的递归算法:如果树是空的,则查找未命中;如果被查找的键和根节点的键相等,则查找命中,否则我们就递归的在适当的子树中继续查找.如果被查找的键较小就选择左子树,较大则选择右子树.</li>
 </ol>
 <center>
-    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/binarySearchTree/二叉查找树中的查找命中(左)和未命中(右).jpg">
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/binarySearchTree/二叉查找树中的查找命中(左)和未命中(右).png">
     <img style="border-radius: 0.3125em;
-    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="二叉查找树中的查找命中(左)和未命中(右)" src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/binarySearchTree/二叉查找树中的查找命中(左)和未命中(右).jpg" />
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="二叉查找树中的查找命中(左)和未命中(右)" src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/binarySearchTree/二叉查找树中的查找命中(左)和未命中(右).png" />
     <div style="color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
     color: #999;
@@ -2108,9 +2693,9 @@ SPI的全名为 Service Provider Interface, 目的是提供接口,让第三方�
 </ol>
 
 <center>
-    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/binarySearchTree/二叉查找树的插入操作.jpg">
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/binarySearchTree/二叉查找树的插入操作.png">
     <img style="border-radius: 0.3125em;
-    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="二叉查找树的插入操作" src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/binarySearchTree/二叉查找树的插入操作.jpg" />
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="二叉查找树的插入操作" src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/binarySearchTree/二叉查找树的插入操作.png" />
     <div style="color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
     color: #999;
@@ -2177,9 +2762,9 @@ SPI的全名为 Service Provider Interface, 目的是提供接口,让第三方�
 <p>使用二叉查找树的算法运行时间取决于树的形状,而树的形状取决于键被插入的先后顺序.在最好的情况下,一棵含有 <strong>N</strong> 个节点的树是完全平衡的,每条空链接和根节点的距离都为 <strong>lgN</strong> .在最坏的情况下,搜索路径上可能有 <strong>N</strong> 个节点.</p>
 
 <center>
-    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/binarySearchTree/二叉查找树的可能形状.jpg">
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/binarySearchTree/二叉查找树的可能形状.png">
     <img style="border-radius: 0.3125em;
-    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="二叉查找树的可能形状" src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/binarySearchTree/二叉查找树的可能形状.jpg" />
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="二叉查找树的可能形状" src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/binarySearchTree/二叉查找树的可能形状.png" />
     <div style="color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
     color: #999;
@@ -4864,7 +5449,7 @@ SPI的全名为 Service Provider Interface, 目的是提供接口,让第三方�
                             <div align="center">
                             <h2>SpringBoot启动源码解析(一)</h2>
                             <hr class="star-primary">
-                            <img src="img/portfolio/pexels-david-selbert-6468061.jpg" class="img-responsive img-centered" alt="springboot1">
+                            <img src="img/portfolio/pexels-david-selbert-6468061.jpg" class="img-responsive img-centered" alt="SpringBoot1">
 
                             
                                 <h3>SpringBootApplication注解分析</h3>
@@ -5325,19 +5910,19 @@ SPI的全名为 Service Provider Interface, 目的是提供接口,让第三方�
                             <ul class="list-inline item-details">
                                 
                                     <li>Client:
-                                        <strong><a href="http://startbootstrap.com">springboot</a>
+                                        <strong><a href="http://startbootstrap.com">SpringBoot</a>
                                         </strong>
                                     </li>
                                 
                                 
                                     <li>Date:
-                                        <strong><a href="http://startbootstrap.com">April 2021</a>
+                                        <strong><a href="http://startbootstrap.com">July 2021</a>
                                         </strong>
                                     </li>
                                 
                                 
                                     <li>Service:
-                                        <strong><a href="http://startbootstrap.com">springboot</a>
+                                        <strong><a href="http://startbootstrap.com">SpringBoot</a>
                                         </strong>
                                     </li>
                                 

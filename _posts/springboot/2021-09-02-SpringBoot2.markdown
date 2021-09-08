@@ -4,10 +4,10 @@ springboot: true
 modal-id: 20000002
 date: 2021-09-02
 img: pexels-irina-iriser-1122625.jpg
-alt: springboot2
-project-date: Sep 2021
+alt: SpringBoot2
+project-date: September 2021
 client: SpringBoot
-category: springboot
+category: SpringBoot
 subtitle: SpringBoot启动源码解析(二)
 description: SpringBootApplication构造方法分析
 ---
