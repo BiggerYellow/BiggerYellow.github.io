@@ -11,7 +11,7 @@ category: SpringBoot
 subtitle: SpringBoot启动源码解析(三)
 description: SpringBootApplication Run方法解析(二):createApplicationContext
 ---
-### Run方法入口:createApplicationContext
+### Run方法入口
 - - -
 ``` java
 /**
@@ -82,9 +82,13 @@ public ConfigurableApplicationContext run(String... args) {
     return context;
 }
 ```
+- - -
+
+### createApplicationContext
+- - -
 本章我们主要看下createApplicationContext:
 第四步就是通过反射创建 __ApplicationContext__ ,相关源码如下:
-
+    
 ``` java
 /**
  * The class name of application context that will be used by default for non-web
@@ -141,7 +145,9 @@ protected ConfigurableApplicationContext createApplicationContext() {
     return (ConfigurableApplicationContext) BeanUtils.instantiateClass(contextClass);
 }
 ```
+    
 因为我们的应用类型为 __SERVLET__ ,所以应该初始化 __AnnotationConfigServletWebServerApplicationContext__ , 下面我们继续看下实例化 __AnnotationConfigServletWebServerApplicationContext__ 的源码:
+    
 ``` java
 /**
  * Create a new {@link AnnotationConfigServletWebServerApplicationContext} that needs
@@ -154,11 +160,12 @@ public AnnotationConfigServletWebServerApplicationContext() {
     this.scanner = new ClassPathBeanDefinitionScanner(this);
 }
 ```
+    
 我们首先来看下 __AnnotationConfigServletWebServerApplicationContext__ 的作用:接受带有 __@Configuration__ 、 __@Component__ 和 __inject__ 注解的类,可以指定类进行注册同样可以根据类路径扫描来注册.  
 在它的无参构造中,它又创建了 __AnnotatedBeanDefinitionReader__ 和 __ClassPathBeanDefinitionScanner__ .  
 其中 __AnnotatedBeanDefinitionReader__ 的作用是以编程方式注册Bean类; __ClassPathBeanDefinitionScanner__ 的作用是扫描类路径下所有以 __@Component、@Repository、@Service、@Controller、ManagedBean、Named__ 等注解修饰的类,并注册相关的bean定义.  
   
-4.1 首先我们先看下 __AnnotatedBeanDefinitionReader__ 的源码:  
+   4.1 首先我们先看下 __AnnotatedBeanDefinitionReader__ 的源码:  
 
 ``` java
 public AnnotatedBeanDefinitionReader(BeanDefinitionRegistry registry) {
@@ -329,6 +336,7 @@ public static Set<BeanDefinitionHolder> registerAnnotationConfigProcessors(
 >综上所述: __AnnotatedBeanDefinitionReader__ 的主要作用就是注册多个后置处理器到bean工厂中,为后面解析主函数做准备  
 
 4.2 接下来我们再看下 __ClassPathBeanDefinitionScanner__ 的源码:  
+        
 ``` java
 /**
  * Create a new {@code ClassPathBeanDefinitionScanner} for the given bean factory and

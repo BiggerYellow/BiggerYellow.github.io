@@ -75,7 +75,7 @@ public static int binarySearch(int[] array, int target){
 整体逻辑同二分查找类似, 不同点在于:  
 1. 退出循环条件, __left<right__ 
 2. 当 __nums[mid]>target__ ,直接将 __mid__ 赋值给 __right__  
-2. 当 __nums[mid]==target__ 时,有两种情况:
+3. 当 __nums[mid]==target__ 时,有两种情况:
     - 若取最左位置,则继续向左搜索,即限制右指针, __right=mid__ 
     - 若取最右位置,则继续向右搜索,即限制左指针, __left=mid+1__  
 
