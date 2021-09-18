@@ -561,10 +561,10 @@ public Binder(Iterable<ConfigurationPropertySource> sources, PlaceholdersResolve
 最后在通过 __Binder__ 来将 __"spring.main"__ 封装的 __ConfigurationProperty__ 和主函数 __SpringApplication__ 进行绑定.
 
 3.6 最后一步是再次将已有属性以key为 configurationProperties的形式添加到属性中
-
-> prepareEnvironment总结  
-
-> prepareEnvironment的作用就是将创建 Environment实例,并将各种属性资源添加到Environment中其中包括configurationProperties、servletConfigInitParams、servletContextInitParams、systemProperties、systemEnvironment、以及最重要的applicationConfig: [classpath:/application.properties],最后在通过Environment创建Binder将"spring.main"的属性源与应用SpringApplicaiton进行绑定.
-
 - - -
+
+### prepareEnvironment总结  
+> prepareEnvironment的作用就是将创建 Environment实例,并将各种属性资源添加到Environment中其中包括configurationProperties、servletConfigInitParams、servletContextInitParams、systemProperties、systemEnvironment、以及最重要的applicationConfig: [classpath:/application.properties],最后在通过Environment创建Binder将"spring.main"的属性源与应用SpringApplicaiton进行绑定.  
+
+
 

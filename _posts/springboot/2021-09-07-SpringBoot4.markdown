@@ -8,7 +8,7 @@ alt: SpringBoot4
 project-date: Septemper 2021
 client: SpringBoot
 category: SpringBoot
-subtitle: SpringBoot启动源码解析(三)
+subtitle: SpringBoot启动源码解析(四)
 description: SpringBootApplication Run方法解析(二):createApplicationContext
 ---
 ### Run方法入口
@@ -461,13 +461,13 @@ private static CandidateComponentsIndex doLoadIndex(ClassLoader classLoader) {
 }
 ```
 >综上所述: __ClassPathBeanDefinitionScanner__ 的作用就是扫描所有类路径下所有被@Component、@Repository、@Service、@Controller以及ManagedBean和Named注解的类,并将它们注册为bean定义.  
+  
+- - -
 
->createApplicationContext总结
-
+### createApplicationContext总结  
 >第四步主要就是创建AnnotationConfigServletWebServerApplicationContext上下文,在构造AnnotationConfigServletWebServerApplicationContext的同时又创建用于注册所有bean的AnnotatedBeanDefinitionReader和扫描所有指定注解类的ClassPathBeanDefinitionScanner.
 >其中AnnotatedBeanDefinitionReader又注册了多个后置处理器为后续做准备,最重要的就是ConfigurationClassPostProcessor.
 
-- - -
 
 ### 组件扫描扩展
 - - -
