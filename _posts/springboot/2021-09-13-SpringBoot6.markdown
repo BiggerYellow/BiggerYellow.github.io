@@ -85,7 +85,7 @@ public ConfigurableApplicationContext run(String... args) {
 - - -
 ### refreshContext
 - - -
-本篇我们一起分析下SpringBoot启动流程中最重要的一步 __refreshContext__ ,字面意思就是刷新上下文,基本上这个完成后上下文就差不多可以使用了.
+&emsp;&emsp;本篇我们一起分析下SpringBoot启动流程中最重要的一步 __refreshContext__ ,字面意思就是刷新上下文,基本上这个完成后上下文就差不多可以使用了.
   
 ``` java
 private void refreshContext(ConfigurableApplicationContext context) {
@@ -112,8 +112,8 @@ protected void refresh(ApplicationContext applicationContext) {
     ((AbstractApplicationContext) applicationContext).refresh();
 }
 ```
-由此可见,在SpringBoot中 __refresh__ 的作用就是调用spring中真正的刷新上下文操作,并在刷新完成后注册上下文下线钩子.  
-接下来, 我们来真正看下在spring中的 __refresh__ 方法源码:  
+&emsp;&emsp;由此可见,在SpringBoot中 __refresh__ 的作用就是调用spring中真正的刷新上下文操作,并在刷新完成后注册上下文下线钩子.  
+&emsp;&emsp;接下来, 我们来真正看下在spring中的 __refresh__ 方法源码:  
 
 ``` java
 /** Synchronization monitor for the "refresh" and "destroy". */
@@ -249,9 +249,9 @@ protected void prepareRefresh() {
     this.earlyApplicationEvents = new LinkedHashSet<>();
 }
 ```
-可见第一步主要就是设置了启动时间 __startupDate__ 和启动标志 __active=true__ , 初始化上下文中 __ServletContext和ServletConfig__ 属性,最后并初始化存放早期应用监听者和应用事件的集合 __earlyApplicationListeners、earlyApplicationEvents__ .
+&emsp;&emsp;可见第一步主要就是设置了启动时间 __startupDate__ 和启动标志 __active=true__ , 初始化上下文中 __ServletContext和ServletConfig__ 属性,最后并初始化存放早期应用监听者和应用事件的集合 __earlyApplicationListeners、earlyApplicationEvents__ .  
 
-2. 第二步obtainFreshBeanFactory,相关源码如下:
+2.第二步obtainFreshBeanFactory,相关源码如下:
 
 ``` java
 /**
@@ -308,10 +308,10 @@ public final ConfigurableListableBeanFactory getBeanFactory() {
     return this.beanFactory;
 }
 ```
-由此可见,第二步的作用就是刷新上下文中的bean工厂,刷新主要包括通过CAS设置bean工厂中的refreshed状态为true,并设置bean工厂的序列化id __serializationId__ ,此值为应用的名称,即 __spring.application.name__ 指定的名称.  
-最后并返回刷新后的bean工厂即可.  
+&emsp;&emsp;由此可见,第二步的作用就是刷新上下文中的bean工厂,刷新主要包括通过CAS设置bean工厂中的refreshed状态为true,并设置bean工厂的序列化id __serializationId__ ,此值为应用的名称,即 __spring.application.name__ 指定的名称.  
+&emsp;&emsp;最后并返回刷新后的bean工厂即可.  
 
-3. 第三步prepareBeanFactory相关源码如下:
+3.第三步prepareBeanFactory相关源码如下:
 
 ``` java
 /**
@@ -385,13 +385,13 @@ protected void prepareBeanFactory(ConfigurableListableBeanFactory beanFactory) {
     }
 }
 ```
-可见第三步的作用就是设置bean工厂的通用功能.例如设置类加载器、设置 __BeanExpressionResolver__ 用来解析 __#{}__ 属性、设置 __PropertyEditorRegistrar__ 来自定义解析 __application.properties__ 中的值.  
+&emsp;&emsp;可见第三步的作用就是设置bean工厂的通用功能.例如设置类加载器、设置 __BeanExpressionResolver__ 用来解析 __#{}__ 属性、设置 __PropertyEditorRegistrar__ 来自定义解析 __application.properties__ 中的值.  
 添加 __ApplicationContextAwareProcessor__ 后置处理器在bean初始化前设置实现所有相关Aware接口的属性同时要将这些Aware接口忽略防止进行自动装配, 既然有忽略那也就有注册,注册 __BeanFactory、ResourceLoader、ApplicationEventPublisher、ApplicationContext__ 为已解析类型,当遇到这几种类型直接使用即可.  
-然后在检查bean工厂中是否有 __LoadTimeWeaver__ 的bean,有则注册 __LoadTimeWeaverAwareProcessor__ 后置处理器用来将默认的 __LoadTimeWeaver__ 传递给实现了 __LoadTimeWeaverAware__ 接口的bean并设置临时类加载器以进行类型匹配.  
-最后就是检测 __environment、systemProperties、systemEnvironment__ 这三个bean是否存在,存在则进行注册.  
-以上步骤执行完后, 一个bean工厂也就可以准备使用了.  
+&emsp;&emsp;然后在检查bean工厂中是否有 __LoadTimeWeaver__ 的bean,有则注册 __LoadTimeWeaverAwareProcessor__ 后置处理器用来将默认的 __LoadTimeWeaver__ 传递给实现了 __LoadTimeWeaverAware__ 接口的bean并设置临时类加载器以进行类型匹配.  
+&emsp;&emsp;最后就是检测 __environment、systemProperties、systemEnvironment__ 这三个bean是否存在,存在则进行注册.  
+&emsp;&emsp;以上步骤执行完后, 一个bean工厂也就可以准备使用了.  
 
-4. 第四步postProcessBeanFactory相关源码如下:
+4.第四步postProcessBeanFactory相关源码如下:
 
 ``` java
 //org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext#postProcessBeanFactory
@@ -408,7 +408,7 @@ protected void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactor
     }
 }
 ```
-可见直接调用了父类的postProcessBeanFactory方法, AnnotationConfigServletWebServerApplicationContext的父类为ServletWebServerApplicationContext,那么继续看父类的代码:  
+&emsp;&emsp;可见直接调用了父类的postProcessBeanFactory方法, AnnotationConfigServletWebServerApplicationContext的父类为ServletWebServerApplicationContext,那么继续看父类的代码:  
 ``` java
 protected void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) {
     //注册WebApplicationContextServletContextAwareProcessor后置处理器
@@ -456,11 +456,12 @@ public static void registerWebApplicationScopes(ConfigurableListableBeanFactory 
     }
 }
 ```
-可见父类ServletWebServerApplicationContext的作用就是注册一个 __WebApplicationContextServletContextAwareProcessor__ 后置处理器来在bean初始化之前设置 __ServletContext和ServletConfig__ ,然后就是注册web指定的范围 __request、session__ .
+&emsp;&emsp;可见父类ServletWebServerApplicationContext的作用就是注册一个 __WebApplicationContextServletContextAwareProcessor__ 后置处理器来在bean初始化之前设置 __ServletContext和ServletConfig__ ,然后就是注册web指定的范围 __request、session__ .
 由此可见第四步主要就是后置处理Bean工厂,具体实现在ServletWebServerApplicationContext中,结论如上.  
 
-5. 第五步invokeBeanFactoryPostProcessors,非常重要,个人认为核心逻辑都在这里,我们好好看看,相关源码如下:
-我们先抛出大体的结论,通过 __invokeBeanFactoryPostProcessors__ 方法处理,此方法中处理 __BeanDefinitionRegistryPostProcessor__ 和 __BeanFactoryPostProcessor__ 两个后置处理器,  
+5.第五步invokeBeanFactoryPostProcessors,非常重要,个人认为核心逻辑都在这里,我们好好看看,相关源码如下:  
+
+&emsp;&emsp;我们先抛出大体的结论,通过 __invokeBeanFactoryPostProcessors__ 方法处理,此方法中处理 __BeanDefinitionRegistryPostProcessor__ 和 __BeanFactoryPostProcessor__ 两个后置处理器,  
 其中 __BeanDefinitionRegistryPostProcessor__ 中有一个 __ConfigurationClassPostProcessor__ ,它的作用就是解析所有的 __@Configuration__ 修饰的类,也就是主函数,并在解析的过程中通过 __@SpringBootApplication及其元注解__ 解析项目中指定包下的配置类.   
 
 ``` java
@@ -680,7 +681,7 @@ public static void invokeBeanFactoryPostProcessors(
 }
 ```
 我们就 __invokeBeanFactoryPostProcessors__ 先总结一下:  
-看方法名,就是调用实现 __BeanFactoryPostProcessor__ 接口的所有后置处理器,先看一下我们这里需要处理的后置处理器的类图,有些内部类不好合并就不展示了:  
+&emsp;&emsp;看方法名,就是调用实现 __BeanFactoryPostProcessor__ 接口的所有后置处理器,先看一下我们这里需要处理的后置处理器的类图,有些内部类不好合并就不展示了:  
 <center>
     <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/springboot/BeanFactoryPostProcessor.png">
     <img style="border-radius: 0.3125em;
@@ -692,14 +693,14 @@ public static void invokeBeanFactoryPostProcessors(
     padding: 2px;">BeanFactoryPostProcessor类图</div>
     </a>
 </center>
-可见我们这里除了处理实现了BeanFactoryPostProcessor的后置处理器,还处理了实现BeanDefinitionRegistryPostProcessor的后置处理器,其实BeanDefinitionRegistryPostProcessor也是实现了BeanFactoryPostProcessor,从类图中可以看出.  
-那我们这里的逻辑就很清晰了,首先处理实现BeanDefinitionRegistryPostProcessor的后置处理器,通过postProcessBeanDefinitionRegistry回调方法,然后是处理实现了BeanFactoryPostProcessor的后置处理器,通过postProcessBeanFactory回调方法.每个后置处理器都有自己的逻辑,需具体分析.  
+&emsp;&emsp;可见我们这里除了处理实现了BeanFactoryPostProcessor的后置处理器,还处理了实现BeanDefinitionRegistryPostProcessor的后置处理器,其实BeanDefinitionRegistryPostProcessor也是实现了BeanFactoryPostProcessor,从类图中可以看出.  
+&emsp;&emsp;那我们这里的逻辑就很清晰了,首先处理实现BeanDefinitionRegistryPostProcessor的后置处理器,通过postProcessBeanDefinitionRegistry回调方法,然后是处理实现了BeanFactoryPostProcessor的后置处理器,通过postProcessBeanFactory回调方法.每个后置处理器都有自己的逻辑,需具体分析.  
 
 >invokeBeanFactoryPostProcessors小结  
 
 前置处理逻辑:  
-判断当前bean工厂是否属于BeanDefinitionRegistry,不属于直接调用注册在上下文中的BeanFactoryPostProcessor,否则继续处理.  
-定义两个regularPostProcessors和registryProcessors分别存放两种后置处理器,肯定是要先执行子类BeanDefinitionRegistryPostProcessor
+&emsp;&emsp;判断当前bean工厂是否属于BeanDefinitionRegistry,不属于直接调用注册在上下文中的BeanFactoryPostProcessor,否则继续处理.  
+&emsp;&emsp;定义两个regularPostProcessors和registryProcessors分别存放两种后置处理器,肯定是要先执行子类BeanDefinitionRegistryPostProcessor
 遍历上下文中的后置处理器,遇到BeanDefinitionRegistryPostProcessor直接执行postProcessBeanDefinitionRegistry回调并将其添加到registryProcessors集合中,遇到BeanFactoryPostProcessor则直接添加到regularPostProcessors集合中.    
 第一阶段处理BeanDefinitionRegistryPostProcessor:  
 1. 首先从bean工厂已注册的bean定义中找到实现BeanDefinitionRegistryPostProcessor的bean  
@@ -722,7 +723,7 @@ public static void invokeBeanFactoryPostProcessors(
 5. 按步骤4处理剩下的后置处理器
 6. 最后清空bean工厂中的元数据缓存
 
-下面我们来着重看下最重要的后置处理器 __ConfigurationClassPostProcessor__ 它的作用是在启动时通过 __postProcessBeanDefinitionRegistry__ 回调处理@Configuration修饰的类.
+&emsp;&emsp;下面我们来着重看下最重要的后置处理器 __ConfigurationClassPostProcessor__ 它的作用是在启动时通过 __postProcessBeanDefinitionRegistry__ 回调处理@Configuration修饰的类.
 __postProcessBeanDefinitionRegistry__ 回调源码如下:
 ``` java
 /**
@@ -817,7 +818,7 @@ public void processConfigBeanDefinitions(BeanDefinitionRegistry registry) {
             this.metadataReaderFactory, this.problemReporter, this.environment,
             this.resourceLoader, this.componentScanBeanNameGenerator, registry);
     
-    //3. 通过ConfigurationClassParser解析候选类 也就是主函数
+    //3. 通过ConfigurationClassParser的parse方法解析候选类 也就是主函数
     //3.1 首先通过parse方法进行解析主函数,这里就将所有的注解都解析的干干净净 具体逻辑稍后分析
     //3.1 解析完后进行验证,主要验证解析后配置类及其中的属性是否合法
     //3.3 此时已经将所有的配置类都解析好了,但是还有通过@Import或@Bean或@ImportedResources或ImportBeanDefinitionRegister的bean未注册,这步就是注册这些类的
@@ -837,6 +838,7 @@ public void processConfigBeanDefinitions(BeanDefinitionRegistry registry) {
         parser.parse(candidates);
         parser.validate();
 
+        //4. 通过reader.loadBeanDefinitions方法注册导入的配置类自身、相关@Bean方法导入的类、@ImportResource导入的类和@Import导入的类的定义
         Set<ConfigurationClass> configClasses = new LinkedHashSet<>(parser.getConfigurationClasses());
         configClasses.removeAll(alreadyParsed);
 
@@ -853,6 +855,8 @@ public void processConfigBeanDefinitions(BeanDefinitionRegistry registry) {
         alreadyParsed.addAll(configClasses);
 
         candidates.clear();
+        
+        //5.最后检测后扫描到的配置类中是否有未扫描到的,存在则加入到candidates中继续解析
         //如果注册表中的bean定义数量 大于 之前 加载的候选类数量
         if (registry.getBeanDefinitionCount() > candidateNames.length) {
             //最新的候选配置类数组
@@ -893,6 +897,12 @@ public void processConfigBeanDefinitions(BeanDefinitionRegistry registry) {
     }
 }
 ```
+由此可见 __processConfigBeanDefinitions__ 主要分为五步:  
+1. 获取注册表中已注册的bean定义,并挑选出配置类候选(使用@Configuration注解的类)并加入到configCandidates中
+2. 解析前置操作:根据@Order排序候选者、设置bean名称生成策略、设置Environment、最重要的就是创建ConfigurationClassParser解析器
+3. 通过ConfigurationClassParser的parse方法解析候选类 也就是主函数(核心逻辑),总结来说就是解析配置类上的所有注解属性并将这些bean添加到bean工厂中 (详细分析见下章)
+4. 通过reader.loadBeanDefinitions方法注册导入的配置类自身、相关@Bean方法导入的类、@ImportResource导入的类和@Import导入的类的定义
+5. 最后检测后扫描到的配置类中是否有未扫描到的,存在则加入到candidates中继续解析
 - - -
 
 ### 基本思路
