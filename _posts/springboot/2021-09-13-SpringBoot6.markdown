@@ -141,19 +141,24 @@ public void refresh() throws BeansException, IllegalStateException {
             postProcessBeanFactory(beanFactory);
 
             // Invoke factory processors registered as beans in the context.
-            // 非常核心 5.调用在上下文中注册为bean的工厂处理器
+            // 非常核心 5.调用在上下文中注册为bean的工厂处理器 通过ConfigurationClassPostProcessor来解析所有的配置类
             invokeBeanFactoryPostProcessors(beanFactory);
 
             // Register bean processors that intercept bean creation.
+            // 6.注册拦截bean创建的bean处理器
             registerBeanPostProcessors(beanFactory);
 
             // Initialize message source for this context.
+            // 7.为上下文初始化消息源
             initMessageSource();
 
             // Initialize event multicaster for this context.
+            // 8.为上下文初始化事件广播器
             initApplicationEventMulticaster();
 
             // Initialize other special beans in specific context subclasses.
+            // 9. 初始化在指定上下文子类中的其他特殊bean
+            //主要是调用ServletWebServerApplicationContext重写的方法,初始化内置tomcat
             onRefresh();
 
             // Check for listener beans and register them.
@@ -749,177 +754,277 @@ public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) {
 ```
 可见回调中其实就做了两件事:
 1. 获取该注册表的hash值并判断是否处理过,若已处理则直接抛出异常,否则将此值添加到已注册结合registriesPostProcessed
-2. 解析注册表中所有被@Configuration修饰的bean定义  
-  
-接下来我们在继续看看这个 __processConfigBeanDefinitions(registry)__ 的源码:
+2. 解析注册表中所有被@Configuration修饰的bean定义,这里就是配置类的最主要解析逻辑,解析见 __SpringBoot启动源码解析(七)__ 
+
+6.第六步创建拦截bean创建的bean处理器,相关源码如下:
 ``` java
 /**
- * Build and validate a configuration model based on the registry of
- * {@link Configuration} classes.
- * 基于Configuration类的注册表构建和验证配置模型
+ * Instantiate and register all BeanPostProcessor beans,
+ * respecting explicit order if given.
+ * 实例化和注册所有的BeanPostProcessor的bean,如果给出,尊重明确的规则
+ * <p>Must be called before any instantiation of application beans.
+ * 必须在应用bean实例化之前被调用
  */
-public void processConfigBeanDefinitions(BeanDefinitionRegistry registry) {
-    //1.获取注册表中已注册的bean定义,并挑选出配置类候选(使用@Configuration注解的类)并加入到configCandidates中
-    List<BeanDefinitionHolder> configCandidates = new ArrayList<>();
-    String[] candidateNames = registry.getBeanDefinitionNames();
+protected void registerBeanPostProcessors(ConfigurableListableBeanFactory beanFactory) {
+    PostProcessorRegistrationDelegate.registerBeanPostProcessors(beanFactory, this);
+}
 
-    //从前面加载的候选者中找到被@Configuration修饰的类并把该类封装为BeanDefinitionHolder
-    //主要是处理主函数类
-    for (String beanName : candidateNames) {
-        BeanDefinition beanDef = registry.getBeanDefinition(beanName);
-        if (beanDef.getAttribute(ConfigurationClassUtils.CONFIGURATION_CLASS_ATTRIBUTE) != null) {
-            if (logger.isDebugEnabled()) {
-                logger.debug("Bean definition has already been processed as a configuration class: " + beanDef);
+//注册所有的BeanPostProcessor
+public static void registerBeanPostProcessors(
+        ConfigurableListableBeanFactory beanFactory, AbstractApplicationContext applicationContext) {
+
+    //1.获取所有的BeanPostProcessor的实现类
+    String[] postProcessorNames = beanFactory.getBeanNamesForType(BeanPostProcessor.class, true, false);
+
+    // Register BeanPostProcessorChecker that logs an info message when
+    // a bean is created during BeanPostProcessor instantiation, i.e. when
+    // a bean is not eligible for getting processed by all BeanPostProcessors.
+    //2.注册BeanPostProcessorChecker,当bean在BeanPostProcessor实例化期间创建bean时记录信息
+    int beanProcessorTargetCount = beanFactory.getBeanPostProcessorCount() + 1 + postProcessorNames.length;
+    beanFactory.addBeanPostProcessor(new BeanPostProcessorChecker(beanFactory, beanProcessorTargetCount));
+
+    // Separate between BeanPostProcessors that implement PriorityOrdered,
+    // Ordered, and the rest.
+    //3. 分开实现了PriorityOrdered、OrderedBeanPostProcessor和剩下的BeanPostProcessor
+    List<BeanPostProcessor> priorityOrderedPostProcessors = new ArrayList<>();
+    List<BeanPostProcessor> internalPostProcessors = new ArrayList<>();
+    List<String> orderedPostProcessorNames = new ArrayList<>();
+    List<String> nonOrderedPostProcessorNames = new ArrayList<>();
+    //找出实现了PriorityOrdered、Ordered和剩下的接口 同时还有保存既实现了PriorityOrdered又属于MergedBeanDefinitionPostProcessor的类
+    for (String ppName : postProcessorNames) {
+        if (beanFactory.isTypeMatch(ppName, PriorityOrdered.class)) {
+            BeanPostProcessor pp = beanFactory.getBean(ppName, BeanPostProcessor.class);
+            priorityOrderedPostProcessors.add(pp);
+            if (pp instanceof MergedBeanDefinitionPostProcessor) {
+                internalPostProcessors.add(pp);
             }
         }
-        else if (ConfigurationClassUtils.checkConfigurationClassCandidate(beanDef, this.metadataReaderFactory)) {
-            //将匹配的bean添加到配置候选者中
-            configCandidates.add(new BeanDefinitionHolder(beanDef, beanName));
+        else if (beanFactory.isTypeMatch(ppName, Ordered.class)) {
+            orderedPostProcessorNames.add(ppName);
+        }
+        else {
+            nonOrderedPostProcessorNames.add(ppName);
         }
     }
 
-    // Return immediately if no @Configuration classes were found
-    //如果没有发现@Configuration配置的类直接返回
-    if (configCandidates.isEmpty()) {
-        return;
-    }
-    
-    //2. 解析前置操作:根据@Order排序候选者、设置bean名称生成策略、设置Environment、最重要的就是创建ConfigurationClassParser解析器
-    // Sort by previously determined @Order value, if applicable
-    //如果适用的话,根据先前确定的@Order的值排序  order值越小优先级越高
-    configCandidates.sort((bd1, bd2) -> {
-        int i1 = ConfigurationClassUtils.getOrder(bd1.getBeanDefinition());
-        int i2 = ConfigurationClassUtils.getOrder(bd2.getBeanDefinition());
-        return Integer.compare(i1, i2);
-    });
+    // First, register the BeanPostProcessors that implement PriorityOrdered.
+    //4.首先注册实现了PriorityOrdered的BeanPostProcessor
+    sortPostProcessors(priorityOrderedPostProcessors, beanFactory);
+    registerBeanPostProcessors(beanFactory, priorityOrderedPostProcessors);
 
-    // Detect any custom bean name generation strategy supplied through the enclosing application context
-    //检测 通过封闭应用上下文提供的任何自定义bean名称生成策略
-    SingletonBeanRegistry sbr = null;
-    if (registry instanceof SingletonBeanRegistry) {
-        sbr = (SingletonBeanRegistry) registry;
-        if (!this.localBeanNameGeneratorSet) {
-            BeanNameGenerator generator = (BeanNameGenerator) sbr.getSingleton(
-                    AnnotationConfigUtils.CONFIGURATION_BEAN_NAME_GENERATOR);
-            if (generator != null) {
-                this.componentScanBeanNameGenerator = generator;
-                this.importBeanNameGenerator = generator;
+    // Next, register the BeanPostProcessors that implement Ordered.
+    //5.接下来 注册实现了ordered的BeanPostProcessor 同时记录属于MergedBeanDefinitionPostProcessor的类
+    List<BeanPostProcessor> orderedPostProcessors = new ArrayList<>(orderedPostProcessorNames.size());
+    for (String ppName : orderedPostProcessorNames) {
+        BeanPostProcessor pp = beanFactory.getBean(ppName, BeanPostProcessor.class);
+        orderedPostProcessors.add(pp);
+        if (pp instanceof MergedBeanDefinitionPostProcessor) {
+            internalPostProcessors.add(pp);
+        }
+    }
+    sortPostProcessors(orderedPostProcessors, beanFactory);
+    registerBeanPostProcessors(beanFactory, orderedPostProcessors);
+
+    // Now, register all regular BeanPostProcessors.
+    //6.最后注册所有常规的BeanPostProcessor 同时记录属于MergedBeanDefinitionPostProcessor的类
+    List<BeanPostProcessor> nonOrderedPostProcessors = new ArrayList<>(nonOrderedPostProcessorNames.size());
+    for (String ppName : nonOrderedPostProcessorNames) {
+        BeanPostProcessor pp = beanFactory.getBean(ppName, BeanPostProcessor.class);
+        nonOrderedPostProcessors.add(pp);
+        if (pp instanceof MergedBeanDefinitionPostProcessor) {
+            internalPostProcessors.add(pp);
+        }
+    }
+    registerBeanPostProcessors(beanFactory, nonOrderedPostProcessors);
+
+    // Finally, re-register all internal BeanPostProcessors.
+    //7.最后重新注册所有内部的BeanPostProcessor 相当于后置处理器会移动到处理链的末尾
+    sortPostProcessors(internalPostProcessors, beanFactory);
+    registerBeanPostProcessors(beanFactory, internalPostProcessors);
+
+    // Re-register post-processor for detecting inner beans as ApplicationListeners,
+    // moving it to the end of the processor chain (for picking up proxies etc).
+    //8.重新注册后置处理器以将内部bean检测为ApplicationListeners,将其移动到处理器链的末尾
+    beanFactory.addBeanPostProcessor(new ApplicationListenerDetector(applicationContext));
+}
+```
+&emsp;&emsp;第六步注册bean后置处理器同第五步基本类似,总结如下:
+6.1 首先找到bean工厂中所有BeanPostProcessor的实现类
+6.2 首先统计原来bean工厂已注册的bean后置处理器的数量加上6.1找到的实现类数量并加上1,这个1对应BeanPostProcessorChecker,紧跟着就注册它,它的作用是当bean在BeanPostProcessor实例化期间创建bean时记录信息.
+6.3 根据实现了PriorityOrdered、Ordered和默认顺序的BeanPostProcessor进行分类,并同时找出既实现了MergedBeanDefinitionPostProcessor和PriorityOrdered的BeanPostProcessor
+6.4 首先注册实现了PriorityOrdered的BeanPostProcessor
+6.5 接下来注册实现了ordered的BeanPostProcessor,同时记录属于MergedBeanDefinitionPostProcessor的类
+6.6 然后注册所有常规的BeanPostProcessor 同时记录属于MergedBeanDefinitionPostProcessor的类
+6.7 后面重新注册所有实现了MergedBeanDefinitionPostProcessor的后置处理器,作用是这些后置处理器会移动到处理链的末尾
+6.8 最后重新注册后置处理器以将内部bean检测为ApplicationListeners,将其移动到处理器链的末尾
+
+7. 为上下文初始化消息源,源码如下:
+``` java
+public static final String MESSAGE_SOURCE_BEAN_NAME = "messageSource";
+/**
+ * Initialize the MessageSource.
+ * 初始化消息源
+ * Use parent's if none defined in this context.
+ * 如果在上下文中没有定义则使用父类的
+ */
+protected void initMessageSource() {
+    ConfigurableListableBeanFactory beanFactory = getBeanFactory();
+    //判断当前bean工厂中是否包含messageSource的bean
+    if (beanFactory.containsLocalBean(MESSAGE_SOURCE_BEAN_NAME)) {
+        this.messageSource = beanFactory.getBean(MESSAGE_SOURCE_BEAN_NAME, MessageSource.class);
+        // Make MessageSource aware of parent MessageSource.
+        // 将父消息源设置到当前消息源中
+        if (this.parent != null && this.messageSource instanceof HierarchicalMessageSource) {
+            HierarchicalMessageSource hms = (HierarchicalMessageSource) this.messageSource;
+            if (hms.getParentMessageSource() == null) {
+                // Only set parent context as parent MessageSource if no parent MessageSource
+                // registered already.
+                hms.setParentMessageSource(getInternalParentMessageSource());
             }
         }
-    }
-
-    if (this.environment == null) {
-        this.environment = new StandardEnvironment();
-    }
-
-    // Parse each @Configuration class
-    //解析每一个@Configuration修饰的类
-    ConfigurationClassParser parser = new ConfigurationClassParser(
-            this.metadataReaderFactory, this.problemReporter, this.environment,
-            this.resourceLoader, this.componentScanBeanNameGenerator, registry);
-    
-    //3. 通过ConfigurationClassParser的parse方法解析候选类 也就是主函数
-    //3.1 首先通过parse方法进行解析主函数,这里就将所有的注解都解析的干干净净 具体逻辑稍后分析
-    //3.1 解析完后进行验证,主要验证解析后配置类及其中的属性是否合法
-    //3.3 此时已经将所有的配置类都解析好了,但是还有通过@Import或@Bean或@ImportedResources或ImportBeanDefinitionRegister的bean未注册,这步就是注册这些类的
-    //3.4 最后就是筛选出所有已经真正解析过的配置类 若存在未解析的加入到candidates中继续进行解析
-    Set<BeanDefinitionHolder> candidates = new LinkedHashSet<>(configCandidates);
-    Set<ConfigurationClass> alreadyParsed = new HashSet<>(configCandidates.size());
-    do {
-        //使用ConfigurationClassParser解析每一个配置候选者
-        //即解析主函数 主要作用是 解析每个注解
-        //1.@PropertySource
-        //2.@ComponentScan 根据注解的路径扫描所有需要加载的配置类  默认是扫描主类下的所有文件
-        //3.@Import 根据@Import注解加载所有的导入类  最重要的是通过SpringBoot中的AutoConfigurationImportSelector来加载所有自动配置的类
-        //4.@ImportResource
-        //5.@Bean
-        //6.default methods on interfaces
-        //7.Process superclass
-        parser.parse(candidates);
-        parser.validate();
-
-        //4. 通过reader.loadBeanDefinitions方法注册导入的配置类自身、相关@Bean方法导入的类、@ImportResource导入的类和@Import导入的类的定义
-        Set<ConfigurationClass> configClasses = new LinkedHashSet<>(parser.getConfigurationClasses());
-        configClasses.removeAll(alreadyParsed);
-
-        // Read the model and create bean definitions based on its content
-        //读取模型并根据其内容创建bean定义
-        if (this.reader == null) {
-            this.reader = new ConfigurationClassBeanDefinitionReader(
-                    registry, this.sourceExtractor, this.resourceLoader, this.environment,
-                    this.importBeanNameGenerator, parser.getImportRegistry());
-        }
-        //将解析过的配置类中的一些属性注册为bean定义
-        this.reader.loadBeanDefinitions(configClasses);
-        //alreadyParsed存放所有实例化过的配置类
-        alreadyParsed.addAll(configClasses);
-
-        candidates.clear();
-        
-        //5.最后检测后扫描到的配置类中是否有未扫描到的,存在则加入到candidates中继续解析
-        //如果注册表中的bean定义数量 大于 之前 加载的候选类数量
-        if (registry.getBeanDefinitionCount() > candidateNames.length) {
-            //最新的候选配置类数组
-            String[] newCandidateNames = registry.getBeanDefinitionNames();
-            //旧的候选配置类集合
-            Set<String> oldCandidateNames = new HashSet<>(Arrays.asList(candidateNames));
-            Set<String> alreadyParsedClasses = new HashSet<>();
-            //添加到alreadyParsedClasses中
-            for (ConfigurationClass configurationClass : alreadyParsed) {
-                alreadyParsedClasses.add(configurationClass.getMetadata().getClassName());
-            }
-            //比较新旧候选类  只有不存在于旧的候选者集合 且 属于配置候选者 才添加到candidates
-            for (String candidateName : newCandidateNames) {
-                if (!oldCandidateNames.contains(candidateName)) {
-                    BeanDefinition bd = registry.getBeanDefinition(candidateName);
-                    if (ConfigurationClassUtils.checkConfigurationClassCandidate(bd, this.metadataReaderFactory) &&
-                            !alreadyParsedClasses.contains(bd.getBeanClassName())) {
-                        candidates.add(new BeanDefinitionHolder(bd, candidateName));
-                    }
-                }
-            }
-            candidateNames = newCandidateNames;
+        if (logger.isTraceEnabled()) {
+            logger.trace("Using MessageSource [" + this.messageSource + "]");
         }
     }
-    while (!candidates.isEmpty());
-
-    // Register the ImportRegistry as a bean in order to support ImportAware @Configuration classes
-    //将ImportRegistry注册为一个bean 为了支持ImportAware的配置类
-    if (sbr != null && !sbr.containsSingleton(IMPORT_REGISTRY_BEAN_NAME)) {
-        sbr.registerSingleton(IMPORT_REGISTRY_BEAN_NAME, parser.getImportRegistry());
-    }
-
-    if (this.metadataReaderFactory instanceof CachingMetadataReaderFactory) {
-        // Clear cache in externally provided MetadataReaderFactory; this is a no-op
-        // for a shared cache since it'll be cleared by the ApplicationContext.
-        //清除外部提供的MetadataReaderFactory中的缓存; 这是共享缓存的空操作,因为它将被ApplicationContext清除
-        ((CachingMetadataReaderFactory) this.metadataReaderFactory).clearCache();
+    else {
+        //不存在则创建默认消息源并注册到bean工厂中
+        // Use empty MessageSource to be able to accept getMessage calls.
+        //使用空消息源来接受getMessage的调用
+        DelegatingMessageSource dms = new DelegatingMessageSource();
+        dms.setParentMessageSource(getInternalParentMessageSource());
+        this.messageSource = dms;
+        beanFactory.registerSingleton(MESSAGE_SOURCE_BEAN_NAME, this.messageSource);
+        if (logger.isTraceEnabled()) {
+            logger.trace("No '" + MESSAGE_SOURCE_BEAN_NAME + "' bean, using [" + this.messageSource + "]");
+        }
     }
 }
 ```
-由此可见 __processConfigBeanDefinitions__ 主要分为五步:  
-1. 获取注册表中已注册的bean定义,并挑选出配置类候选(使用@Configuration注解的类)并加入到configCandidates中
-2. 解析前置操作:根据@Order排序候选者、设置bean名称生成策略、设置Environment、最重要的就是创建ConfigurationClassParser解析器
-3. 通过ConfigurationClassParser的parse方法解析候选类 也就是主函数(核心逻辑),总结来说就是解析配置类上的所有注解属性并将这些bean添加到bean工厂中 (详细分析见下章)
-4. 通过reader.loadBeanDefinitions方法注册导入的配置类自身、相关@Bean方法导入的类、@ImportResource导入的类和@Import导入的类的定义
-5. 最后检测后扫描到的配置类中是否有未扫描到的,存在则加入到candidates中继续解析
-- - -
+&emsp;&emsp;代码比较清晰,查看bean工厂中是否包含messageSource的bean,存在则继续设置父类的消息源,不存在则创建默认消息源并注册到bean工厂中
 
-### 基本思路
-- - -
-- - -
+8. 为上下文初始化事件广播器,源码如下:
+``` java
+public static final String APPLICATION_EVENT_MULTICASTER_BEAN_NAME = "applicationEventMulticaster";
 
-### 遍历图解
-<center>
-    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/图片地址.jpg">
-    <img style="border-radius: 0.3125em;
-    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="图片描述"
-    src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/图片地址.jpg">
-    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
-    display: inline-block;
-    color: #999;
-    padding: 2px;">图片描述</div>
-    </a>
-</center>
+/**
+ * Initialize the ApplicationEventMulticaster.
+ * 初始化ApplicationEventMulticaster
+ * Uses SimpleApplicationEventMulticaster if none defined in the context.
+ * 如果在上下文中没有定义则使用SimpleApplicationEventMulticaster
+ * @see org.springframework.context.event.SimpleApplicationEventMulticaster
+ */
+protected void initApplicationEventMulticaster() {
+    ConfigurableListableBeanFactory beanFactory = getBeanFactory();
+    //判断bean工厂中是否存在applicationEventMulticaster的bean
+    if (beanFactory.containsLocalBean(APPLICATION_EVENT_MULTICASTER_BEAN_NAME)) {
+        //存在直接取出该bean赋值给applicationEventMulticaster
+        this.applicationEventMulticaster =
+                beanFactory.getBean(APPLICATION_EVENT_MULTICASTER_BEAN_NAME, ApplicationEventMulticaster.class);
+        if (logger.isTraceEnabled()) {
+            logger.trace("Using ApplicationEventMulticaster [" + this.applicationEventMulticaster + "]");
+        }
+    }
+    else {
+        //不存在则创建SimpleApplicationEventMulticaster 并注册到bean工厂中
+        this.applicationEventMulticaster = new SimpleApplicationEventMulticaster(beanFactory);
+        beanFactory.registerSingleton(APPLICATION_EVENT_MULTICASTER_BEAN_NAME, this.applicationEventMulticaster);
+        if (logger.isTraceEnabled()) {
+            logger.trace("No '" + APPLICATION_EVENT_MULTICASTER_BEAN_NAME + "' bean, using " +
+                    "[" + this.applicationEventMulticaster.getClass().getSimpleName() + "]");
+        }
+    }
+}
+```
+&emsp;&emsp;可见逻辑和第七步类似,都是先判断上下文中是否存在applicationEventMulticaster,存在则直接赋值给applicationEventMulticaster,不存在则先进行初始化默认的广播器给applicationEventMulticaster,最后再向bean工厂注册这个广播器.
+
+9. 初始化特定上下文子类中的其他特殊bean,主要针对ServletWebServerApplicationContext上下文,源码如下:
+``` java
+protected void onRefresh() {
+    //1.调用父类GenericWebApplicationContext的刷新方法 注册themeSource
+    super.onRefresh();
+    try {
+        //2.创建tomcat服务
+        createWebServer();
+    }
+    catch (Throwable ex) {
+        throw new ApplicationContextException("Unable to start web server", ex);
+    }
+}
+```
+&emsp;&emsp;可见此方法主要分为两步,第一步调用父类的刷新方法和第二步创建web服务,即tomcat.  
+&emsp&emsp;我们先来看看第一步主要做的了什么:
+``` java
+protected void onRefresh() {
+    this.themeSource = UiApplicationContextUtils.initThemeSource(this);
+}
+
+public static final String THEME_SOURCE_BEAN_NAME = "themeSource";
+
+public static ThemeSource initThemeSource(ApplicationContext context) {
+    //上文中是否包含主题来源
+    if (context.containsLocalBean(THEME_SOURCE_BEAN_NAME)) {
+        //包含则获取获取该bean并判断是否需要谁知父类住主题来源并返回
+        ThemeSource themeSource = context.getBean(THEME_SOURCE_BEAN_NAME, ThemeSource.class);
+        // Make ThemeSource aware of parent ThemeSource.
+        if (context.getParent() instanceof ThemeSource && themeSource instanceof HierarchicalThemeSource) {
+            HierarchicalThemeSource hts = (HierarchicalThemeSource) themeSource;
+            if (hts.getParentThemeSource() == null) {
+                // Only set parent context as parent ThemeSource if no parent ThemeSource
+                // registered already.
+                hts.setParentThemeSource((ThemeSource) context.getParent());
+            }
+        }
+        if (logger.isDebugEnabled()) {
+            logger.debug("Using ThemeSource [" + themeSource + "]");
+        }
+        return themeSource;
+    }
+    else {
+        //不包含则初始化默认主题来源 并返回
+        // Use default ThemeSource to be able to accept getTheme calls, either
+        // delegating to parent context's default or to local ResourceBundleThemeSource.
+        HierarchicalThemeSource themeSource = null;
+        if (context.getParent() instanceof ThemeSource) {
+            themeSource = new DelegatingThemeSource();
+            themeSource.setParentThemeSource((ThemeSource) context.getParent());
+        }
+        else {
+            themeSource = new ResourceBundleThemeSource();
+        }
+        if (logger.isDebugEnabled()) {
+            logger.debug("Unable to locate ThemeSource with name '" + THEME_SOURCE_BEAN_NAME +
+                    "': using default [" + themeSource + "]");
+        }
+        return themeSource;
+    }
+}
+```
+&emsp;&emsp;看到这里就很好理解了,就是判断上下文中是否含有themeSource,有则对其父类进行设置,没有则进行初始化并返回.
+&emsp;&emsp;我们再看第二步做了什么:
+``` java
+private void createWebServer() {
+    WebServer webServer = this.webServer;
+    ServletContext servletContext = getServletContext();
+    if (webServer == null && servletContext == null) {
+        //通过TomcatServletWebServerFactory创建tomcat服务
+        ServletWebServerFactory factory = getWebServerFactory();
+        this.webServer = factory.getWebServer(getSelfInitializer());
+    }
+    else if (servletContext != null) {
+        try {
+            getSelfInitializer().onStartup(servletContext);
+        }
+        catch (ServletException ex) {
+            throw new ApplicationContextException("Cannot initialize servlet context", ex);
+        }
+    }
+    initPropertySources();
+}
+```
+&emsp;&emsp;这里最重要的就是factory.getWebServer,通过TomcatServletWebServerFactory工厂创建tomcat服务.具体细节待分析,有兴趣可以自己看看.
+&emsp;&emsp;第九步主要就是创建themeSource和创建并启动tomcat服务.
+
+
+- - -
 
 

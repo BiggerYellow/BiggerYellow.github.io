@@ -3000,11 +3000,12 @@ ConfigurationClassPostProcessor.processConfigBeanDefinitions()</p>
 <ul>
   <li>红链接均为左链接</li>
   <li>没有任何一个节点同时和两条红链接相连</li>
-  <li>该树是完美黑色平衡的,即任意空链接到根节点的路径上的黑链接数量相同
-3.一一对应<br />
-  如果我们将一棵红黑树的红链接画平,那么所有的空链接到根节点的距离都将使相同的.如下图所示.
-如果将由红链接相连的节点合并,得到的就是一棵2-3树.相反,如果将一棵2-3树中的3-节点画做由红色左链接相连的两个2-节点,那么不会存在能够和两条红链接相连的节点,且树必然是完美黑色平衡的,因为黑链接即2-3树中的普通连接,根据定义这些连接必然是完美平衡的.</li>
+  <li>该树是完美黑色平衡的,即任意空链接到根节点的路径上的黑链接数量相同</li>
 </ul>
+
+<p>3.一一对应<br />
+  如果我们将一棵红黑树的红链接画平,那么所有的空链接到根节点的距离都将使相同的.如下图所示.
+如果将由红链接相连的节点合并,得到的就是一棵2-3树.相反,如果将一棵2-3树中的3-节点画做由红色左链接相连的两个2-节点,那么不会存在能够和两条红链接相连的节点,且树必然是完美黑色平衡的,因为黑链接即2-3树中的普通连接,根据定义这些连接必然是完美平衡的.</p>
 <center>
     <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/balancedBinaryTree/将红链接画平时,一棵红黑树就是一棵2-3树.png">
     <img style="border-radius: 0.3125em;
@@ -3028,9 +3029,9 @@ ConfigurationClassPostProcessor.processConfigBeanDefinitions()</p>
 <p>4.颜色表示<br />
   因为每个节点都只会有一条指向自己的链接(从它的父节点指向它),我们将链接的颜色保存在表示节点的Node数据类型的布尔变量color中.如果指向它的链接的颜色是红色的,那么该变量为true,黑色为false.约定空链接为黑色.
 使用私有方法isRed()来测试一个节点和它的父节点之间的链接的颜色.当我们提到一个节点的颜色时,我们指的是指向该节点的链接的颜色,反之亦然.代码及图示如下:</p>
+
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">boolean</span> <span class="no">RED</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
 <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">boolean</span> <span class="no">BLACK</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
-
 <span class="kd">private</span> <span class="kd">class</span> <span class="nc">Node</span><span class="o">{</span>
     <span class="nc">Key</span> <span class="n">key</span><span class="o">;</span>        <span class="c1">//键</span>
     <span class="nc">Value</span> <span class="n">value</span><span class="o">;</span>    <span class="c1">//相关联的值</span>
@@ -3045,7 +3046,6 @@ ConfigurationClassPostProcessor.processConfigBeanDefinitions()</p>
         <span class="k">this</span><span class="o">.</span><span class="na">color</span><span class="o">=</span><span class="n">color</span><span class="o">;</span>
     <span class="o">}</span>
 <span class="o">}</span>
-
 <span class="kd">private</span> <span class="kt">boolean</span> <span class="nf">isRed</span><span class="o">(</span><span class="nc">Node</span> <span class="n">x</span><span class="o">){</span>
     <span class="k">if</span><span class="o">(</span><span class="n">x</span><span class="o">==</span><span class="kc">null</span><span class="o">)</span> <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
     <span class="k">return</span> <span class="n">x</span><span class="o">.</span><span class="na">color</span> <span class="o">==</span> <span class="no">RED</span><span class="o">;</span>
@@ -3062,6 +3062,139 @@ ConfigurationClassPostProcessor.processConfigBeanDefinitions()</p>
     padding: 2px;">红黑树的结点表示</div>
     </a>
 </center>
+
+<p>5.旋转<br />
+  在我们实现的某些操作中可能会出现红色右链接或者两条连续的红链接,但在操作完成前这些情况都会被小心地旋转并修复.旋转操作会改变红链接的指向.
+首先,假设我们有一条红色的右链接需要被转化为左链接,如下图.这个操作叫做左旋转,它对应的方法接受一条并指向红黑树中的某个节点的链接作为参数.
+假设被指向的节点的右链接是红色的,这个方法会对树进行必要的调整并返回一个指向包含同一组键的子树且左链接为红色的根节点的链接.
+这个操作很容易理解:我们只是将用两个键中的较小者作为根节点变为较大者作为根节点.实现将一个红色左链接转换为一个红色右链接的一个右旋转的代码完全相同,只需要将left和right互换即可.</p>
+<ul>
+  <li>左旋转
+    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Node</span> <span class="nf">rotateLeft</span><span class="o">(</span><span class="nc">Node</span> <span class="n">h</span><span class="o">){</span>
+  <span class="nc">Node</span> <span class="n">x</span> <span class="o">=</span> <span class="n">h</span><span class="o">.</span><span class="na">right</span><span class="o">;</span>
+  <span class="n">h</span><span class="o">.</span><span class="na">right</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="na">left</span><span class="o">;</span>
+  <span class="n">x</span><span class="o">.</span><span class="na">left</span> <span class="o">=</span> <span class="n">h</span><span class="o">;</span>
+  <span class="n">x</span><span class="o">.</span><span class="na">color</span> <span class="o">=</span> <span class="n">h</span><span class="o">.</span><span class="na">color</span><span class="o">;</span>
+  <span class="n">h</span><span class="o">.</span><span class="na">color</span> <span class="o">=</span> <span class="no">RED</span><span class="o">;</span>
+  <span class="n">x</span><span class="o">.</span><span class="na">N</span> <span class="o">=</span> <span class="n">h</span><span class="o">.</span><span class="na">N</span><span class="o">;</span>
+  <span class="n">h</span><span class="o">.</span><span class="na">N</span> <span class="o">=</span> <span class="mi">1</span><span class="o">+</span><span class="n">size</span><span class="o">(</span><span class="n">h</span><span class="o">.</span><span class="na">left</span><span class="o">)+</span><span class="n">size</span><span class="o">(</span><span class="n">h</span><span class="o">.</span><span class="na">right</span><span class="o">);</span>
+  <span class="k">return</span> <span class="n">x</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+<center>
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/balancedBinaryTree/左旋转h的右链接.png">
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="左旋转h的右链接" src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/balancedBinaryTree/左旋转h的右链接.png" />
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">左旋转h的右链接</div>
+    </a>
+</center>
+
+<ul>
+  <li>右旋转
+    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Node</span> <span class="nf">rotateRight</span><span class="o">(</span><span class="nc">Node</span> <span class="n">h</span><span class="o">){</span>
+  <span class="nc">Node</span> <span class="n">x</span> <span class="o">=</span> <span class="n">h</span><span class="o">.</span><span class="na">left</span><span class="o">;</span>
+  <span class="n">h</span><span class="o">.</span><span class="na">left</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="na">right</span><span class="o">;</span>
+  <span class="n">x</span><span class="o">.</span><span class="na">right</span> <span class="o">=</span> <span class="n">h</span><span class="o">;</span>
+  <span class="n">x</span><span class="o">.</span><span class="na">color</span> <span class="o">=</span> <span class="n">h</span><span class="o">.</span><span class="na">color</span><span class="o">;</span>
+  <span class="n">h</span><span class="o">.</span><span class="na">color</span> <span class="o">=</span> <span class="no">RED</span><span class="o">;</span>
+  <span class="n">x</span><span class="o">.</span><span class="na">N</span> <span class="o">=</span> <span class="n">h</span><span class="o">.</span><span class="na">N</span><span class="o">;</span>
+  <span class="n">h</span><span class="o">.</span><span class="na">N</span> <span class="o">=</span> <span class="mi">1</span><span class="o">+</span><span class="n">size</span><span class="o">(</span><span class="n">h</span><span class="o">.</span><span class="na">left</span><span class="o">)+</span><span class="n">size</span><span class="o">(</span><span class="n">h</span><span class="o">.</span><span class="na">right</span><span class="o">);</span>
+  <span class="k">return</span> <span class="n">x</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+<center>
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/balancedBinaryTree/右旋转h的左链接.png">
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="右旋转h的左链接" src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/balancedBinaryTree/右旋转h的左链接.png" />
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">右旋转h的左链接</div>
+    </a>
+</center>
+
+<p>6.在旋转后重置父节点的链接<br />
+  无论坐旋转还是右旋转,旋转操作都会返回一条链接.我们总是会用rotateRight()或rotateLeft()的返回值重置父节点(或是根节点)中相应的链接.
+返回的链接可能是左链接也可能是右链接,但是我们总会将它赋予父节点中的链接.这个链接可能是红色也可能黑色–rotateLeft()和rotateRight()都通过将x.color设为h.color保留它原来的颜色.
+这可能会产生两条连续的红链接,但我们的算法会继续用旋转操作修正这种情况.<br />
+  在插入新的键时,我们可以使用旋转操作帮助我们保证2-3树和红黑树之间的一一对应关系,因为旋转操作可以保证红黑树的两个重要性质:有序性和完美平衡性.
+也就是说,我们在红黑树中进行旋转时无需为树的有序性或完美平衡性担心.下面我们继续看看如何使用旋转操作来保持红黑树的另外两个重要性质.</p>
+
+<p>7.向单个2-节点中插入新键<br />
+  一棵树只含有一个键的红黑树只含有一个2-节点.插入另一个键后,马上就需要将它们旋转.如果新键小于老键,只需要新增一个红色的节点即可,新的红黑树和单个3-节点完全等价.
+如果新键大于老键,那么新增的红色节点将会产生一条红色的右链接.我们需要使用 <strong>root=rotateLeft(root)</strong> 将其旋转为红色左链接并修正根节点,插入操作才算完成.
+两种情况的结果为一棵和单个3-节点等价的红黑树,其中含有两个键,一条红链接,树的黑链接高度为1,如下图所示:</p>
+<center>
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/balancedBinaryTree/向单个2-结点中插入一个新键.png">
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="向单个2-结点中插入一个新键" src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/balancedBinaryTree/向单个2-结点中插入一个新键.png" />
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">向单个2-结点中插入一个新键</div>
+    </a>
+</center>
+
+<p>8.向树底部的2-节点插入新键<br />
+  用和二叉树查找树相同的方式向一棵红黑树中插入一个新键会在树的底部新增一个节点(为了保证有序性),但总是用红链接将新节点和它的父节点相连.
+如果它的父节点是一个2-节点,那么刚才讨论的两种处理方法仍然适用.如果指向新节点的是父节点的左链接,那么父节点就直接成为了一个3-节点;
+如果指向新节点的是父节点的右链接,这就是一个错误的3-节点,但一次左旋转就能修正它,如下图所示:</p>
+<center>
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/balancedBinaryTree/向树底部的2-结点插入一个新键.png">
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="向树底部的2-结点插入一个新键" src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/balancedBinaryTree/向树底部的2-结点插入一个新键.png" />
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">向树底部的2-结点插入一个新键</div>
+    </a>
+</center>
+
+<p>9.向一棵双键树(即一个3-节点)中插入新键<br />
+  这种情况又可分为三种情况:新键小于树中的两个键,在两者之间,或是大于树中的两个键.每种情况都会产生一个同时连接到两条红链接的节点,而我们的目标就是修正这一点.</p>
+<ul>
+  <li>三者中最简单的情况就是新键大于原树中的两个键,因此它被连接到3-节点的右链接.此时树是平衡的,根节点为中间大小的键,它有两条红链接分别和较小和较大的节点相连.
+如果我们将两条链接的颜色都由红变黑,那么我们就得到了一棵有三个节点组成,高度为2的平衡树.它正好能对应一棵2-3树,如下图左侧.其他两种情况最终也会转换为这种情况.</li>
+  <li>如果新键小于原树中的两个键,它就会被连接到最左边的空链接,这种就产生了两条连续的红链接,如下图中间侧.此时我们只需要将上层的红链接右旋转即可得到第一种情况(中值键为根节点并和其他两个节点用红链接相连)</li>
+  <li>如果新键介于原树中的两个键之间,这又会产生两条连续的红链接,一条红色左链接接一条红色右链接,如下图右侧.此时我们只需要将下层的红链接左旋转即可得到第二种情况(两条连续的红色链接)</li>
+</ul>
+
+<p>  总的来说,我们通过0次,1次和2次旋转以及颜色的变化得到了期望的结果.</p>
+<center>
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/balancedBinaryTree/向一棵双键树(即一个3-结点)中插入一个新键的三种情况.png">
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="向一棵双键树(即一个3-结点)中插入一个新键的三种情况" src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/balancedBinaryTree/向一棵双键树(即一个3-结点)中插入一个新键的三种情况.png" />
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">向一棵双键树(即一个3-结点)中插入一个新键的三种情况</div>
+    </a>
+</center>
+
+<p>10.颜色转换<br />
+  如下图,我们专门用一个方法 <strong>flipColors()</strong> 来转换一个节点的两个红色子节点的颜色.除了将子节点的颜色由红变黑之外,我们同时还要将父节点的颜色由黑变红.
+这项操作最重重要的性质在于它和旋转操作一样是局部变换,不会影响整棵树的黑色平衡.</p>
+<center>
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/balancedBinaryTree/通过转换链接的颜色来分解4-结点.png">
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="通过转换链接的颜色来分解4-结点" src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/balancedBinaryTree/通过转换链接的颜色来分解4-结点.png" />
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">通过转换链接的颜色来分解4-结点</div>
+    </a>
+</center>
+
+<p>11.根节点总是黑色<br />
+  在第9种情况中,颜色转换会使根节点变为红色.严格的说,红色的根节点说明根节点是一个3-节点的一部分,但是实际情况并不是这样.因此我们在每次插入后都会将根节点设为黑色.注意,每当根节点由红变黑时树的黑链接高度就会加1.</p>
+
 <hr />
 
 </p>
@@ -3247,19 +3380,24 @@ ConfigurationClassPostProcessor.processConfigBeanDefinitions()</p>
             <span class="n">postProcessBeanFactory</span><span class="o">(</span><span class="n">beanFactory</span><span class="o">);</span>
 
             <span class="c1">// Invoke factory processors registered as beans in the context.</span>
-            <span class="c1">// 非常核心 5.调用在上下文中注册为bean的工厂处理器</span>
+            <span class="c1">// 非常核心 5.调用在上下文中注册为bean的工厂处理器 通过ConfigurationClassPostProcessor来解析所有的配置类</span>
             <span class="n">invokeBeanFactoryPostProcessors</span><span class="o">(</span><span class="n">beanFactory</span><span class="o">);</span>
 
             <span class="c1">// Register bean processors that intercept bean creation.</span>
+            <span class="c1">// 6.注册拦截bean创建的bean处理器</span>
             <span class="n">registerBeanPostProcessors</span><span class="o">(</span><span class="n">beanFactory</span><span class="o">);</span>
 
             <span class="c1">// Initialize message source for this context.</span>
+            <span class="c1">// 7.为上下文初始化消息源</span>
             <span class="n">initMessageSource</span><span class="o">();</span>
 
             <span class="c1">// Initialize event multicaster for this context.</span>
+            <span class="c1">// 8.为上下文初始化事件广播器</span>
             <span class="n">initApplicationEventMulticaster</span><span class="o">();</span>
 
             <span class="c1">// Initialize other special beans in specific context subclasses.</span>
+            <span class="c1">// 9. 初始化在指定上下文子类中的其他特殊bean</span>
+            <span class="c1">//主要是调用ServletWebServerApplicationContext重写的方法,初始化内置tomcat</span>
             <span class="n">onRefresh</span><span class="o">();</span>
 
             <span class="c1">// Check for listener beans and register them.</span>
@@ -3855,180 +3993,281 @@ ConfigurationClassPostProcessor.processConfigBeanDefinitions()</p>
 <p>可见回调中其实就做了两件事:</p>
 <ol>
   <li>获取该注册表的hash值并判断是否处理过,若已处理则直接抛出异常,否则将此值添加到已注册结合registriesPostProcessed</li>
-  <li>解析注册表中所有被@Configuration修饰的bean定义</li>
+  <li>解析注册表中所有被@Configuration修饰的bean定义,这里就是配置类的最主要解析逻辑,解析见 <strong>SpringBoot启动源码解析(七)</strong></li>
 </ol>
 
-<p>接下来我们在继续看看这个 <strong>processConfigBeanDefinitions(registry)</strong> 的源码:</p>
+<p>6.第六步创建拦截bean创建的bean处理器,相关源码如下:</p>
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/**
- * Build and validate a configuration model based on the registry of
- * {@link Configuration} classes.
- * 基于Configuration类的注册表构建和验证配置模型
+ * Instantiate and register all BeanPostProcessor beans,
+ * respecting explicit order if given.
+ * 实例化和注册所有的BeanPostProcessor的bean,如果给出,尊重明确的规则
+ * &lt;p&gt;Must be called before any instantiation of application beans.
+ * 必须在应用bean实例化之前被调用
  */</span>
-<span class="kd">public</span> <span class="kt">void</span> <span class="nf">processConfigBeanDefinitions</span><span class="o">(</span><span class="nc">BeanDefinitionRegistry</span> <span class="n">registry</span><span class="o">)</span> <span class="o">{</span>
-    <span class="c1">//1.获取注册表中已注册的bean定义,并挑选出配置类候选(使用@Configuration注解的类)并加入到configCandidates中</span>
-    <span class="nc">List</span><span class="o">&lt;</span><span class="nc">BeanDefinitionHolder</span><span class="o">&gt;</span> <span class="n">configCandidates</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
-    <span class="nc">String</span><span class="o">[]</span> <span class="n">candidateNames</span> <span class="o">=</span> <span class="n">registry</span><span class="o">.</span><span class="na">getBeanDefinitionNames</span><span class="o">();</span>
+<span class="kd">protected</span> <span class="kt">void</span> <span class="nf">registerBeanPostProcessors</span><span class="o">(</span><span class="nc">ConfigurableListableBeanFactory</span> <span class="n">beanFactory</span><span class="o">)</span> <span class="o">{</span>
+    <span class="nc">PostProcessorRegistrationDelegate</span><span class="o">.</span><span class="na">registerBeanPostProcessors</span><span class="o">(</span><span class="n">beanFactory</span><span class="o">,</span> <span class="k">this</span><span class="o">);</span>
+<span class="o">}</span>
 
-    <span class="c1">//从前面加载的候选者中找到被@Configuration修饰的类并把该类封装为BeanDefinitionHolder</span>
-    <span class="c1">//主要是处理主函数类</span>
-    <span class="k">for</span> <span class="o">(</span><span class="nc">String</span> <span class="n">beanName</span> <span class="o">:</span> <span class="n">candidateNames</span><span class="o">)</span> <span class="o">{</span>
-        <span class="nc">BeanDefinition</span> <span class="n">beanDef</span> <span class="o">=</span> <span class="n">registry</span><span class="o">.</span><span class="na">getBeanDefinition</span><span class="o">(</span><span class="n">beanName</span><span class="o">);</span>
-        <span class="k">if</span> <span class="o">(</span><span class="n">beanDef</span><span class="o">.</span><span class="na">getAttribute</span><span class="o">(</span><span class="nc">ConfigurationClassUtils</span><span class="o">.</span><span class="na">CONFIGURATION_CLASS_ATTRIBUTE</span><span class="o">)</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
-            <span class="k">if</span> <span class="o">(</span><span class="n">logger</span><span class="o">.</span><span class="na">isDebugEnabled</span><span class="o">())</span> <span class="o">{</span>
-                <span class="n">logger</span><span class="o">.</span><span class="na">debug</span><span class="o">(</span><span class="s">"Bean definition has already been processed as a configuration class: "</span> <span class="o">+</span> <span class="n">beanDef</span><span class="o">);</span>
+<span class="c1">//注册所有的BeanPostProcessor</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">registerBeanPostProcessors</span><span class="o">(</span>
+        <span class="nc">ConfigurableListableBeanFactory</span> <span class="n">beanFactory</span><span class="o">,</span> <span class="nc">AbstractApplicationContext</span> <span class="n">applicationContext</span><span class="o">)</span> <span class="o">{</span>
+
+    <span class="c1">//1.获取所有的BeanPostProcessor的实现类</span>
+    <span class="nc">String</span><span class="o">[]</span> <span class="n">postProcessorNames</span> <span class="o">=</span> <span class="n">beanFactory</span><span class="o">.</span><span class="na">getBeanNamesForType</span><span class="o">(</span><span class="nc">BeanPostProcessor</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="kc">true</span><span class="o">,</span> <span class="kc">false</span><span class="o">);</span>
+
+    <span class="c1">// Register BeanPostProcessorChecker that logs an info message when</span>
+    <span class="c1">// a bean is created during BeanPostProcessor instantiation, i.e. when</span>
+    <span class="c1">// a bean is not eligible for getting processed by all BeanPostProcessors.</span>
+    <span class="c1">//2.注册BeanPostProcessorChecker,当bean在BeanPostProcessor实例化期间创建bean时记录信息</span>
+    <span class="kt">int</span> <span class="n">beanProcessorTargetCount</span> <span class="o">=</span> <span class="n">beanFactory</span><span class="o">.</span><span class="na">getBeanPostProcessorCount</span><span class="o">()</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">postProcessorNames</span><span class="o">.</span><span class="na">length</span><span class="o">;</span>
+    <span class="n">beanFactory</span><span class="o">.</span><span class="na">addBeanPostProcessor</span><span class="o">(</span><span class="k">new</span> <span class="nc">BeanPostProcessorChecker</span><span class="o">(</span><span class="n">beanFactory</span><span class="o">,</span> <span class="n">beanProcessorTargetCount</span><span class="o">));</span>
+
+    <span class="c1">// Separate between BeanPostProcessors that implement PriorityOrdered,</span>
+    <span class="c1">// Ordered, and the rest.</span>
+    <span class="c1">//3. 分开实现了PriorityOrdered、OrderedBeanPostProcessor和剩下的BeanPostProcessor</span>
+    <span class="nc">List</span><span class="o">&lt;</span><span class="nc">BeanPostProcessor</span><span class="o">&gt;</span> <span class="n">priorityOrderedPostProcessors</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
+    <span class="nc">List</span><span class="o">&lt;</span><span class="nc">BeanPostProcessor</span><span class="o">&gt;</span> <span class="n">internalPostProcessors</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
+    <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">orderedPostProcessorNames</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
+    <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">nonOrderedPostProcessorNames</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
+    <span class="c1">//找出实现了PriorityOrdered、Ordered和剩下的接口 同时还有保存既实现了PriorityOrdered又属于MergedBeanDefinitionPostProcessor的类</span>
+    <span class="k">for</span> <span class="o">(</span><span class="nc">String</span> <span class="n">ppName</span> <span class="o">:</span> <span class="n">postProcessorNames</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">beanFactory</span><span class="o">.</span><span class="na">isTypeMatch</span><span class="o">(</span><span class="n">ppName</span><span class="o">,</span> <span class="nc">PriorityOrdered</span><span class="o">.</span><span class="na">class</span><span class="o">))</span> <span class="o">{</span>
+            <span class="nc">BeanPostProcessor</span> <span class="n">pp</span> <span class="o">=</span> <span class="n">beanFactory</span><span class="o">.</span><span class="na">getBean</span><span class="o">(</span><span class="n">ppName</span><span class="o">,</span> <span class="nc">BeanPostProcessor</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+            <span class="n">priorityOrderedPostProcessors</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">pp</span><span class="o">);</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">pp</span> <span class="k">instanceof</span> <span class="nc">MergedBeanDefinitionPostProcessor</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">internalPostProcessors</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">pp</span><span class="o">);</span>
             <span class="o">}</span>
         <span class="o">}</span>
-        <span class="k">else</span> <span class="nf">if</span> <span class="o">(</span><span class="nc">ConfigurationClassUtils</span><span class="o">.</span><span class="na">checkConfigurationClassCandidate</span><span class="o">(</span><span class="n">beanDef</span><span class="o">,</span> <span class="k">this</span><span class="o">.</span><span class="na">metadataReaderFactory</span><span class="o">))</span> <span class="o">{</span>
-            <span class="c1">//将匹配的bean添加到配置候选者中</span>
-            <span class="n">configCandidates</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="nc">BeanDefinitionHolder</span><span class="o">(</span><span class="n">beanDef</span><span class="o">,</span> <span class="n">beanName</span><span class="o">));</span>
+        <span class="k">else</span> <span class="nf">if</span> <span class="o">(</span><span class="n">beanFactory</span><span class="o">.</span><span class="na">isTypeMatch</span><span class="o">(</span><span class="n">ppName</span><span class="o">,</span> <span class="nc">Ordered</span><span class="o">.</span><span class="na">class</span><span class="o">))</span> <span class="o">{</span>
+            <span class="n">orderedPostProcessorNames</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">ppName</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">else</span> <span class="o">{</span>
+            <span class="n">nonOrderedPostProcessorNames</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">ppName</span><span class="o">);</span>
         <span class="o">}</span>
     <span class="o">}</span>
 
-    <span class="c1">// Return immediately if no @Configuration classes were found</span>
-    <span class="c1">//如果没有发现@Configuration配置的类直接返回</span>
-    <span class="k">if</span> <span class="o">(</span><span class="n">configCandidates</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">())</span> <span class="o">{</span>
-        <span class="k">return</span><span class="o">;</span>
-    <span class="o">}</span>
-    
-    <span class="c1">//2. 解析前置操作:根据@Order排序候选者、设置bean名称生成策略、设置Environment、最重要的就是创建ConfigurationClassParser解析器</span>
-    <span class="c1">// Sort by previously determined @Order value, if applicable</span>
-    <span class="c1">//如果适用的话,根据先前确定的@Order的值排序  order值越小优先级越高</span>
-    <span class="n">configCandidates</span><span class="o">.</span><span class="na">sort</span><span class="o">((</span><span class="n">bd1</span><span class="o">,</span> <span class="n">bd2</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span>
-        <span class="kt">int</span> <span class="n">i1</span> <span class="o">=</span> <span class="nc">ConfigurationClassUtils</span><span class="o">.</span><span class="na">getOrder</span><span class="o">(</span><span class="n">bd1</span><span class="o">.</span><span class="na">getBeanDefinition</span><span class="o">());</span>
-        <span class="kt">int</span> <span class="n">i2</span> <span class="o">=</span> <span class="nc">ConfigurationClassUtils</span><span class="o">.</span><span class="na">getOrder</span><span class="o">(</span><span class="n">bd2</span><span class="o">.</span><span class="na">getBeanDefinition</span><span class="o">());</span>
-        <span class="k">return</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">compare</span><span class="o">(</span><span class="n">i1</span><span class="o">,</span> <span class="n">i2</span><span class="o">);</span>
-    <span class="o">});</span>
+    <span class="c1">// First, register the BeanPostProcessors that implement PriorityOrdered.</span>
+    <span class="c1">//4.首先注册实现了PriorityOrdered的BeanPostProcessor</span>
+    <span class="n">sortPostProcessors</span><span class="o">(</span><span class="n">priorityOrderedPostProcessors</span><span class="o">,</span> <span class="n">beanFactory</span><span class="o">);</span>
+    <span class="n">registerBeanPostProcessors</span><span class="o">(</span><span class="n">beanFactory</span><span class="o">,</span> <span class="n">priorityOrderedPostProcessors</span><span class="o">);</span>
 
-    <span class="c1">// Detect any custom bean name generation strategy supplied through the enclosing application context</span>
-    <span class="c1">//检测 通过封闭应用上下文提供的任何自定义bean名称生成策略</span>
-    <span class="nc">SingletonBeanRegistry</span> <span class="n">sbr</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
-    <span class="k">if</span> <span class="o">(</span><span class="n">registry</span> <span class="k">instanceof</span> <span class="nc">SingletonBeanRegistry</span><span class="o">)</span> <span class="o">{</span>
-        <span class="n">sbr</span> <span class="o">=</span> <span class="o">(</span><span class="nc">SingletonBeanRegistry</span><span class="o">)</span> <span class="n">registry</span><span class="o">;</span>
-        <span class="k">if</span> <span class="o">(!</span><span class="k">this</span><span class="o">.</span><span class="na">localBeanNameGeneratorSet</span><span class="o">)</span> <span class="o">{</span>
-            <span class="nc">BeanNameGenerator</span> <span class="n">generator</span> <span class="o">=</span> <span class="o">(</span><span class="nc">BeanNameGenerator</span><span class="o">)</span> <span class="n">sbr</span><span class="o">.</span><span class="na">getSingleton</span><span class="o">(</span>
-                    <span class="nc">AnnotationConfigUtils</span><span class="o">.</span><span class="na">CONFIGURATION_BEAN_NAME_GENERATOR</span><span class="o">);</span>
-            <span class="k">if</span> <span class="o">(</span><span class="n">generator</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
-                <span class="k">this</span><span class="o">.</span><span class="na">componentScanBeanNameGenerator</span> <span class="o">=</span> <span class="n">generator</span><span class="o">;</span>
-                <span class="k">this</span><span class="o">.</span><span class="na">importBeanNameGenerator</span> <span class="o">=</span> <span class="n">generator</span><span class="o">;</span>
-            <span class="o">}</span>
+    <span class="c1">// Next, register the BeanPostProcessors that implement Ordered.</span>
+    <span class="c1">//5.接下来 注册实现了ordered的BeanPostProcessor 同时记录属于MergedBeanDefinitionPostProcessor的类</span>
+    <span class="nc">List</span><span class="o">&lt;</span><span class="nc">BeanPostProcessor</span><span class="o">&gt;</span> <span class="n">orderedPostProcessors</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;(</span><span class="n">orderedPostProcessorNames</span><span class="o">.</span><span class="na">size</span><span class="o">());</span>
+    <span class="k">for</span> <span class="o">(</span><span class="nc">String</span> <span class="n">ppName</span> <span class="o">:</span> <span class="n">orderedPostProcessorNames</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">BeanPostProcessor</span> <span class="n">pp</span> <span class="o">=</span> <span class="n">beanFactory</span><span class="o">.</span><span class="na">getBean</span><span class="o">(</span><span class="n">ppName</span><span class="o">,</span> <span class="nc">BeanPostProcessor</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+        <span class="n">orderedPostProcessors</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">pp</span><span class="o">);</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">pp</span> <span class="k">instanceof</span> <span class="nc">MergedBeanDefinitionPostProcessor</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">internalPostProcessors</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">pp</span><span class="o">);</span>
         <span class="o">}</span>
     <span class="o">}</span>
+    <span class="n">sortPostProcessors</span><span class="o">(</span><span class="n">orderedPostProcessors</span><span class="o">,</span> <span class="n">beanFactory</span><span class="o">);</span>
+    <span class="n">registerBeanPostProcessors</span><span class="o">(</span><span class="n">beanFactory</span><span class="o">,</span> <span class="n">orderedPostProcessors</span><span class="o">);</span>
 
-    <span class="k">if</span> <span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">environment</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
-        <span class="k">this</span><span class="o">.</span><span class="na">environment</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">StandardEnvironment</span><span class="o">();</span>
-    <span class="o">}</span>
-
-    <span class="c1">// Parse each @Configuration class</span>
-    <span class="c1">//解析每一个@Configuration修饰的类</span>
-    <span class="nc">ConfigurationClassParser</span> <span class="n">parser</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ConfigurationClassParser</span><span class="o">(</span>
-            <span class="k">this</span><span class="o">.</span><span class="na">metadataReaderFactory</span><span class="o">,</span> <span class="k">this</span><span class="o">.</span><span class="na">problemReporter</span><span class="o">,</span> <span class="k">this</span><span class="o">.</span><span class="na">environment</span><span class="o">,</span>
-            <span class="k">this</span><span class="o">.</span><span class="na">resourceLoader</span><span class="o">,</span> <span class="k">this</span><span class="o">.</span><span class="na">componentScanBeanNameGenerator</span><span class="o">,</span> <span class="n">registry</span><span class="o">);</span>
-    
-    <span class="c1">//3. 通过ConfigurationClassParser的parse方法解析候选类 也就是主函数</span>
-    <span class="c1">//3.1 首先通过parse方法进行解析主函数,这里就将所有的注解都解析的干干净净 具体逻辑稍后分析</span>
-    <span class="c1">//3.1 解析完后进行验证,主要验证解析后配置类及其中的属性是否合法</span>
-    <span class="c1">//3.3 此时已经将所有的配置类都解析好了,但是还有通过@Import或@Bean或@ImportedResources或ImportBeanDefinitionRegister的bean未注册,这步就是注册这些类的</span>
-    <span class="c1">//3.4 最后就是筛选出所有已经真正解析过的配置类 若存在未解析的加入到candidates中继续进行解析</span>
-    <span class="nc">Set</span><span class="o">&lt;</span><span class="nc">BeanDefinitionHolder</span><span class="o">&gt;</span> <span class="n">candidates</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">LinkedHashSet</span><span class="o">&lt;&gt;(</span><span class="n">configCandidates</span><span class="o">);</span>
-    <span class="nc">Set</span><span class="o">&lt;</span><span class="nc">ConfigurationClass</span><span class="o">&gt;</span> <span class="n">alreadyParsed</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HashSet</span><span class="o">&lt;&gt;(</span><span class="n">configCandidates</span><span class="o">.</span><span class="na">size</span><span class="o">());</span>
-    <span class="k">do</span> <span class="o">{</span>
-        <span class="c1">//使用ConfigurationClassParser解析每一个配置候选者</span>
-        <span class="c1">//即解析主函数 主要作用是 解析每个注解</span>
-        <span class="c1">//1.@PropertySource</span>
-        <span class="c1">//2.@ComponentScan 根据注解的路径扫描所有需要加载的配置类  默认是扫描主类下的所有文件</span>
-        <span class="c1">//3.@Import 根据@Import注解加载所有的导入类  最重要的是通过SpringBoot中的AutoConfigurationImportSelector来加载所有自动配置的类</span>
-        <span class="c1">//4.@ImportResource</span>
-        <span class="c1">//5.@Bean</span>
-        <span class="c1">//6.default methods on interfaces</span>
-        <span class="c1">//7.Process superclass</span>
-        <span class="n">parser</span><span class="o">.</span><span class="na">parse</span><span class="o">(</span><span class="n">candidates</span><span class="o">);</span>
-        <span class="n">parser</span><span class="o">.</span><span class="na">validate</span><span class="o">();</span>
-
-        <span class="c1">//4. 通过reader.loadBeanDefinitions方法注册导入的配置类自身、相关@Bean方法导入的类、@ImportResource导入的类和@Import导入的类的定义</span>
-        <span class="nc">Set</span><span class="o">&lt;</span><span class="nc">ConfigurationClass</span><span class="o">&gt;</span> <span class="n">configClasses</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">LinkedHashSet</span><span class="o">&lt;&gt;(</span><span class="n">parser</span><span class="o">.</span><span class="na">getConfigurationClasses</span><span class="o">());</span>
-        <span class="n">configClasses</span><span class="o">.</span><span class="na">removeAll</span><span class="o">(</span><span class="n">alreadyParsed</span><span class="o">);</span>
-
-        <span class="c1">// Read the model and create bean definitions based on its content</span>
-        <span class="c1">//读取模型并根据其内容创建bean定义</span>
-        <span class="k">if</span> <span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">reader</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
-            <span class="k">this</span><span class="o">.</span><span class="na">reader</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ConfigurationClassBeanDefinitionReader</span><span class="o">(</span>
-                    <span class="n">registry</span><span class="o">,</span> <span class="k">this</span><span class="o">.</span><span class="na">sourceExtractor</span><span class="o">,</span> <span class="k">this</span><span class="o">.</span><span class="na">resourceLoader</span><span class="o">,</span> <span class="k">this</span><span class="o">.</span><span class="na">environment</span><span class="o">,</span>
-                    <span class="k">this</span><span class="o">.</span><span class="na">importBeanNameGenerator</span><span class="o">,</span> <span class="n">parser</span><span class="o">.</span><span class="na">getImportRegistry</span><span class="o">());</span>
-        <span class="o">}</span>
-        <span class="c1">//将解析过的配置类中的一些属性注册为bean定义</span>
-        <span class="k">this</span><span class="o">.</span><span class="na">reader</span><span class="o">.</span><span class="na">loadBeanDefinitions</span><span class="o">(</span><span class="n">configClasses</span><span class="o">);</span>
-        <span class="c1">//alreadyParsed存放所有实例化过的配置类</span>
-        <span class="n">alreadyParsed</span><span class="o">.</span><span class="na">addAll</span><span class="o">(</span><span class="n">configClasses</span><span class="o">);</span>
-
-        <span class="n">candidates</span><span class="o">.</span><span class="na">clear</span><span class="o">();</span>
-        
-        <span class="c1">//5.最后检测后扫描到的配置类中是否有未扫描到的,存在则加入到candidates中继续解析</span>
-        <span class="c1">//如果注册表中的bean定义数量 大于 之前 加载的候选类数量</span>
-        <span class="k">if</span> <span class="o">(</span><span class="n">registry</span><span class="o">.</span><span class="na">getBeanDefinitionCount</span><span class="o">()</span> <span class="o">&gt;</span> <span class="n">candidateNames</span><span class="o">.</span><span class="na">length</span><span class="o">)</span> <span class="o">{</span>
-            <span class="c1">//最新的候选配置类数组</span>
-            <span class="nc">String</span><span class="o">[]</span> <span class="n">newCandidateNames</span> <span class="o">=</span> <span class="n">registry</span><span class="o">.</span><span class="na">getBeanDefinitionNames</span><span class="o">();</span>
-            <span class="c1">//旧的候选配置类集合</span>
-            <span class="nc">Set</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">oldCandidateNames</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HashSet</span><span class="o">&lt;&gt;(</span><span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="n">candidateNames</span><span class="o">));</span>
-            <span class="nc">Set</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">alreadyParsedClasses</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HashSet</span><span class="o">&lt;&gt;();</span>
-            <span class="c1">//添加到alreadyParsedClasses中</span>
-            <span class="k">for</span> <span class="o">(</span><span class="nc">ConfigurationClass</span> <span class="n">configurationClass</span> <span class="o">:</span> <span class="n">alreadyParsed</span><span class="o">)</span> <span class="o">{</span>
-                <span class="n">alreadyParsedClasses</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">configurationClass</span><span class="o">.</span><span class="na">getMetadata</span><span class="o">().</span><span class="na">getClassName</span><span class="o">());</span>
-            <span class="o">}</span>
-            <span class="c1">//比较新旧候选类  只有不存在于旧的候选者集合 且 属于配置候选者 才添加到candidates</span>
-            <span class="k">for</span> <span class="o">(</span><span class="nc">String</span> <span class="n">candidateName</span> <span class="o">:</span> <span class="n">newCandidateNames</span><span class="o">)</span> <span class="o">{</span>
-                <span class="k">if</span> <span class="o">(!</span><span class="n">oldCandidateNames</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="n">candidateName</span><span class="o">))</span> <span class="o">{</span>
-                    <span class="nc">BeanDefinition</span> <span class="n">bd</span> <span class="o">=</span> <span class="n">registry</span><span class="o">.</span><span class="na">getBeanDefinition</span><span class="o">(</span><span class="n">candidateName</span><span class="o">);</span>
-                    <span class="k">if</span> <span class="o">(</span><span class="nc">ConfigurationClassUtils</span><span class="o">.</span><span class="na">checkConfigurationClassCandidate</span><span class="o">(</span><span class="n">bd</span><span class="o">,</span> <span class="k">this</span><span class="o">.</span><span class="na">metadataReaderFactory</span><span class="o">)</span> <span class="o">&amp;&amp;</span>
-                            <span class="o">!</span><span class="n">alreadyParsedClasses</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="n">bd</span><span class="o">.</span><span class="na">getBeanClassName</span><span class="o">()))</span> <span class="o">{</span>
-                        <span class="n">candidates</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="nc">BeanDefinitionHolder</span><span class="o">(</span><span class="n">bd</span><span class="o">,</span> <span class="n">candidateName</span><span class="o">));</span>
-                    <span class="o">}</span>
-                <span class="o">}</span>
-            <span class="o">}</span>
-            <span class="n">candidateNames</span> <span class="o">=</span> <span class="n">newCandidateNames</span><span class="o">;</span>
+    <span class="c1">// Now, register all regular BeanPostProcessors.</span>
+    <span class="c1">//6.最后注册所有常规的BeanPostProcessor 同时记录属于MergedBeanDefinitionPostProcessor的类</span>
+    <span class="nc">List</span><span class="o">&lt;</span><span class="nc">BeanPostProcessor</span><span class="o">&gt;</span> <span class="n">nonOrderedPostProcessors</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;(</span><span class="n">nonOrderedPostProcessorNames</span><span class="o">.</span><span class="na">size</span><span class="o">());</span>
+    <span class="k">for</span> <span class="o">(</span><span class="nc">String</span> <span class="n">ppName</span> <span class="o">:</span> <span class="n">nonOrderedPostProcessorNames</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">BeanPostProcessor</span> <span class="n">pp</span> <span class="o">=</span> <span class="n">beanFactory</span><span class="o">.</span><span class="na">getBean</span><span class="o">(</span><span class="n">ppName</span><span class="o">,</span> <span class="nc">BeanPostProcessor</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+        <span class="n">nonOrderedPostProcessors</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">pp</span><span class="o">);</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">pp</span> <span class="k">instanceof</span> <span class="nc">MergedBeanDefinitionPostProcessor</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">internalPostProcessors</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">pp</span><span class="o">);</span>
         <span class="o">}</span>
     <span class="o">}</span>
-    <span class="k">while</span> <span class="o">(!</span><span class="n">candidates</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">());</span>
+    <span class="n">registerBeanPostProcessors</span><span class="o">(</span><span class="n">beanFactory</span><span class="o">,</span> <span class="n">nonOrderedPostProcessors</span><span class="o">);</span>
 
-    <span class="c1">// Register the ImportRegistry as a bean in order to support ImportAware @Configuration classes</span>
-    <span class="c1">//将ImportRegistry注册为一个bean 为了支持ImportAware的配置类</span>
-    <span class="k">if</span> <span class="o">(</span><span class="n">sbr</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">sbr</span><span class="o">.</span><span class="na">containsSingleton</span><span class="o">(</span><span class="no">IMPORT_REGISTRY_BEAN_NAME</span><span class="o">))</span> <span class="o">{</span>
-        <span class="n">sbr</span><span class="o">.</span><span class="na">registerSingleton</span><span class="o">(</span><span class="no">IMPORT_REGISTRY_BEAN_NAME</span><span class="o">,</span> <span class="n">parser</span><span class="o">.</span><span class="na">getImportRegistry</span><span class="o">());</span>
-    <span class="o">}</span>
+    <span class="c1">// Finally, re-register all internal BeanPostProcessors.</span>
+    <span class="c1">//7.最后重新注册所有内部的BeanPostProcessor 相当于后置处理器会移动到处理链的末尾</span>
+    <span class="n">sortPostProcessors</span><span class="o">(</span><span class="n">internalPostProcessors</span><span class="o">,</span> <span class="n">beanFactory</span><span class="o">);</span>
+    <span class="n">registerBeanPostProcessors</span><span class="o">(</span><span class="n">beanFactory</span><span class="o">,</span> <span class="n">internalPostProcessors</span><span class="o">);</span>
 
-    <span class="k">if</span> <span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">metadataReaderFactory</span> <span class="k">instanceof</span> <span class="nc">CachingMetadataReaderFactory</span><span class="o">)</span> <span class="o">{</span>
-        <span class="c1">// Clear cache in externally provided MetadataReaderFactory; this is a no-op</span>
-        <span class="c1">// for a shared cache since it'll be cleared by the ApplicationContext.</span>
-        <span class="c1">//清除外部提供的MetadataReaderFactory中的缓存; 这是共享缓存的空操作,因为它将被ApplicationContext清除</span>
-        <span class="o">((</span><span class="nc">CachingMetadataReaderFactory</span><span class="o">)</span> <span class="k">this</span><span class="o">.</span><span class="na">metadataReaderFactory</span><span class="o">).</span><span class="na">clearCache</span><span class="o">();</span>
-    <span class="o">}</span>
+    <span class="c1">// Re-register post-processor for detecting inner beans as ApplicationListeners,</span>
+    <span class="c1">// moving it to the end of the processor chain (for picking up proxies etc).</span>
+    <span class="c1">//8.重新注册后置处理器以将内部bean检测为ApplicationListeners,将其移动到处理器链的末尾</span>
+    <span class="n">beanFactory</span><span class="o">.</span><span class="na">addBeanPostProcessor</span><span class="o">(</span><span class="k">new</span> <span class="nc">ApplicationListenerDetector</span><span class="o">(</span><span class="n">applicationContext</span><span class="o">));</span>
 <span class="o">}</span>
 </code></pre></div></div>
-<p>由此可见 <strong>processConfigBeanDefinitions</strong> 主要分为五步:</p>
+<p>  第六步注册bean后置处理器同第五步基本类似,总结如下:
+6.1 首先找到bean工厂中所有BeanPostProcessor的实现类
+6.2 首先统计原来bean工厂已注册的bean后置处理器的数量加上6.1找到的实现类数量并加上1,这个1对应BeanPostProcessorChecker,紧跟着就注册它,它的作用是当bean在BeanPostProcessor实例化期间创建bean时记录信息.
+6.3 根据实现了PriorityOrdered、Ordered和默认顺序的BeanPostProcessor进行分类,并同时找出既实现了MergedBeanDefinitionPostProcessor和PriorityOrdered的BeanPostProcessor
+6.4 首先注册实现了PriorityOrdered的BeanPostProcessor
+6.5 接下来注册实现了ordered的BeanPostProcessor,同时记录属于MergedBeanDefinitionPostProcessor的类
+6.6 然后注册所有常规的BeanPostProcessor 同时记录属于MergedBeanDefinitionPostProcessor的类
+6.7 后面重新注册所有实现了MergedBeanDefinitionPostProcessor的后置处理器,作用是这些后置处理器会移动到处理链的末尾
+6.8 最后重新注册后置处理器以将内部bean检测为ApplicationListeners,将其移动到处理器链的末尾</p>
+
 <ol>
-  <li>获取注册表中已注册的bean定义,并挑选出配置类候选(使用@Configuration注解的类)并加入到configCandidates中</li>
-  <li>解析前置操作:根据@Order排序候选者、设置bean名称生成策略、设置Environment、最重要的就是创建ConfigurationClassParser解析器</li>
-  <li>通过ConfigurationClassParser的parse方法解析候选类 也就是主函数(核心逻辑),总结来说就是解析配置类上的所有注解属性并将这些bean添加到bean工厂中 (详细分析见下章)</li>
-  <li>通过reader.loadBeanDefinitions方法注册导入的配置类自身、相关@Bean方法导入的类、@ImportResource导入的类和@Import导入的类的定义</li>
-  <li>最后检测后扫描到的配置类中是否有未扫描到的,存在则加入到candidates中继续解析
-    <hr />
+  <li>为上下文初始化消息源,源码如下:
+    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">String</span> <span class="no">MESSAGE_SOURCE_BEAN_NAME</span> <span class="o">=</span> <span class="s">"messageSource"</span><span class="o">;</span>
+<span class="cm">/**
+ * Initialize the MessageSource.
+ * 初始化消息源
+ * Use parent's if none defined in this context.
+ * 如果在上下文中没有定义则使用父类的
+ */</span>
+<span class="kd">protected</span> <span class="kt">void</span> <span class="nf">initMessageSource</span><span class="o">()</span> <span class="o">{</span>
+ <span class="nc">ConfigurableListableBeanFactory</span> <span class="n">beanFactory</span> <span class="o">=</span> <span class="n">getBeanFactory</span><span class="o">();</span>
+ <span class="c1">//判断当前bean工厂中是否包含messageSource的bean</span>
+ <span class="k">if</span> <span class="o">(</span><span class="n">beanFactory</span><span class="o">.</span><span class="na">containsLocalBean</span><span class="o">(</span><span class="no">MESSAGE_SOURCE_BEAN_NAME</span><span class="o">))</span> <span class="o">{</span>
+     <span class="k">this</span><span class="o">.</span><span class="na">messageSource</span> <span class="o">=</span> <span class="n">beanFactory</span><span class="o">.</span><span class="na">getBean</span><span class="o">(</span><span class="no">MESSAGE_SOURCE_BEAN_NAME</span><span class="o">,</span> <span class="nc">MessageSource</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+     <span class="c1">// Make MessageSource aware of parent MessageSource.</span>
+     <span class="c1">// 将父消息源设置到当前消息源中</span>
+     <span class="k">if</span> <span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">parent</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="k">this</span><span class="o">.</span><span class="na">messageSource</span> <span class="k">instanceof</span> <span class="nc">HierarchicalMessageSource</span><span class="o">)</span> <span class="o">{</span>
+         <span class="nc">HierarchicalMessageSource</span> <span class="n">hms</span> <span class="o">=</span> <span class="o">(</span><span class="nc">HierarchicalMessageSource</span><span class="o">)</span> <span class="k">this</span><span class="o">.</span><span class="na">messageSource</span><span class="o">;</span>
+         <span class="k">if</span> <span class="o">(</span><span class="n">hms</span><span class="o">.</span><span class="na">getParentMessageSource</span><span class="o">()</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+             <span class="c1">// Only set parent context as parent MessageSource if no parent MessageSource</span>
+             <span class="c1">// registered already.</span>
+             <span class="n">hms</span><span class="o">.</span><span class="na">setParentMessageSource</span><span class="o">(</span><span class="n">getInternalParentMessageSource</span><span class="o">());</span>
+         <span class="o">}</span>
+     <span class="o">}</span>
+     <span class="k">if</span> <span class="o">(</span><span class="n">logger</span><span class="o">.</span><span class="na">isTraceEnabled</span><span class="o">())</span> <span class="o">{</span>
+         <span class="n">logger</span><span class="o">.</span><span class="na">trace</span><span class="o">(</span><span class="s">"Using MessageSource ["</span> <span class="o">+</span> <span class="k">this</span><span class="o">.</span><span class="na">messageSource</span> <span class="o">+</span> <span class="s">"]"</span><span class="o">);</span>
+     <span class="o">}</span>
+ <span class="o">}</span>
+ <span class="k">else</span> <span class="o">{</span>
+     <span class="c1">//不存在则创建默认消息源并注册到bean工厂中</span>
+     <span class="c1">// Use empty MessageSource to be able to accept getMessage calls.</span>
+     <span class="c1">//使用空消息源来接受getMessage的调用</span>
+     <span class="nc">DelegatingMessageSource</span> <span class="n">dms</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">DelegatingMessageSource</span><span class="o">();</span>
+     <span class="n">dms</span><span class="o">.</span><span class="na">setParentMessageSource</span><span class="o">(</span><span class="n">getInternalParentMessageSource</span><span class="o">());</span>
+     <span class="k">this</span><span class="o">.</span><span class="na">messageSource</span> <span class="o">=</span> <span class="n">dms</span><span class="o">;</span>
+     <span class="n">beanFactory</span><span class="o">.</span><span class="na">registerSingleton</span><span class="o">(</span><span class="no">MESSAGE_SOURCE_BEAN_NAME</span><span class="o">,</span> <span class="k">this</span><span class="o">.</span><span class="na">messageSource</span><span class="o">);</span>
+     <span class="k">if</span> <span class="o">(</span><span class="n">logger</span><span class="o">.</span><span class="na">isTraceEnabled</span><span class="o">())</span> <span class="o">{</span>
+         <span class="n">logger</span><span class="o">.</span><span class="na">trace</span><span class="o">(</span><span class="s">"No '"</span> <span class="o">+</span> <span class="no">MESSAGE_SOURCE_BEAN_NAME</span> <span class="o">+</span> <span class="s">"' bean, using ["</span> <span class="o">+</span> <span class="k">this</span><span class="o">.</span><span class="na">messageSource</span> <span class="o">+</span> <span class="s">"]"</span><span class="o">);</span>
+     <span class="o">}</span>
+ <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div>    </div>
+    <p>  代码比较清晰,查看bean工厂中是否包含messageSource的bean,存在则继续设置父类的消息源,不存在则创建默认消息源并注册到bean工厂中</p>
+  </li>
+  <li>为上下文初始化事件广播器,源码如下:
+``` java
+public static final String APPLICATION_EVENT_MULTICASTER_BEAN_NAME = “applicationEventMulticaster”;</li>
+</ol>
+
+<p>/**</p>
+<ul>
+  <li>Initialize the ApplicationEventMulticaster.</li>
+  <li>初始化ApplicationEventMulticaster</li>
+  <li>Uses SimpleApplicationEventMulticaster if none defined in the context.</li>
+  <li>如果在上下文中没有定义则使用SimpleApplicationEventMulticaster</li>
+  <li>@see org.springframework.context.event.SimpleApplicationEventMulticaster
+ */
+protected void initApplicationEventMulticaster() {
+ ConfigurableListableBeanFactory beanFactory = getBeanFactory();
+ //判断bean工厂中是否存在applicationEventMulticaster的bean
+ if (beanFactory.containsLocalBean(APPLICATION_EVENT_MULTICASTER_BEAN_NAME)) {
+     //存在直接取出该bean赋值给applicationEventMulticaster
+     this.applicationEventMulticaster =
+             beanFactory.getBean(APPLICATION_EVENT_MULTICASTER_BEAN_NAME, ApplicationEventMulticaster.class);
+     if (logger.isTraceEnabled()) {
+         logger.trace(“Using ApplicationEventMulticaster [” + this.applicationEventMulticaster + “]”);
+     }
+ }
+ else {
+     //不存在则创建SimpleApplicationEventMulticaster 并注册到bean工厂中
+     this.applicationEventMulticaster = new SimpleApplicationEventMulticaster(beanFactory);
+     beanFactory.registerSingleton(APPLICATION_EVENT_MULTICASTER_BEAN_NAME, this.applicationEventMulticaster);
+     if (logger.isTraceEnabled()) {
+         logger.trace(“No ‘” + APPLICATION_EVENT_MULTICASTER_BEAN_NAME + “’ bean, using “ +
+                 “[” + this.applicationEventMulticaster.getClass().getSimpleName() + “]”);
+     }
+ }
+}
+```
+  可见逻辑和第七步类似,都是先判断上下文中是否存在applicationEventMulticaster,存在则直接赋值给applicationEventMulticaster,不存在则先进行初始化默认的广播器给applicationEventMulticaster,最后再向bean工厂注册这个广播器.</li>
+</ul>
+
+<ol>
+  <li>初始化特定上下文子类中的其他特殊bean,主要针对ServletWebServerApplicationContext上下文,源码如下:
+    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onRefresh</span><span class="o">()</span> <span class="o">{</span>
+ <span class="c1">//1.调用父类GenericWebApplicationContext的刷新方法 注册themeSource</span>
+ <span class="kd">super</span><span class="o">.</span><span class="na">onRefresh</span><span class="o">();</span>
+ <span class="k">try</span> <span class="o">{</span>
+     <span class="c1">//2.创建tomcat服务</span>
+     <span class="n">createWebServer</span><span class="o">();</span>
+ <span class="o">}</span>
+ <span class="k">catch</span> <span class="o">(</span><span class="nc">Throwable</span> <span class="n">ex</span><span class="o">)</span> <span class="o">{</span>
+     <span class="k">throw</span> <span class="k">new</span> <span class="nf">ApplicationContextException</span><span class="o">(</span><span class="s">"Unable to start web server"</span><span class="o">,</span> <span class="n">ex</span><span class="o">);</span>
+ <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div>    </div>
+    <p>  可见此方法主要分为两步,第一步调用父类的刷新方法和第二步创建web服务,即tomcat.<br />
+&amp;emsp 我们先来看看第一步主要做的了什么:
+``` java
+protected void onRefresh() {
+ this.themeSource = UiApplicationContextUtils.initThemeSource(this);
+}</p>
   </li>
 </ol>
 
-<h3 id="基本思路">基本思路</h3>
-<hr />
-<hr />
+<p>public static final String THEME_SOURCE_BEAN_NAME = “themeSource”;</p>
 
-<h3 id="遍历图解">遍历图解</h3>
-<center>
-    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/图片地址.jpg">
-    <img style="border-radius: 0.3125em;
-    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="图片描述" src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/图片地址.jpg" />
-    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
-    display: inline-block;
-    color: #999;
-    padding: 2px;">图片描述</div>
-    </a>
-</center>
+<p>public static ThemeSource initThemeSource(ApplicationContext context) {
+    //上文中是否包含主题来源
+    if (context.containsLocalBean(THEME_SOURCE_BEAN_NAME)) {
+        //包含则获取获取该bean并判断是否需要谁知父类住主题来源并返回
+        ThemeSource themeSource = context.getBean(THEME_SOURCE_BEAN_NAME, ThemeSource.class);
+        // Make ThemeSource aware of parent ThemeSource.
+        if (context.getParent() instanceof ThemeSource &amp;&amp; themeSource instanceof HierarchicalThemeSource) {
+            HierarchicalThemeSource hts = (HierarchicalThemeSource) themeSource;
+            if (hts.getParentThemeSource() == null) {
+                // Only set parent context as parent ThemeSource if no parent ThemeSource
+                // registered already.
+                hts.setParentThemeSource((ThemeSource) context.getParent());
+            }
+        }
+        if (logger.isDebugEnabled()) {
+            logger.debug(“Using ThemeSource [” + themeSource + “]”);
+        }
+        return themeSource;
+    }
+    else {
+        //不包含则初始化默认主题来源 并返回
+        // Use default ThemeSource to be able to accept getTheme calls, either
+        // delegating to parent context’s default or to local ResourceBundleThemeSource.
+        HierarchicalThemeSource themeSource = null;
+        if (context.getParent() instanceof ThemeSource) {
+            themeSource = new DelegatingThemeSource();
+            themeSource.setParentThemeSource((ThemeSource) context.getParent());
+        }
+        else {
+            themeSource = new ResourceBundleThemeSource();
+        }
+        if (logger.isDebugEnabled()) {
+            logger.debug(“Unable to locate ThemeSource with name ‘” + THEME_SOURCE_BEAN_NAME +
+                    “’: using default [” + themeSource + “]”);
+        }
+        return themeSource;
+    }
+}</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&amp;emsp;&amp;emsp;看到这里就很好理解了,就是判断上下文中是否含有themeSource,有则对其父类进行设置,没有则进行初始化并返回.
+&amp;emsp;&amp;emsp;我们再看第二步做了什么:
+``` java
+private void createWebServer() {
+    WebServer webServer = this.webServer;
+    ServletContext servletContext = getServletContext();
+    if (webServer == null &amp;&amp; servletContext == null) {
+        //通过TomcatServletWebServerFactory创建tomcat服务
+        ServletWebServerFactory factory = getWebServerFactory();
+        this.webServer = factory.getWebServer(getSelfInitializer());
+    }
+    else if (servletContext != null) {
+        try {
+            getSelfInitializer().onStartup(servletContext);
+        }
+        catch (ServletException ex) {
+            throw new ApplicationContextException("Cannot initialize servlet context", ex);
+        }
+    }
+    initPropertySources();
+}
+</code></pre></div></div>
+<p>  这里最重要的就是factory.getWebServer,通过TomcatServletWebServerFactory工厂创建tomcat服务.具体细节待分析,有兴趣可以自己看看.
+  第九步主要就是创建themeSource和创建并启动tomcat服务.</p>
+
+<hr />
 
 </p>
 
