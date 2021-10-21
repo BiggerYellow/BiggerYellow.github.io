@@ -162,12 +162,15 @@ public void refresh() throws BeansException, IllegalStateException {
             onRefresh();
 
             // Check for listener beans and register them.
+            //10. 检查监听器bean并注册他们
             registerListeners();
 
             // Instantiate all remaining (non-lazy-init) singletons.
+            // 11. 实例化所有剩下的非懒加载的单例
             finishBeanFactoryInitialization(beanFactory);
 
             // Last step: publish corresponding event.
+            // 12.最后一步发布相关事件
             finishRefresh();
         }
 
@@ -197,7 +200,7 @@ public void refresh() throws BeansException, IllegalStateException {
 ```
 __refresh__ 中的每一个方法都是非常重要的,那就可以大约分为十三步,我们一步步往下分析.  
     
-1. 第一步准备上下文:prepareRefresh,相关源码如下:  
+1.第一步准备上下文prepareRefresh,相关源码如下:  
 
 ``` java
 //调用AnnotationConfigServletWebServerApplicationContext重写的prepareRefresh
@@ -392,7 +395,7 @@ protected void prepareBeanFactory(ConfigurableListableBeanFactory beanFactory) {
 ```
 &emsp;&emsp;可见第三步的作用就是设置bean工厂的通用功能.例如设置类加载器、设置 __BeanExpressionResolver__ 用来解析 __#{}__ 属性、设置 __PropertyEditorRegistrar__ 来自定义解析 __application.properties__ 中的值.  
 添加 __ApplicationContextAwareProcessor__ 后置处理器在bean初始化前设置实现所有相关Aware接口的属性同时要将这些Aware接口忽略防止进行自动装配, 既然有忽略那也就有注册,注册 __BeanFactory、ResourceLoader、ApplicationEventPublisher、ApplicationContext__ 为已解析类型,当遇到这几种类型直接使用即可.  
-&emsp;&emsp;然后在检查bean工厂中是否有 __LoadTimeWeaver__ 的bean,有则注册 __LoadTimeWeaverAwareProcessor__ 后置处理器用来将默认的 __LoadTimeWeaver__ 传递给实现了 __LoadTimeWeaverAware__ 接口的bean并设置临时类加载器以进行类型匹配.  
+&emsp;&emsp;然后再检查bean工厂中是否有 __LoadTimeWeaver__ 的bean,有则注册 __LoadTimeWeaverAwareProcessor__ 后置处理器用来将默认的 __LoadTimeWeaver__ 传递给实现了 __LoadTimeWeaverAware__ 接口的bean并设置临时类加载器以进行类型匹配.  
 &emsp;&emsp;最后就是检测 __environment、systemProperties、systemEnvironment__ 这三个bean是否存在,存在则进行注册.  
 &emsp;&emsp;以上步骤执行完后, 一个bean工厂也就可以准备使用了.  
 
@@ -848,17 +851,17 @@ public static void registerBeanPostProcessors(
     beanFactory.addBeanPostProcessor(new ApplicationListenerDetector(applicationContext));
 }
 ```
-&emsp;&emsp;第六步注册bean后置处理器同第五步基本类似,总结如下:
-6.1 首先找到bean工厂中所有BeanPostProcessor的实现类
-6.2 首先统计原来bean工厂已注册的bean后置处理器的数量加上6.1找到的实现类数量并加上1,这个1对应BeanPostProcessorChecker,紧跟着就注册它,它的作用是当bean在BeanPostProcessor实例化期间创建bean时记录信息.
-6.3 根据实现了PriorityOrdered、Ordered和默认顺序的BeanPostProcessor进行分类,并同时找出既实现了MergedBeanDefinitionPostProcessor和PriorityOrdered的BeanPostProcessor
-6.4 首先注册实现了PriorityOrdered的BeanPostProcessor
-6.5 接下来注册实现了ordered的BeanPostProcessor,同时记录属于MergedBeanDefinitionPostProcessor的类
-6.6 然后注册所有常规的BeanPostProcessor 同时记录属于MergedBeanDefinitionPostProcessor的类
-6.7 后面重新注册所有实现了MergedBeanDefinitionPostProcessor的后置处理器,作用是这些后置处理器会移动到处理链的末尾
-6.8 最后重新注册后置处理器以将内部bean检测为ApplicationListeners,将其移动到处理器链的末尾
+&emsp;&emsp;第六步注册bean后置处理器同第五步基本类似,总结如下:  
+    6.1 首先找到bean工厂中所有BeanPostProcessor的实现类  
+    6.2 首先统计原来bean工厂已注册的bean后置处理器的数量加上6.1找到的实现类数量并加上1,这个1对应BeanPostProcessorChecker,紧跟着就注册它,它的作用是当bean在BeanPostProcessor实例化期间创建bean时记录信息  
+    6.3 根据实现了PriorityOrdered、Ordered和默认顺序的BeanPostProcessor进行分类,并同时找出既实现了MergedBeanDefinitionPostProcessor和PriorityOrdered的BeanPostProcessor  
+    6.4 首先注册实现了PriorityOrdered的BeanPostProcessor  
+    6.5 接下来注册实现了ordered的BeanPostProcessor,同时记录属于MergedBeanDefinitionPostProcessor的类  
+    6.6 然后注册所有常规的BeanPostProcessor 同时记录属于MergedBeanDefinitionPostProcessor的类  
+    6.7 后面重新注册所有实现了MergedBeanDefinitionPostProcessor的后置处理器,作用是这些后置处理器会移动到处理链的末尾  
+    6.8 最后重新注册后置处理器以将内部bean检测为ApplicationListeners,将其移动到处理器链的末尾  
 
-7. 为上下文初始化消息源,源码如下:
+7.为上下文初始化消息源,源码如下:
 ``` java
 public static final String MESSAGE_SOURCE_BEAN_NAME = "messageSource";
 /**
@@ -902,7 +905,7 @@ protected void initMessageSource() {
 ```
 &emsp;&emsp;代码比较清晰,查看bean工厂中是否包含messageSource的bean,存在则继续设置父类的消息源,不存在则创建默认消息源并注册到bean工厂中
 
-8. 为上下文初始化事件广播器,源码如下:
+8.为上下文初始化事件广播器,源码如下:
 ``` java
 public static final String APPLICATION_EVENT_MULTICASTER_BEAN_NAME = "applicationEventMulticaster";
 
@@ -937,7 +940,7 @@ protected void initApplicationEventMulticaster() {
 ```
 &emsp;&emsp;可见逻辑和第七步类似,都是先判断上下文中是否存在applicationEventMulticaster,存在则直接赋值给applicationEventMulticaster,不存在则先进行初始化默认的广播器给applicationEventMulticaster,最后再向bean工厂注册这个广播器.
 
-9. 初始化特定上下文子类中的其他特殊bean,主要针对ServletWebServerApplicationContext上下文,源码如下:
+9.初始化特定上下文子类中的其他特殊bean,主要针对ServletWebServerApplicationContext上下文,源码如下:
 ``` java
 protected void onRefresh() {
     //1.调用父类GenericWebApplicationContext的刷新方法 注册themeSource
@@ -999,7 +1002,7 @@ public static ThemeSource initThemeSource(ApplicationContext context) {
     }
 }
 ```
-&emsp;&emsp;看到这里就很好理解了,就是判断上下文中是否含有themeSource,有则对其父类进行设置,没有则进行初始化并返回.
+&emsp;&emsp;看到这里就很好理解了,就是判断上下文中是否含有themeSource,有则对其父类进行设置,没有则进行初始化并返回.  
 &emsp;&emsp;我们再看第二步做了什么:
 ``` java
 private void createWebServer() {
@@ -1021,10 +1024,221 @@ private void createWebServer() {
     initPropertySources();
 }
 ```
-&emsp;&emsp;这里最重要的就是factory.getWebServer,通过TomcatServletWebServerFactory工厂创建tomcat服务.具体细节待分析,有兴趣可以自己看看.
+&emsp;&emsp;这里最重要的就是factory.getWebServer,通过TomcatServletWebServerFactory工厂创建tomcat服务.具体细节待分析,有兴趣可以自己看看.  
 &emsp;&emsp;第九步主要就是创建themeSource和创建并启动tomcat服务.
 
+10.检查监听器并注册他们,相关源码如下:
+``` java
+/**
+ * Add beans that implement ApplicationListener as listeners.
+ * 添加实现了ApplicationListener的bean作为监听者
+ * Doesn't affect other listeners, which can be added without being beans.
+ * 不影响其他监听器,可以不加bean
+ */
+protected void registerListeners() {
+    // Register statically specified listeners first.
+    //首先注册静态的指定的监听器
+    for (ApplicationListener<?> listener : getApplicationListeners()) {
+        getApplicationEventMulticaster().addApplicationListener(listener);
+    }
+
+    // Do not initialize FactoryBeans here: We need to leave all regular beans
+    // uninitialized to let post-processors apply to them!
+    //这里不用初始化工厂bean:我们需要让所有常规的bean不初始化 让 后置处理器应用他们
+    String[] listenerBeanNames = getBeanNamesForType(ApplicationListener.class, true, false);
+    for (String listenerBeanName : listenerBeanNames) {
+        getApplicationEventMulticaster().addApplicationListenerBean(listenerBeanName);
+    }
+
+    // Publish early application events now that we finally have a multicaster...
+    // 发布 我们最终拥有广播器的早期事件
+    Set<ApplicationEvent> earlyEventsToProcess = this.earlyApplicationEvents;
+    this.earlyApplicationEvents = null;
+    if (earlyEventsToProcess != null) {
+        for (ApplicationEvent earlyEvent : earlyEventsToProcess) {
+            getApplicationEventMulticaster().multicastEvent(earlyEvent);
+        }
+    }
+}
+```
+&emsp;&emsp;这段代码比较容易理解,首先看下 __getApplicationListeners())__ 就是获取在构造函数中获取的所有ApplicationListener子类并将他们加入到事件广播器中.
+然后就是获取bean工厂中所有ApplicationListener类型的bean名称,并添加到事件广播器中.最后就是通过事件广播器发送早期事件,早期事件为空所以不做处理.
+
+11.初始化剩下的所有非懒加载的单例,源码如下:
+``` java
+/**
+ * Finish the initialization of this context's bean factory,
+ * initializing all remaining singleton beans.
+ * 完成上下文bean工厂的初始化,初始化所有剩下的单例bean
+ */
+protected void finishBeanFactoryInitialization(ConfigurableListableBeanFactory beanFactory) {
+    // Initialize conversion service for this context.
+    // 1.为上下文初始化转换服务
+    if (beanFactory.containsBean(CONVERSION_SERVICE_BEAN_NAME) &&
+            beanFactory.isTypeMatch(CONVERSION_SERVICE_BEAN_NAME, ConversionService.class)) {
+        beanFactory.setConversionService(
+                beanFactory.getBean(CONVERSION_SERVICE_BEAN_NAME, ConversionService.class));
+    }
+
+    // Register a default embedded value resolver if no bean post-processor
+    // (such as a PropertyPlaceholderConfigurer bean) registered any before:
+    // at this point, primarily for resolution in annotation attribute values.
+    //注册一个默认的内嵌值间解析器如果没有bean后置处理器注册过(像 PropertyPlaceholderConfigurer)
+    //在此时, 主要用于注解属性值的解析
+    if (!beanFactory.hasEmbeddedValueResolver()) {
+        beanFactory.addEmbeddedValueResolver(strVal -> getEnvironment().resolvePlaceholders(strVal));
+    }
+
+    // Initialize LoadTimeWeaverAware beans early to allow for registering their transformers early.
+    // 尽早初始化LoadTimeWeaverAware以允许尽早注册他们的转换器
+    String[] weaverAwareNames = beanFactory.getBeanNamesForType(LoadTimeWeaverAware.class, false, false);
+    for (String weaverAwareName : weaverAwareNames) {
+        getBean(weaverAwareName);
+    }
+
+    // Stop using the temporary ClassLoader for type matching.
+    // 2.停止使用临时类加载器进行类型匹配
+    beanFactory.setTempClassLoader(null);
+
+    // Allow for caching all bean definition metadata, not expecting further changes.
+    //允许缓存所有的bean定义元数据,不希望有进一步的修改
+    beanFactory.freezeConfiguration();
+
+    // Instantiate all remaining (non-lazy-init) singletons.
+    // 3.初始化所有剩下 非懒加载的单例
+    beanFactory.preInstantiateSingletons();
+}
+```
+&emsp;&emsp;可见第十一步可以分为以下三步,首先是判断bean工厂中是否包含conversionService的bean,有则设置到bean工厂中;设置StringValueResolver为内置的解析器;初始化bean工厂中所有实现LoadTimeWeaverAware的bean,以上就是第一步所做的事,可以理解为前置检查.  
+&emsp;&emsp;第二步就是 __setTempClassLoader和freezeConfiguration__ 看方法名称就可以明白了,主要就是停止使用临时类加载器并冻结已经加载好的beanDefinitionNames.  
+&emsp;&emsp;第三步就也是最重要的一步了,它就是初始化所有剩下的单例bean的关键所在.源码如下:  
+``` java
+public void preInstantiateSingletons() throws BeansException {
+    if (logger.isTraceEnabled()) {
+        logger.trace("Pre-instantiating singletons in " + this);
+    }
+
+    // Iterate over a copy to allow for init methods which in turn register new bean definitions.
+    // 迭代一个副本以允许初始化方法依次注册新的bean定义
+    // While this may not be part of the regular factory bootstrap, it does otherwise work fine.
+    //尽管这可能不是常规工厂启动的一部分,但是他工作的很好
+    List<String> beanNames = new ArrayList<>(this.beanDefinitionNames);
+
+    // Trigger initialization of all non-lazy singleton beans...
+    //触发所有的非单例bean的初始化
+    for (String beanName : beanNames) {
+        RootBeanDefinition bd = getMergedLocalBeanDefinition(beanName);
+        if (!bd.isAbstract() && bd.isSingleton() && !bd.isLazyInit()) {
+            if (isFactoryBean(beanName)) {
+                Object bean = getBean(FACTORY_BEAN_PREFIX + beanName);
+                if (bean instanceof FactoryBean) {
+                    final FactoryBean<?> factory = (FactoryBean<?>) bean;
+                    boolean isEagerInit;
+                    if (System.getSecurityManager() != null && factory instanceof SmartFactoryBean) {
+                        isEagerInit = AccessController.doPrivileged((PrivilegedAction<Boolean>)
+                                        ((SmartFactoryBean<?>) factory)::isEagerInit,
+                                getAccessControlContext());
+                    }
+                    else {
+                        isEagerInit = (factory instanceof SmartFactoryBean &&
+                                ((SmartFactoryBean<?>) factory).isEagerInit());
+                    }
+                    if (isEagerInit) {
+                        getBean(beanName);
+                    }
+                }
+            }
+            else {
+                getBean(beanName);
+            }
+        }
+    }
+
+    // Trigger post-initialization callback for all applicable beans...
+    //为所有的初始化bean触发初始化后回调
+    for (String beanName : beanNames) {
+        Object singletonInstance = getSingleton(beanName);
+        if (singletonInstance instanceof SmartInitializingSingleton) {
+            final SmartInitializingSingleton smartSingleton = (SmartInitializingSingleton) singletonInstance;
+            if (System.getSecurityManager() != null) {
+                AccessController.doPrivileged((PrivilegedAction<Object>) () -> {
+                    smartSingleton.afterSingletonsInstantiated();
+                    return null;
+                }, getAccessControlContext());
+            }
+            else {
+                smartSingleton.afterSingletonsInstantiated();
+            }
+        }
+    }
+}
+```
+&emsp;&emsp;现在再看这个代码,逻辑一目了然,首先获取bean工厂中的所有beanNames,然后遍历这个beanNames,挑选出非抽象的且是单例且是非懒加载的调用 __getBean()__ 进行初始化,最后找到所有实现了SmartInitializingSingleton接口触发初始化回调完成初始化.  
+
+12.最后一步发布相关事件,发布完成即应用启动成功,相关源码如下:
+``` java
+protected void finishRefresh() {
+    //1.调用父类AbstractApplicationContext的finishRefresh
+    super.finishRefresh();
+    //2.启动tomcat服务并发布服务初始化完成事件
+    WebServer webServer = startWebServer();
+    if (webServer != null) {
+        publishEvent(new ServletWebServerInitializedEvent(webServer, this));
+    }
+}
+```
+&emsp;&emsp;可见最后一步可以分为两步,调用父类的完成刷新方法和启动tomcat服务并发布服务初始化完成事件.  
+&emsp;&emsp;我们先来看下父类的完成刷新做了什么:
+``` java
+/**
+ * Finish the refresh of this context, invoking the LifecycleProcessor's
+ * onRefresh() method and publishing the
+ * {@link org.springframework.context.event.ContextRefreshedEvent}.
+ * 完成上下文的刷新,调用LifecycleProcessor的onRefresh方法 且 发布ContextRefreshedEvent事件
+ */
+protected void finishRefresh() {
+    // Clear context-level resource caches (such as ASM metadata from scanning).
+    //清除上下文级别的资源缓存
+    clearResourceCaches();
+
+    // Initialize lifecycle processor for this context.
+    //为上下文初始化生命周期处理器
+    initLifecycleProcessor();
+
+    // Propagate refresh to lifecycle processor first.
+    //首先将刷新传播到生命周期处理器中
+    getLifecycleProcessor().onRefresh();
+
+    // Publish the final event.
+    //发布最终完成事件
+    publishEvent(new ContextRefreshedEvent(this));
+
+    // Participate in LiveBeansView MBean, if active.
+    // 如果激活的话 参与 LiveBeansView MBean
+    LiveBeansView.registerApplicationContext(this);
+}
+```
+&emsp;&emsp;主要就是清除上下文资源缓存,初始化生命周期处理器并刷新它,最后发布上下已刷新事件并尝试注册LiveBeansView.
 
 - - -
+
+### refreshContext总结
+- - -
+1. 为刷新做准备,主要是设置启动状态及一些属性的初始化
+2. 通知子类刷新内部bean工厂并返回,主要是设置bean工厂序列化id,即应用的上下文
+3. 准备在此上下文中使用的bean工厂,主要设置bean工厂的通用功能
+4. 允许在上下文子类中对bean工厂进行后置处理,主要是注册相关后置处理器及应用范围
+5. 调用在上下文中注册为bean的工厂处理器,即所有实现的BeanDefinitionRegistryPostProcessor和BeanFactoryPostProcessor接口的后置处理器,首先解析实现了BeanDefinitionRegistryPostProcessor接口的postProcessBeanDefinitionRegistry方法.其次根据PriorityOrdered、Ordered和默认这三个顺序解析实现了BeanFactoryPostProcessor接口的postProcessBeanFactory方法.
+这里最重要的要数实现了BeanDefinitionRegistryPostProcessor接口的ConfigurationClassPostProcessor类,它是解析SpringBoot启动类的关键.
+6. 注册拦截bean创建的后置处理器,主要是找到实现了BeanPostProcessor接口的类初始化并注册
+7. 初始化此上下文的消息源,初始化DelegatingMessageSource并注册messageSource到bean工厂中
+8. 为上下文初始化事件多播器,初始化SimpleApplicationEventMulticaster并注册applicationEventMulticaster到bean工厂中
+9. 初始化特定上下文子类中的其他特殊bean,初始化上下文中的themeSource和其内嵌的tomcat
+10. 检查监听器bean并注册他们,将所有实现了ApplicationListener接口的bean注册到第八步创建的事件广播器中并尝试发布事件
+11. 实例化所有剩余的非延迟初始化单例,设置bean工厂相关属性并冻结其bean名称,最后实例化所有剩余的非延迟单例
+12. 完成此上下文的刷新,调用LifecycleProcessor的onRefresh()方法并发布上下文已刷新事件
+13. 最后清除启动过程中的缓存
+- - -
+
 
 

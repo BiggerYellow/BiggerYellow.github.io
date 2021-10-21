@@ -70,14 +70,14 @@ description: 快速排序
 
 ``` java
 //解法一
-public static void quickSort(int[] nums, int left, int right){
+public static void quickSort1(int[] nums, int left, int right){
     if (right <= left) return;
     int base = division1(nums, left, right);
     quickSort1(nums, left, base-1);
     quickSort1(nums, base+1, right);
 }
 
-public static int division(int[] nums, int left, int right){
+public static int division1(int[] nums, int left, int right){
     int i=left, j=right+1;
     int base = nums[i];
     while (true){

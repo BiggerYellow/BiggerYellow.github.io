@@ -21,9 +21,9 @@ description: 平衡二叉查找树
 ### 2-3查找树
 - - -
 &emsp;&emsp;一棵2-3查找树或为一棵空树,或由以下节点组成:
-- 2-节点:含有一个键(及其对应的值)和两条连接,左连接指向的2-3树中的键都小于该节点,右连接指向的2-3树中的键都大于该节点
-- 3-节点:含有两个键(及其对应的值)和三条连接,左连接指向的2-3树中的键都小于该节点,中连接指向的2-3树中的键都位于该节点的两个键之间,右连接指向的2-3树中的键都大于该节点 
-&emsp;&emsp;将指向一棵空树的连接称为空连接,一棵完美平衡的2-3查找树中的所有空连接到根节点的距离都应该相同,2-3查找树如下图:    
+- 2-节点:含有一个键(及其对应的值)和两条链接,左链接指向的2-3树中的键都小于该节点,右链接指向的2-3树中的键都大于该节点
+- 3-节点:含有两个键(及其对应的值)和三条链接,左链接指向的2-3树中的键都小于该节点,中链接指向的2-3树中的键都位于该节点的两个键之间,右链接指向的2-3树中的键都大于该节点 
+&emsp;&emsp;将指向一棵空树的链接称为空链接,一棵完美平衡的2-3查找树中的所有空链接到根节点的距离都应该相同,2-3查找树如下图:    
 <center>
     <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/balancedBinaryTree/2-3 查找树示意图.png">
     <img style="border-radius: 0.3125em;
@@ -37,7 +37,7 @@ description: 平衡二叉查找树
 </center>
   
 1.查找  
-&emsp;&emsp;判断一个键是否在树中,我们先将它和根节点中的键比较.如果它和其中任意个相等,查找命中;否则我们就根据比较的结果找到指向相应区间的连接,并在其指向的子树中递归地继续查找,如果这是个空连接,查找未命中.具体查询过程如图:    
+&emsp;&emsp;判断一个键是否在树中,我们先将它和根节点中的键比较.如果它和其中任意个相等,查找命中;否则我们就根据比较的结果找到指向相应区间的链接,并在其指向的子树中递归地继续查找,如果这是个空链接,查找未命中.具体查询过程如图:    
 
 <center>  
     <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/balancedBinaryTree/2-3 树中的查找命中(左)和未命中(右).png">  
@@ -70,7 +70,7 @@ description: 平衡二叉查找树
 3.向一棵只含有一个3-节点的树中插入新键  
 &emsp;&emsp;假设我们需要向一棵只含有一个3-节点的树中插入一个新键.这棵树中有两个键,所以在它唯一的节点中已经没有可插入新键的空间了.  
 &emsp;&emsp;为了将新键插入,我们先临时将新键存入该节点中,使之成为一个4-节点.创建一个4-节点很方便,因为很容易将它转换为一棵由3个2-节点组成的2-3树,其中一个节点(根)含有中键,一个节点含有3个键中的最小者(和根节点的左链接相连),一个节点含有3个键中的最大者(和根节点的右链接相连).  
-&emsp;&emsp;这棵树既是一棵含有3个节点的二叉查找树,同时也是一棵完美平衡的2-3树,因为其中所有的空连接到根节点的距离都相等.插入前树的高度为0,插入后树的高度为1.它说明了树是如何生长的.如下图所示:  
+&emsp;&emsp;这棵树既是一棵含有3个节点的二叉查找树,同时也是一棵完美平衡的2-3树,因为其中所有的空链接到根节点的距离都相等.插入前树的高度为0,插入后树的高度为1.它说明了树是如何生长的.如下图所示:  
 
 <center>
     <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/balancedBinaryTree/向一棵只含有一个3-结点的树中插入新键.png">  
@@ -87,9 +87,9 @@ description: 平衡二叉查找树
 4.向一个父节点为2-节点的3-节点插入新键  
 &emsp;&emsp;假设未命中的查找结束于一个3-节点,而它的父节点是一个2-节点.在这种情况下我们需要在维持树的完美平衡的前提下为新键腾出空间.  
 &emsp;&emsp;我们先像刚才一样构造一个临时的4-节点并将其分解,但此时我们不会为中键创建一个新节点,而是将其移动至原来的父节点中.  
-&emsp;&emsp;你可以将这次转换看成将指向原3-节点的一条连接替换为新父节点中的原中键左右两边的两条连接,并分别指向两个新的2-节点.  
-&emsp;&emsp;根据我们的假设,父节点是有空间的:父节点是一个2-节点(一个键两条连接),插入之后变为了一个3-节点(两个键三条连接).  
-&emsp;&emsp;这次转换也并不影响2-3树的主要性质.树仍然是有序的,因为中键被移动到父节点中去了;树仍然是完美平衡的,插入后所有的空连接到根节点的距离仍然相同,过程如下图所示:
+&emsp;&emsp;你可以将这次转换看成将指向原3-节点的一条链接替换为新父节点中的原中键左右两边的两条链接,并分别指向两个新的2-节点.  
+&emsp;&emsp;根据我们的假设,父节点是有空间的:父节点是一个2-节点(一个键两条链接),插入之后变为了一个3-节点(两个键三条链接).  
+&emsp;&emsp;这次转换也并不影响2-3树的主要性质.树仍然是有序的,因为中键被移动到父节点中去了;树仍然是完美平衡的,插入后所有的空链接到根节点的距离仍然相同,过程如下图所示:
 
 <center>
     <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/balancedBinaryTree/向一个父结点为2-结点的3-结点中插入新键.png">
@@ -137,7 +137,7 @@ description: 平衡二叉查找树
 7.局部变换  
 &emsp;&emsp;将一个4-节点分解为一棵2-3树可能有6种情况,总结在下图.  
 &emsp;&emsp;这个4-节点可能是根节点,可能是一个2-节点的左子节点或右子节点,也可能是一个3-节点的左子节点、中子节点或者右子节点.  
-&emsp;&emsp;2-3树插入算法的根本在于这些变换都是局部的:除了相关的节点和连接之外不必修改或者检查树的其他部分.每次变换中,变更的连接数量不会超过一个很小的常数.需要特别指出的是,不光是在树的底部,树中的任何地方只要符合相应的模式,变换都可以进行.每个变换都会将4-节点中的一个键送入它的父节点中,并重构相应的连接而不必涉及树的其他部分.  
+&emsp;&emsp;2-3树插入算法的根本在于这些变换都是局部的:除了相关的节点和链接之外不必修改或者检查树的其他部分.每次变换中,变更的链接数量不会超过一个很小的常数.需要特别指出的是,不光是在树的底部,树中的任何地方只要符合相应的模式,变换都可以进行.每个变换都会将4-节点中的一个键送入它的父节点中,并重构相应的链接而不必涉及树的其他部分.  
 
 <center>
     <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/balancedBinaryTree/在一棵2-3树中分解一个4-结点的情况汇总.png">
@@ -152,9 +152,9 @@ description: 平衡二叉查找树
 </center>
     
 8.全局性质  
-&emsp;&emsp;这些局部变换不会影响树的全局有序性和平衡性:任意空连接到根节点的路径长度都是相等的.  
-&emsp;&emsp;下图所示的是当一个4-节点是一个3-节点的中子节点时的完整变换情况.如果在变换之前根节点到所有空连接的路径长度为h,那么变换之后该长度仍然为h.所有的变换都是这个性质,即使是将一个4-节点分解为两个2-节点并将其父节点由2-节点变为3-节点,或是由3-节点变为一个临时的4-节点也是如此.  
-&emsp;&emsp;当根节点被分解为3个2-节点时,所有空连接到根节点的路径长度才会加1.
+&emsp;&emsp;这些局部变换不会影响树的全局有序性和平衡性:任意空链接到根节点的路径长度都是相等的.  
+&emsp;&emsp;下图所示的是当一个4-节点是一个3-节点的中子节点时的完整变换情况.如果在变换之前根节点到所有空链接的路径长度为h,那么变换之后该长度仍然为h.所有的变换都是这个性质,即使是将一个4-节点分解为两个2-节点并将其父节点由2-节点变为3-节点,或是由3-节点变为一个临时的4-节点也是如此.  
+&emsp;&emsp;当根节点被分解为3个2-节点时,所有空链接到根节点的路径长度才会加1.
 
 <center>
     <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/balancedBinaryTree/4-结点的分解是一次局部变换,不会影响树的有序性和平衡性.png">
@@ -192,7 +192,7 @@ description: 平衡二叉查找树
 - - -
 1.替换3-节点  
 &emsp;&emsp;红黑二叉查找树背后的基本思想是用标准的二叉查找树(完全由2-节点构成)和一些额外的信息(替换3-节点)来表示2-3树.
-我们将树中的链接分为两种类型:红链接将两个2-节点连接起来构成一个3-节点,黑链接则是2-3树中的普通链接.确切地说,我们将3-节点表示为由一条左斜的红色链接(两个2-节点其中之一是另一个左子节点)相连的两个2-节点,如下图所示.
+我们将树中的链接分为两种类型:红链接将两个2-节点链接起来构成一个3-节点,黑链接则是2-3树中的普通链接.确切地说,我们将3-节点表示为由一条左斜的红色链接(两个2-节点其中之一是另一个左子节点)相连的两个2-节点,如下图所示.
 这种表示法的一个优点是,无需修改就可以直接只用标准二叉查找树的get()方法.对于任意的2-3树,只要对节点进行转换,我们都可以立即派生出一颗对应的二叉查找树.将用这种方式表示2-3树的二叉查找树称为红黑二叉查找树.
 <center>
     <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/balancedBinaryTree/由一条红色左链接相连的两个2-结点表示一个3-结点.png">
@@ -214,7 +214,7 @@ description: 平衡二叉查找树
 
 3.一一对应  
 &emsp;&emsp;如果我们将一棵红黑树的红链接画平,那么所有的空链接到根节点的距离都将使相同的.如下图所示.
-如果将由红链接相连的节点合并,得到的就是一棵2-3树.相反,如果将一棵2-3树中的3-节点画做由红色左链接相连的两个2-节点,那么不会存在能够和两条红链接相连的节点,且树必然是完美黑色平衡的,因为黑链接即2-3树中的普通连接,根据定义这些连接必然是完美平衡的.
+如果将由红链接相连的节点合并,得到的就是一棵2-3树.相反,如果将一棵2-3树中的3-节点画做由红色左链接相连的两个2-节点,那么不会存在能够和两条红链接相连的节点,且树必然是完美黑色平衡的,因为黑链接即2-3树中的普通链接,根据定义这些链接必然是完美平衡的.
 <center>
     <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/balancedBinaryTree/将红链接画平时,一棵红黑树就是一棵2-3树.png">
     <img style="border-radius: 0.3125em;
@@ -371,10 +371,10 @@ Node rotateRight(Node h){
 </center>
 
 9.向一棵双键树(即一个3-节点)中插入新键  
-&emsp;&emsp;这种情况又可分为三种情况:新键小于树中的两个键,在两者之间,或是大于树中的两个键.每种情况都会产生一个同时连接到两条红链接的节点,而我们的目标就是修正这一点.  
-- 三者中最简单的情况就是新键大于原树中的两个键,因此它被连接到3-节点的右链接.此时树是平衡的,根节点为中间大小的键,它有两条红链接分别和较小和较大的节点相连.
+&emsp;&emsp;这种情况又可分为三种情况:新键小于树中的两个键,在两者之间,或是大于树中的两个键.每种情况都会产生一个同时链接到两条红链接的节点,而我们的目标就是修正这一点.  
+- 三者中最简单的情况就是新键大于原树中的两个键,因此它被链接到3-节点的右链接.此时树是平衡的,根节点为中间大小的键,它有两条红链接分别和较小和较大的节点相连.
 如果我们将两条链接的颜色都由红变黑,那么我们就得到了一棵有三个节点组成,高度为2的平衡树.它正好能对应一棵2-3树,如下图左侧.其他两种情况最终也会转换为这种情况.
-- 如果新键小于原树中的两个键,它就会被连接到最左边的空链接,这种就产生了两条连续的红链接,如下图中间侧.此时我们只需要将上层的红链接右旋转即可得到第一种情况(中值键为根节点并和其他两个节点用红链接相连)
+- 如果新键小于原树中的两个键,它就会被链接到最左边的空链接,这种就产生了两条连续的红链接,如下图中间侧.此时我们只需要将上层的红链接右旋转即可得到第一种情况(中值键为根节点并和其他两个节点用红链接相连)
 - 如果新键介于原树中的两个键之间,这又会产生两条连续的红链接,一条红色左链接接一条红色右链接,如下图右侧.此时我们只需要将下层的红链接左旋转即可得到第二种情况(两条连续的红色链接)
 
 &emsp;&emsp;总的来说,我们通过0次,1次和2次旋转以及颜色的变化得到了期望的结果.
@@ -408,6 +408,106 @@ Node rotateRight(Node h){
 11.根节点总是黑色  
 &emsp;&emsp;在第9种情况中,颜色转换会使根节点变为红色.严格的说,红色的根节点说明根节点是一个3-节点的一部分,但是实际情况并不是这样.因此我们在每次插入后都会将根节点设为黑色.注意,每当根节点由红变黑时树的黑链接高度就会加1.
 
+12.向树底部的3-节点插入新键  
+&emsp;&emsp;现在假设我们需要在树的底部的一个3-节点下加入一个新节点.前面讨论的三种情况都会出现,如下图所示.指向新节点的链接可能是3-节点的右链接(此时我们只需要转换颜色即可),
+或是左链接(此时我们需要进行右旋转然后再转换颜色),或是中链接(此时我们需要先左旋转下层链接然后右旋转上层链接,最后再转换颜色).颜色转换会使到中节点的链接变红,相当于将它送入了父节点.这意味着在父节点中继续插入一个新键,我们也会用相同的办法解决这个问题.
+<center>
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/balancedBinaryTree/向树底部的3-结点插入一个新键.png">
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="向树底部的3-结点插入一个新键"
+    src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/balancedBinaryTree/向树底部的3-结点插入一个新键.png">
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">向树底部的3-结点插入一个新键</div>
+    </a>
+</center>
 
+13.将红链接在树中向上传递  
+&emsp;&emsp;2-3树中的插入算法需要我们分解3-节点,将中间键插入父节点,如此这般直到遇到一个2-节点或是根节点.我们所考虑过的所有情况都是为了达成这个目标:
+每次必要的旋转之后我们都会进行颜色转换,这使得中节点变红.在父节点看来,处理这样一个红色节点的方式和处理一个新插入的红色节点完全相同,即继续把红链接转移到中节点上去.
+下图中总结的三种情况显示了在红黑树中实现2-3树的插入算法的关键操作所需的步骤:要在一个3-节点下插入新键,先创建一个临时的4-节点,将其分解并将红链接由中间键传递给它的父节点.重复这个过程,我们就能将红链接在树中向上传递,直至遇到一个2-节点或者根节点.  
+&emsp;&emsp;总之,只要谨慎地使用左旋转、右旋转和颜色转换这三种简单的操作,我们就能保证插入操作后红黑树和2-3树的一一对应关系.在沿着插入点到根节点的路上向上移动时在所经过的每个节点中顺序完成以下操作,我们就能完成插入操作:
+- 如果右子节点是红色的而左子节点是黑色的,进行左旋转
+- 如果左子节点是红色的且它的左子节点也是红色的,进行右旋转
+- 如果左右子节点均为红色,进行颜色转换
+<center>
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/balancedBinaryTree/红黑树中红链接向上传递.png">
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="红黑树中红链接向上传递"
+    src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/balancedBinaryTree/红黑树中红链接向上传递.png">
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">红黑树中红链接向上传递</div>
+    </a>
+</center>
+
+14.实现  
+&emsp;&emsp;因为保持树的平衡性所需的操作是由下向上在每个经过的节点中进行的,将它们植入我们已有的实现中十分简单:只需要在递归调用之后完成这些操作即可.算法如下所示:
+``` java
+public class ReaBlackBST<Key extends Comparable<Key>>, Value>
+{
+    private Node root;
+    private class Node //含有color变量的Node对象
+    
+    private boolean isRed(Node h)
+    private Node rotateLeft(Node h)
+    private Node rotateRight(Node h)
+    private void flipColors(Node h)
+
+    private int size()
+
+    public void put(Key key, Value val)
+    {
+        //查找key,找到则更新其值,否则为它新建一个节点
+        root = put(root, key, val);
+        root.color = BLACK;
+    }
+    
+    private Node put(Node h, Key key, Value val)
+    {
+        if(h==null){
+            return new Node(key, val, 1, RED);
+        }
+        int cmp = key.compareTo(h.key);
+        if(cmp<0){
+            h.left = put(h.left, key, val);
+        }else if(cmp>0){
+            h.right = put(h.right, key, val);
+        }else{
+            h.val = val;
+        }
+
+        if(isRed(h.right) && !isRed(h.left)){
+            h = rotateLeft(h);
+        }
+        if(isRed(h.left) && isRed(h.left.left)){
+            h = rotateRight(h);
+        }
+        if(isRed(h.left) && isRed(h.right)){
+            flipColors(h);
+        }
+
+        h.N = size(h.left) + size(h.right) + 1;
+        return h;
+    }
+}
+```
+&emsp;&emsp;除了递归调用后的三条if语句,红黑树中put()的递归实现和二叉查找树中put()的实现完全相同.它们在查找路径上保证了红黑树和2-3树的一一对应关系,
+使得树的平衡性接近完美.第一条if语句会将任意含有红色右链接的3-节点(或临时的4-节点)向左旋转;第二条if语句会将临时的4-节点中两条连续红链接中的上层链接向右旋转;
+第三条if语句会进行颜色转换并将红链接在树中向上传递.  
+&emsp;&emsp;下图给出了使用我们的标准索引测试用例进行测试的轨迹和用同一组键按升序构造一棵红黑树的测试轨迹.
+<center>
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/balancedBinaryTree/红黑树的构造轨迹.png">
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="红黑树的构造轨迹"
+    src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/balancedBinaryTree/红黑树的构造轨迹.png">
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">红黑树的构造轨迹</div>
+    </a>
+</center>
 - - -
 
