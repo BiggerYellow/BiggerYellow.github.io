@@ -11,6 +11,20 @@ category: SpringBoot
 subtitle: SpringBoot启动源码解析(二)
 description: SpringBootApplication构造方法分析
 ---
+### 主函数流程图
+- - -
+<center>
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/springboot/SpringApplication构造流程图.png">
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="SpringApplication构造流程图"
+    src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/springboot/SpringApplication构造流程图.png">
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">SpringApplication构造流程图</div>
+    </a>
+</center>
+- - -
 ### 主函数入口
 - - -
 我们首先从主函数入口一步一步往下看.
