@@ -1114,64 +1114,167 @@
                             
                             </div>
 
-                            <p><h3 id="定义">定义</h3>
+                            <p><h3 id="摩尔投票">摩尔投票</h3>
 <hr />
 <p><a href="https://www.cs.ou.edu/~rlpage/dmtools/mjrty.pdf">摩尔投票论文地址</a></p>
+<ol>
+  <li>抛出问题<br />
+给定一个数组求出该数组中出现次数大于数组一半长度的数,要求时间复杂度为O(n),空间复杂度为O(1)</li>
+  <li>解决方案
+    <ul>
+      <li>若没有空间复杂度的要求,我们直接使用Map一次遍历记录没有数出现的次数,最后找到出现次数大于一半的即可</li>
+      <li>但是加上空间复杂度的要求上面的方法就行不通了,由此引申出摩尔投票</li>
+    </ul>
+  </li>
+  <li>定义<br />
+摩尔投票的本质就是冲突抵消.因为要求的数在数组中出现超过数组一半长度,那么这个数肯定就只能有一个.
+每次从数组中取出两个不相同的数进行抵消,最后剩下的一个数字或者几个数字可能就是我们要求的数.
+这里为什么要说可能呢,因为有可能会出现以下情况:</li>
+</ol>
+<center>
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/majorityVote/摩尔投票示意图.jpg">
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="摩尔投票示意图" src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/majorityVote/摩尔投票示意图.jpg" />
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">摩尔投票示意图</div>
+    </a>
+</center>
+<p>  正常情况如上图左侧,抵消之后的剩余的数就是要求的数;若是非异常情况,如上图右侧,抵消之后的数并不是要求的数.<br />
+  所以最后剩余的数不一定是我们要求的结果,还需要我们再进行一次遍历统计该数的出现次数是否满足要求.</p>
 <hr />
 
 <h3 id="力扣原题">力扣原题</h3>
 <hr />
-<p><a href="https://leetcode-cn.com/problems/find-majority-element-lcci/">面试题 17.10. 主要元素</a>
-<a href="https://leetcode-cn.com/problems/majority-element-ii/">229. 求众数 II</a></p>
-<hr />
-
-<h3 id="遍历图解">遍历图解</h3>
+<p><a href="https://leetcode-cn.com/problems/find-majority-element-lcci/">面试题 17.10. 主要元素</a><br />
+  首先我们先来看下简单题:</p>
 <center>
-    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/图片地址.jpg">
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/majorityVote/主要元素.jpg">
     <img style="border-radius: 0.3125em;
-    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="图片描述" src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/图片地址.jpg" />
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="主要元素" src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/majorityVote/主要元素.jpg" />
     <div style="color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
     color: #999;
-    padding: 2px;">图片描述</div>
+    padding: 2px;">主要元素</div>
     </a>
 </center>
+<p>根据摩尔投票的原理:</p>
+<ol>
+  <li>定义候选值 candidate 和 出现次数 count</li>
+  <li>遍历数组nums</li>
+  <li>如果count为0 将num赋值给candidate</li>
+  <li>如果当前num 等于 候选值 candidate 则将count++ 否则 count–</li>
+  <li>最后剩下的candidate可能是结果</li>
+  <li>还需要遍历nums数组求出candidate的出现次数是否符合要求</li>
+</ol>
 
-<h3 id="代码">代码</h3>
-<blockquote>
-  <p>java</p>
-</blockquote>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kt">int</span> <span class="nf">majorityElement1</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">nums</span><span class="o">){</span>
+    <span class="kt">int</span> <span class="n">candidate</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="o">;</span>
+    <span class="kt">int</span> <span class="n">count</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span>
+    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="nl">num:</span><span class="n">nums</span><span class="o">){</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">count</span><span class="o">==</span><span class="mi">0</span><span class="o">){</span>
+            <span class="n">candidate</span> <span class="o">=</span> <span class="n">num</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">candidate</span> <span class="o">==</span> <span class="n">num</span><span class="o">){</span>
+            <span class="n">count</span><span class="o">++;</span>
+        <span class="o">}</span><span class="k">else</span> <span class="o">{</span>
+            <span class="n">count</span><span class="o">--;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
 
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">xxx</span>
+    <span class="n">count</span> <span class="o">=</span><span class="mi">0</span><span class="o">;</span>
+    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="nl">num:</span><span class="n">nums</span><span class="o">){</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">num</span> <span class="o">==</span> <span class="n">candidate</span><span class="o">){</span>
+            <span class="n">count</span><span class="o">++;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="n">count</span><span class="o">*</span><span class="mi">2</span> <span class="o">&gt;=</span> <span class="n">nums</span><span class="o">.</span><span class="na">length</span><span class="o">?</span> <span class="nl">candidate:</span><span class="o">-</span><span class="mi">1</span><span class="o">;</span>
+<span class="o">}</span>
 </code></pre></div></div>
-
 <blockquote>
-  <p>时间复杂度:O() 
-空间复杂度为:O(1)</p>
+  <p>时间复杂度:O(n)<br />
+空间复杂度:O(1)</p>
 </blockquote>
 
-<h3 id="扩展">扩展</h3>
+<p><a href="https://leetcode-cn.com/problems/majority-element-ii/">229. 求众数 II</a><br />
+  下面加深点难度:</p>
+<center>
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/majorityVote/求众数II.jpg">
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="求众数II" src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/majorityVote/求众数II.jpg" />
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">求众数II</div>
+    </a>
+</center>
+<p>  因为题目要求出超过 ⌊n/3⌋ 次的元素,其实这里有个隐藏条件,即这样的数最多只有两个,因为如果有三个,每个都超过⌊n/3⌋,那么最终的次数肯定超过数组大小.<br />
+  本题我们同样应该使用摩尔投票,只不过稍微改造一下,使用三个数进行抵消,最后剩下来的两个数继续遍历统计个数是否大于⌊n/3⌋.</p>
+<ol>
+  <li>定义element1、vote1、element2、vote2分别表示第一个元素的值及出现次数和第二个元素的值和出现次数</li>
+  <li>多种情况讨论
+    <ul>
+      <li>若已有element1的投票即vote1大于0,且当前元素等于element1的话,则vote1++</li>
+      <li>若已有element2的投票即vote2大于0,且当前元素等于element2的话,则vote2++</li>
+      <li>若没有element1的投票即vote1等于0的话,将num赋值给element1且vote1++</li>
+      <li>若没有element2的投票即vote2等于0的话,将num赋值给element2且vote2++</li>
+      <li>最后若都不满足即三个数不相同,直接抵消,即vote1–,vote2–</li>
+    </ul>
+  </li>
+  <li>经过步骤2之后已经确定可能的结果element1、element2需要满足vote1和vote2大于0,再次遍历数组,统计两个元素的出现次数count1、count2</li>
+  <li>最后判断count1、count2是否满足大于n/3,满足则加入结果列表返回</li>
+</ol>
 
-<h3 id="其他语言">其他语言</h3>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span>  <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="nf">majorityElement</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">nums</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kt">int</span> <span class="n">num1</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+    <span class="kt">int</span> <span class="n">num2</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+    <span class="kt">int</span> <span class="n">vote1</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span>
+    <span class="kt">int</span> <span class="n">vote2</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span>
+    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="nl">num:</span><span class="n">nums</span><span class="o">){</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">vote1</span><span class="o">&gt;</span><span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">num</span><span class="o">==</span><span class="n">num1</span><span class="o">){</span>
+            <span class="n">vote1</span><span class="o">++;</span>
+        <span class="o">}</span><span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">vote2</span><span class="o">&gt;</span><span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">num</span><span class="o">==</span><span class="n">num2</span><span class="o">){</span>
+            <span class="n">vote2</span><span class="o">++;</span>
+        <span class="o">}</span><span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">vote1</span> <span class="o">==</span> <span class="mi">0</span><span class="o">){</span>
+            <span class="n">num1</span> <span class="o">=</span> <span class="n">num</span><span class="o">;</span>
+            <span class="n">vote1</span><span class="o">++;</span>
+        <span class="o">}</span><span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">vote2</span> <span class="o">==</span> <span class="mi">0</span><span class="o">){</span>
+            <span class="n">num2</span><span class="o">=</span><span class="n">num</span><span class="o">;</span>
+            <span class="n">vote2</span><span class="o">++;</span>
+        <span class="o">}</span><span class="k">else</span> <span class="o">{</span>
+            <span class="n">vote1</span><span class="o">--;</span>
+            <span class="n">vote2</span><span class="o">--;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="kt">int</span> <span class="n">count1</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span>
+    <span class="kt">int</span> <span class="n">count2</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span>
+    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="nl">num:</span><span class="n">nums</span><span class="o">){</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">vote1</span><span class="o">&gt;</span><span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">num1</span><span class="o">==</span><span class="n">num</span><span class="o">){</span>
+            <span class="n">count1</span><span class="o">++;</span>
+        <span class="o">}</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">vote2</span><span class="o">&gt;</span><span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">num2</span><span class="o">==</span><span class="n">num</span><span class="o">){</span>
+            <span class="n">count2</span><span class="o">++;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">res</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">vote1</span><span class="o">&gt;</span><span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">count1</span><span class="o">&gt;</span><span class="n">nums</span><span class="o">.</span><span class="na">length</span><span class="o">/</span><span class="mi">3</span><span class="o">){</span>
+        <span class="n">res</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">num1</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">vote2</span><span class="o">&gt;</span><span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">count2</span><span class="o">&gt;</span><span class="n">nums</span><span class="o">.</span><span class="na">length</span><span class="o">/</span><span class="mi">3</span><span class="o">){</span>
+        <span class="n">res</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">num2</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="n">res</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+<blockquote>
+  <p>时间复杂度:O(n)<br />
+空间复杂度:O(1)</p>
+</blockquote>
+
 <hr />
-<blockquote>
-  <p>C++</p>
-</blockquote>
-
-<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">xxx</span>
-</code></pre></div></div>
-<blockquote>
-  <p>python3</p>
-</blockquote>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">xxx</span>
-</code></pre></div></div>
-<blockquote>
-  <p>go</p>
-</blockquote>
-
-<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">xxx</span>
-</code></pre></div></div>
 </p>
 
                             <div align="center">
@@ -1244,6 +1347,220 @@
 
 <h3 id="源码分析">源码分析</h3>
 <hr />
+<p>  getBean()的底层实现是doGetBean(),直接上源码:</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/**
+ * Return an instance, which may be shared or independent, of the specified bean.
+ * 返回一个指定bean的实例,这个实例可能是共享的也可能是独立的
+ * @param name the name of the bean to retrieve
+ *             要检索的bean名称
+ * @param requiredType the required type of the bean to retrieve
+ *                     要检索的bean类型
+ * @param args arguments to use when creating a bean instance using explicit arguments
+ * (only applied when creating a new instance as opposed to retrieving an existing one)
+ *             当创建bean实例时使用显示参数(只应用于创建新实例而不是检索现有实例的应用)
+ * @param typeCheckOnly whether the instance is obtained for a type check,
+ * not for actual use
+ *                      获取实例是否是为了类型检查,而不是实际 使用
+ * @return an instance of the bean
+ * @throws BeansException if the bean could not be created
+ */</span>
+<span class="nd">@SuppressWarnings</span><span class="o">(</span><span class="s">"unchecked"</span><span class="o">)</span>
+<span class="kd">protected</span> <span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span> <span class="no">T</span> <span class="nf">doGetBean</span><span class="o">(</span><span class="kd">final</span> <span class="nc">String</span> <span class="n">name</span><span class="o">,</span> <span class="nd">@Nullable</span> <span class="kd">final</span> <span class="nc">Class</span><span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span> <span class="n">requiredType</span><span class="o">,</span>
+        <span class="nd">@Nullable</span> <span class="kd">final</span> <span class="nc">Object</span><span class="o">[]</span> <span class="n">args</span><span class="o">,</span> <span class="kt">boolean</span> <span class="n">typeCheckOnly</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">BeansException</span> <span class="o">{</span>
+    <span class="c1">//1. 获取bean的名称 工厂bean需要去除前缀 &amp;</span>
+    <span class="kd">final</span> <span class="nc">String</span> <span class="n">beanName</span> <span class="o">=</span> <span class="n">transformedBeanName</span><span class="o">(</span><span class="n">name</span><span class="o">);</span>
+    <span class="nc">Object</span> <span class="n">bean</span><span class="o">;</span>
+
+    <span class="c1">// Eagerly check singleton cache for manually registered singletons.</span>
+    <span class="c1">//急切的检查单例缓存是够有手动注册的单例</span>
+    <span class="c1">//2. 尝试从三级缓存中获取</span>
+    <span class="nc">Object</span> <span class="n">sharedInstance</span> <span class="o">=</span> <span class="n">getSingleton</span><span class="o">(</span><span class="n">beanName</span><span class="o">);</span>
+    <span class="c1">//3. 如果获取到实例 且 参数为null 则尝试获取bean</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">sharedInstance</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">args</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">logger</span><span class="o">.</span><span class="na">isTraceEnabled</span><span class="o">())</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">isSingletonCurrentlyInCreation</span><span class="o">(</span><span class="n">beanName</span><span class="o">))</span> <span class="o">{</span>
+                <span class="n">logger</span><span class="o">.</span><span class="na">trace</span><span class="o">(</span><span class="s">"Returning eagerly cached instance of singleton bean '"</span> <span class="o">+</span> <span class="n">beanName</span> <span class="o">+</span>
+                        <span class="s">"' that is not fully initialized yet - a consequence of a circular reference"</span><span class="o">);</span>
+            <span class="o">}</span>
+            <span class="k">else</span> <span class="o">{</span>
+                <span class="n">logger</span><span class="o">.</span><span class="na">trace</span><span class="o">(</span><span class="s">"Returning cached instance of singleton bean '"</span> <span class="o">+</span> <span class="n">beanName</span> <span class="o">+</span> <span class="s">"'"</span><span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="c1">//返回bean实例本身或从bean工厂中获取</span>
+        <span class="n">bean</span> <span class="o">=</span> <span class="n">getObjectForBeanInstance</span><span class="o">(</span><span class="n">sharedInstance</span><span class="o">,</span> <span class="n">name</span><span class="o">,</span> <span class="n">beanName</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="k">else</span> <span class="o">{</span>
+        <span class="c1">//4. 如果获取不到实例 则进行常见</span>
+        <span class="c1">// Fail if we're already creating this bean instance:</span>
+        <span class="c1">// We're assumably within a circular reference.</span>
+        <span class="c1">//5. 如果我们已经在创建这个bean实例将失败:大概率在循环引用中</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">isPrototypeCurrentlyInCreation</span><span class="o">(</span><span class="n">beanName</span><span class="o">))</span> <span class="o">{</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="nf">BeanCurrentlyInCreationException</span><span class="o">(</span><span class="n">beanName</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="c1">// Check if bean definition exists in this factory.</span>
+        <span class="c1">//6. 检查bean定义是否存在工厂中</span>
+        <span class="nc">BeanFactory</span> <span class="n">parentBeanFactory</span> <span class="o">=</span> <span class="n">getParentBeanFactory</span><span class="o">();</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">parentBeanFactory</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">containsBeanDefinition</span><span class="o">(</span><span class="n">beanName</span><span class="o">))</span> <span class="o">{</span>
+            <span class="c1">// Not found -&gt; check parent.</span>
+            <span class="c1">//如果在父bean工厂中没有找到当前bean 则检查父工厂</span>
+            <span class="nc">String</span> <span class="n">nameToLookup</span> <span class="o">=</span> <span class="n">originalBeanName</span><span class="o">(</span><span class="n">name</span><span class="o">);</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">parentBeanFactory</span> <span class="k">instanceof</span> <span class="nc">AbstractBeanFactory</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">return</span> <span class="o">((</span><span class="nc">AbstractBeanFactory</span><span class="o">)</span> <span class="n">parentBeanFactory</span><span class="o">).</span><span class="na">doGetBean</span><span class="o">(</span>
+                        <span class="n">nameToLookup</span><span class="o">,</span> <span class="n">requiredType</span><span class="o">,</span> <span class="n">args</span><span class="o">,</span> <span class="n">typeCheckOnly</span><span class="o">);</span>
+            <span class="o">}</span>
+            <span class="k">else</span> <span class="nf">if</span> <span class="o">(</span><span class="n">args</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                <span class="c1">// Delegation to parent with explicit args.</span>
+                <span class="c1">//如果参数不为null,使用显示参数委托给父工厂</span>
+                <span class="k">return</span> <span class="o">(</span><span class="no">T</span><span class="o">)</span> <span class="n">parentBeanFactory</span><span class="o">.</span><span class="na">getBean</span><span class="o">(</span><span class="n">nameToLookup</span><span class="o">,</span> <span class="n">args</span><span class="o">);</span>
+            <span class="o">}</span>
+            <span class="k">else</span> <span class="nf">if</span> <span class="o">(</span><span class="n">requiredType</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                <span class="c1">// No args -&gt; delegate to standard getBean method.</span>
+                <span class="c1">//没有参数 则 委托给标准的getBean方法</span>
+                <span class="k">return</span> <span class="n">parentBeanFactory</span><span class="o">.</span><span class="na">getBean</span><span class="o">(</span><span class="n">nameToLookup</span><span class="o">,</span> <span class="n">requiredType</span><span class="o">);</span>
+            <span class="o">}</span>
+            <span class="k">else</span> <span class="o">{</span>
+                <span class="k">return</span> <span class="o">(</span><span class="no">T</span><span class="o">)</span> <span class="n">parentBeanFactory</span><span class="o">.</span><span class="na">getBean</span><span class="o">(</span><span class="n">nameToLookup</span><span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="c1">//7. 如果只是类型检查  需要把bean标记为已创建(或将被创建) 即将beanName添加到alreadyCreated中</span>
+        <span class="k">if</span> <span class="o">(!</span><span class="n">typeCheckOnly</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">markBeanAsCreated</span><span class="o">(</span><span class="n">beanName</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="c1">//8. 再次获取合并的bean定义</span>
+            <span class="kd">final</span> <span class="nc">RootBeanDefinition</span> <span class="n">mbd</span> <span class="o">=</span> <span class="n">getMergedLocalBeanDefinition</span><span class="o">(</span><span class="n">beanName</span><span class="o">);</span>
+            <span class="n">checkMergedBeanDefinition</span><span class="o">(</span><span class="n">mbd</span><span class="o">,</span> <span class="n">beanName</span><span class="o">,</span> <span class="n">args</span><span class="o">);</span>
+
+            <span class="c1">// Guarantee initialization of beans that the current bean depends on.</span>
+            <span class="c1">//9. 保证当前bean所依赖的bean的初始化</span>
+            <span class="nc">String</span><span class="o">[]</span> <span class="n">dependsOn</span> <span class="o">=</span> <span class="n">mbd</span><span class="o">.</span><span class="na">getDependsOn</span><span class="o">();</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">dependsOn</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">for</span> <span class="o">(</span><span class="nc">String</span> <span class="n">dep</span> <span class="o">:</span> <span class="n">dependsOn</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="k">if</span> <span class="o">(</span><span class="n">isDependent</span><span class="o">(</span><span class="n">beanName</span><span class="o">,</span> <span class="n">dep</span><span class="o">))</span> <span class="o">{</span>
+                        <span class="k">throw</span> <span class="k">new</span> <span class="nf">BeanCreationException</span><span class="o">(</span><span class="n">mbd</span><span class="o">.</span><span class="na">getResourceDescription</span><span class="o">(),</span> <span class="n">beanName</span><span class="o">,</span>
+                                <span class="s">"Circular depends-on relationship between '"</span> <span class="o">+</span> <span class="n">beanName</span> <span class="o">+</span> <span class="s">"' and '"</span> <span class="o">+</span> <span class="n">dep</span> <span class="o">+</span> <span class="s">"'"</span><span class="o">);</span>
+                    <span class="o">}</span>
+                    <span class="n">registerDependentBean</span><span class="o">(</span><span class="n">dep</span><span class="o">,</span> <span class="n">beanName</span><span class="o">);</span>
+                    <span class="k">try</span> <span class="o">{</span>
+                        <span class="n">getBean</span><span class="o">(</span><span class="n">dep</span><span class="o">);</span>
+                    <span class="o">}</span>
+                    <span class="k">catch</span> <span class="o">(</span><span class="nc">NoSuchBeanDefinitionException</span> <span class="n">ex</span><span class="o">)</span> <span class="o">{</span>
+                        <span class="k">throw</span> <span class="k">new</span> <span class="nf">BeanCreationException</span><span class="o">(</span><span class="n">mbd</span><span class="o">.</span><span class="na">getResourceDescription</span><span class="o">(),</span> <span class="n">beanName</span><span class="o">,</span>
+                                <span class="s">"'"</span> <span class="o">+</span> <span class="n">beanName</span> <span class="o">+</span> <span class="s">"' depends on missing bean '"</span> <span class="o">+</span> <span class="n">dep</span> <span class="o">+</span> <span class="s">"'"</span><span class="o">,</span> <span class="n">ex</span><span class="o">);</span>
+                    <span class="o">}</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+
+            <span class="c1">// Create bean instance.</span>
+            <span class="c1">//10. 根据bean类型创建bean实例</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">mbd</span><span class="o">.</span><span class="na">isSingleton</span><span class="o">())</span> <span class="o">{</span>
+                <span class="n">sharedInstance</span> <span class="o">=</span> <span class="n">getSingleton</span><span class="o">(</span><span class="n">beanName</span><span class="o">,</span> <span class="o">()</span> <span class="o">-&gt;</span> <span class="o">{</span>
+                    <span class="k">try</span> <span class="o">{</span>
+                        <span class="k">return</span> <span class="nf">createBean</span><span class="o">(</span><span class="n">beanName</span><span class="o">,</span> <span class="n">mbd</span><span class="o">,</span> <span class="n">args</span><span class="o">);</span>
+                    <span class="o">}</span>
+                    <span class="k">catch</span> <span class="o">(</span><span class="nc">BeansException</span> <span class="n">ex</span><span class="o">)</span> <span class="o">{</span>
+                        <span class="c1">// Explicitly remove instance from singleton cache: It might have been put there</span>
+                        <span class="c1">// eagerly by the creation process, to allow for circular reference resolution.</span>
+                        <span class="c1">// Also remove any beans that received a temporary reference to the bean.</span>
+                        <span class="n">destroySingleton</span><span class="o">(</span><span class="n">beanName</span><span class="o">);</span>
+                        <span class="k">throw</span> <span class="n">ex</span><span class="o">;</span>
+                    <span class="o">}</span>
+                <span class="o">});</span>
+                <span class="n">bean</span> <span class="o">=</span> <span class="n">getObjectForBeanInstance</span><span class="o">(</span><span class="n">sharedInstance</span><span class="o">,</span> <span class="n">name</span><span class="o">,</span> <span class="n">beanName</span><span class="o">,</span> <span class="n">mbd</span><span class="o">);</span>
+            <span class="o">}</span>
+
+            <span class="k">else</span> <span class="nf">if</span> <span class="o">(</span><span class="n">mbd</span><span class="o">.</span><span class="na">isPrototype</span><span class="o">())</span> <span class="o">{</span>
+                <span class="c1">// It's a prototype -&gt; create a new instance.</span>
+                <span class="c1">//如果是原型 -》 创建一个新实例</span>
+                <span class="nc">Object</span> <span class="n">prototypeInstance</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+                <span class="k">try</span> <span class="o">{</span>
+                    <span class="n">beforePrototypeCreation</span><span class="o">(</span><span class="n">beanName</span><span class="o">);</span>
+                    <span class="n">prototypeInstance</span> <span class="o">=</span> <span class="n">createBean</span><span class="o">(</span><span class="n">beanName</span><span class="o">,</span> <span class="n">mbd</span><span class="o">,</span> <span class="n">args</span><span class="o">);</span>
+                <span class="o">}</span>
+                <span class="k">finally</span> <span class="o">{</span>
+                    <span class="n">afterPrototypeCreation</span><span class="o">(</span><span class="n">beanName</span><span class="o">);</span>
+                <span class="o">}</span>
+                <span class="n">bean</span> <span class="o">=</span> <span class="n">getObjectForBeanInstance</span><span class="o">(</span><span class="n">prototypeInstance</span><span class="o">,</span> <span class="n">name</span><span class="o">,</span> <span class="n">beanName</span><span class="o">,</span> <span class="n">mbd</span><span class="o">);</span>
+            <span class="o">}</span>
+
+            <span class="k">else</span> <span class="o">{</span>
+                <span class="nc">String</span> <span class="n">scopeName</span> <span class="o">=</span> <span class="n">mbd</span><span class="o">.</span><span class="na">getScope</span><span class="o">();</span>
+                <span class="kd">final</span> <span class="nc">Scope</span> <span class="n">scope</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">scopes</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">scopeName</span><span class="o">);</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">scope</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalStateException</span><span class="o">(</span><span class="s">"No Scope registered for scope name '"</span> <span class="o">+</span> <span class="n">scopeName</span> <span class="o">+</span> <span class="s">"'"</span><span class="o">);</span>
+                <span class="o">}</span>
+                <span class="k">try</span> <span class="o">{</span>
+                    <span class="nc">Object</span> <span class="n">scopedInstance</span> <span class="o">=</span> <span class="n">scope</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">beanName</span><span class="o">,</span> <span class="o">()</span> <span class="o">-&gt;</span> <span class="o">{</span>
+                        <span class="n">beforePrototypeCreation</span><span class="o">(</span><span class="n">beanName</span><span class="o">);</span>
+                        <span class="k">try</span> <span class="o">{</span>
+                            <span class="k">return</span> <span class="nf">createBean</span><span class="o">(</span><span class="n">beanName</span><span class="o">,</span> <span class="n">mbd</span><span class="o">,</span> <span class="n">args</span><span class="o">);</span>
+                        <span class="o">}</span>
+                        <span class="k">finally</span> <span class="o">{</span>
+                            <span class="n">afterPrototypeCreation</span><span class="o">(</span><span class="n">beanName</span><span class="o">);</span>
+                        <span class="o">}</span>
+                    <span class="o">});</span>
+                    <span class="n">bean</span> <span class="o">=</span> <span class="n">getObjectForBeanInstance</span><span class="o">(</span><span class="n">scopedInstance</span><span class="o">,</span> <span class="n">name</span><span class="o">,</span> <span class="n">beanName</span><span class="o">,</span> <span class="n">mbd</span><span class="o">);</span>
+                <span class="o">}</span>
+                <span class="k">catch</span> <span class="o">(</span><span class="nc">IllegalStateException</span> <span class="n">ex</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="k">throw</span> <span class="k">new</span> <span class="nf">BeanCreationException</span><span class="o">(</span><span class="n">beanName</span><span class="o">,</span>
+                            <span class="s">"Scope '"</span> <span class="o">+</span> <span class="n">scopeName</span> <span class="o">+</span> <span class="s">"' is not active for the current thread; consider "</span> <span class="o">+</span>
+                            <span class="s">"defining a scoped proxy for this bean if you intend to refer to it from a singleton"</span><span class="o">,</span>
+                            <span class="n">ex</span><span class="o">);</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">catch</span> <span class="o">(</span><span class="nc">BeansException</span> <span class="n">ex</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">cleanupAfterBeanCreationFailure</span><span class="o">(</span><span class="n">beanName</span><span class="o">);</span>
+            <span class="k">throw</span> <span class="n">ex</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="c1">// Check if required type matches the type of the actual bean instance.</span>
+    <span class="c1">//11. 检查需要的类型是否匹配真正bean实例的类型</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">requiredType</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">requiredType</span><span class="o">.</span><span class="na">isInstance</span><span class="o">(</span><span class="n">bean</span><span class="o">))</span> <span class="o">{</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="no">T</span> <span class="n">convertedBean</span> <span class="o">=</span> <span class="n">getTypeConverter</span><span class="o">().</span><span class="na">convertIfNecessary</span><span class="o">(</span><span class="n">bean</span><span class="o">,</span> <span class="n">requiredType</span><span class="o">);</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">convertedBean</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">throw</span> <span class="k">new</span> <span class="nf">BeanNotOfRequiredTypeException</span><span class="o">(</span><span class="n">name</span><span class="o">,</span> <span class="n">requiredType</span><span class="o">,</span> <span class="n">bean</span><span class="o">.</span><span class="na">getClass</span><span class="o">());</span>
+            <span class="o">}</span>
+            <span class="k">return</span> <span class="n">convertedBean</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="k">catch</span> <span class="o">(</span><span class="nc">TypeMismatchException</span> <span class="n">ex</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">logger</span><span class="o">.</span><span class="na">isTraceEnabled</span><span class="o">())</span> <span class="o">{</span>
+                <span class="n">logger</span><span class="o">.</span><span class="na">trace</span><span class="o">(</span><span class="s">"Failed to convert bean '"</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+</span> <span class="s">"' to required type '"</span> <span class="o">+</span>
+                        <span class="nc">ClassUtils</span><span class="o">.</span><span class="na">getQualifiedName</span><span class="o">(</span><span class="n">requiredType</span><span class="o">)</span> <span class="o">+</span> <span class="s">"'"</span><span class="o">,</span> <span class="n">ex</span><span class="o">);</span>
+            <span class="o">}</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="nf">BeanNotOfRequiredTypeException</span><span class="o">(</span><span class="n">name</span><span class="o">,</span> <span class="n">requiredType</span><span class="o">,</span> <span class="n">bean</span><span class="o">.</span><span class="na">getClass</span><span class="o">());</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+    <span class="c1">//12. 返回创建的bean </span>
+    <span class="k">return</span> <span class="o">(</span><span class="no">T</span><span class="o">)</span> <span class="n">bean</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+<ol>
+  <li>获取真正的bean名称,去除工厂bean的前缀&amp;</li>
+  <li>首先尝试从三级缓存中获取</li>
+  <li>如果可以获取到实例则继续尝试从bean实例本身或者工厂bean中获取</li>
+  <li>如果取不到实例则执行创建bean逻辑</li>
+  <li>首先检查该bean是否正在创建中</li>
+  <li>检查是否存在父bean工厂,若存在且该bean未创建过,则尝试从父bean工厂中获取</li>
+  <li>若不止类型检查,则标记该bean为已创建</li>
+  <li>尝试再次获取合并的bean定义并检查其定义</li>
+  <li>获取该bean依赖属性,存在则先注册这些依赖属性</li>
+  <li>这是最重要的一步,根据bean的类型创建bean实例,我们重点关注一下单例的创建,这就是bean创建的声明下面我们会详细介绍</li>
+  <li>bean创建完后根据需要的类型进行类型转化</li>
+  <li>最后返回创建完成的bean
+ &amp;emps;可见大约可以分为12步,具体的流程图可以参见上面的.<br />
+  接下来我们就来一步步看看这个doGetBean具体做了什么:</li>
+  <li>第一步获取bean的名称
+``` java</li>
+</ol>
+
+<p>```</p>
+
 <hr />
 
 </p>
@@ -1302,7 +1619,20 @@
                             
                             </div>
 
-                            <p><h3 id="方法入口">方法入口</h3>
+                            <p><h3 id="流程图">流程图</h3>
+<hr />
+<center>
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/springboot/ConfigurationClassPostProcessor.postProcessBeanDefinitionRegistry流程图.png">
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="ConfigurationClassPostProcessor.postProcessBeanDefinitionRegistry流程图" src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/springboot/ConfigurationClassPostProcessor.postProcessBeanDefinitionRegistry流程图.png" />
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">ConfigurationClassPostProcessor.postProcessBeanDefinitionRegistry流程图</div>
+    </a>
+</center>
+<hr />
+<h3 id="方法入口">方法入口</h3>
 <hr />
 <p>调用路径:<br />
 refresh() -&gt;<br />
@@ -5993,7 +6323,21 @@ ConfigurationClassPostProcessor.processConfigBeanDefinitions()</p>
                             
                             </div>
 
-                            <p><h3 id="run方法入口主要分析prepareenvironment">Run方法入口:主要分析prepareEnvironment</h3>
+                            <p><h3 id="run方法流程图">Run方法流程图</h3>
+<hr />
+<center>
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/springboot/run流程图.png">
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="run流程图" src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/springboot/run流程图.png" />
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">run流程图</div>
+    </a>
+</center>
+<hr />
+
+<h3 id="run方法入口主要分析prepareenvironment">Run方法入口:主要分析prepareEnvironment</h3>
 <hr />
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/**
  * Run the Spring application, creating and refreshing a new
@@ -6601,7 +6945,20 @@ ConfigurationClassPostProcessor.processConfigBeanDefinitions()</p>
                             
                             </div>
 
-                            <p><h3 id="主函数入口">主函数入口</h3>
+                            <p><h3 id="主函数流程图">主函数流程图</h3>
+<hr />
+<center>
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/springboot/SpringApplication构造流程图.png">
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="SpringApplication构造流程图" src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/springboot/SpringApplication构造流程图.png" />
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">SpringApplication构造流程图</div>
+    </a>
+</center>
+<hr />
+<h3 id="主函数入口">主函数入口</h3>
 <hr />
 <p>我们首先从主函数入口一步一步往下看.</p>
 
