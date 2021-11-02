@@ -113,6 +113,20 @@
             <div class="portfolio-flex-row">
                 
                     <div class="portfolio-flex-item portfolio-item">
+                        <a href="#portfolioModal-10000014" class="portfolio-link" data-toggle="modal">
+                            <div class="caption">
+                                <div class="caption-content">
+                                    <i class="fa fa-search-plus fa-3x"></i>
+                                    <p>快速幂</p>
+
+                                </div>
+                            </div>
+                            <img src="img/portfolio/pexels-regina-pivetta-9945338.jpg" class="img-responsive" alt="快速幂">
+
+                        </a>
+                    </div>
+                
+                    <div class="portfolio-flex-item portfolio-item">
                         <a href="#portfolioModal-10000013" class="portfolio-link" data-toggle="modal">
                             <div class="caption">
                                 <div class="caption-content">
@@ -576,6 +590,8 @@
                     
                 
                     
+                
+                    
                 <div class="portfolio-flex-item portfolio-item">
                         <a href="#portfolioModal-9" class="portfolio-link" data-toggle="modal">
                             <div class="caption">
@@ -631,6 +647,8 @@
                 </div>
             </div>
             <div class="portfolio-flex-row">
+                
+                    
                 
                     
                 
@@ -808,6 +826,21 @@
                 </div>
             </div>
             <div class="portfolio-flex-row">
+                
+                    
+                <div class="portfolio-flex-item portfolio-item">
+                        <a href="#portfolioModal-10000014" class="portfolio-link" data-toggle="modal">
+                            <div class="caption">
+                                <div class="caption-content">
+                                    <i class="fa fa-search-plus fa-3x"></i>
+                                    <p>快速幂</p>
+
+                                </div>
+                            </div>
+                            <img src="img/portfolio/pexels-regina-pivetta-9945338.jpg" class="img-responsive" alt="快速幂">
+                        </a>
+                    </div>
+                    
                 
                     
                 <div class="portfolio-flex-item portfolio-item">
@@ -1092,6 +1125,367 @@
 
      <!-- Portfolio Modals -->
  
+    <div class="portfolio-modal modal fade" id="portfolioModal-10000014" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-content">
+            <div class="close-modal" data-dismiss="modal">
+                <div class="lr">
+                    <div class="rl">
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2">
+                        <div class="modal-body">
+                            <div align="center">
+                            <h2>QuickPower</h2>
+                            <hr class="star-primary">
+                            <img src="img/portfolio/pexels-regina-pivetta-9945338.jpg" class="img-responsive img-centered" alt="快速幂">
+
+                            
+                                <h3>快速幂</h3>
+                            
+                            </div>
+
+                            <p><h3 id="快速幂定义">快速幂定义</h3>
+<hr />
+<p>  快速幂就是快速算底数的n次幂.其时间复杂度为O(logN),与O(N)相比效率有了极大的提高.</p>
+<hr />
+
+<h3 id="原理">原理</h3>
+<hr />
+<p>  快速幂的核心思想就是每一步都把指数分成两半,而相应的底数做平方运算.
+这样不仅能把非常大的指数给不断变小,所需要执行的循环次数也变小,而最后表示的结果却一直不会变.
+  举个简单的例子,比如我们要求3的10次方</p>
+<ol>
+  <li>若我们使用通常的方法则是每次乘3直到乘了9次,即3 * 3 * 3 * 3 * 3 * 3 * 3 * 3 * 3 * 3</li>
+  <li>若我们先算3的五次方,然后在算它的平方,只需要乘五次即可,即(3 * 3 * 3 * 3 * 3)^2</li>
+  <li>若我们先算3 * 3,则3的五次方为9 * 9 *3,再算它的平方,共进行了4次乘法
+模仿这样的过程,我们得到一个在O(logN)时间内计算出幂的算法,也就是快速幂.
+    <hr />
+  </li>
+</ol>
+
+<h3 id="递归快速幂">递归快速幂</h3>
+<hr />
+<p>以上的递归方程如下:</p>
+<center>
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/fastPower/递归方程.png">
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="递归方程" src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/fastPower/递归方程.png" />
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">递归方程</div>
+    </a>
+</center>
+<p>  计算a的n次方,有三种情况:</p>
+<ul>
+  <li>如果n为偶数(不为0),那么就先计算a的n/2次方,然后平方</li>
+  <li>如果n是奇数,那么就先计算a的n-1次方</li>
+  <li>递归出口就是a的0次方,为1</li>
+</ul>
+
+<p>  递归快速幂的思路比较清晰:</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//递归快速幂</span>
+<span class="kt">int</span> <span class="nf">qpow</span><span class="o">(</span><span class="kt">int</span> <span class="n">a</span><span class="o">,</span> <span class="kt">int</span> <span class="n">n</span><span class="o">){</span>
+    <span class="k">if</span><span class="o">(</span><span class="n">n</span><span class="o">==</span><span class="mi">0</span><span class="o">){</span>
+        <span class="k">return</span> <span class="mi">1</span><span class="o">;</span>
+    <span class="o">}</span><span class="k">else</span> <span class="k">if</span><span class="o">(</span><span class="n">n</span><span class="o">%</span><span class="mi">2</span><span class="o">==</span><span class="mi">1</span><span class="o">){</span>
+        <span class="k">return</span> <span class="nf">qpow</span><span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="o">)*</span><span class="n">a</span><span class="o">;</span>
+    <span class="o">}</span><span class="k">else</span><span class="o">{</span>
+        <span class="kt">int</span> <span class="n">temp</span> <span class="o">=</span> <span class="n">qpow</span><span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="n">n</span><span class="o">/</span><span class="mi">2</span><span class="o">);</span>
+        <span class="k">return</span> <span class="n">temp</span><span class="o">*</span><span class="n">temp</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+<p>  注意这个temp变量是必须的,如果不发a^(n/2)记录下来,直接写成qpow(a, n/2)*qpow(a, n/2),那会计算两次 a^(n/2),整个算法就退化为O(n).<br />
+  在实际问题中,题目常常会要求一个大素数取模,这是因为计算结果可能会非常巨大,但是在这考察高精度又没有必要.
+这时我们的快速幂也应当进行取模,此时应当注意,原则是步步取模,如果MOD较大,还应当注意是否会超过int的大小,使用long.</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//递归快速莫 (对大素数取模)</span>
+<span class="kt">int</span> <span class="no">MOD</span> <span class="mi">1000000007</span>
+<span class="kt">long</span> <span class="nf">qpow</span><span class="o">(</span><span class="kt">long</span> <span class="n">a</span><span class="o">,</span> <span class="kt">long</span> <span class="n">n</span><span class="o">){</span>
+    <span class="k">if</span><span class="o">(</span><span class="n">n</span><span class="o">==</span><span class="mi">0</span><span class="o">){</span>
+        <span class="k">return</span> <span class="mi">1</span><span class="o">;</span>
+    <span class="o">}</span><span class="k">else</span> <span class="k">if</span><span class="o">(</span><span class="n">n</span><span class="o">%</span><span class="mi">2</span><span class="o">==</span><span class="mi">1</span><span class="o">){</span>
+        <span class="k">return</span> <span class="nf">qpow</span><span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="o">)*</span><span class="n">a</span> <span class="o">%</span> <span class="no">MOD</span><span class="o">;</span>
+    <span class="o">}</span><span class="k">else</span><span class="o">{</span>
+        <span class="kt">long</span> <span class="n">temp</span> <span class="o">=</span> <span class="n">qpow</span><span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="n">n</span><span class="o">/</span><span class="mi">2</span><span class="o">)</span> <span class="o">%</span> <span class="no">MOD</span><span class="o">;</span>
+        <span class="k">return</span> <span class="n">temp</span><span class="o">*</span><span class="n">temp</span><span class="o">%</span><span class="no">MOD</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+<p>  递归虽然简洁,但会产生额外的空间开销.可以把递归改写为循环,来避免对栈空间的大量占用,也就是非递归快速幂.</p>
+
+<hr />
+
+<h3 id="非递归快速幂">非递归快速幂</h3>
+<hr />
+<p>  换一个角度来引入非递归的快速幂,例如7的10次方,把10写成二进制的形式(1010).<br />
+  要计算7^(1010),我们可以把它们拆分为 <strong>7^(1000) * 7^(10)</strong> .实际上,对于任意的整数,我们都可以把它拆成若干个7^(100..)的形式相乘.
+而这些7^(100..)恰好就是 <strong>7^1、7^2、7^4…</strong> ,我们只需不断把底数平方即可算出它们.</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//非递归快速幂</span>
+<span class="kt">int</span> <span class="nf">qpow</span><span class="o">(</span><span class="kt">int</span> <span class="n">a</span><span class="o">,</span> <span class="kt">int</span> <span class="n">n</span><span class="o">){</span>
+    <span class="kt">int</span> <span class="n">ans</span><span class="o">=</span><span class="mi">1</span><span class="o">;</span>
+    <span class="k">while</span><span class="o">(</span><span class="n">n</span><span class="o">){</span>
+        <span class="k">if</span><span class="o">(</span><span class="n">n</span><span class="o">&amp;</span><span class="mi">1</span><span class="o">){</span>    <span class="c1">//如果n的当前末尾为1</span>
+            <span class="n">ans</span><span class="o">*=</span><span class="n">a</span><span class="o">;</span> <span class="c1">//ans乘上当前的a</span>
+        <span class="o">}</span>
+        <span class="n">a</span><span class="o">*=</span><span class="n">a</span><span class="o">;</span>       <span class="c1">//a自乘</span>
+        <span class="n">n</span><span class="o">&gt;&gt;=</span><span class="mi">1</span><span class="o">;</span>      <span class="c1">//n往右移一位</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+<p>  运算过程如下:<br />
+  最初ans为1,然后我们一位一位算:<br />
+  1010的最后一位是0,所以a^1这一位不要.然后1010变为101,a变为a^2<br />
+  101的最后一位是0,所以a^2这一位是需要的,乘入ans.101变为10,a再自乘变为a^4<br />
+  10的最后一位是0,跳过,右移10变为1,a再自乘变为a^8<br />
+  最后1的最后一位是1,ans再乘上a^8.循环结束,返回结果</p>
+<center>
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/fastPower/非递归快速幂.png">
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="非递归快速幂" src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/fastPower/非递归快速幂.png" />
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">非递归快速幂</div>
+    </a>
+</center>
+<p>  这里的位运算符 » 是右移,表示把二进制数往右移动一位,相当于/2;&amp;是按位与,&amp;1可以理解为取出二进制数的最后一位,相当于%2==1.</p>
+<hr />
+
+<h3 id="矩阵快速幂">矩阵快速幂</h3>
+<hr />
+<p>  矩阵快速幂用于求解一般性问题:给定大小为n*n的矩阵M,求答案矩阵M^k,并对答案矩阵中的每位元素对P取模.
+对于类似斐波那契此类的数列递推问题,我们可以使用矩阵快速幂来进行加速.使用矩阵快速幂,我们只需要O(logn)的复杂度.</p>
+
+<ul>
+  <li>泰波那契序列
+泰波那契序列 Tn 定义如下:<br />
+T0 = 0, T1 = 1, T2 = 1, 且在 n &gt;= 0 的条件下 Tn+3 = Tn + Tn+1 + Tn+2<br />
+给你整数n,请返回第n个泰波那契数Tn的值.</li>
+</ul>
+
+<p>根据题目的递推关系(i&gt;=3):</p>
+<center>
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/fastPower/递推关系.png">
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="递推关系" src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/fastPower/递推关系.png" />
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">递推关系</div>
+    </a>
+</center>
+<p>我们发现求解 f(i) 其依赖的是 f(i-1)、f(i-2)和f(i-3).
+我们可以将其存成一个列向量:</p>
+<center>
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/fastPower/列向量.png">
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="列向量" src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/fastPower/列向量.png" />
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">列向量</div>
+    </a>
+</center>
+<p>利用题目给定的依赖关系,对目标矩阵元素进行展开:</p>
+<center>
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/fastPower/矩阵展开.png">
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="矩阵展开" src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/fastPower/矩阵展开.png" />
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">矩阵展开</div>
+    </a>
+</center>
+<p>那么根据矩阵乘法,即有:</p>
+<center>
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/fastPower/公式.png">
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="公式" src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/fastPower/公式.png" />
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">公式</div>
+    </a>
+</center>
+<p>我们令:</p>
+<center>
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/fastPower/因子.png">
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="因子" src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/fastPower/因子.png" />
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">因子</div>
+    </a>
+</center>
+<p>然后发现利用Mat也能实现数列递推:</p>
+<center>
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/fastPower/数列递推.png">
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="数列递推" src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/fastPower/数列递推.png" />
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">数列递推</div>
+    </a>
+</center>
+<p>再根据矩阵运算的结合律,最终有:</p>
+<center>
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/fastPower/最终公式.png">
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="最终公式" src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/fastPower/最终公式.png" />
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">最终公式</div>
+    </a>
+</center>
+<p>从而将问题转化为求解Mat^(n-2),这时候可以套用矩阵快速幂解决.</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="kt">int</span> <span class="no">N</span> <span class="o">=</span> <span class="mi">3</span><span class="o">;</span>
+    <span class="kt">int</span><span class="o">[][]</span> <span class="nf">mul</span><span class="o">(</span><span class="kt">int</span><span class="o">[][]</span> <span class="n">a</span><span class="o">,</span> <span class="kt">int</span><span class="o">[][]</span> <span class="n">b</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kt">int</span><span class="o">[][]</span> <span class="n">c</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="no">N</span><span class="o">][</span><span class="no">N</span><span class="o">];</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="no">N</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="no">N</span><span class="o">;</span> <span class="n">j</span><span class="o">++)</span> <span class="o">{</span>
+                <span class="n">c</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="n">j</span><span class="o">]</span> <span class="o">=</span> <span class="n">a</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="mi">0</span><span class="o">]</span> <span class="o">*</span> <span class="n">b</span><span class="o">[</span><span class="mi">0</span><span class="o">][</span><span class="n">j</span><span class="o">]</span> <span class="o">+</span> <span class="n">a</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="mi">1</span><span class="o">]</span> <span class="o">*</span> <span class="n">b</span><span class="o">[</span><span class="mi">1</span><span class="o">][</span><span class="n">j</span><span class="o">]</span> <span class="o">+</span> <span class="n">a</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="mi">2</span><span class="o">]</span> <span class="o">*</span> <span class="n">b</span><span class="o">[</span><span class="mi">2</span><span class="o">][</span><span class="n">j</span><span class="o">];</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">c</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">tribonacci</span><span class="o">(</span><span class="kt">int</span> <span class="n">n</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="k">return</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">n</span> <span class="o">==</span> <span class="mi">1</span> <span class="o">||</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">2</span><span class="o">)</span> <span class="k">return</span> <span class="mi">1</span><span class="o">;</span>
+        <span class="kt">int</span><span class="o">[][]</span> <span class="n">ans</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[][]{</span>
+            <span class="o">{</span><span class="mi">1</span><span class="o">,</span><span class="mi">0</span><span class="o">,</span><span class="mi">0</span><span class="o">},</span>
+            <span class="o">{</span><span class="mi">0</span><span class="o">,</span><span class="mi">1</span><span class="o">,</span><span class="mi">0</span><span class="o">},</span>
+            <span class="o">{</span><span class="mi">0</span><span class="o">,</span><span class="mi">0</span><span class="o">,</span><span class="mi">1</span><span class="o">}</span>
+        <span class="o">};</span>
+        <span class="kt">int</span><span class="o">[][]</span> <span class="n">mat</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[][]{</span>
+            <span class="o">{</span><span class="mi">1</span><span class="o">,</span><span class="mi">1</span><span class="o">,</span><span class="mi">1</span><span class="o">},</span>
+            <span class="o">{</span><span class="mi">1</span><span class="o">,</span><span class="mi">0</span><span class="o">,</span><span class="mi">0</span><span class="o">},</span>
+            <span class="o">{</span><span class="mi">0</span><span class="o">,</span><span class="mi">1</span><span class="o">,</span><span class="mi">0</span><span class="o">}</span>
+        <span class="o">};</span>
+        <span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">2</span><span class="o">;</span>
+        <span class="k">while</span> <span class="o">(</span><span class="n">k</span> <span class="o">!=</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">((</span><span class="n">k</span> <span class="o">&amp;</span> <span class="mi">1</span><span class="o">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="o">)</span> <span class="n">ans</span> <span class="o">=</span> <span class="n">mul</span><span class="o">(</span><span class="n">ans</span><span class="o">,</span> <span class="n">mat</span><span class="o">);</span>
+            <span class="n">mat</span> <span class="o">=</span> <span class="n">mul</span><span class="o">(</span><span class="n">mat</span><span class="o">,</span> <span class="n">mat</span><span class="o">);</span>
+            <span class="n">k</span> <span class="o">&gt;&gt;=</span> <span class="mi">1</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">ans</span><span class="o">[</span><span class="mi">0</span><span class="o">][</span><span class="mi">0</span><span class="o">]</span> <span class="o">+</span> <span class="n">ans</span><span class="o">[</span><span class="mi">0</span><span class="o">][</span><span class="mi">1</span><span class="o">];</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+<blockquote>
+  <p>时间复杂度:O(logN)<br />
+空间复杂度:O(1)</p>
+</blockquote>
+
+<ul>
+  <li>斐波那契数列</li>
+</ul>
+<center>
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/fastPower/斐波那契数列.png">
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="斐波那契数列" src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/fastPower/斐波那契数列.png" />
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">斐波那契数列</div>
+    </a>
+</center>
+<p>推算方法如下:</p>
+<center>
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/fastPower/斐波那契数列推算.png">
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="斐波那契数列推算" src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/fastPower/斐波那契数列推算.png" />
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">斐波那契数列推算</div>
+    </a>
+</center>
+<p>这样,我们把原来较为复杂的问题转化成了求某个矩阵的幂的问题,可以应用快速幂求解.</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">#</span><span class="n">include</span> <span class="o">&lt;</span><span class="n">cstdio</span><span class="o">&gt;</span>
+<span class="err">#</span><span class="n">define</span> <span class="no">MOD</span> <span class="mi">1000000007</span>
+<span class="n">typedef</span> <span class="kt">long</span> <span class="kt">long</span> <span class="n">ll</span><span class="o">;</span>
+
+<span class="n">struct</span> <span class="n">matrix</span>
+<span class="o">{</span>
+    <span class="n">ll</span> <span class="n">a1</span><span class="o">,</span> <span class="n">a2</span><span class="o">,</span> <span class="n">b1</span><span class="o">,</span> <span class="n">b2</span><span class="o">;</span>
+    <span class="n">matrix</span><span class="o">(</span><span class="n">ll</span> <span class="n">a1</span><span class="o">,</span> <span class="n">ll</span> <span class="n">a2</span><span class="o">,</span> <span class="n">ll</span> <span class="n">b1</span><span class="o">,</span> <span class="n">ll</span> <span class="n">b2</span><span class="o">)</span> <span class="o">:</span> <span class="n">a1</span><span class="o">(</span><span class="n">a1</span><span class="o">),</span> <span class="n">a2</span><span class="o">(</span><span class="n">a2</span><span class="o">),</span> <span class="n">b1</span><span class="o">(</span><span class="n">b1</span><span class="o">),</span> <span class="n">b2</span><span class="o">(</span><span class="n">b2</span><span class="o">)</span> <span class="o">{}</span>
+    <span class="n">matrix</span> <span class="n">operator</span><span class="o">*(</span><span class="kd">const</span> <span class="n">matrix</span> <span class="o">&amp;</span><span class="n">y</span><span class="o">)</span>
+    <span class="o">{</span>
+        <span class="n">matrix</span> <span class="nf">ans</span><span class="o">((</span><span class="n">a1</span> <span class="o">*</span> <span class="n">y</span><span class="o">.</span><span class="na">a1</span> <span class="o">+</span> <span class="n">a2</span> <span class="o">*</span> <span class="n">y</span><span class="o">.</span><span class="na">b1</span><span class="o">)</span> <span class="o">%</span> <span class="no">MOD</span><span class="o">,</span>
+                   <span class="o">(</span><span class="n">a1</span> <span class="o">*</span> <span class="n">y</span><span class="o">.</span><span class="na">a2</span> <span class="o">+</span> <span class="n">a2</span> <span class="o">*</span> <span class="n">y</span><span class="o">.</span><span class="na">b2</span><span class="o">)</span> <span class="o">%</span> <span class="no">MOD</span><span class="o">,</span>
+                   <span class="o">(</span><span class="n">b1</span> <span class="o">*</span> <span class="n">y</span><span class="o">.</span><span class="na">a1</span> <span class="o">+</span> <span class="n">b2</span> <span class="o">*</span> <span class="n">y</span><span class="o">.</span><span class="na">b1</span><span class="o">)</span> <span class="o">%</span> <span class="no">MOD</span><span class="o">,</span>
+                   <span class="o">(</span><span class="n">b1</span> <span class="o">*</span> <span class="n">y</span><span class="o">.</span><span class="na">a2</span> <span class="o">+</span> <span class="n">b2</span> <span class="o">*</span> <span class="n">y</span><span class="o">.</span><span class="na">b2</span><span class="o">)</span> <span class="o">%</span> <span class="no">MOD</span><span class="o">);</span>
+        <span class="k">return</span> <span class="n">ans</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">};</span>
+
+<span class="n">matrix</span> <span class="nf">qpow</span><span class="o">(</span><span class="n">matrix</span> <span class="n">a</span><span class="o">,</span> <span class="n">ll</span> <span class="n">n</span><span class="o">)</span>
+<span class="o">{</span>
+    <span class="n">matrix</span> <span class="nf">ans</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="mi">1</span><span class="o">);</span> <span class="c1">//单位矩阵</span>
+    <span class="k">while</span> <span class="o">(</span><span class="n">n</span><span class="o">)</span>
+    <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">n</span> <span class="o">&amp;</span> <span class="mi">1</span><span class="o">)</span>
+            <span class="n">ans</span> <span class="o">=</span> <span class="n">ans</span> <span class="o">*</span> <span class="n">a</span><span class="o">;</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">a</span> <span class="o">*</span> <span class="n">a</span><span class="o">;</span>
+        <span class="n">n</span> <span class="o">&gt;&gt;=</span> <span class="mi">1</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="n">ans</span><span class="o">;</span>
+<span class="o">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="o">()</span>
+<span class="o">{</span>
+    <span class="n">ll</span> <span class="n">x</span><span class="o">;</span>
+    <span class="n">matrix</span> <span class="nf">M</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">1</span><span class="o">);</span>
+    <span class="n">scanf</span><span class="o">(</span><span class="s">"%lld"</span><span class="o">,</span> <span class="o">&amp;</span><span class="n">x</span><span class="o">);</span>
+    <span class="n">matrix</span> <span class="n">ans</span> <span class="o">=</span> <span class="n">qpow</span><span class="o">(</span><span class="no">M</span><span class="o">,</span> <span class="n">x</span> <span class="o">-</span> <span class="mi">1</span><span class="o">);</span>
+    <span class="n">printf</span><span class="o">(</span><span class="s">"%lld\n"</span><span class="o">,</span> <span class="o">(</span><span class="n">ans</span><span class="o">.</span><span class="na">a1</span> <span class="o">+</span> <span class="n">ans</span><span class="o">.</span><span class="na">a2</span><span class="o">)</span> <span class="o">%</span> <span class="no">MOD</span><span class="o">);</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+<hr />
+</p>
+
+                            <div align="center">
+                            <ul class="list-inline item-details">
+                                
+                                    <li>Client:
+                                        <strong><a href="http://startbootstrap.com">Power</a>
+                                        </strong>
+                                    </li>
+                                
+                                
+                                    <li>Date:
+                                        <strong><a href="http://startbootstrap.com">November 2021</a>
+                                        </strong>
+                                    </li>
+                                
+                                
+                                    <li>Service:
+                                        <strong><a href="http://startbootstrap.com">algorithm</a>
+                                        </strong>
+                                    </li>
+                                
+                            </ul>
+                            </div>
+                            <div align="center">
+                                <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="portfolio-modal modal fade" id="portfolioModal-10000013" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-content">
             <div class="close-modal" data-dismiss="modal">
