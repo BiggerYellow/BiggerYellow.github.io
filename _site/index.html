@@ -113,6 +113,20 @@
             <div class="portfolio-flex-row">
                 
                     <div class="portfolio-flex-item portfolio-item">
+                        <a href="#portfolioModal-10000015" class="portfolio-link" data-toggle="modal">
+                            <div class="caption">
+                                <div class="caption-content">
+                                    <i class="fa fa-search-plus fa-3x"></i>
+                                    <p>拓扑排序</p>
+
+                                </div>
+                            </div>
+                            <img src="img/portfolio/pexels-michael-kessel-9668543.jpg" class="img-responsive" alt="topoSort">
+
+                        </a>
+                    </div>
+                
+                    <div class="portfolio-flex-item portfolio-item">
                         <a href="#portfolioModal-10000014" class="portfolio-link" data-toggle="modal">
                             <div class="caption">
                                 <div class="caption-content">
@@ -592,6 +606,8 @@
                     
                 
                     
+                
+                    
                 <div class="portfolio-flex-item portfolio-item">
                         <a href="#portfolioModal-9" class="portfolio-link" data-toggle="modal">
                             <div class="caption">
@@ -647,6 +663,8 @@
                 </div>
             </div>
             <div class="portfolio-flex-row">
+                
+                    
                 
                     
                 
@@ -826,6 +844,21 @@
                 </div>
             </div>
             <div class="portfolio-flex-row">
+                
+                    
+                <div class="portfolio-flex-item portfolio-item">
+                        <a href="#portfolioModal-10000015" class="portfolio-link" data-toggle="modal">
+                            <div class="caption">
+                                <div class="caption-content">
+                                    <i class="fa fa-search-plus fa-3x"></i>
+                                    <p>拓扑排序</p>
+
+                                </div>
+                            </div>
+                            <img src="img/portfolio/pexels-michael-kessel-9668543.jpg" class="img-responsive" alt="topoSort">
+                        </a>
+                    </div>
+                    
                 
                     
                 <div class="portfolio-flex-item portfolio-item">
@@ -1125,6 +1158,297 @@
 
      <!-- Portfolio Modals -->
  
+    <div class="portfolio-modal modal fade" id="portfolioModal-10000015" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-content">
+            <div class="close-modal" data-dismiss="modal">
+                <div class="lr">
+                    <div class="rl">
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2">
+                        <div class="modal-body">
+                            <div align="center">
+                            <h2>TopoSort</h2>
+                            <hr class="star-primary">
+                            <img src="img/portfolio/pexels-michael-kessel-9668543.jpg" class="img-responsive img-centered" alt="topoSort">
+
+                            
+                                <h3>拓扑排序</h3>
+                            
+                            </div>
+
+                            <p><h3 id="百度百科定义">百度百科定义</h3>
+<hr />
+<p>  对一个有向无环图(Directed Acyclic Graph简称DAG)G进行拓扑排序,是将G中所有顶点排成一个线性序列,
+使得图中任意一对顶点u和v,若&lt;u,v&gt;∈E(G),则u在线性序列中出现在v之前.通常,这样的线性序列称为满足拓扑次序(Topological Order)的序列,简称拓扑序列.<br />
+  简单的说,由某个集合上的一个偏序得到该集合上的一个全序,这个操作称之为拓扑排序.</p>
+<hr />
+
+<h3 id="kahn算法">Kahn算法</h3>
+<hr />
+<p>  拓扑排序是对DAG(有向无环图)上的节点进行排序,使得对于每一条有向边 u-&gt;v ,u都出现在v之前.
+简单的来说,是在不破坏节点先后顺序的前提下,把DAG拉成一条链.</p>
+
+<p>  拓扑排序最经典的算法是Kahn算法.<br />
+  首先,先拿出所有入度为0的点排在前面,并在原图中将它们删除:</p>
+<center>
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/topoSort/步骤1.png">
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="步骤1" src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/topoSort/步骤1.png" />
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">步骤1</div>
+    </a>
+</center>
+<p>  这时有些点的入度减少了,于是再拿出当前所有入度为0的点放在已经排序的序列后面,然后删除:</p>
+<center>
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/topoSort/步骤2.png">
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="步骤2" src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/topoSort/步骤2.png" />
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">步骤2</div>
+    </a>
+</center>
+<p>  因为是有向无环图,而且删除操作不会产生环,所以每时每刻都一定存在入度为0的点,一定可以不断进行下去,直到所有点被删除.</p>
+<center>
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/topoSort/步骤3.png">
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="步骤3" src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/topoSort/步骤3.png" />
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">步骤3</div>
+    </a>
+</center>
+<p>  以下是一个O(n+m)的实现(n,m分别表示点数和边数),利用了队列:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// deg是入度，在存图的时候需要录入数据</span>
+<span class="c1">// A是排序后的数组</span>
+<span class="kt">int</span> <span class="n">deg</span><span class="o">[</span><span class="no">MAXN</span><span class="o">],</span> <span class="no">A</span><span class="o">[</span><span class="no">MAXN</span><span class="o">];</span>
+<span class="n">bool</span> <span class="nf">toposort</span><span class="o">(</span><span class="kt">int</span> <span class="n">n</span><span class="o">)</span>
+<span class="o">{</span>
+    <span class="kt">int</span> <span class="n">cnt</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+    <span class="n">queue</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">q</span><span class="o">;</span>
+    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="o">;</span> <span class="o">++</span><span class="n">i</span><span class="o">)</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">deg</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span>
+            <span class="n">q</span><span class="o">.</span><span class="na">push</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
+    <span class="k">while</span> <span class="o">(!</span><span class="n">q</span><span class="o">.</span><span class="na">empty</span><span class="o">())</span>
+    <span class="o">{</span>
+        <span class="kt">int</span> <span class="n">t</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="na">front</span><span class="o">();</span>
+        <span class="n">q</span><span class="o">.</span><span class="na">pop</span><span class="o">();</span>
+        <span class="no">A</span><span class="o">[</span><span class="n">cnt</span><span class="o">++]</span> <span class="o">=</span> <span class="n">t</span><span class="o">;</span>
+        <span class="k">for</span> <span class="o">(</span><span class="n">auto</span> <span class="n">to</span> <span class="o">:</span> <span class="n">edges</span><span class="o">[</span><span class="n">t</span><span class="o">])</span>
+        <span class="o">{</span>
+            <span class="n">deg</span><span class="o">[</span><span class="n">to</span><span class="o">]--;</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">deg</span><span class="o">[</span><span class="n">to</span><span class="o">]</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="c1">// 出现了新的入度为0的点</span>
+                <span class="n">q</span><span class="o">.</span><span class="na">push</span><span class="o">(</span><span class="n">to</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="n">cnt</span> <span class="o">==</span> <span class="n">n</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+<p>  防止是否成功进行拓扑排序,也即是否存在环.也就是说拓扑排序是可以用来简单的判断环的.
+有时会要求输出字典序最小的方案,这时把queue改成priority_queue即可,复杂度会多一个log.</p>
+<hr />
+
+<h3 id="翻转后序遍历">翻转后序遍历</h3>
+<hr />
+<p>  先抛出结论,将后序遍历的结果进行反转,就是拓扑排序的结果.<br />
+  直接看题目:<a href="https://leetcode-cn.com/problems/course-schedule-ii/">课程表 II</a></p>
+<center>
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/topoSort/课程表II.png">
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="课程表II" src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/topoSort/课程表II.png" />
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">课程表II</div>
+    </a>
+</center>
+<p>  本题是<a href="https://leetcode-cn.com/problems/course-schedule/">课程表</a>的进阶版,本题需要求出所学的课程顺序.</p>
+<center>
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/topoSort/拓扑排序.jpeg">
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="拓扑排序" src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/topoSort/拓扑排序.jpeg" />
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">拓扑排序</div>
+    </a>
+</center>
+<p>  直观地说就是,让你把一幅图拉平,而且这个拉平的图里面,所有箭头方向都是一致的,比如上图所有箭头都是朝右的.
+很显然,如果一幅有向图中存在环,是无法进行拓扑排序的,因为肯定做不到所有箭头方向一致;反过来,如果一幅图是有向无环图,那么一定可以进行拓扑排序.<br />
+  那这道题和拓扑排序有什么关系呢？<br />
+  其实也不难看出来,如果把课程抽象成节点,课程之间的依赖关系抽象成有向边,那么这幅图的拓扑排序结果就是上课顺序.<br />
+  首先,我们先判断输入的课程是否成环,成环是的无法进行拓扑排序的</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kt">int</span><span class="o">[]</span> <span class="nf">findOrder</span><span class="o">(</span><span class="kt">int</span> <span class="n">numCourses</span><span class="o">,</span> <span class="kt">int</span><span class="o">[][]</span> <span class="n">prerequisites</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(!</span><span class="n">canFinish</span><span class="o">(</span><span class="n">numCourses</span><span class="o">,</span> <span class="n">prerequisites</span><span class="o">))</span> <span class="o">{</span>
+        <span class="c1">// 不可能完成所有课程</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[]{};</span>
+    <span class="o">}</span>
+    <span class="c1">// ...</span>
+<span class="o">}</span>
+
+<span class="c1">// 记录一次 traverse 递归经过的节点</span>
+<span class="kt">boolean</span><span class="o">[]</span> <span class="n">onPath</span><span class="o">;</span>
+<span class="c1">// 记录遍历过的节点，防止走回头路</span>
+<span class="kt">boolean</span><span class="o">[]</span> <span class="n">visited</span><span class="o">;</span>
+<span class="c1">// 记录图中是否有环</span>
+<span class="kt">boolean</span> <span class="n">hasCycle</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+
+<span class="kt">boolean</span> <span class="nf">canFinish</span><span class="o">(</span><span class="kt">int</span> <span class="n">numCourses</span><span class="o">,</span> <span class="kt">int</span><span class="o">[][]</span> <span class="n">prerequisites</span><span class="o">)</span> <span class="o">{</span>
+    <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;[]</span> <span class="n">graph</span> <span class="o">=</span> <span class="n">buildGraph</span><span class="o">(</span><span class="n">numCourses</span><span class="o">,</span> <span class="n">prerequisites</span><span class="o">);</span>
+
+    <span class="n">visited</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">boolean</span><span class="o">[</span><span class="n">numCourses</span><span class="o">];</span>
+    <span class="n">onPath</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">boolean</span><span class="o">[</span><span class="n">numCourses</span><span class="o">];</span>
+
+    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">numCourses</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+        <span class="c1">// 遍历图中的所有节点</span>
+        <span class="n">traverse</span><span class="o">(</span><span class="n">graph</span><span class="o">,</span> <span class="n">i</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="c1">// 只要没有循环依赖可以完成所有课程</span>
+    <span class="k">return</span> <span class="o">!</span><span class="n">hasCycle</span><span class="o">;</span>
+<span class="o">}</span>
+
+<span class="kt">void</span> <span class="nf">traverse</span><span class="o">(</span><span class="nc">List</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;[]</span> <span class="n">graph</span><span class="o">,</span> <span class="kt">int</span> <span class="n">s</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">onPath</span><span class="o">[</span><span class="n">s</span><span class="o">])</span> <span class="o">{</span>
+        <span class="c1">// 出现环</span>
+        <span class="n">hasCycle</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="k">if</span> <span class="o">(</span><span class="n">visited</span><span class="o">[</span><span class="n">s</span><span class="o">]</span> <span class="o">||</span> <span class="n">hasCycle</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// 如果已经找到了环，也不用再遍历了</span>
+        <span class="k">return</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="c1">// 前序遍历代码位置</span>
+    <span class="n">visited</span><span class="o">[</span><span class="n">s</span><span class="o">]</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+    <span class="n">onPath</span><span class="o">[</span><span class="n">s</span><span class="o">]</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">t</span> <span class="o">:</span> <span class="n">graph</span><span class="o">[</span><span class="n">s</span><span class="o">])</span> <span class="o">{</span>
+        <span class="n">traverse</span><span class="o">(</span><span class="n">graph</span><span class="o">,</span> <span class="n">t</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="c1">// 后序遍历代码位置</span>
+    <span class="n">onPath</span><span class="o">[</span><span class="n">s</span><span class="o">]</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+<span class="o">}</span>
+
+
+<span class="nc">List</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;[]</span> <span class="nf">buildGraph</span><span class="o">(</span><span class="kt">int</span> <span class="n">numCourses</span><span class="o">,</span> <span class="kt">int</span><span class="o">[][]</span> <span class="n">prerequisites</span><span class="o">)</span> <span class="o">{</span>
+    <span class="c1">// 图中共有 numCourses 个节点</span>
+    <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;[]</span> <span class="n">graph</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">LinkedList</span><span class="o">[</span><span class="n">numCourses</span><span class="o">];</span>
+    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">numCourses</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+        <span class="n">graph</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">LinkedList</span><span class="o">&lt;&gt;();</span>
+    <span class="o">}</span>
+    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">edge</span> <span class="o">:</span> <span class="n">prerequisites</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kt">int</span> <span class="n">from</span> <span class="o">=</span> <span class="n">edge</span><span class="o">[</span><span class="mi">1</span><span class="o">];</span>
+        <span class="kt">int</span> <span class="n">to</span> <span class="o">=</span> <span class="n">edge</span><span class="o">[</span><span class="mi">0</span><span class="o">];</span>
+        <span class="c1">// 修完课程 from 才能修课程 to</span>
+        <span class="c1">// 在图中添加一条从 from 指向 to 的有向边</span>
+        <span class="n">graph</span><span class="o">[</span><span class="n">from</span><span class="o">].</span><span class="na">add</span><span class="o">(</span><span class="n">to</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="n">graph</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+<p>  那么关键来了.如何进行拓扑排序,就是将后序遍历的结果进行反转,就是拓扑排序的结果.直接看代码:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">boolean</span><span class="o">[]</span> <span class="n">visited</span><span class="o">;</span>
+<span class="c1">// 记录后序遍历结果</span>
+<span class="nc">List</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">postorder</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
+
+<span class="kt">int</span><span class="o">[]</span> <span class="nf">findOrder</span><span class="o">(</span><span class="kt">int</span> <span class="n">numCourses</span><span class="o">,</span> <span class="kt">int</span><span class="o">[][]</span> <span class="n">prerequisites</span><span class="o">)</span> <span class="o">{</span>
+    <span class="c1">// 先保证图中无环</span>
+    <span class="k">if</span> <span class="o">(!</span><span class="n">canFinish</span><span class="o">(</span><span class="n">numCourses</span><span class="o">,</span> <span class="n">prerequisites</span><span class="o">))</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[]{};</span>
+    <span class="o">}</span>
+    <span class="c1">// 建图</span>
+    <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;[]</span> <span class="n">graph</span> <span class="o">=</span> <span class="n">buildGraph</span><span class="o">(</span><span class="n">numCourses</span><span class="o">,</span> <span class="n">prerequisites</span><span class="o">);</span>
+    <span class="c1">// 进行 DFS 遍历</span>
+    <span class="n">visited</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">boolean</span><span class="o">[</span><span class="n">numCourses</span><span class="o">];</span>
+    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">numCourses</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+        <span class="n">traverse</span><span class="o">(</span><span class="n">graph</span><span class="o">,</span> <span class="n">i</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="c1">// 将后序遍历结果反转，转化成 int[] 类型</span>
+    <span class="nc">Collections</span><span class="o">.</span><span class="na">reverse</span><span class="o">(</span><span class="n">postorder</span><span class="o">);</span>
+    <span class="kt">int</span><span class="o">[]</span> <span class="n">res</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="n">numCourses</span><span class="o">];</span>
+    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">numCourses</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+        <span class="n">res</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">postorder</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="n">res</span><span class="o">;</span>
+<span class="o">}</span>
+
+<span class="kt">void</span> <span class="nf">traverse</span><span class="o">(</span><span class="nc">List</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;[]</span> <span class="n">graph</span><span class="o">,</span> <span class="kt">int</span> <span class="n">s</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">visited</span><span class="o">[</span><span class="n">s</span><span class="o">])</span> <span class="o">{</span>
+        <span class="k">return</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="n">visited</span><span class="o">[</span><span class="n">s</span><span class="o">]</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">t</span> <span class="o">:</span> <span class="n">graph</span><span class="o">[</span><span class="n">s</span><span class="o">])</span> <span class="o">{</span>
+        <span class="n">traverse</span><span class="o">(</span><span class="n">graph</span><span class="o">,</span> <span class="n">t</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="c1">// 后序遍历位置</span>
+    <span class="n">postorder</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">s</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="c1">// 参考上一题的解法</span>
+<span class="kt">boolean</span> <span class="nf">canFinish</span><span class="o">(</span><span class="kt">int</span> <span class="n">numCourses</span><span class="o">,</span> <span class="kt">int</span><span class="o">[][]</span> <span class="n">prerequisites</span><span class="o">);</span>
+
+<span class="c1">// 参考前文代码</span>
+<span class="nc">List</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;[]</span> <span class="nf">buildGraph</span><span class="o">(</span><span class="kt">int</span> <span class="n">numCourses</span><span class="o">,</span> <span class="kt">int</span><span class="o">[][]</span> <span class="n">prerequisites</span><span class="o">);</span>
+</code></pre></div></div>
+<p>  逻辑还是比较清晰的,只要图中无环,那么我们就调用traverse函数对图进行DFS遍历,记录后序遍历结果,最后把后序遍历结果反转,作为最终的答案.</p>
+
+<ul>
+  <li>为什么后序遍历的反转结果就是拓扑排序呢?<br />
+  首先我们先回想一下后序遍历的顺序,左子树-&gt;右子树-&gt;根节点.换句话说,当左右子树的节点都被装到结果列表里面了,根节点才会被装进去.<br />
+  后序遍历的这一特点很重要,之所以拓扑排序的基础是后序遍历,是因为一个任务必须在等到所有的依赖的任务都完成之后才能开始执行.
+把每个任务理解成二叉树里面的节点,这个任务所依赖的任务理解成子节点,那么我们就应该先把所有子节点处理完再处理父节点,也就是后序遍历.</li>
+</ul>
+
+<blockquote>
+  <p>注意:拓扑排序就是后序遍历反转之后的结果,且拓扑排序只能针对有向无环图,进行拓扑排序之前要进行环检测.</p>
+</blockquote>
+
+<hr />
+
+</p>
+
+                            <div align="center">
+                            <ul class="list-inline item-details">
+                                
+                                    <li>Client:
+                                        <strong><a href="http://startbootstrap.com">Sort</a>
+                                        </strong>
+                                    </li>
+                                
+                                
+                                    <li>Date:
+                                        <strong><a href="http://startbootstrap.com">November 2021</a>
+                                        </strong>
+                                    </li>
+                                
+                                
+                                    <li>Service:
+                                        <strong><a href="http://startbootstrap.com">algorithm</a>
+                                        </strong>
+                                    </li>
+                                
+                            </ul>
+                            </div>
+                            <div align="center">
+                                <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="portfolio-modal modal fade" id="portfolioModal-10000014" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-content">
             <div class="close-modal" data-dismiss="modal">

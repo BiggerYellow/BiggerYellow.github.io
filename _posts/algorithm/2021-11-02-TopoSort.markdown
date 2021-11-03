@@ -1,0 +1,252 @@
+---
+layout: default
+algorithm: true
+modal-id: 10000015
+date: 2021-11-02
+img: pexels-michael-kessel-9668543.jpg
+alt: topoSort
+project-date: November 2021
+client: Sort
+category: algorithm
+subtitle: TopoSort
+description: 拓扑排序
+---
+### 百度百科定义
+- - -
+&emsp;&emsp;对一个有向无环图(Directed Acyclic Graph简称DAG)G进行拓扑排序,是将G中所有顶点排成一个线性序列,
+使得图中任意一对顶点u和v,若<u,v>∈E(G),则u在线性序列中出现在v之前.通常,这样的线性序列称为满足拓扑次序(Topological Order)的序列,简称拓扑序列.  
+&emsp;&emsp;简单的说,由某个集合上的一个偏序得到该集合上的一个全序,这个操作称之为拓扑排序.
+- - -
+
+### Kahn算法
+- - -
+&emsp;&emsp;拓扑排序是对DAG(有向无环图)上的节点进行排序,使得对于每一条有向边 u->v ,u都出现在v之前.
+简单的来说,是在不破坏节点先后顺序的前提下,把DAG拉成一条链.
+
+&emsp;&emsp;拓扑排序最经典的算法是Kahn算法.  
+&emsp;&emsp;首先,先拿出所有入度为0的点排在前面,并在原图中将它们删除:
+<center>
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/topoSort/步骤1.png">
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="步骤1"
+    src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/topoSort/步骤1.png">
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">步骤1</div>
+    </a>
+</center>
+&emsp;&emsp;这时有些点的入度减少了,于是再拿出当前所有入度为0的点放在已经排序的序列后面,然后删除:
+<center>
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/topoSort/步骤2.png">
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="步骤2"
+    src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/topoSort/步骤2.png">
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">步骤2</div>
+    </a>
+</center>
+&emsp;&emsp;因为是有向无环图,而且删除操作不会产生环,所以每时每刻都一定存在入度为0的点,一定可以不断进行下去,直到所有点被删除.
+<center>
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/topoSort/步骤3.png">
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="步骤3"
+    src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/topoSort/步骤3.png">
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">步骤3</div>
+    </a>
+</center>
+&emsp;&emsp;以下是一个O(n+m)的实现(n,m分别表示点数和边数),利用了队列:  
+
+``` java
+// deg是入度，在存图的时候需要录入数据
+// A是排序后的数组
+int deg[MAXN], A[MAXN];
+bool toposort(int n)
+{
+    int cnt = 0;
+    queue<int> q;
+    for (int i = 1; i <= n; ++i)
+        if (deg[i] == 0)
+            q.push(i);
+    while (!q.empty())
+    {
+        int t = q.front();
+        q.pop();
+        A[cnt++] = t;
+        for (auto to : edges[t])
+        {
+            deg[to]--;
+            if (deg[to] == 0) // 出现了新的入度为0的点
+                q.push(to);
+        }
+    }
+    return cnt == n;
+}
+```
+&emsp;&emsp;防止是否成功进行拓扑排序,也即是否存在环.也就是说拓扑排序是可以用来简单的判断环的.
+有时会要求输出字典序最小的方案,这时把queue改成priority_queue即可,复杂度会多一个log.
+- - -
+
+### 翻转后序遍历
+- - -
+&emsp;&emsp;先抛出结论,将后序遍历的结果进行反转,就是拓扑排序的结果.  
+&emsp;&emsp;直接看题目:[课程表 II](https://leetcode-cn.com/problems/course-schedule-ii/)
+<center>
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/topoSort/课程表II.png">
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="课程表II"
+    src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/topoSort/课程表II.png">
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">课程表II</div>
+    </a>
+</center>
+&emsp;&emsp;本题是[课程表](https://leetcode-cn.com/problems/course-schedule/)的进阶版,本题需要求出所学的课程顺序.
+<center>
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/topoSort/拓扑排序.jpeg">
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="拓扑排序"
+    src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/topoSort/拓扑排序.jpeg">
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">拓扑排序</div>
+    </a>
+</center>
+&emsp;&emsp;直观地说就是,让你把一幅图拉平,而且这个拉平的图里面,所有箭头方向都是一致的,比如上图所有箭头都是朝右的.
+很显然,如果一幅有向图中存在环,是无法进行拓扑排序的,因为肯定做不到所有箭头方向一致;反过来,如果一幅图是有向无环图,那么一定可以进行拓扑排序.  
+&emsp;&emsp;那这道题和拓扑排序有什么关系呢？  
+&emsp;&emsp;其实也不难看出来,如果把课程抽象成节点,课程之间的依赖关系抽象成有向边,那么这幅图的拓扑排序结果就是上课顺序.  
+&emsp;&emsp;首先,我们先判断输入的课程是否成环,成环是的无法进行拓扑排序的
+
+``` java
+public int[] findOrder(int numCourses, int[][] prerequisites) {
+    if (!canFinish(numCourses, prerequisites)) {
+        // 不可能完成所有课程
+        return new int[]{};
+    }
+    // ...
+}
+
+// 记录一次 traverse 递归经过的节点
+boolean[] onPath;
+// 记录遍历过的节点，防止走回头路
+boolean[] visited;
+// 记录图中是否有环
+boolean hasCycle = false;
+
+boolean canFinish(int numCourses, int[][] prerequisites) {
+    List<Integer>[] graph = buildGraph(numCourses, prerequisites);
+
+    visited = new boolean[numCourses];
+    onPath = new boolean[numCourses];
+
+    for (int i = 0; i < numCourses; i++) {
+        // 遍历图中的所有节点
+        traverse(graph, i);
+    }
+    // 只要没有循环依赖可以完成所有课程
+    return !hasCycle;
+}
+
+void traverse(List<Integer>[] graph, int s) {
+    if (onPath[s]) {
+        // 出现环
+        hasCycle = true;
+    }
+
+    if (visited[s] || hasCycle) {
+        // 如果已经找到了环，也不用再遍历了
+        return;
+    }
+    // 前序遍历代码位置
+    visited[s] = true;
+    onPath[s] = true;
+    for (int t : graph[s]) {
+        traverse(graph, t);
+    }
+    // 后序遍历代码位置
+    onPath[s] = false;
+}
+
+
+List<Integer>[] buildGraph(int numCourses, int[][] prerequisites) {
+    // 图中共有 numCourses 个节点
+    List<Integer>[] graph = new LinkedList[numCourses];
+    for (int i = 0; i < numCourses; i++) {
+        graph[i] = new LinkedList<>();
+    }
+    for (int[] edge : prerequisites) {
+        int from = edge[1];
+        int to = edge[0];
+        // 修完课程 from 才能修课程 to
+        // 在图中添加一条从 from 指向 to 的有向边
+        graph[from].add(to);
+    }
+    return graph;
+}
+```
+&emsp;&emsp;那么关键来了.如何进行拓扑排序,就是将后序遍历的结果进行反转,就是拓扑排序的结果.直接看代码:
+
+``` java
+boolean[] visited;
+// 记录后序遍历结果
+List<Integer> postorder = new ArrayList<>();
+
+int[] findOrder(int numCourses, int[][] prerequisites) {
+    // 先保证图中无环
+    if (!canFinish(numCourses, prerequisites)) {
+        return new int[]{};
+    }
+    // 建图
+    List<Integer>[] graph = buildGraph(numCourses, prerequisites);
+    // 进行 DFS 遍历
+    visited = new boolean[numCourses];
+    for (int i = 0; i < numCourses; i++) {
+        traverse(graph, i);
+    }
+    // 将后序遍历结果反转，转化成 int[] 类型
+    Collections.reverse(postorder);
+    int[] res = new int[numCourses];
+    for (int i = 0; i < numCourses; i++) {
+        res[i] = postorder.get(i);
+    }
+    return res;
+}
+
+void traverse(List<Integer>[] graph, int s) {
+    if (visited[s]) {
+        return;
+    }
+
+    visited[s] = true;
+    for (int t : graph[s]) {
+        traverse(graph, t);
+    }
+    // 后序遍历位置
+    postorder.add(s);
+}
+
+// 参考上一题的解法
+boolean canFinish(int numCourses, int[][] prerequisites);
+
+// 参考前文代码
+List<Integer>[] buildGraph(int numCourses, int[][] prerequisites);
+```
+&emsp;&emsp;逻辑还是比较清晰的,只要图中无环,那么我们就调用traverse函数对图进行DFS遍历,记录后序遍历结果,最后把后序遍历结果反转,作为最终的答案.  
+
+- 为什么后序遍历的反转结果就是拓扑排序呢?  
+&emsp;&emsp;首先我们先回想一下后序遍历的顺序,左子树->右子树->根节点.换句话说,当左右子树的节点都被装到结果列表里面了,根节点才会被装进去.  
+&emsp;&emsp;后序遍历的这一特点很重要,之所以拓扑排序的基础是后序遍历,是因为一个任务必须在等到所有的依赖的任务都完成之后才能开始执行.
+把每个任务理解成二叉树里面的节点,这个任务所依赖的任务理解成子节点,那么我们就应该先把所有子节点处理完再处理父节点,也就是后序遍历.
+  
+>注意:拓扑排序就是后序遍历反转之后的结果,且拓扑排序只能针对有向无环图,进行拓扑排序之前要进行环检测.
+
+- - -
+
