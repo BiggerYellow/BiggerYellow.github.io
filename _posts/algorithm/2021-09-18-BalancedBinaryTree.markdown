@@ -509,5 +509,221 @@ public class ReaBlackBST<Key extends Comparable<Key>>, Value>
     padding: 2px;">红黑树的构造轨迹</div>
     </a>
 </center>
+
+15.删除操作  
+&emsp;&emsp;和插入操作一样,我们也可以定义一系列局部变换来在删除一个节点的同时保持树的完美平衡性.这个过程比插入一个节点更加复杂.
+因为我们不仅要在(为了删除一个节点而)构造临时4-节点时沿着查找路径向下进行变换,还要在分解遗留的4-节点时沿着查找路径向上进行变换.
+
+16.自顶向下的2-3-4树  
+&emsp;&emsp;我们先学习一个沿查找路径既能向上也能向下进行变换的稍简单的算法:2-3-4树的插入算法,2-3-4树中允许存在我们以前见过的4-节点.
+它的插入算法沿查找路径向下进行变换是为了保证当前节点不是4-节点(这样树底才有空间来插入新的键),沿查找路径向上进行变换是为了将之前创建的4-节点配平,如下图所示.  
+&emsp;&emsp;向下的变换和我们在2-3树中分解4-节点所进行的变换完全相同.  
+- 如果根节点是4-节点,我们就将它分解成三个2-节点,使得树高加1  
+- 在向下查找的过程中,如果遇到一个父节点为2-节点的4-节点,我们将4-节点分解成两个2-节点并将其中间键传递给它的父节点,使得父节点变为一个3-节点  
+- 如果遇到一个父节点为3-节点的4-节点,我们将4-节点分解为两个2-节点并将其中间键传递给它的父节点,使得父节点变为一个4-节点
+    
+我们不必担心会遇到父节点为4-节点的4-节点,因为插入算法本身就保证了这种情况不会出现.到达树的底部之后,也只会遇到3-节点或者3-节点,所以我们可以插入新的键.  
+<center>
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/balancedBinaryTree/自顶向下的2-3-4树的插入算法中的变换.png">
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="自顶向下的2-3-4树的插入算法中的变换"
+    src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/balancedBinaryTree/自顶向下的2-3-4树的插入算法中的变换.png">
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">自顶向下的2-3-4树的插入算法中的变换</div>
+    </a>
+</center>
+要用红黑树实现这个算法,我们需要:  
+- 将4-节点表示为由三个2-节点组成的一棵平衡的子树,根节点和两个子节点都用红链接相连  
+- 在向下的过程中分解所有4-节点并进行颜色转换  
+- 和插入操作一样,在向上的过程中用旋转将4-节点配平  
+
+&emsp;&emsp;我们只需要移动算法14的pub()方法中的一行代码就能实现2-3-4树中的插入操作:将colorFlip()语句(及其if语句)移动到递归调用之前(null测试和比较操作之间).  
+
+17.删除最小键    
+&emsp;&emsp;我们注意到从树底部的3-节点中删除键是很简单的,但2-节点则不然.从2-节点中删除一个键会留下一个空节点,一般我们会将它替换为一个空链接,
+但这样会破坏树的完美平衡性.所以我们需要这样做:为了保证我们不会删除一个2-节点,我们沿着左链接向下进行变换,确保当前节点不是2-节点(可能是3-节点,也可能是临时的4-节点).
+首先,根节点可能有两种情况.如果根是2-节点且它的两个子节点都是2-节点,我们可以直接将这个三个节点变成一个4-节点;否则我们需要保证根节点的左子节点不是2-节点,
+如果有必要可以从它右侧的兄弟节点借一个键来.以上情况如下图所示.
+<center>
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/balancedBinaryTree/删除最小键操作中的变换.png">
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="删除最小键操作中的变换"
+    src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/balancedBinaryTree/删除最小键操作中的变换.png">
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">删除最小键操作中的变换</div>
+    </a>
+</center>
+&emsp;&emsp;在沿着左链接向下的过程中,保证以下情况之一成立:
+- 如果当前节点的左子节点不是2-节点,完成
+- 如果当前节点的左子节点是2-节点而它的亲兄弟节点不是2-节点,将左子节点的兄弟节点中的一个键移动左子节点中
+- 如果当前节点的左子节点和它的亲兄弟节点都是2-节点,将左子节点、父节点中的最小键和左子节点最近的兄弟节点合并为一个4-节点,使父节点由3-节点变为2-节点或者由4-节点变为3-节点
+  
+&emsp;&emsp;在遍历的过程中执行这个过程,最后能够得到一个含有最小键的3-节点或者4-节点,然后我们就可以直接从其中将其删除,将3-节点变为2-节点,
+或者将4-节点变为3-节点.然后我们再回头向上分解所有临时的4-节点
+
+``` java
+private Node moveRedLeft(Node h){
+    //假设节点h为红色,h.left和h.left.left都是黑色
+    //将h.left或者h.left的子节点之一变红
+    flipColors(h);
+    if (isRed(h.right.left)){
+        h.right = rotateRight(h.right);
+        h = rotateLeft(h);
+    }
+    return h;
+}
+
+public void deleteMin(){
+    if(!isRed(root.left) && !isRed(root.right)){
+        root.color = RED;
+    }
+    root = deleleMin(root);
+    if(!isEmpty()){
+        root.color = BLACK;
+    }
+}
+
+public Node deleteMin(Node h){
+    if(h.left == null){
+        return null;
+    }
+    if(!isRed(h.left) && !isRed(h.left.left)){
+        h.moveRedLeft(h);
+    }
+    h.left = deleteMin(h.left);
+    return balance(h);
+}
+
+public Node balance(Node h){
+    if(isRed(h.right)){
+        h = rotateLeft(h);
+    }
+    
+    if(isRed(h.right) && !isRed(h.left)) h = rotateLeft(h);
+    if(isRed(h.left) && isRed(h.left.left)) h = rotateRight(h);
+    if(isRed(h.left) && isRed(h.right)) flipColors(h);
+
+    h.N = size(h.left) + size(h.right) + 1;
+    return h;
+}
+```
+&emsp;&emsp;其中balance()方法由下一行代码和算法14的最后5行代码组成: __if (isRed(h.right)) h = rotateLeft(h);__  
+&emsp;&emsp;这里的flipColors()方法将补全三条链接的颜色,而不是正文中实现插入操作时实现的flipColors()方法.
+对于删除,我们会将父节点设为BLACK(黑)而将两个子节点设为RED(红).
+
+18.删除最大键  
+&emsp;&emsp;实现红黑树的deleteMax()方法.需要注意的是因为红链接都是左链接,所以这里用到的变换和上一道练习中的稍有不同.
+
+``` java
+private Node moveRedRight(Node h){
+    //假设节点h为红色,h.right和h.right.left都是黑色
+    //将h.right或者h.right的子节点之一变红
+    flipColors(h);
+    if(!isRed(h.left.left)){
+        h = rotateRight(h);
+    }
+    return h;
+}
+
+public void deleteMax(){
+    if(!isRed(root.left) && !isRed(root.right)){
+        root.color = RED;
+    }
+    root = deleteMax(root);
+    if(!isEmpty()){
+        root.color = BLACK;
+    }
+}
+
+private Node deleteMax(Node h){
+    if(isRed(h.left)){
+        h.rotateRight(h)
+    }
+    if(h.right == null){
+        return null;
+    }
+    if(!isRed(h.right) && !isRed(h.right.left)){
+        h = moveRedRight(h);
+    }
+    h.right = deleteMax(h.right);
+    return balance(h);
+}
+```
+
+19.删除操作  
+&emsp;&emsp;在查找路径上进行和删除最小键相同的变换同样可以保证在查找过程中任意当前节点均不是2-节点.
+如果被查找的键在树的底部,我们可以直接删除它.如果不在,我们需要将它和它的后继节点交换,就和二叉查找树一样.
+因为当前节点必然不是2-节点,问题已经转化为一棵根节点不是2-节点的子树中删除最小的键,我们可以在这棵子树中使用前文所述的算法.
+和以前一样,删除之后我们需要向上回溯并分解余下的4-节点.
+
+``` java
+public void delete(Key key){
+    if(!isRed(root.left) && !isRed(root.right)){
+        root.color = RED;
+    }
+    root = delete(root, key);
+    if(!isEmpty()){
+        root.color = BLACK;
+    }
+}
+
+private Node delete(Node h, Key key){
+    if(key.compareTo(h.key) < 0){
+        if(!isRed(h.left) && !isRed(h.left.left)){
+            h = moveRedLeft(h);
+        }
+        h.left = delete(h.left, key);
+    }else{
+        if(isRed(h.left)){
+            h = rotateRight(h);
+        }
+        if(key.compareTo(h.key) == 0 && (h.right == null)){
+            return null;
+        }
+        if(!isRed(h.right) && !isRed(h.right.left)){
+            h = moveRedRight(h);
+        }
+        if(key.compareTo(h.key) == 0){
+            h.val = get(h.right, min(h.right).key);
+            h.key = min(h.right).key;
+            h.right = deleteMin(h.right);
+        }else{
+            h.right = delete(h.right, key);
+        }
+    }
+    return balance(h);
+}
+```
+- - -
+
+### 红黑树的性质
+- - -
+
+&emsp;&emsp;最终结论是所有基于红黑树的符号表实现都能保证操作的运行时间为对数级别.  
+1.性能分析
+- 一棵大小为N的红黑树的高度不会超过2lgN
+&emps:&emsp;证明:红黑树的最坏情况是它所对应的2-3树中构成最左边的路径节点全都是3-节点而其余均为2-节点.
+最左边的路径长度是只包含2-节点的路径长度(~lgN)的两倍.
+- 一棵大小为N的红黑树,根节点到任意节点的平均路径长度为-1.00lgN
+
+2.有序符号表API
+- 在一棵红黑树中,以下操作在最坏情况下所需的时间是对数级别的:查找(get)、插入(put)、查找最大键、查找最小键、floor()、ceiling()、rank()、select()、
+删除最小键(deleteMin)、删除最大键(deleteMax)、删除(delete)和范围查询(range).
+
+<center>
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/balancedBinaryTree/各种符号表实现的性能总结.png">
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="各种符号表实现的性能总结"
+    src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/balancedBinaryTree/各种符号表实现的性能总结.png">
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">各种符号表实现的性能总结</div>
+    </a>
+</center>
 - - -
 
