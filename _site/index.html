@@ -8,7 +8,7 @@
     <meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.">
     <meta name="keywords" content="your keywords, separated by commas" />
     <meta name="author" content="LastName FirstName">
-    <link rel="canonical" href="https://github.com/jeromelachaud/freelancer-theme/">
+    <link rel="canonical" href="http://localhost:4000/">
     <link rel="alternate" type="application/rss+xml" title="RSS" href="/feed.xml">
 
     <!-- Custom CSS & Bootstrap Core CSS - Uses Bootswatch Flatly Theme: http://bootswatch.com/flatly/ -->
@@ -111,6 +111,34 @@
                 </div>
             </div>
             <div class="portfolio-flex-row">
+                
+                    <div class="portfolio-flex-item portfolio-item">
+                        <a href="#portfolioModal-10000018" class="portfolio-link" data-toggle="modal">
+                            <div class="caption">
+                                <div class="caption-content">
+                                    <i class="fa fa-search-plus fa-3x"></i>
+                                    <p>欧几里得算法</p>
+
+                                </div>
+                            </div>
+                            <img src="img/portfolio/pexels-alexey-demidov-11341064.jpg" class="img-responsive" alt="Euclidean">
+
+                        </a>
+                    </div>
+                
+                    <div class="portfolio-flex-item portfolio-item">
+                        <a href="#portfolioModal-100000017" class="portfolio-link" data-toggle="modal">
+                            <div class="caption">
+                                <div class="caption-content">
+                                    <i class="fa fa-search-plus fa-3x"></i>
+                                    <p>散列表</p>
+
+                                </div>
+                            </div>
+                            <img src="img/portfolio/pexels-nuta-sorokina-10005736.jpg" class="img-responsive" alt="hashTable">
+
+                        </a>
+                    </div>
                 
                     <div class="portfolio-flex-item portfolio-item">
                         <a href="#portfolioModal-10000016" class="portfolio-link" data-toggle="modal">
@@ -624,6 +652,10 @@
                     
                 
                     
+                
+                    
+                
+                    
                 <div class="portfolio-flex-item portfolio-item">
                         <a href="#portfolioModal-9" class="portfolio-link" data-toggle="modal">
                             <div class="caption">
@@ -679,6 +711,10 @@
                 </div>
             </div>
             <div class="portfolio-flex-row">
+                
+                    
+                
+                    
                 
                     
                 
@@ -862,6 +898,36 @@
                 </div>
             </div>
             <div class="portfolio-flex-row">
+                
+                    
+                <div class="portfolio-flex-item portfolio-item">
+                        <a href="#portfolioModal-10000018" class="portfolio-link" data-toggle="modal">
+                            <div class="caption">
+                                <div class="caption-content">
+                                    <i class="fa fa-search-plus fa-3x"></i>
+                                    <p>欧几里得算法</p>
+
+                                </div>
+                            </div>
+                            <img src="img/portfolio/pexels-alexey-demidov-11341064.jpg" class="img-responsive" alt="Euclidean">
+                        </a>
+                    </div>
+                    
+                
+                    
+                <div class="portfolio-flex-item portfolio-item">
+                        <a href="#portfolioModal-100000017" class="portfolio-link" data-toggle="modal">
+                            <div class="caption">
+                                <div class="caption-content">
+                                    <i class="fa fa-search-plus fa-3x"></i>
+                                    <p>散列表</p>
+
+                                </div>
+                            </div>
+                            <img src="img/portfolio/pexels-nuta-sorokina-10005736.jpg" class="img-responsive" alt="hashTable">
+                        </a>
+                    </div>
+                    
                 
                     
                 <div class="portfolio-flex-item portfolio-item">
@@ -1175,7 +1241,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
-                        Copyright &copy; Hcc 2021
+                        Copyright &copy; Hcc 2022
                     </div>
                 </div>
             </div>
@@ -1191,6 +1257,416 @@
 
      <!-- Portfolio Modals -->
  
+    <div class="portfolio-modal modal fade" id="portfolioModal-10000018" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-content">
+            <div class="close-modal" data-dismiss="modal">
+                <div class="lr">
+                    <div class="rl">
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2">
+                        <div class="modal-body">
+                            <div align="center">
+                            <h2>Euclidean Algorithm</h2>
+                            <hr class="star-primary">
+                            <img src="img/portfolio/pexels-alexey-demidov-11341064.jpg" class="img-responsive img-centered" alt="Euclidean">
+
+                            
+                                <h3>欧几里得算法</h3>
+                            
+                            </div>
+
+                            <p><h3 id="定义">定义</h3>
+<hr />
+<p>  欧几里得算法又称辗转相除法,是指用于计算两个非负整数a、b的最大公约数.</p>
+<hr />
+
+<h3 id="基本思路">基本思路</h3>
+<hr />
+<p>定理:<br />
+  两个整数的最大公约数等于其中较小的那个数和两数相除余数的最大公约数.最大公约数(Greatest Common Divisor)缩写GCD.<br />
+原理:<br />
+  gcd(a, b) = gcd(b, a mod b)<br />
+条件:<br />
+  a&gt;b 且 a mod b 不为0</p>
+<hr />
+
+<h3 id="示例">示例</h3>
+<hr />
+<p>假如需要求1997和615两个正整数的最大公约数,用欧几里得算法进行:</p>
+<ol>
+  <li>1997/615 = 3 (余152)</li>
+  <li>615/152 = 4 (余7)</li>
+  <li>152/7 = 21 (余5)</li>
+  <li>7/5 = 1 (余2)</li>
+  <li>5/2 = 2 (余1)</li>
+  <li>2/1 = 2 (余0)</li>
+</ol>
+
+<p>至此,最大公约数为1.<br />
+以除数和余数反复做除法运算,当余数为0时,取当前算式除数为最大公约数,所以1997和615的最大公约数为1.</p>
+<hr />
+
+<h3 id="代码">代码</h3>
+<blockquote>
+  <p>java</p>
+</blockquote>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="n">gcd</span><span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="n">b</span><span class="o">)</span> <span class="o">=</span> <span class="n">gcd</span><span class="o">(</span><span class="n">b</span><span class="o">,</span><span class="n">a</span> <span class="n">mod</span> <span class="n">b</span><span class="o">)</span>
+</code></pre></div></div>
+</p>
+
+                            <div align="center">
+                            <ul class="list-inline item-details">
+                                
+                                    <li>Client:
+                                        <strong><a href="http://startbootstrap.com">Sort</a>
+                                        </strong>
+                                    </li>
+                                
+                                
+                                    <li>Date:
+                                        <strong><a href="http://startbootstrap.com">March 2022</a>
+                                        </strong>
+                                    </li>
+                                
+                                
+                                    <li>Service:
+                                        <strong><a href="http://startbootstrap.com">algorithm</a>
+                                        </strong>
+                                    </li>
+                                
+                            </ul>
+                            </div>
+                            <div align="center">
+                                <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="portfolio-modal modal fade" id="portfolioModal-100000017" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-content">
+            <div class="close-modal" data-dismiss="modal">
+                <div class="lr">
+                    <div class="rl">
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2">
+                        <div class="modal-body">
+                            <div align="center">
+                            <h2>HashTable</h2>
+                            <hr class="star-primary">
+                            <img src="img/portfolio/pexels-nuta-sorokina-10005736.jpg" class="img-responsive img-centered" alt="hashTable">
+
+                            
+                                <h3>散列表</h3>
+                            
+                            </div>
+
+                            <p><h3 id="定义">定义</h3>
+<hr />
+
+<p>  根据关键码值(Key Value)而直接进行访问的数据结构.也就是说,它通过把关键码值映射到表中一个位置来访问记录,以加快查找的速度.这个映射函数叫做散列函数,存放记录的数组叫做散列表.<br />
+  使用散列的查找算法分为两步,第一步是用散列函数将被查找的键转化为数组的一个索引;第二步就是一个处理碰撞冲突的过程,接下来将介绍两种解决碰撞的方法:拉链法和线性探测法.</p>
+<hr />
+
+<h3 id="散列函数">散列函数</h3>
+<hr />
+<p>  如果我们有一个能够保存M个键值对的数组,那么我们就需要一个能够将任意键转化为该数组范围内的索引([0,M-1]范围内的整数)的散列函数.
+我们要找的散列函数应该易于计算并且能够均匀分布所有的键,即对于任意键,0到M-1之间的每个整数都有相等的可能性与之对应.<br />
+  散列函数和键的类型有关,严格地说,对于每种类型的键我们都需要一个与之对应的散列函数.<br />
+  主要介绍一下几种类型:</p>
+<ol>
+  <li>正整数<br />
+  将整数散列最常用的方法是除留余数法.我们选择大小为素数M的数组,对于任意正整数k,计算k除以M的余数.这个函数的计算非常容易(在Java中为k%M)并能够有效地将键散布在0到M-1的范围内.
+如果M不是素数,我们可能无法利用键中包含的所有信息,这可能导致我们无法均匀的散列散列值.</li>
+  <li>浮点数<br />
+  如果键是0到1之间的实数,我们可以将它乘以M并四舍五入得到一个0至M-1之间的索引值.尽管这个方法很容易理解,但它是有缺陷的,因为这种情况下键的高位起的作用更大,最低位对散列的结果没有影响.修正这个问题的办法是将键表示为二进制数然后再使用除留余数法.</li>
+  <li>字符串<br />
+  除留余数法也可以处理较长的键,</li>
+  <li>组合键<br />
+  如果键的类型含有多个整型变量,我们可以和String类型一样将它们混合起来.
+&amp;emps; 例如:假设被查找的键的类型是Date,其中含有几个整型的域:day(两个数字表示的日)、month(两个数字表示的月)和year(4个数字表示的年).我们可以这样计算它的散列值:
+    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">hash</span> <span class="o">=</span> <span class="o">(((</span><span class="n">day</span><span class="o">*</span><span class="no">R</span> <span class="o">+</span> <span class="n">month</span><span class="o">)%</span><span class="no">M</span><span class="o">)*</span><span class="no">R</span> <span class="o">+</span> <span class="n">year</span><span class="o">)%</span><span class="no">M</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<ul>
+  <li>Java的约定<br />
+  每种数据类型都需要相应的散列函数,于是Java令所有数据类型都继承了一个能够返回一个32比特整数的hashCode().每一种数据结构的hashCode()方法都必须和equals()方法一致.
+也就是说,如果a.equals(b)返回true,那么a.hashCode()的返回值必然和b.hashCode()的返回值相同.相反,如果两个对象的hashCode()方法的返回值不同,那么我们就知道这两个对象是不同的.
+但是如果两个对象的hashCode()方法的返回值相同,这两个对象也有可能不同,我们还需要使用equals()方法进行判断.请注意,这说明你要为自定义的数据类型定义散列函数,你需要同时重写hashCode()和equals()两个方法.</li>
+  <li>将hashCode()的返回值转化为一个数组索引<br />
+  因为我们需要的是数组的索引而不是一个32位的整数,我们在实现中会将默认的hashCode()方法和除留余数法结合起来产生一个0到M-1的整数,方法如下:
+    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="kt">int</span> <span class="nf">hash</span><span class="o">(</span><span class="nc">Key</span> <span class="n">x</span><span class="o">){</span>
+  <span class="k">return</span> <span class="o">(</span><span class="n">x</span><span class="o">.</span><span class="na">hashCode</span><span class="o">()</span> <span class="o">&amp;</span> <span class="mh">0x7fffffff</span><span class="o">)</span> <span class="o">%</span> <span class="no">M</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div>    </div>
+    <p>  这段代码会将符号位屏蔽(将一个32位整数变为一个31位非负整数),然后用除留余数法计算它除以M的余数.在使用这样的代码时我们一般会将数组的大小M取为素数以充分利用原散列值的所有位.</p>
+  </li>
+  <li>自定义的hashCode()方法<br />
+  散列表的用例希望hashCode()方法能够将键平均地散布为所有可能的32位整数.也就是说,对于任意对象x,你可以调用x.hashCode()并认为有均等的机会得到2^32个不同整数中的任意一个32位整数值.
+对于自定义的数据类型,必须试着自己实现这一点,示例如下:
+    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Transaction</span><span class="o">{</span>
+  <span class="o">...</span>
+  <span class="kd">private</span> <span class="kd">final</span> <span class="nc">String</span> <span class="n">who</span><span class="o">;</span>
+  <span class="kd">private</span> <span class="kd">final</span> <span class="nc">Date</span> <span class="n">when</span><span class="o">;</span>
+  <span class="kd">private</span> <span class="kd">final</span> <span class="kt">double</span> <span class="n">amount</span><span class="o">;</span>
+    
+  <span class="kd">public</span> <span class="kt">int</span> <span class="nf">hashCode</span><span class="o">(){</span>
+      <span class="kt">int</span> <span class="n">hash</span> <span class="o">=</span> <span class="mi">17</span><span class="o">;</span>
+      <span class="n">hash</span> <span class="o">=</span> <span class="mi">31</span><span class="o">*</span><span class="n">hash</span> <span class="o">+</span> <span class="n">who</span><span class="o">.</span><span class="na">hashCode</span><span class="o">();</span>
+      <span class="n">hash</span> <span class="o">=</span> <span class="mi">31</span><span class="o">*</span><span class="n">hash</span> <span class="o">+</span> <span class="n">when</span><span class="o">.</span><span class="na">hashCode</span><span class="o">();</span>
+      <span class="n">hash</span> <span class="o">=</span> <span class="mi">31</span><span class="o">*</span><span class="n">hash</span> <span class="o">+</span> <span class="o">((</span><span class="nc">Double</span><span class="o">)</span> <span class="n">amount</span><span class="o">).</span><span class="na">hashCode</span><span class="o">();</span>
+      <span class="k">return</span> <span class="n">hash</span><span class="o">;</span>
+  <span class="o">}</span>
+  <span class="o">...</span>
+<span class="o">}</span>
+</code></pre></div>    </div>
+    <p>  在Java中,所有的数据类型都继承了hashCode()方法,因此还有一个更简单的做法:将对象中的每个变量的hashCode()返回值转化为32位整数并计算得到散列值,如上示例所示.
+对于原始类型的对象,可以将其转化为对于的数据类型然后再调用hashCode()方法.</p>
+  </li>
+  <li>软缓存<br />
+  如果散列值的计算很耗时,那么我们或许可以将每个键的散列值缓存起来,即在每个键中使用一个hash变量来保存它的hashCode()的返回值.
+第一次调用hashCode()方法时,我们需要计算对象的散列值,但之后对hashCode()方法的调用会直接返回hash变量的值.
+  总的来说,要为一个数据类型实现一个优秀的散列方法需要使用满足三个条件:
+    <ul>
+      <li>一致性:等价的键必然产生相等的散列值</li>
+      <li>高效性:计算简便</li>
+      <li>均匀性:均匀地散列所有的键</li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+
+<h3 id="基于拉链法的散列表">基于拉链法的散列表</h3>
+<hr />
+<p>  一个散列函数能够将键转化为数组索引.散列算法的第二步是碰撞处理,也就是处理两个或多个键的散列值相同的情况.一种直接的办法是将大小为M的数组中的每个元素指向一条链表,
+链表中的每个节点都存储了散列值为该元素的索引的键值对.这种方法被称为拉链法,因为发生冲突的元素都被存储在链表中.这个方法的基本思想就是选择足够大的M,使得所有链表都尽可能短以保证高效的查找.
+查找分两步:首先根据散列值找到对应的链表,然后沿着链表顺序查找相应的键.<br />
+  拉链法的一种实现方法是使用原始的链表数据类型类扩展SequentialSearchST.另一种更简单的方法是采用一般性的策略,为M个元素分别构建符号表来保存散列到这里的键,这样也可以重用之前的代码.<br />
+  因为我们要用M条链表保存N个键,无论键在各个链表中的分布如何,链表的平均长度肯定是N/M.在标准索引用例中使用基于拉链法的散列表如下图所示:</p>
+<center>
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/hashTable/标准索引用例使用基于拉链法的散列表.png">
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="标准索引用例使用基于拉链法的散列表" src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/hashTable/标准索引用例使用基于拉链法的散列表.png" />
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">标准索引用例使用基于拉链法的散列表</div>
+    </a>
+</center>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SeparateChainingHashST</span><span class="o">&lt;</span><span class="nc">Key</span><span class="o">,</span> <span class="nc">Value</span><span class="o">&gt;</span>
+<span class="o">{</span>
+  <span class="kd">private</span> <span class="kt">int</span> <span class="no">N</span><span class="o">;</span> <span class="c1">// 键值对总数</span>
+  <span class="kd">private</span> <span class="kt">int</span> <span class="no">M</span><span class="o">;</span> <span class="c1">// 散列表的大小</span>
+  <span class="kd">private</span> <span class="nc">SequentialSearchST</span><span class="o">&lt;</span><span class="nc">Key</span><span class="o">,</span> <span class="nc">Value</span><span class="o">&gt;[]</span> <span class="n">st</span><span class="o">;</span> <span class="c1">// 存放链表对象的数组</span>
+  <span class="kd">public</span> <span class="nf">SeparateChainingHashST</span><span class="o">()</span>
+  <span class="o">{</span> <span class="k">this</span><span class="o">(</span><span class="mi">997</span><span class="o">);</span> <span class="o">}</span>
+  <span class="kd">public</span> <span class="nf">SeparateChainingHashST</span><span class="o">(</span><span class="kt">int</span> <span class="no">M</span><span class="o">)</span>
+  <span class="o">{</span> <span class="c1">// 创建M条链表</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">M</span> <span class="o">=</span> <span class="no">M</span><span class="o">;</span>
+    <span class="n">st</span> <span class="o">=</span> <span class="o">(</span><span class="nc">SequentialSearchST</span><span class="o">&lt;</span><span class="nc">Key</span><span class="o">,</span> <span class="nc">Value</span><span class="o">&gt;[])</span> <span class="k">new</span> <span class="nc">SequentialSearchST</span><span class="o">[</span><span class="no">M</span><span class="o">];</span>
+    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="no">M</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span>
+    <span class="n">st</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">SequentialSearchST</span><span class="o">();</span>
+  <span class="o">}</span>
+  <span class="kd">private</span> <span class="kt">int</span> <span class="nf">hash</span><span class="o">(</span><span class="nc">Key</span> <span class="n">key</span><span class="o">)</span>
+  <span class="o">{</span> <span class="k">return</span> <span class="o">(</span><span class="n">key</span><span class="o">.</span><span class="na">hashCode</span><span class="o">()</span> <span class="o">&amp;</span> <span class="mh">0x7fffffff</span><span class="o">)</span> <span class="o">%</span> <span class="no">M</span><span class="o">;</span> <span class="o">}</span>
+  <span class="kd">public</span> <span class="nc">Value</span> <span class="nf">get</span><span class="o">(</span><span class="nc">Key</span> <span class="n">key</span><span class="o">)</span>
+  <span class="o">{</span> <span class="k">return</span> <span class="o">(</span><span class="nc">Value</span><span class="o">)</span> <span class="n">st</span><span class="o">[</span><span class="n">hash</span><span class="o">(</span><span class="n">key</span><span class="o">)].</span><span class="na">get</span><span class="o">(</span><span class="n">key</span><span class="o">);</span> <span class="o">}</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">put</span><span class="o">(</span><span class="nc">Key</span> <span class="n">key</span><span class="o">,</span> <span class="nc">Value</span> <span class="n">val</span><span class="o">)</span>
+  <span class="o">{</span> <span class="n">st</span><span class="o">[</span><span class="n">hash</span><span class="o">(</span><span class="n">key</span><span class="o">)].</span><span class="na">put</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="n">val</span><span class="o">);</span> <span class="o">}</span>
+  <span class="kd">public</span> <span class="nc">Iterable</span><span class="o">&lt;</span><span class="nc">Key</span><span class="o">&gt;</span> <span class="nf">keys</span><span class="o">()</span>
+  <span class="o">...</span>
+<span class="o">}</span>
+</code></pre></div></div>
+<p>  这段简单的符号表实现维护这一条链表的数组,用散列函数来为每个键选择一条链表.</p>
+
+<ul>
+  <li>散列表的大小<br />
+  在实现基于拉链法的散列表时,目标是选择适当的数组大小M,既不会因为空链表而浪费大量内存,也不会因为链表太长而在查找上浪费太多时间.</li>
+  <li>删除操作<br />
+  要删除一个键值对,先用散列值找到含有该键的SequencetialSearchST对象,然后再调用该对象的delete()方法.</li>
+  <li>有序性相关操作<br />
+  散列最主要的目的在于均匀地将键散布开来,因此在计算散列后键的顺序信息就会丢失了.所以散列不适合有序操作.</li>
+</ul>
+
+<hr />
+
+<h3 id="基于线性探测的散列表">基于线性探测的散列表</h3>
+<hr />
+<p>  实现散列表的另一种方式就是用大小为M的数组保存N个键值对,其中M&gt;N.我们需要依靠数组中的空位解决碰撞冲突.基于这种策略的所有方法被统称为开放地址散列表.<br />
+  开放地址散列表中最简单的方法叫做线性探测法:当碰撞发生时(当一个键的散列值已经被另一个不同的键占用),我们直接检查散列表中的下一个位置(将索引值加1).这样的线性探测可能会产生三种结果:</p>
+<ul>
+  <li>命中,该位置的键和被查找的键相同</li>
+  <li>未命中,键为空(该位置没有键)</li>
+  <li>继续查找,该位置的键和被查找的键不同</li>
+</ul>
+
+<p>  我们用散列函数找到键在数组中的索引,检查其中的键和被查找的键是否相同.如果不同则继续查找(将索引增大,到达数组结尾时折回数组的开头),直到找到该键或者遇到一个空元素,我们习惯将检查一个数组位置是否含有被查找的键的操作称作探测.<br />
+  开放地址类的散列表的核心思想是与其将内存用作链表,不如将它们作为在散列表的空元素.这些空元素可以作为查找结束的标志.</p>
+<center>
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/hashTable/标准索引用例使用的基于线性探测的符号表的轨迹.png">
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="标准索引用例使用的基于线性探测的符号表的轨迹" src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/hashTable/标准索引用例使用的基于线性探测的符号表的轨迹.png" />
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">标准索引用例使用的基于线性探测的符号表的轨迹</div>
+    </a>
+</center>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">LinearProbingHashST</span><span class="o">&lt;</span><span class="nc">Key</span><span class="o">,</span> <span class="nc">Value</span><span class="o">&gt;</span>
+<span class="o">{</span>
+  <span class="kd">private</span> <span class="kt">int</span> <span class="no">N</span><span class="o">;</span> <span class="c1">// 符号表中键值对的总数</span>
+  <span class="kd">private</span> <span class="kt">int</span> <span class="no">M</span> <span class="o">=</span> <span class="mi">16</span><span class="o">;</span> <span class="c1">// 线性探测表的大小</span>
+  <span class="kd">private</span> <span class="nc">Key</span><span class="o">[]</span> <span class="n">keys</span><span class="o">;</span> <span class="c1">// 键</span>
+  <span class="kd">private</span> <span class="nc">Value</span><span class="o">[]</span> <span class="n">vals</span><span class="o">;</span> <span class="c1">// 值</span>
+  <span class="kd">public</span> <span class="nf">LinearProbingHashST</span><span class="o">()</span>
+  <span class="o">{</span>
+    <span class="n">keys</span> <span class="o">=</span> <span class="o">(</span><span class="nc">Key</span><span class="o">[])</span> <span class="k">new</span> <span class="nc">Object</span><span class="o">[</span><span class="no">M</span><span class="o">];</span>
+    <span class="n">vals</span> <span class="o">=</span> <span class="o">(</span><span class="nc">Value</span><span class="o">[])</span> <span class="k">new</span> <span class="nc">Object</span><span class="o">[</span><span class="no">M</span><span class="o">];</span>
+  <span class="o">}</span>
+  <span class="kd">private</span> <span class="kt">int</span> <span class="nf">hash</span><span class="o">(</span><span class="nc">Key</span> <span class="n">key</span><span class="o">)</span>
+  <span class="o">{</span> <span class="k">return</span> <span class="o">(</span><span class="n">key</span><span class="o">.</span><span class="na">hashCode</span><span class="o">()</span> <span class="o">&amp;</span> <span class="mh">0x7fffffff</span><span class="o">)</span> <span class="o">%</span> <span class="no">M</span><span class="o">;</span> <span class="o">}</span>
+  <span class="kd">private</span> <span class="kt">void</span> <span class="nf">resize</span><span class="o">()</span> <span class="c1">// 请见3.4.4节</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">put</span><span class="o">(</span><span class="nc">Key</span> <span class="n">key</span><span class="o">,</span> <span class="nc">Value</span> <span class="n">val</span><span class="o">)</span>
+  <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="no">N</span> <span class="o">&gt;=</span> <span class="no">M</span><span class="o">/</span><span class="mi">2</span><span class="o">)</span> <span class="n">resize</span><span class="o">(</span><span class="mi">2</span><span class="o">*</span><span class="no">M</span><span class="o">);</span> <span class="c1">// 将M加倍（请见正文）</span>
+    <span class="kt">int</span> <span class="n">i</span><span class="o">;</span>
+    <span class="k">for</span> <span class="o">(</span><span class="n">i</span> <span class="o">=</span> <span class="n">hash</span><span class="o">(</span><span class="n">key</span><span class="o">);</span> <span class="n">keys</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">;</span> <span class="n">i</span> <span class="o">=</span> <span class="o">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">%</span> <span class="no">M</span><span class="o">)</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">keys</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">equals</span><span class="o">(</span><span class="n">key</span><span class="o">))</span> <span class="o">{</span> <span class="n">vals</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">val</span><span class="o">;</span> <span class="k">return</span><span class="o">;</span> <span class="o">}</span>
+    <span class="n">keys</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">key</span><span class="o">;</span>
+    <span class="n">vals</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">val</span><span class="o">;</span>
+    <span class="no">N</span><span class="o">++;</span>
+  <span class="o">}</span>
+  <span class="kd">public</span> <span class="nc">Value</span> <span class="nf">get</span><span class="o">(</span><span class="nc">Key</span> <span class="n">key</span><span class="o">)</span>
+  <span class="o">{</span>
+    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">hash</span><span class="o">(</span><span class="n">key</span><span class="o">);</span> <span class="n">keys</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">;</span> <span class="n">i</span> <span class="o">=</span> <span class="o">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">%</span> <span class="no">M</span><span class="o">)</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">keys</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">equals</span><span class="o">(</span><span class="n">key</span><span class="o">))</span>
+    <span class="k">return</span> <span class="n">vals</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
+    <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+<p>  这段符号表的实现将键和值分别保存在两个数组中,使用空来表示一簇键的结束.如果一个新键的散列值是一个空元素,那么就将它保存在那里;如果不是,
+我们就顺序查找一个空元素来保存它.要查找一个键,我们从它的散列值开始顺序查找,如果找到则是命中,如果遇到空元素则未命中.</p>
+
+<ul>
+  <li>删除操作</li>
+</ul>
+
+<p>  如何从基于线性探测的散列表中删除一个键?仔细想想,直接将该键所在的位置设为null是不行的,因为这会使得此位置之后的元素无法被查找.因此我们需要将簇中被删除键的右侧的所有键重新插入散列表.这个过程比想象的复杂.删除代码如下所示:</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kt">void</span> <span class="nf">delete</span><span class="o">(</span><span class="nc">Key</span> <span class="n">key</span><span class="o">)</span>
+<span class="o">{</span>
+  <span class="k">if</span> <span class="o">(!</span><span class="n">contains</span><span class="o">(</span><span class="n">key</span><span class="o">))</span> <span class="k">return</span><span class="o">;</span>
+  <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">hash</span><span class="o">(</span><span class="n">key</span><span class="o">);</span>
+  <span class="k">while</span> <span class="o">(!</span><span class="n">key</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">keys</span><span class="o">[</span><span class="n">i</span><span class="o">]))</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="o">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">%</span> <span class="no">M</span><span class="o">;</span>
+  <span class="n">keys</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+  <span class="n">vals</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+  <span class="n">i</span> <span class="o">=</span> <span class="o">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">%</span> <span class="no">M</span><span class="o">;</span>
+  <span class="k">while</span> <span class="o">(</span><span class="n">keys</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span>
+  <span class="o">{</span>
+    <span class="nc">Key</span> <span class="n">keyToRedo</span> <span class="o">=</span> <span class="n">keys</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
+    <span class="nc">Value</span> <span class="n">valToRedo</span> <span class="o">=</span> <span class="n">vals</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
+    <span class="n">keys</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+    <span class="n">vals</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+    <span class="no">N</span><span class="o">--;</span>
+    <span class="n">put</span><span class="o">(</span><span class="n">keyToRedo</span><span class="o">,</span> <span class="n">valToRedo</span><span class="o">);</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="o">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">%</span> <span class="no">M</span><span class="o">;</span>
+  <span class="o">}</span>
+  <span class="no">N</span><span class="o">--;</span>
+  <span class="k">if</span> <span class="o">(</span><span class="no">N</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="no">N</span> <span class="o">==</span> <span class="no">M</span><span class="o">/</span><span class="mi">8</span><span class="o">)</span> <span class="n">resize</span><span class="o">(</span><span class="no">M</span><span class="o">/</span><span class="mi">2</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+<ul>
+  <li>键簇</li>
+</ul>
+
+<p>  线性探测的平均成本取决于元素在插入数组后聚集成的一组连续的条目,也叫做键簇.如下图所示:</p>
+<center>
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/hashTable/线性探测法中的键簇.png">
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="线性探测法中的键簇" src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/hashTable/线性探测法中的键簇.png" />
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">线性探测法中的键簇</div>
+    </a>
+</center>
+
+<hr />
+
+<h3 id="调整数组大小">调整数组大小</h3>
+<hr />
+<p>  首先,我们的LinearProbingHashST需要一个新的构造函数,它接受一个固定的容量作为参数.然后,我们需要右边给出的resize()方法.它会创建出一个新的给定大小的LinearProbingHashST,保存原表中的keys和values变量,
+然后将原表中所有的键重新散列并插入到新表中.这使我们可以将数组的长度加倍.put()方法中的第一条语句会调用resize()来保证散列表最多为半满状态.这段代码构造的散列表比原来大一倍.因此α的值就会减半.
+和其他需要调整数组大小的应用场景一样,我们也需要在delete()方法的最后加上 <strong>if (N &gt; 0 &amp;&amp; N &lt;= M/8) resize(M/2);</strong> 以保证所使用的内存量和表中的键值对数量的比例总在一定范围之内.</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="kt">void</span> <span class="nf">resize</span><span class="o">(</span><span class="kt">int</span> <span class="n">cap</span><span class="o">)</span>
+<span class="o">{</span>
+  <span class="nc">LinearProbingHashST</span><span class="o">&lt;</span><span class="nc">Key</span><span class="o">,</span> <span class="nc">Value</span><span class="o">&gt;</span> <span class="n">t</span><span class="o">;</span>
+  <span class="n">t</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">LinearProbingHashST</span><span class="o">&lt;</span><span class="nc">Key</span><span class="o">,</span> <span class="nc">Value</span><span class="o">&gt;(</span><span class="n">cap</span><span class="o">);</span>
+  <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="no">M</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span>
+  <span class="k">if</span> <span class="o">(</span><span class="n">keys</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span>
+  <span class="n">t</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">keys</span><span class="o">[</span><span class="n">i</span><span class="o">],</span> <span class="n">vals</span><span class="o">[</span><span class="n">i</span><span class="o">]);</span>
+  <span class="n">keys</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="na">keys</span><span class="o">;</span>
+  <span class="n">vals</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="na">vals</span><span class="o">;</span>
+  <span class="no">M</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="na">M</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="拉链法">拉链法</h3>
+<p>  我们可以用相同的方法在拉链法中保持较短的链表(平均长度在2到8之间):当N&gt;=8<em>M时调用resize(2</em>M),并在delete()中(在N&gt;0&amp;&amp;N&lt;=2*M时)调用resize(M/2).</p>
+
+<hr />
+</p>
+
+                            <div align="center">
+                            <ul class="list-inline item-details">
+                                
+                                    <li>Client:
+                                        <strong><a href="http://startbootstrap.com">HashTable</a>
+                                        </strong>
+                                    </li>
+                                
+                                
+                                    <li>Date:
+                                        <strong><a href="http://startbootstrap.com">November 2021</a>
+                                        </strong>
+                                    </li>
+                                
+                                
+                                    <li>Service:
+                                        <strong><a href="http://startbootstrap.com">algorithm</a>
+                                        </strong>
+                                    </li>
+                                
+                            </ul>
+                            </div>
+                            <div align="center">
+                                <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="portfolio-modal modal fade" id="portfolioModal-10000016" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-content">
             <div class="close-modal" data-dismiss="modal">
