@@ -28,45 +28,65 @@ description: 蓄水池采样算法
 ### 证明过程
 - - -
 1. 对于第 __i__ 个元素 __(i<k)__ .在 __k__ 步之前,被选中的概率为1.
-当走到第 __k+1__ 步时,被 __k+1__ 个元素替换的概率 = 第 __k+1__ 个元素被选中的概率 __*__ __i__ 被选中替换的概率,即 __$\frac{k}{k+1} \times \frac{1}{k} = \frac{1}{k+1}$__ .  
+当走到第 __k+1__ 步时,被 __k+1__ 个元素替换的概率 = 第 __k+1__ 个元素被选中的概率 __$\times$__ __i__ 被选中替换的概率,即 __$\frac{k}{k+1} \times \frac{1}{k} = \frac{1}{k+1}$__ .  
 那么,不被第 __k+1__ 个元素替换的概率为 __$1-\frac{1}{k+1} = \frac{k}{k+1}$__ .以此类推,不被 __k+2__ 个元素替换的概率为 __$1-\frac{k}{k+2} \times \frac{1}{k} = \frac{k+1}{k+2}$__ .  
-当递推到第 __n__ 个元素时,第 __i__ 个元素被保留的概率 = 被选中的概率 * 不被替换的概率,即 __$$1 \times \frac{k}{k+1} \times \frac{k+1}{k+2} \times \frac{k+2}{k+3} ... \times \frac{n-1}{n} = \frac{1}{n}$$__  
-2. 对于第 __j__ 个元素 __(j>k)__ . 在第 __j__ 步被选中的概率为 __$\frac{k}{j}$__ ,不被 __j+1__ 个元素替换的概率为 __$1- \frac{k}{j+1} \times \frac{1}{k}$__ ,当递推到第 __n__ 个元素时,被保留的概率 = 被选中的概率 * 不被替换的概率，即
-$$
-\frac{k}{j} \times \frac{j}{j+1} \times \frac{j+1}{j+2} ... \times \frac{n-1}{n} = \frac{k}{n} 
-$$ 
-因此对于每个元素,被保留的概率都是 __$\frac{k}{n}$__
+当递推到第 __n__ 个元素时,第 __i__ 个元素被保留的概率 = 被选中的概率 __$\times$__ 不被替换的概率,即 __\\[1 \times \frac{k}{k+1} \times \frac{k+1}{k+2} \times \frac{k+2}{k+3} ... \times \frac{n-1}{n} = \frac{1}{n}\\]__
+2. 对于第 __j__ 个元素 __(j>k)__ . 在第 __j__ 步被选中的概率为 __$\frac{k}{j}$__ ,不被 __j+1__ 个元素替换的概率为 __$1- \frac{k}{j+1} \times \frac{1}{k}$__ ,当递推到第 __n__ 个元素时,被保留的概率 = 被选中的概率 * 不被替换的概率，即 __\\[\frac{k}{j} \times \frac{j}{j+1} \times \frac{j+1}{j+2} ... \times \frac{n-1}{n} = \frac{k}{n}\\]__ 因此对于每个元素,被保留的概率都是 __$\frac{k}{n}$__
 - - -
 
 
-### 代码
+### 理解过程
+- - -
+&emsp;&emsp;遍历长度等于n的数组.当第i次遇到target的元素时,随机选择区间[0, i)内的一个整数,如果其等于0,则将返回值置为该元素的下标,否则返回值不变.  
+&emsp;&emsp;设nums中有k个值为target的元素,该算法会保证这k个元素的下标最终返回值概率均为$\frac{1}{k}$,证明如下  
+P(第i次遇到值为target的元素下标称为最终返回值) = P(第i次随机选择的值=0) __$\times$__ P(第i+1次随机选择的值!=0) __$\times...\times$__ P(第k次随机选择的值!=0)
 
-__\\[\frac{k}{j} * \frac{j}{j+1} * \frac{j+1}{j+2} ... * \frac{n-1}{n} = \frac{k}{n}\\]__
+$$\frac{1}{i} \times (1-\frac{1}{i+1}) \times...\times(1-\frac{1}{k}) = \frac{1}{i} \times \frac{i}{i+1} \times...\times \frac{k-1}{k} = \frac{1}{k} $$
 
-__[$$\frac{k}{j} * \frac{j}{j+1} * \frac{j+1}{j+2} ... * \frac{n-1}{n} = \frac{k}{n}$$]__
+- - -
 
-
-$$
-\frac{k}{j} * \frac{j}{j+1} * \frac{j+1}{j+2} ... * \frac{n-1}{n} = \frac{k}{n}
-$$
-
-$$
-f(n)=\begin{cases}
-n/2,  & \text{if n is even}\\
-3n+1, & \text{if n is odd}
-\end{cases}
-$$
+### 例题
+---
+[https://leetcode.cn/problems/random-pick-index/](随机数索引)
+<center>
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/reservoirSampling/随机数索引.jpg">
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="随机数索引"
+    src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/reservoirSampling/随机数索引.jpg">
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">随机数索引</div>
+    </a>
+</center>
 
 >java
 
 ``` java
-xxx
+class Solution {
+    int[] num;
+    Random random;
+    public Solution(int[] nums) {
+        num = nums;
+        random = new Random();
+    }
+    
+    public int pick(int target) {
+        int res = 0;
+        for(int i=0, count = 0;i<num.length;i++){
+            if(num[i] == target){
+                if(random.nextInt(++count) == 0){
+                    res = i;
+                }
+            }
+        }
+        return res;
+    }
+}
 ```
 
-> 时间复杂度:O() 
+> 时间复杂度:O(n)  
 > 空间复杂度为:O(1)  
-
-### 扩展
 
 
 ### 其他语言
