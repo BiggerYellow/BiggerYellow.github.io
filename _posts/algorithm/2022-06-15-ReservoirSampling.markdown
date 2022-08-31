@@ -14,7 +14,7 @@ description: 蓄水池采样算法
 ### 定义
 - - -
 &emsp;&emsp;给定一串很长的数据流,对该数据流中数据只能访问一次,使得数据流中所有数据被选中的概率相等.  
-&emsp;&emsp;解决这样的问题,就可以利用蓄水池算法(Revervoir Sampling).  
+&emsp;&emsp;解决这样的问题,就可以利用蓄水池算法(Reservoir Sampling).  
 - - -
 
 ### 基本思路
@@ -37,8 +37,8 @@ description: 蓄水池采样算法
 
 ### 理解过程
 - - -
-&emsp;&emsp;遍历长度等于n的数组.当第i次遇到target的元素时,随机选择区间[0, i)内的一个整数,如果其等于0,则将返回值置为该元素的下标,否则返回值不变.  
-&emsp;&emsp;设nums中有k个值为target的元素,该算法会保证这k个元素的下标最终返回值概率均为$\frac{1}{k}$,证明如下  
+&emsp;&emsp;遍历长度等于 __n__ 的数组.当第 __i__ 次遇到 __target__ 的元素时,随机选择区间 __[0, i)__ 内的一个整数,如果其等于 __0__ ,则将返回值置为该元素的下标,否则返回值不变.  
+&emsp;&emsp;设nums中有 __k__ 个值为 __target__ 的元素,该算法会保证这 __k__ 个元素的下标最终返回值概率均为$\frac{1}{k}$,证明如下  
 P(第i次遇到值为target的元素下标称为最终返回值) = P(第i次随机选择的值=0) __$\times$__ P(第i+1次随机选择的值!=0) __$\times...\times$__ P(第k次随机选择的值!=0)
 
 $$\frac{1}{i} \times (1-\frac{1}{i+1}) \times...\times(1-\frac{1}{k}) = \frac{1}{i} \times \frac{i}{i+1} \times...\times \frac{k-1}{k} = \frac{1}{k} $$
@@ -47,7 +47,7 @@ $$\frac{1}{i} \times (1-\frac{1}{i+1}) \times...\times(1-\frac{1}{k}) = \frac{1}
 
 ### 例题
 ---
-[https://leetcode.cn/problems/random-pick-index/](随机数索引)
+1.[随机数索引-随机选一个数](https://leetcode.cn/problems/random-pick-index/)
 <center>
     <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/reservoirSampling/随机数索引.jpg">
     <img style="border-radius: 0.3125em;
@@ -88,21 +88,156 @@ class Solution {
 > 时间复杂度:O(n)  
 > 空间复杂度为:O(1)  
 
+2. 随机选k个数
+>java
+
+``` java
+public int[] selectK(int[] nums, int k){
+    Random random = new Random();
+    int[] res = new int[k];
+    int len = nums.length;
+    for(int i=0;i<k;i++){
+        res[i] = nums[i];
+    }
+    int count = k;
+    int i = k;
+    while(i < len){
+        int j = random.nextInt(++count);
+        if(j<k){
+            res[j] = nums[i];
+        }
+        i++;
+    }
+    return res;
+}
+```
+> 时间复杂度:O(n)  
+> 空间复杂度度:O(1)
+
 
 ### 其他语言
 - - -
 > C++
 
 ``` cpp
-xxx
+//随机选一个数
+class Solution {
+	vector<int>& nums;
+
+public:
+		Solution(vector<int>& nums) : nums(nums) {}
+
+		int pick(int target) {
+			int res;
+			for (int i = 0, count = 0;i < nums.size(); i++) {
+				if (nums[i] == target)
+				{
+					++count;
+					if (rand() % count == 0)
+					{
+						res = i;
+					}
+				}
+			}
+			return res;
+		}
+};
+
+//随机选K个数
+class Solution {
+	vector<int> selectK(vector<int>& nums, int k)
+	{
+		vector<int> res(k);
+		for (int i = 0;i < k;i++)
+		{
+			res[i] = nums[i];
+		}
+		
+		int count = k;
+		int i = k;
+		while (i < nums.size())
+		{
+			++count;
+			int j = rand() % count;
+			if (j < k)
+			{
+				res[j] = nums[i];
+			}
+		}
+		return res;
+	}
+};
 ```
 > python3
 
 ``` python
-xxx
+//随机选一个数
+class Solution:
+    def __init__(self, nums:List[int]):
+        self.nums = nums
+
+    def pick(self, target:int) -> int:
+        ans = cnt = 0
+        for i, num in enumerate(self.nums):
+            if num == target:
+                cnt += 1
+                if randrange(cnt) == 0:
+                    ans = i
+        return ans
+        
+//随机选K个数        
+class Solution:
+    
+    def selectK(self, nums:List[int], k:int) -> List[int]:
+        res = list()
+        for i in range(0, k):
+            res[i] = nums[i]
+        count = k
+        i = k
+        while i < len(nums):
+            ++count
+            j = randrange(count)
+            if j < k:
+                res[j] = nums[i]
+        return res
 ```
 > go
 
 ``` go
-xxx
+//随机选一个数
+type Solution []int
+
+func Constructor1(nums []int) Solution {
+	return nums
+}
+
+func (nums Solution) Pick(target int) (res int) {
+	count:=0
+	for i, num := range nums{
+		if num == target {
+			count++
+			if rand.Intn(count) == 0 {
+				res = i
+			}
+		}
+	}
+	return
+}
+
+//随机选K个数
+func SelectK(nums []int, k int) (res []int) {
+	for i:=0;i<k;i++{
+		res[i] = nums[i]
+	}
+	count:=k
+	i:=k
+	for i<len(nums) {
+		count++
+		j := rand.Intn(count)
+		if j < k{
+			res[j] = nums[i]
+		}
+	}
+	return res
+}
 ```

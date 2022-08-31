@@ -1,5 +1,55 @@
 <!DOCTYPE html>
 <html>
+<!--    <script>-->
+<!--        MathJax = {-->
+<!--            tex: {-->
+<!--                inlineMath: [['$', '$']],-->
+<!--                displayMath: [['$$', '$$']],-->
+<!--                processEnvironments: true,-->
+<!--                processRefs: true-->
+<!--            },-->
+<!--            options: {-->
+<!--                skipHtmlTags: ['noscript', 'style', 'textarea', 'pre', 'code'],-->
+<!--                ignoreHtmlClass: 'tex2jax_ignore',-->
+<!--                renderActions: {-->
+<!--                    find_script_mathtex: [10, function (doc) {-->
+<!--                        for (const node of document.querySelectorAll('script[type^="math/tex"]')) {-->
+<!--                            const display = !!node.type.match(/; *mode=display/);-->
+<!--                            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);-->
+<!--                            const text = document.createTextNode('');-->
+<!--                            node.parentNode.replaceChild(text, node);-->
+<!--                            math.start = { node: text, delim: '', n: 0 };-->
+<!--                            math.end = { node: text, delim: '', n: 0 };-->
+<!--                            doc.math.push(math);-->
+<!--                        }-->
+<!--                    }, '']-->
+<!--                }-->
+<!--            },-->
+<!--            svg: {-->
+<!--                fontCache: 'global'-->
+<!--            }-->
+<!--        };-->
+<!--    </script>-->
+<!--    <script id="MathJax-script" async src="https://cdn.staticfile.org/mathjax/3.0.1/es5/tex-svg.js"></script>-->
+
+    <script type="text/javascript"
+            src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+            // src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$']],
+                displayMath: [['$$', '$$']],
+                processEscapes: true,
+                processEnvironments: true,
+                processRefs: true
+            }
+        };
+    </script>
     <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -111,6 +161,34 @@
                 </div>
             </div>
             <div class="portfolio-flex-row">
+                
+                    <div class="portfolio-flex-item portfolio-item">
+                        <a href="#portfolioModal-10000020" class="portfolio-link" data-toggle="modal">
+                            <div class="caption">
+                                <div class="caption-content">
+                                    <i class="fa fa-search-plus fa-3x"></i>
+                                    <p>莫里斯遍历</p>
+
+                                </div>
+                            </div>
+                            <img src="img/portfolio/pexels-thiago-matos-4037037.jpg" class="img-responsive" alt="Morris Traversing">
+
+                        </a>
+                    </div>
+                
+                    <div class="portfolio-flex-item portfolio-item">
+                        <a href="#portfolioModal-10000019" class="portfolio-link" data-toggle="modal">
+                            <div class="caption">
+                                <div class="caption-content">
+                                    <i class="fa fa-search-plus fa-3x"></i>
+                                    <p>蓄水池采样算法</p>
+
+                                </div>
+                            </div>
+                            <img src="img/portfolio/pexels-emmanuel-hernndez-12217674.jpg" class="img-responsive" alt="ReservoirSampling">
+
+                        </a>
+                    </div>
                 
                     <div class="portfolio-flex-item portfolio-item">
                         <a href="#portfolioModal-10000018" class="portfolio-link" data-toggle="modal">
@@ -656,6 +734,10 @@
                     
                 
                     
+                
+                    
+                
+                    
                 <div class="portfolio-flex-item portfolio-item">
                         <a href="#portfolioModal-9" class="portfolio-link" data-toggle="modal">
                             <div class="caption">
@@ -711,6 +793,10 @@
                 </div>
             </div>
             <div class="portfolio-flex-row">
+                
+                    
+                
+                    
                 
                     
                 
@@ -898,6 +984,36 @@
                 </div>
             </div>
             <div class="portfolio-flex-row">
+                
+                    
+                <div class="portfolio-flex-item portfolio-item">
+                        <a href="#portfolioModal-10000020" class="portfolio-link" data-toggle="modal">
+                            <div class="caption">
+                                <div class="caption-content">
+                                    <i class="fa fa-search-plus fa-3x"></i>
+                                    <p>莫里斯遍历</p>
+
+                                </div>
+                            </div>
+                            <img src="img/portfolio/pexels-thiago-matos-4037037.jpg" class="img-responsive" alt="Morris Traversing">
+                        </a>
+                    </div>
+                    
+                
+                    
+                <div class="portfolio-flex-item portfolio-item">
+                        <a href="#portfolioModal-10000019" class="portfolio-link" data-toggle="modal">
+                            <div class="caption">
+                                <div class="caption-content">
+                                    <i class="fa fa-search-plus fa-3x"></i>
+                                    <p>蓄水池采样算法</p>
+
+                                </div>
+                            </div>
+                            <img src="img/portfolio/pexels-emmanuel-hernndez-12217674.jpg" class="img-responsive" alt="ReservoirSampling">
+                        </a>
+                    </div>
+                    
                 
                     
                 <div class="portfolio-flex-item portfolio-item">
@@ -1257,6 +1373,534 @@
 
      <!-- Portfolio Modals -->
  
+    <div class="portfolio-modal modal fade" id="portfolioModal-10000020" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-content">
+            <div class="close-modal" data-dismiss="modal">
+                <div class="lr">
+                    <div class="rl">
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2">
+                        <div class="modal-body">
+                            <div align="center">
+                            <h2>Morris Traversing</h2>
+                            <hr class="star-primary">
+                            <img src="img/portfolio/pexels-thiago-matos-4037037.jpg" class="img-responsive img-centered" alt="Morris Traversing">
+
+                            
+                                <h3>莫里斯遍历</h3>
+                            
+                            </div>
+
+                            <p><h3 id="定义">定义</h3>
+<hr />
+<p>  对于二叉树的遍历我们常用的方法就是迭代和递归遍历，两种遍历方式使用压栈的方式，递归调用的是虚拟机的栈，迭代使用的是自定义的栈，两者的空间复杂度都为 <strong>O(n)</strong> 。<br />
+  为了追求极致的效率,莫里斯遍历应运而生,它使用一种巧妙的方式将空间复杂度降为 <strong>O(1)</strong> .下面我们就一起来看看如何巧妙:</p>
+<hr />
+
+<h3 id="基本思路">基本思路</h3>
+<hr />
+<p>  遍历过程中用到的两个概念先说明一下,当前遍历的根节点用 <strong>node</strong> 来表示,当前根节点左子树中的最右节点 <strong>pre</strong> .<br />
+从当前根节点 <strong>node</strong> 开始遍历:</p>
+<ol>
+  <li>若当前根节点 <strong>node</strong> 的左节点为空,将当前根节点的右节点指向当前根节点 <strong>node = node.right</strong> ,说明不存在左子树,即左子树遍历结束,开始遍历右子树(这里之所以遍历右子树,因为在第二步中已经将右子树和最近的一个根节点建立连接形成环)</li>
+  <li>若当前根节点 <strong>node</strong> 的左节点不为空,将当前根节点的左节点指向最右节点 <strong>pre = node.left</strong> ,从当前根节点的左节点继续向右遍历一直到底,因为会通过步骤2.1形成环,所有这里的结束条件为右节点为空或右节点等于当前根节点,判断最右节点的右节点 <strong>pre.right</strong> 是否为空:
+    <ul>
+      <li>2.1 若最右节点的右节点 <strong>pre.right</strong> 为空,将最右节点的右节点指向根节点 <strong>pre.right = root</strong> ,继续遍历当前根节点的左子树 <strong>node = node.left</strong> ,说明此最右节点与当前根节点形成环,成环并继续从当前根节点向左遍历</li>
+      <li>2.2 若最右节点的右节点 <strong>pre.right</strong> 不为空,将最右节点的右节点指向空 <strong>pre.right = null</strong> ,继续遍历当前根节点的右子树 <strong>node = node.right</strong> ,说明此时遇到步骤2.1生成的环了,将环断开并继续从当前根节点向右遍历</li>
+    </ul>
+  </li>
+</ol>
+
+<p>  可见的莫里斯遍历的核心思想就是将根节点与根节点左子树中的最右节点相连接形成环,这样在遍历的时候就可以重新回到根节点,无须借助其他数据结构降低空间复杂度.</p>
+<hr />
+
+<h3 id="遍历过程">遍历过程</h3>
+<hr />
+<center>
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/mirrorsTraversing/莫里斯遍历.png">
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="莫里斯遍历" src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/mirrorsTraversing/莫里斯遍历.png" />
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">莫里斯遍历</div>
+    </a>
+</center>
+<hr />
+
+<h3 id="例题">例题</h3>
+<hr />
+<p>1.<a href="https://leetcode.cn/problems/recover-binary-search-tree/">恢复二叉搜索树</a></p>
+<center>
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/mirrorsTraversing/恢复二叉搜索树.jpg">
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="恢复二叉搜索树" src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/mirrorsTraversing/恢复二叉搜索树.jpg" />
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">恢复二叉搜索树</div>
+    </a>
+</center>
+
+<blockquote>
+  <p>java</p>
+</blockquote>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">res</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
+
+<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">morris</span><span class="o">(</span><span class="nc">TreeNode</span> <span class="n">root</span><span class="o">){</span>
+    <span class="nc">TreeNode</span> <span class="n">pre</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+    <span class="k">while</span> <span class="o">(</span><span class="n">root</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">){</span>
+        <span class="c1">//判断当前节点是否有左子树</span>
+        <span class="c1">// 1.有则说明左子树未遍历完继续遍历左子树,再根据最右节点进行判断</span>
+        <span class="c1">// 2.无则说明左子树遍历完,取当前节点值,并继续遍历右子树</span>
+        <span class="k">if</span><span class="o">(</span><span class="n">root</span><span class="o">.</span><span class="na">left</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">){</span>
+            <span class="c1">//pre意在找到当前节点左子树中的最右节点</span>
+            <span class="n">pre</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="na">left</span><span class="o">;</span>
+            <span class="c1">//若 pre存在右节点 &amp;&amp; pre的右节点不等于当前遍历的根节点 (因为在下一步若pre不存在右节点会将pre的右节点指向当前节点x形成一个环)</span>
+            <span class="k">while</span><span class="o">(</span><span class="n">pre</span><span class="o">.</span><span class="na">right</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">pre</span><span class="o">.</span><span class="na">right</span> <span class="o">!=</span> <span class="n">root</span><span class="o">){</span>
+                <span class="n">pre</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="na">right</span><span class="o">;</span>
+            <span class="o">}</span>
+            <span class="c1">//1.若pre最右节点不存在右节点(也可以理解为未指向其根节点形成环),则将pre的右节点指向根节点形成环,并继续遍历根节点的左子树</span>
+            <span class="c1">//2.若pre最右节点存在右节点(可以理解为已经指向根节点形成环了),取当前root值并将pre最右节点置为null(即将环断开),继续遍历右子树 (若经过步骤1成环了,即变成从子节点回到根节点)</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">pre</span><span class="o">.</span><span class="na">right</span> <span class="o">==</span> <span class="kc">null</span><span class="o">){</span>
+                <span class="n">pre</span><span class="o">.</span><span class="na">right</span> <span class="o">=</span> <span class="n">root</span><span class="o">;</span>
+<span class="c1">//                    //先序遍历</span>
+<span class="c1">//                    res.add(root.val);</span>
+                <span class="n">root</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="na">left</span><span class="o">;</span>
+            <span class="o">}</span><span class="k">else</span><span class="o">{</span>
+                <span class="c1">//中序遍历</span>
+                <span class="n">res</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">root</span><span class="o">.</span><span class="na">val</span><span class="o">);</span>
+                <span class="n">pre</span><span class="o">.</span><span class="na">right</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+                <span class="n">root</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="na">right</span><span class="o">;</span>
+            <span class="o">}</span>
+
+        <span class="o">}</span><span class="k">else</span> <span class="o">{</span>
+            <span class="n">res</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">root</span><span class="o">.</span><span class="na">val</span><span class="o">);</span>
+            <span class="n">root</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="na">right</span><span class="o">;</span>
+
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>时间复杂度:O(n)<br />
+空间复杂度为:O(1)</p>
+</blockquote>
+
+<h3 id="延伸-后序遍历">延伸-后序遍历</h3>
+<hr />
+<center>
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/mirrorsTraversing/莫里斯后序遍历.jpg">
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="莫里斯后序遍历" src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/mirrorsTraversing/莫里斯后序遍历.jpg" />
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">莫里斯后序遍历</div>
+    </a>
+</center>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">res</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
+
+
+<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">morrisPostOrder</span><span class="o">(</span><span class="nc">TreeNode</span> <span class="n">root</span><span class="o">){</span>
+    <span class="k">if</span><span class="o">(</span><span class="n">root</span> <span class="o">==</span> <span class="kc">null</span><span class="o">){</span>
+        <span class="k">return</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="c1">//自定义头结点形成环</span>
+    <span class="nc">TreeNode</span> <span class="n">node</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">TreeNode</span><span class="o">(-</span><span class="mi">1</span><span class="o">);</span>
+    <span class="n">node</span><span class="o">.</span><span class="na">left</span> <span class="o">=</span> <span class="n">root</span><span class="o">;</span>
+    <span class="nc">TreeNode</span> <span class="n">pre</span> <span class="o">=</span> <span class="n">node</span><span class="o">;</span>
+    <span class="k">while</span><span class="o">(</span><span class="n">pre</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">){</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">pre</span><span class="o">.</span><span class="na">left</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">){</span>
+            <span class="nc">TreeNode</span> <span class="n">next</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="na">left</span><span class="o">;</span>
+            <span class="k">while</span><span class="o">(</span><span class="n">next</span><span class="o">.</span><span class="na">right</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">next</span><span class="o">.</span><span class="na">right</span> <span class="o">!=</span> <span class="n">pre</span><span class="o">){</span>
+                <span class="n">next</span> <span class="o">=</span> <span class="n">next</span><span class="o">.</span><span class="na">right</span><span class="o">;</span>
+            <span class="o">}</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">next</span><span class="o">.</span><span class="na">right</span> <span class="o">==</span> <span class="kc">null</span><span class="o">){</span>
+                <span class="n">next</span><span class="o">.</span><span class="na">right</span> <span class="o">=</span> <span class="n">pre</span><span class="o">;</span>
+                <span class="n">pre</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="na">left</span><span class="o">;</span>
+            <span class="o">}</span><span class="k">else</span><span class="o">{</span>
+                <span class="n">next</span><span class="o">.</span><span class="na">right</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+                <span class="c1">//使用头插法在断开环时将右节点和根节点加入结果汇总</span>
+                <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">temp</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
+                <span class="nc">TreeNode</span> <span class="n">cur</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="na">left</span><span class="o">;</span>
+                <span class="k">while</span> <span class="o">(</span><span class="n">cur</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">){</span>
+                    <span class="n">temp</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="n">cur</span><span class="o">.</span><span class="na">val</span><span class="o">);</span>
+                    <span class="n">cur</span> <span class="o">=</span> <span class="n">cur</span><span class="o">.</span><span class="na">right</span><span class="o">;</span>
+                <span class="o">}</span>
+                <span class="n">res</span><span class="o">.</span><span class="na">addAll</span><span class="o">(</span><span class="n">temp</span><span class="o">);</span>
+                <span class="n">pre</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="na">right</span><span class="o">;</span>
+            <span class="o">}</span>
+        <span class="o">}</span><span class="k">else</span><span class="o">{</span>
+            <span class="n">pre</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="na">right</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+<hr />
+
+<h3 id="其他语言">其他语言</h3>
+<hr />
+<blockquote>
+  <p>C++</p>
+</blockquote>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+</code></pre></div></div>
+<blockquote>
+  <p>python3</p>
+</blockquote>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+</code></pre></div></div>
+<blockquote>
+  <p>go</p>
+</blockquote>
+
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+</code></pre></div></div>
+</p>
+
+                            <div align="center">
+                            <ul class="list-inline item-details">
+                                
+                                    <li>Client:
+                                        <strong><a href="http://startbootstrap.com">algorithm</a>
+                                        </strong>
+                                    </li>
+                                
+                                
+                                    <li>Date:
+                                        <strong><a href="http://startbootstrap.com">August 2022</a>
+                                        </strong>
+                                    </li>
+                                
+                                
+                                    <li>Service:
+                                        <strong><a href="http://startbootstrap.com">algorithm</a>
+                                        </strong>
+                                    </li>
+                                
+                            </ul>
+                            </div>
+                            <div align="center">
+                                <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="portfolio-modal modal fade" id="portfolioModal-10000019" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-content">
+            <div class="close-modal" data-dismiss="modal">
+                <div class="lr">
+                    <div class="rl">
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2">
+                        <div class="modal-body">
+                            <div align="center">
+                            <h2>Reservoir Sampling</h2>
+                            <hr class="star-primary">
+                            <img src="img/portfolio/pexels-emmanuel-hernndez-12217674.jpg" class="img-responsive img-centered" alt="ReservoirSampling">
+
+                            
+                                <h3>蓄水池采样算法</h3>
+                            
+                            </div>
+
+                            <p><h3 id="定义">定义</h3>
+<hr />
+<p>  给定一串很长的数据流,对该数据流中数据只能访问一次,使得数据流中所有数据被选中的概率相等.<br />
+  解决这样的问题,就可以利用蓄水池算法(Reservoir Sampling).</p>
+<hr />
+
+<h3 id="基本思路">基本思路</h3>
+<hr />
+<p>  假设需要采样的数量为 <strong>k</strong> .</p>
+<ol>
+  <li>首先构建一个 <strong>k</strong> 个元素的数组,将序列前的 <strong>k</strong> 个元素放入数组中.</li>
+  <li>对于从第 <strong>j</strong> 个元素 <strong>(j&gt;k)</strong> ,以 <strong>$\frac{k}{j}$</strong> 的概率来决定该元素是否被替换到数组中,数组中的 <strong>k</strong> 个元素被替换的概率是相同的.</li>
+  <li>当遍历完所有元素之后,数组中剩下的元素即为采样样本.
+    <hr />
+  </li>
+</ol>
+
+<h3 id="证明过程">证明过程</h3>
+<hr />
+<ol>
+  <li>对于第 <strong>i</strong> 个元素 <strong>(i&lt;k)</strong> .在 <strong>k</strong> 步之前,被选中的概率为1.
+当走到第 <strong>k+1</strong> 步时,被 <strong>k+1</strong> 个元素替换的概率 = 第 <strong>k+1</strong> 个元素被选中的概率 <strong>$\times$</strong> <strong>i</strong> 被选中替换的概率,即 <strong>$\frac{k}{k+1} \times \frac{1}{k} = \frac{1}{k+1}$</strong> .<br />
+那么,不被第 <strong>k+1</strong> 个元素替换的概率为 <strong>$1-\frac{1}{k+1} = \frac{k}{k+1}$</strong> .以此类推,不被 <strong>k+2</strong> 个元素替换的概率为 <strong>$1-\frac{k}{k+2} \times \frac{1}{k} = \frac{k+1}{k+2}$</strong> .<br />
+当递推到第 <strong>n</strong> 个元素时,第 <strong>i</strong> 个元素被保留的概率 = 被选中的概率 <strong>$\times$</strong> 不被替换的概率,即 <strong>\[1 \times \frac{k}{k+1} \times \frac{k+1}{k+2} \times \frac{k+2}{k+3} … \times \frac{n-1}{n} = \frac{1}{n}\]</strong></li>
+  <li>对于第 <strong>j</strong> 个元素 <strong>(j&gt;k)</strong> . 在第 <strong>j</strong> 步被选中的概率为 <strong>$\frac{k}{j}$</strong> ,不被 <strong>j+1</strong> 个元素替换的概率为 <strong>$1- \frac{k}{j+1} \times \frac{1}{k}$</strong> ,当递推到第 <strong>n</strong> 个元素时,被保留的概率 = 被选中的概率 * 不被替换的概率，即 <strong>\[\frac{k}{j} \times \frac{j}{j+1} \times \frac{j+1}{j+2} … \times \frac{n-1}{n} = \frac{k}{n}\]</strong> 因此对于每个元素,被保留的概率都是 <strong>$\frac{k}{n}$</strong>
+    <hr />
+  </li>
+</ol>
+
+<h3 id="理解过程">理解过程</h3>
+<hr />
+<p>  遍历长度等于 <strong>n</strong> 的数组.当第 <strong>i</strong> 次遇到 <strong>target</strong> 的元素时,随机选择区间 <strong>[0, i)</strong> 内的一个整数,如果其等于 <strong>0</strong> ,则将返回值置为该元素的下标,否则返回值不变.<br />
+  设nums中有 <strong>k</strong> 个值为 <strong>target</strong> 的元素,该算法会保证这 <strong>k</strong> 个元素的下标最终返回值概率均为$\frac{1}{k}$,证明如下<br />
+P(第i次遇到值为target的元素下标称为最终返回值) = P(第i次随机选择的值=0) <strong>$\times$</strong> P(第i+1次随机选择的值!=0) <strong>$\times…\times$</strong> P(第k次随机选择的值!=0)</p>
+
+\[\frac{1}{i} \times (1-\frac{1}{i+1}) \times...\times(1-\frac{1}{k}) = \frac{1}{i} \times \frac{i}{i+1} \times...\times \frac{k-1}{k} = \frac{1}{k}\]
+
+<hr />
+
+<h3 id="例题">例题</h3>
+<hr />
+<p>1.<a href="https://leetcode.cn/problems/random-pick-index/">随机数索引-随机选一个数</a></p>
+<center>
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/reservoirSampling/随机数索引.jpg">
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="随机数索引" src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/reservoirSampling/随机数索引.jpg" />
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">随机数索引</div>
+    </a>
+</center>
+
+<blockquote>
+  <p>java</p>
+</blockquote>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="kt">int</span><span class="o">[]</span> <span class="n">num</span><span class="o">;</span>
+    <span class="nc">Random</span> <span class="n">random</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="nf">Solution</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">nums</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">num</span> <span class="o">=</span> <span class="n">nums</span><span class="o">;</span>
+        <span class="n">random</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Random</span><span class="o">();</span>
+    <span class="o">}</span>
+    
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">pick</span><span class="o">(</span><span class="kt">int</span> <span class="n">target</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kt">int</span> <span class="n">res</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">,</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">num</span><span class="o">.</span><span class="na">length</span><span class="o">;</span><span class="n">i</span><span class="o">++){</span>
+            <span class="k">if</span><span class="o">(</span><span class="n">num</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">==</span> <span class="n">target</span><span class="o">){</span>
+                <span class="k">if</span><span class="o">(</span><span class="n">random</span><span class="o">.</span><span class="na">nextInt</span><span class="o">(++</span><span class="n">count</span><span class="o">)</span> <span class="o">==</span> <span class="mi">0</span><span class="o">){</span>
+                    <span class="n">res</span> <span class="o">=</span> <span class="n">i</span><span class="o">;</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">res</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>时间复杂度:O(n)<br />
+空间复杂度为:O(1)</p>
+</blockquote>
+
+<ol>
+  <li>随机选k个数
+    <blockquote>
+      <p>java</p>
+    </blockquote>
+  </li>
+</ol>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kt">int</span><span class="o">[]</span> <span class="nf">selectK</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">nums</span><span class="o">,</span> <span class="kt">int</span> <span class="n">k</span><span class="o">){</span>
+    <span class="nc">Random</span> <span class="n">random</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Random</span><span class="o">();</span>
+    <span class="kt">int</span><span class="o">[]</span> <span class="n">res</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="n">k</span><span class="o">];</span>
+    <span class="kt">int</span> <span class="n">len</span> <span class="o">=</span> <span class="n">nums</span><span class="o">.</span><span class="na">length</span><span class="o">;</span>
+    <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">k</span><span class="o">;</span><span class="n">i</span><span class="o">++){</span>
+        <span class="n">res</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">nums</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
+    <span class="o">}</span>
+    <span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="n">k</span><span class="o">;</span>
+    <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">k</span><span class="o">;</span>
+    <span class="k">while</span><span class="o">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">len</span><span class="o">){</span>
+        <span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="na">nextInt</span><span class="o">(++</span><span class="n">count</span><span class="o">);</span>
+        <span class="k">if</span><span class="o">(</span><span class="n">j</span><span class="o">&lt;</span><span class="n">k</span><span class="o">){</span>
+            <span class="n">res</span><span class="o">[</span><span class="n">j</span><span class="o">]</span> <span class="o">=</span> <span class="n">nums</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
+        <span class="o">}</span>
+        <span class="n">i</span><span class="o">++;</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="n">res</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+<blockquote>
+  <p>时间复杂度:O(n)<br />
+空间复杂度度:O(1)</p>
+</blockquote>
+
+<h3 id="其他语言">其他语言</h3>
+<hr />
+<blockquote>
+  <p>C++</p>
+</blockquote>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//随机选一个数</span>
+<span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+	<span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">nums</span><span class="p">;</span>
+
+<span class="nl">public:</span>
+		<span class="n">Solution</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">nums</span><span class="p">)</span> <span class="o">:</span> <span class="n">nums</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span> <span class="p">{}</span>
+
+		<span class="kt">int</span> <span class="n">pick</span><span class="p">(</span><span class="kt">int</span> <span class="n">target</span><span class="p">)</span> <span class="p">{</span>
+			<span class="kt">int</span> <span class="n">res</span><span class="p">;</span>
+			<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">nums</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+				<span class="k">if</span> <span class="p">(</span><span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="n">target</span><span class="p">)</span>
+				<span class="p">{</span>
+					<span class="o">++</span><span class="n">count</span><span class="p">;</span>
+					<span class="k">if</span> <span class="p">(</span><span class="n">rand</span><span class="p">()</span> <span class="o">%</span> <span class="n">count</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+					<span class="p">{</span>
+						<span class="n">res</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+					<span class="p">}</span>
+				<span class="p">}</span>
+			<span class="p">}</span>
+			<span class="k">return</span> <span class="n">res</span><span class="p">;</span>
+		<span class="p">}</span>
+<span class="p">};</span>
+
+<span class="c1">//随机选K个数</span>
+<span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+	<span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">selectK</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">nums</span><span class="p">,</span> <span class="kt">int</span> <span class="n">k</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">res</span><span class="p">(</span><span class="n">k</span><span class="p">);</span>
+		<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">k</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+		<span class="p">{</span>
+			<span class="n">res</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+		<span class="p">}</span>
+		
+		<span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="n">k</span><span class="p">;</span>
+		<span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">k</span><span class="p">;</span>
+		<span class="k">while</span> <span class="p">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">nums</span><span class="p">.</span><span class="n">size</span><span class="p">())</span>
+		<span class="p">{</span>
+			<span class="o">++</span><span class="n">count</span><span class="p">;</span>
+			<span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">rand</span><span class="p">()</span> <span class="o">%</span> <span class="n">count</span><span class="p">;</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">j</span> <span class="o">&lt;</span> <span class="n">k</span><span class="p">)</span>
+			<span class="p">{</span>
+				<span class="n">res</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+			<span class="p">}</span>
+		<span class="p">}</span>
+		<span class="k">return</span> <span class="n">res</span><span class="p">;</span>
+	<span class="p">}</span>
+<span class="p">};</span>
+</code></pre></div></div>
+<blockquote>
+  <p>python3</p>
+</blockquote>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">//</span><span class="n">随机选一个数</span>
+<span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">:</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]):</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">nums</span> <span class="o">=</span> <span class="n">nums</span>
+
+    <span class="k">def</span> <span class="nf">pick</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">:</span><span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="n">ans</span> <span class="o">=</span> <span class="n">cnt</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">num</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">nums</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">num</span> <span class="o">==</span> <span class="n">target</span><span class="p">:</span>
+                <span class="n">cnt</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">if</span> <span class="n">randrange</span><span class="p">(</span><span class="n">cnt</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">ans</span> <span class="o">=</span> <span class="n">i</span>
+        <span class="k">return</span> <span class="n">ans</span>
+        
+<span class="o">//</span><span class="n">随机选K个数</span>        
+<span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
+    
+    <span class="k">def</span> <span class="nf">selectK</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">:</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">k</span><span class="p">:</span><span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+            <span class="n">res</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">count</span> <span class="o">=</span> <span class="n">k</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="n">k</span>
+        <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">nums</span><span class="p">):</span>
+            <span class="o">++</span><span class="n">count</span>
+            <span class="n">j</span> <span class="o">=</span> <span class="n">randrange</span><span class="p">(</span><span class="n">count</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">k</span><span class="p">:</span>
+                <span class="n">res</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">res</span>
+</code></pre></div></div>
+<blockquote>
+  <p>go</p>
+</blockquote>
+
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">//随机选一个数</span>
+<span class="k">type</span> <span class="n">Solution</span> <span class="p">[]</span><span class="kt">int</span>
+
+<span class="k">func</span> <span class="n">Constructor1</span><span class="p">(</span><span class="n">nums</span> <span class="p">[]</span><span class="kt">int</span><span class="p">)</span> <span class="n">Solution</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="n">nums</span>
+<span class="p">}</span>
+
+<span class="k">func</span> <span class="p">(</span><span class="n">nums</span> <span class="n">Solution</span><span class="p">)</span> <span class="n">Pick</span><span class="p">(</span><span class="n">target</span> <span class="kt">int</span><span class="p">)</span> <span class="p">(</span><span class="n">res</span> <span class="kt">int</span><span class="p">)</span> <span class="p">{</span>
+	<span class="n">count</span><span class="o">:=</span><span class="m">0</span>
+	<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">num</span> <span class="o">:=</span> <span class="k">range</span> <span class="n">nums</span><span class="p">{</span>
+		<span class="k">if</span> <span class="n">num</span> <span class="o">==</span> <span class="n">target</span> <span class="p">{</span>
+			<span class="n">count</span><span class="o">++</span>
+			<span class="k">if</span> <span class="n">rand</span><span class="o">.</span><span class="n">Intn</span><span class="p">(</span><span class="n">count</span><span class="p">)</span> <span class="o">==</span> <span class="m">0</span> <span class="p">{</span>
+				<span class="n">res</span> <span class="o">=</span> <span class="n">i</span>
+			<span class="p">}</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+	<span class="k">return</span>
+<span class="p">}</span>
+
+<span class="c">//随机选K个数</span>
+<span class="k">func</span> <span class="n">SelectK</span><span class="p">(</span><span class="n">nums</span> <span class="p">[]</span><span class="kt">int</span><span class="p">,</span> <span class="n">k</span> <span class="kt">int</span><span class="p">)</span> <span class="p">(</span><span class="n">res</span> <span class="p">[]</span><span class="kt">int</span><span class="p">)</span> <span class="p">{</span>
+	<span class="k">for</span> <span class="n">i</span><span class="o">:=</span><span class="m">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">k</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">{</span>
+		<span class="n">res</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+	<span class="p">}</span>
+	<span class="n">count</span><span class="o">:=</span><span class="n">k</span>
+	<span class="n">i</span><span class="o">:=</span><span class="n">k</span>
+	<span class="k">for</span> <span class="n">i</span><span class="o">&lt;</span><span class="nb">len</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">count</span><span class="o">++</span>
+		<span class="n">j</span> <span class="o">:=</span> <span class="n">rand</span><span class="o">.</span><span class="n">Intn</span><span class="p">(</span><span class="n">count</span><span class="p">)</span>
+		<span class="k">if</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">k</span><span class="p">{</span>
+			<span class="n">res</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="n">res</span>
+<span class="p">}</span>
+</code></pre></div></div>
+</p>
+
+                            <div align="center">
+                            <ul class="list-inline item-details">
+                                
+                                    <li>Client:
+                                        <strong><a href="http://startbootstrap.com">algorithm</a>
+                                        </strong>
+                                    </li>
+                                
+                                
+                                    <li>Date:
+                                        <strong><a href="http://startbootstrap.com">June 2022</a>
+                                        </strong>
+                                    </li>
+                                
+                                
+                                    <li>Service:
+                                        <strong><a href="http://startbootstrap.com">algorithm</a>
+                                        </strong>
+                                    </li>
+                                
+                            </ul>
+                            </div>
+                            <div align="center">
+                                <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="portfolio-modal modal fade" id="portfolioModal-10000018" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-content">
             <div class="close-modal" data-dismiss="modal">
