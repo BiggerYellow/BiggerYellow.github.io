@@ -51,10 +51,10 @@ description: 莫里斯遍历
 - - -
 1.[恢复二叉搜索树](https://leetcode.cn/problems/recover-binary-search-tree/)
 <center>
-    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/mirrorsTraversing/恢复二叉搜索树.jpg">
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/mirrorsTraversing/恢复二叉搜索树.png">
     <img style="border-radius: 0.3125em;
     box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="恢复二叉搜索树"
-    src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/mirrorsTraversing/恢复二叉搜索树.jpg">
+    src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/mirrorsTraversing/恢复二叉搜索树.png">
     <div style="color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
     color: #999;
@@ -109,10 +109,10 @@ public static void morris(TreeNode root){
 ### 延伸-后序遍历
 - - -
 <center>
-    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/mirrorsTraversing/莫里斯后序遍历.jpg">
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/mirrorsTraversing/莫里斯后序遍历.png">
     <img style="border-radius: 0.3125em;
     box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="莫里斯后序遍历"
-    src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/mirrorsTraversing/莫里斯后序遍历.jpg">
+    src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/mirrorsTraversing/莫里斯后序遍历.png">
     <div style="color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
     color: #999;
