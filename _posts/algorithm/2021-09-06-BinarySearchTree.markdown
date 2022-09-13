@@ -9,7 +9,7 @@ project-date: September 2021
 client: Tree
 category: algorithm
 subtitle: BinarySearchTree
-description: 二查叉找树
+description: 二叉查找树
 ---
 ### 定义
 - - -

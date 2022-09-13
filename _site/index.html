@@ -405,7 +405,7 @@
                             <div class="caption">
                                 <div class="caption-content">
                                     <i class="fa fa-search-plus fa-3x"></i>
-                                    <p>二查叉找树</p>
+                                    <p>二叉查找树</p>
 
                                 </div>
                             </div>
@@ -1155,7 +1155,7 @@
                             <div class="caption">
                                 <div class="caption-content">
                                     <i class="fa fa-search-plus fa-3x"></i>
-                                    <p>二查叉找树</p>
+                                    <p>二叉查找树</p>
 
                                 </div>
                             </div>
@@ -1436,9 +1436,9 @@
 <hr />
 <p>1.<a href="https://leetcode.cn/problems/recover-binary-search-tree/">恢复二叉搜索树</a></p>
 <center>
-    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/mirrorsTraversing/恢复二叉搜索树.jpg">
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/mirrorsTraversing/恢复二叉搜索树.png">
     <img style="border-radius: 0.3125em;
-    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="恢复二叉搜索树" src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/mirrorsTraversing/恢复二叉搜索树.jpg" />
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="恢复二叉搜索树" src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/mirrorsTraversing/恢复二叉搜索树.png" />
     <div style="color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
     color: #999;
@@ -1496,9 +1496,9 @@
 <h3 id="延伸-后序遍历">延伸-后序遍历</h3>
 <hr />
 <center>
-    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/mirrorsTraversing/莫里斯后序遍历.jpg">
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/mirrorsTraversing/莫里斯后序遍历.png">
     <img style="border-radius: 0.3125em;
-    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="莫里斯后序遍历" src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/mirrorsTraversing/莫里斯后序遍历.jpg" />
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="莫里斯后序遍历" src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/mirrorsTraversing/莫里斯后序遍历.png" />
     <div style="color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
     color: #999;
@@ -10889,7 +10889,7 @@ SPI的全名为 Service Provider Interface, 目的是提供接口,让第三方�
                             <img src="img/portfolio/pexels-julia-volk-5273316.jpg" class="img-responsive img-centered" alt="BinarySearchTree">
 
                             
-                                <h3>二查叉找树</h3>
+                                <h3>二叉查找树</h3>
                             
                             </div>
 
@@ -11404,7 +11404,8 @@ SPI的全名为 Service Provider Interface, 目的是提供接口,让第三方�
 <ul>
   <li>先序遍历:根节点-&gt;左子节点-&gt;右子节点</li>
   <li>中序遍历:左子节点-&gt;根节点-&gt;右子节点</li>
-  <li>后序遍历:左子节点-&gt;右子节点-&gt;根节点</li>
+  <li>后序遍历:左子节点-&gt;右子节点-&gt;根节点
+深度优先遍历又可以分为递归和迭代两种方法，递归使用的是虚拟机栈，而迭代则使用的是显示声明的栈。</li>
 </ul>
 
 <p>广度优先遍历又被称为层序遍历,即按照二叉树的每一层进行遍历</p>
@@ -11434,6 +11435,17 @@ SPI的全名为 Service Provider Interface, 目的是提供接口,让第三方�
     </a>
 </center>
 
+<center>
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/binaryTree/二叉树先序遍历迭代流程.png">
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="二叉树先序遍历迭代流程" src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/binaryTree/二叉树先序遍历迭代流程.png" />
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">二叉树先序遍历迭代流程</div>
+    </a>
+</center>
+
 <h3 id="代码">代码</h3>
 <blockquote>
   <p>java</p>
@@ -11441,18 +11453,40 @@ SPI的全名为 Service Provider Interface, 目的是提供接口,让第三方�
 
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">res</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
 
+<span class="c1">//递归</span>
 <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">dfs</span><span class="o">(</span><span class="nc">TreeNode</span> <span class="n">node</span><span class="o">){</span>
     <span class="k">if</span> <span class="o">(</span><span class="n">node</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">){</span>
         <span class="c1">//1.先序遍历</span>
         <span class="n">res</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">node</span><span class="o">.</span><span class="na">val</span><span class="o">);</span>
+        <span class="c1">//一直遍历左节点  直到左节点为空</span>
         <span class="n">dfs</span><span class="o">(</span><span class="n">node</span><span class="o">.</span><span class="na">left</span><span class="o">);</span>
         <span class="c1">//2.中序遍历</span>
         <span class="n">res</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">node</span><span class="o">.</span><span class="na">val</span><span class="o">);</span>
+        <span class="c1">//当某一节点的左节点遍历结束后开始遍历右节点,重复上述遍历过程</span>
         <span class="n">dfs</span><span class="o">(</span><span class="n">node</span><span class="o">.</span><span class="na">right</span><span class="o">);</span>
         <span class="c1">//3.后序遍历</span>
         <span class="n">res</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">node</span><span class="o">.</span><span class="na">val</span><span class="o">);</span>
     <span class="o">}</span>
 <span class="o">}</span>
+
+<span class="c1">//迭代</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="nf">order</span><span class="o">(</span><span class="nc">TreeNode</span> <span class="n">root</span><span class="o">){</span>
+        <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">res</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
+        <span class="nc">Stack</span><span class="o">&lt;</span><span class="nc">TreeNode</span><span class="o">&gt;</span> <span class="n">stack</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Stack</span><span class="o">&lt;&gt;();</span>
+        <span class="k">while</span> <span class="o">(</span><span class="n">root</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">||</span> <span class="o">!</span><span class="n">stack</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">()){</span>
+            <span class="k">while</span><span class="o">(</span><span class="n">root</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">){</span>
+                <span class="c1">//先序遍历</span>
+                <span class="n">res</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">root</span><span class="o">.</span><span class="na">val</span><span class="o">);</span>
+                <span class="n">stack</span><span class="o">.</span><span class="na">push</span><span class="o">(</span><span class="n">root</span><span class="o">);</span>
+                <span class="n">root</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="na">left</span><span class="o">;</span>
+            <span class="o">}</span>
+            <span class="n">root</span> <span class="o">=</span> <span class="n">stack</span><span class="o">.</span><span class="na">pop</span><span class="o">();</span>
+            <span class="c1">//中序遍历</span>
+<span class="c1">//            res.add(root.val);</span>
+            <span class="n">root</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="na">right</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">res</span><span class="o">;</span>
+    <span class="o">}</span>
 
 <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">bfs</span><span class="o">(</span><span class="nc">TreeNode</span> <span class="n">node</span><span class="o">){</span>
     <span class="nc">Queue</span><span class="o">&lt;</span><span class="nc">TreeNode</span><span class="o">&gt;</span> <span class="n">queue</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">LinkedList</span><span class="o">&lt;&gt;();</span>

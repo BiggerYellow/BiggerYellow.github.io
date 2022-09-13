@@ -4,7 +4,7 @@
   <generator uri="https://jekyllrb.com/" version="4.2.1">Jekyll</generator>
   <link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" />
   <link href="http://localhost:4000/" rel="alternate" type="text/html" />
-  <updated>2022-08-31T09:46:54+08:00</updated>
+  <updated>2022-09-13T01:29:17+08:00</updated>
   <id>http://localhost:4000/</id>
 
   
@@ -66,9 +66,9 @@
 &lt;hr /&gt;
 &lt;p&gt;1.&lt;a href=&quot;https://leetcode.cn/problems/recover-binary-search-tree/&quot;&gt;恢复二叉搜索树&lt;/a&gt;&lt;/p&gt;
 &lt;center&gt;
-    &lt;a href=&quot;https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/mirrorsTraversing/恢复二叉搜索树.jpg&quot;&gt;
+    &lt;a href=&quot;https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/mirrorsTraversing/恢复二叉搜索树.png&quot;&gt;
     &lt;img style=&quot;border-radius: 0.3125em;
-    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);&quot; class=&quot;img-responsive img-centered&quot; alt=&quot;恢复二叉搜索树&quot; src=&quot;https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/mirrorsTraversing/恢复二叉搜索树.jpg&quot; /&gt;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);&quot; class=&quot;img-responsive img-centered&quot; alt=&quot;恢复二叉搜索树&quot; src=&quot;https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/mirrorsTraversing/恢复二叉搜索树.png&quot; /&gt;
     &lt;div style=&quot;color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
     color: #999;
@@ -126,9 +126,9 @@
 &lt;h3 id=&quot;延伸-后序遍历&quot;&gt;延伸-后序遍历&lt;/h3&gt;
 &lt;hr /&gt;
 &lt;center&gt;
-    &lt;a href=&quot;https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/mirrorsTraversing/莫里斯后序遍历.jpg&quot;&gt;
+    &lt;a href=&quot;https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/mirrorsTraversing/莫里斯后序遍历.png&quot;&gt;
     &lt;img style=&quot;border-radius: 0.3125em;
-    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);&quot; class=&quot;img-responsive img-centered&quot; alt=&quot;莫里斯后序遍历&quot; src=&quot;https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/mirrorsTraversing/莫里斯后序遍历.jpg&quot; /&gt;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);&quot; class=&quot;img-responsive img-centered&quot; alt=&quot;莫里斯后序遍历&quot; src=&quot;https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/mirrorsTraversing/莫里斯后序遍历.png&quot; /&gt;
     &lt;div style=&quot;color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
     color: #999;

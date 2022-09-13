@@ -80,6 +80,7 @@ public class TreeNode {
 - 先序遍历:根节点->左子节点->右子节点
 - 中序遍历:左子节点->根节点->右子节点 
 - 后序遍历:左子节点->右子节点->根节点
+深度优先遍历又可以分为递归和迭代两种方法，递归使用的是虚拟机栈，而迭代则使用的是显示声明的栈。  
 
 广度优先遍历又被称为层序遍历,即按照二叉树的每一层进行遍历
 
@@ -111,23 +112,111 @@ __特殊性质__ :二叉搜索树采用中序遍历,其实就是一个有序数�
 </center>
 
 
+<center>
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/binaryTree/二叉树先序遍历迭代流程.png">
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="二叉树先序遍历迭代流程"
+    src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/binaryTree/二叉树先序遍历迭代流程.png">
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">二叉树先序遍历迭代流程</div>
+    </a>
+</center>
+
+
+<center>
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/binaryTree/二叉树后序遍历迭代流程.png">
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="二叉树后序遍历迭代流程"
+    src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/binaryTree/二叉树后序遍历迭代流程.png">
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">二叉树后序遍历迭代流程</div>
+    </a>
+</center>
+
+
 ### 代码
 >java
 
 ``` java
 public static List<Integer> res = new ArrayList<>();
 
+//递归
 public static void dfs(TreeNode node){
     if (node != null){
         //1.先序遍历
         res.add(node.val);
+        //一直遍历左节点  直到左节点为空
         dfs(node.left);
         //2.中序遍历
         res.add(node.val);
+        //当某一节点的左节点遍历结束后开始遍历右节点,重复上述遍历过程
         dfs(node.right);
         //3.后序遍历
         res.add(node.val);
     }
+}
+
+/**
+ * 先序、中序遍历  迭代的方式 使用栈
+ * @param root
+ * @return
+ */
+public static List<Integer> preOrder(TreeNode root){
+    List<Integer> res = new ArrayList<>();
+    Stack<TreeNode> stack = new Stack<>();
+    while (root != null || !stack.isEmpty()){
+        //当前节点一直向左遍历,直到没有左节点
+        while(root != null){
+            //先序遍历
+            res.add(root.val);
+            stack.push(root);
+            root = root.left;
+        }
+        //弹出最近的左节点
+        root = stack.pop();
+        //中序遍历
+//      res.add(root.val);
+        //即左节点遍历完开始遍历右节点
+        root = root.right;
+    }
+    return res;
+}
+
+/**
+ * 后序遍历 迭代方式
+ * @param root
+ * @return
+ */
+public static List<Integer> postOrder(TreeNode root){
+    List<Integer> res = new ArrayList<>();
+    Stack<TreeNode> stack = new Stack<>();
+    //用于记录上一次遍历的节点,保证右节点遍历完后可以回到根节点
+    TreeNode pre = null;
+    while(!stack.isEmpty() || root != null){
+        //一直向左遍历直到没有节点
+        while(root != null){
+            stack.push(root);
+            root = root.left;
+        }
+        //弹出最近遍历的节点
+        root = stack.pop();
+        //若当前节点的右节点为null(说明此节点是子节点无须继续遍历) 或 当前的节点的右节点指向pre节点(说明刚遍历完右子节点回到了根节点)
+        if(root.right == null || root.right == pre){
+            //将值加入集合中,并将当前节点赋值给pre节点说明已经遍历过了,并置为null，方便后续继续弹出他的根节点遍历
+            res.add(root.val);
+            pre = root;
+            root = null;
+        }else{
+            //若不满足上面两种情况说明右节点还没到头，压栈继续遍历右节点
+            stack.push(root);
+            root = root.right;
+        }
+    }
+    return res;
 }
 
 public static void bfs(TreeNode node){
