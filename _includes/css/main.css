@@ -377,6 +377,126 @@ transition: all ease .5s;
 }
 /* spring 分类页样式 end */
 
+/* mysql 分类页样式 start */
+#mysql .portfolio-item {
+    right: 0;
+    margin: 0 0 15px;
+}
+
+#mysql .portfolio-item .portfolio-link {
+    display: block;
+    position: relative;
+    margin: 0 auto;
+    max-width: 400px;
+}
+
+#mysql .portfolio-item .portfolio-link .caption {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+background: rgba({{ site.color.primary-rgb }},.9);
+-webkit-transition: all ease .5s;
+-moz-transition: all ease .5s;
+transition: all ease .5s;
+}
+
+#mysql .portfolio-item .portfolio-link .caption:hover {
+    opacity: 1;
+}
+
+#mysql .portfolio-item .portfolio-link .caption .caption-content {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    height: 20px;
+    margin-top: -12px;
+    text-align: center;
+    font-size: 20px;
+    color: #fff;
+}
+
+#mysql .portfolio-item .portfolio-link .caption .caption-content i {
+    margin-top: -12px;
+}
+
+#mysql .portfolio-item .portfolio-link .caption .caption-content h3,
+#mysql .portfolio-item .portfolio-link .caption .caption-content h4 {
+    margin: 0;
+}
+
+#mysql * {
+    z-index: 2;
+}
+
+@media(min-width:767px) {
+    #mysql .portfolio-item {
+        margin: 0 0 30px;
+    }
+}
+/* mysql 分类页样式 end */
+
+
+
+/* ddd 分类页样式 start */
+#ddd .portfolio-item {
+    right: 0;
+    margin: 0 0 15px;
+}
+
+#ddd .portfolio-item .portfolio-link {
+    display: block;
+    position: relative;
+    margin: 0 auto;
+    max-width: 400px;
+}
+
+#ddd .portfolio-item .portfolio-link .caption {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    background: rgba({{ site.color.primary-rgb }},.9);
+    -webkit-transition: all ease .5s;
+    -moz-transition: all ease .5s;
+    transition: all ease .5s;
+}
+
+#ddd .portfolio-item .portfolio-link .caption:hover {
+    opacity: 1;
+}
+
+#ddd .portfolio-item .portfolio-link .caption .caption-content {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    height: 20px;
+    margin-top: -12px;
+    text-align: center;
+    font-size: 20px;
+    color: #fff;
+}
+
+#ddd .portfolio-item .portfolio-link .caption .caption-content i {
+    margin-top: -12px;
+}
+
+#ddd .portfolio-item .portfolio-link .caption .caption-content h3,
+#ddd .portfolio-item .portfolio-link .caption .caption-content h4 {
+    margin: 0;
+}
+
+#ddd * {
+    z-index: 2;
+}
+
+@media(min-width:767px) {
+    #ddd .portfolio-item {
+        margin: 0 0 30px;
+    }
+}
+/* ddd 分类页样式 end */
+
 /* springboot 分类页样式 start */
 #springboot .portfolio-item {
     right: 0;

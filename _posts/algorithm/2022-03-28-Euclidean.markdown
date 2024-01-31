@@ -36,7 +36,7 @@ description: 欧几里得算法
 5. 5/2 = 2 (余1)
 6. 2/1 = 2 (余0)
 
-至此,最大公约数为1.  
+至此余数为0,取最后一个被除数b即为1,所以最大公约数为1.  
 以除数和余数反复做除法运算,当余数为0时,取当前算式除数为最大公约数,所以1997和615的最大公约数为1.
 - - -
 
@@ -45,4 +45,11 @@ description: 欧几里得算法
 
 ``` java
  gcd(a, b) = gcd(b,a mod b)
+ 
+public static int gcd(int a, int b){
+    if(b == 0){
+        return a;
+    }
+    return gcd(b, a % b);
+}
 ```
