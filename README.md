@@ -43,6 +43,9 @@ https://www.pexels.com/zh-cn/
 https://latex.codecogs.com/
 https://demo.wiris.com/mathtype/en/developers.php#mathml-latex
 
+#### markdown语法
+https://markdown.com.cn/basic-syntax/lists.html
+
 ### 创建分类
 1. 在_includes中新建一个分类.html, 以spring.html为例
 2. 在_post中新建一个spring文件夹用来存放spring相关的markdown文章,同时新建的文章需要加上spring标记 spring: true, 同时modal-id属性必须不一样

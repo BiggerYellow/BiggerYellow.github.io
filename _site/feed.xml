@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <feed xmlns="http://www.w3.org/2005/Atom" >
-  <generator uri="https://jekyllrb.com/" version="4.2.1">Jekyll</generator>
+  <generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator>
   <link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" />
   <link href="http://localhost:4000/" rel="alternate" type="text/html" />
-  <updated>2024-01-25T10:11:04+08:00</updated>
+  <updated>2024-07-09T10:16:52+08:00</updated>
   <id>http://localhost:4000/</id>
 
   
@@ -18,6 +18,293 @@
   
 
   
+  
+    <entry>
+      <title type="html">Redisobject</title>
+      <link href="http://localhost:4000/" rel="alternate" type="text/html" title="Redisobject" />
+      <published>2024-06-24T00:00:00+08:00</published>
+      <updated>2024-06-24T00:00:00+08:00</updated>
+      <id>http://localhost:4000/redisObject</id>
+      <content type="html" xml:base="http://localhost:4000/">&lt;center&gt;
+    &lt;a href=&quot;https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/redis/redisObject.jpg&quot;&gt;
+    &lt;img style=&quot;border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);&quot; class=&quot;img-responsive img-centered&quot; alt=&quot;redisObject&quot; src=&quot;https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/redis/redisObject.jpg&quot; /&gt;
+    &lt;div style=&quot;color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;&quot;&gt;redisObject概览&lt;/div&gt;
+    &lt;/a&gt;
+&lt;/center&gt;
+
+&lt;p&gt;    上图展示了redisObject，Redis所有数据类型、Redis所欲编码方式以及底层数据结构之间的关系。&lt;br /&gt;
+    它反映了redis的每种对象其实都由 &lt;strong&gt;对象结构（redisObject）&lt;/strong&gt; 与 &lt;strong&gt;对应编码的数据结构&lt;/strong&gt; 组合而成，而每种对象类型对应若干编码方式，不同的编码方式所对应的底层数据结构是不同的。&lt;br /&gt;
+所以，我们需要从几个角度来研究：&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;对象设计机制：对象结构（redisObject）&lt;/li&gt;
+  &lt;li&gt;编码类型和底层数据结构：对应编码的数据结构&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;为什么设计redisobject对象&quot;&gt;为什么设计redisObject对象&lt;/h3&gt;
+
+&lt;p&gt;    在redis的命令中，用于对键进行处理的命令占了很大一部分，而对于键所保存的值的类型（键的类型），键能执行的命令又各不相同。
+如：LPUSH和LLEN只能用于列表键，而SADD和SRANDMEMBER只能用于集合键等；另外一些命令，比如DEL、TTL和TYPE，可以用于任何类型的键；但是要正确实现这些命令，
+必须为不同类型的键设置不同的处理方式，比如说，删除一个列表键和删除一个字符串键的操作过程就不太一样。&lt;br /&gt;
+    故：&lt;strong&gt;Redis必须让每个键都带有类型信息，使得程序可以检查键的类型，并为它选择合适的处理方式。&lt;/strong&gt;&lt;br /&gt;
+    比如说，集合类型就可以由字典和整数集合两种不同的数据结构实现，但是当用户执行ZADD命令时，它不关心集合使用的是什么编码，只要Redis能按照ZADD命令的指示，将新元素添加到集合就可以了。&lt;br /&gt;
+    这说明，&lt;strong&gt;操作数据类型的命令除了要对键的类型进行检查之外，还需要根据数据类型的不同编码进行多态处理。&lt;/strong&gt;&lt;br /&gt;
+    为了解决以上问题，Redis构建了自己的类型系统，这个系统的主要功能包括：&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;redisObject对象&lt;/li&gt;
+  &lt;li&gt;基于redisObject对象的类型检查&lt;/li&gt;
+  &lt;li&gt;基于redisObject对象的显示多态函数&lt;/li&gt;
+  &lt;li&gt;对redisObject进行分配、共享和销毁的机制&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;redisobject数据结构&quot;&gt;redisObject数据结构&lt;/h3&gt;
+&lt;p&gt;    redisObject是Redis类型系统的核心，数据库中的每个键、值以及Redis本身处理的参数，都表示为这种数据类型。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-C&quot;&gt;typedef struct redisObject {
+    unsigned type:4;            //redisObject的类型
+    unsigned encoding:4;        //同一种类型的不同编码方式
+    unsigned lru:LRU_BITS; /* LRU time (relative to global lru_clock) or
+                            * LFU data (least significant 8 bits frequency
+                            * and most significant 16 bits access time). */
+                            //记录RedisObject的访问时间信息
+                            //LRU时间（相对于全局 lru_clock）
+                            //LFU数据(最低有效的8位频率和最高有效的16位访问时间)
+    int refcount;           //引用计数
+    void *ptr;              //指向底层实现数据结构的指针
+} robj;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;结构图待补充&lt;br /&gt;
+其中type、encoding和ptr是最重要的三个属性。&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;type记录了对象所保存的值的类型，它的值可能是以下常量中的一个：&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-C&quot;&gt;/* A redis object, that is a type able to hold a string / list / set */
+
+/* The actual Redis Object */
+//真正的redis对象
+#define OBJ_STRING 0    /* String object. */
+#define OBJ_LIST 1      /* List object. */
+#define OBJ_SET 2       /* Set object. */
+#define OBJ_ZSET 3      /* Sorted set object. */
+#define OBJ_HASH 4      /* Hash object. */
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+  &lt;li&gt;encoding记录了对象所保存的值的编码，它的值可能是以下常量中的一个：&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-C&quot;&gt;/* Objects encoding. Some kind of objects like Strings and Hashes can be
+ * internally represented in multiple ways. The &apos;encoding&apos; field of the object
+ * is set to one of this fields for this object.
+    对象编码。像字符串和哈希这种对象内部可以有多种方式标识。 encoding字段被设置为该对象的其中一个字段
+ */
+#define OBJ_ENCODING_RAW 0     /* Raw representation */
+#define OBJ_ENCODING_INT 1     /* Encoded as integer */
+#define OBJ_ENCODING_HT 2      /* Encoded as hash table */
+#define OBJ_ENCODING_ZIPMAP 3  /* Encoded as zipmap */
+#define OBJ_ENCODING_LINKEDLIST 4 /* No longer used: old list encoding. */
+#define OBJ_ENCODING_ZIPLIST 5 /* Encoded as ziplist */
+#define OBJ_ENCODING_INTSET 6  /* Encoded as intset */
+#define OBJ_ENCODING_SKIPLIST 7  /* Encoded as skiplist */
+#define OBJ_ENCODING_EMBSTR 8  /* Embedded sds string encoding */
+#define OBJ_ENCODING_QUICKLIST 9 /* Encoded as linked list of ziplists */
+#define OBJ_ENCODING_STREAM 10 /* Encoded as a radix tree of listpacks */
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;ptr是一个指针，指向实际保存值的数据结构，这个数据结构由type和encoding属性决定。&lt;br /&gt;
+举个例子，如果一个redisObject的type属性为 OJB_LIST ，encoding属性为 OBJ_ENCODING_QUICKLIST，那么这个对象就是一个Redis列表（List），它的值保存在一个QuickList的数据结构内，而ptr指针就指向quickList的对象；&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;lru属性：记录了对象最后一次被命令程序访问的时间&lt;br /&gt;
+    空转时长：当前时间减去键的值对象lru时间，就是该键的空转时长。Redis idletime命令可以打印出给定键的空转时长。&lt;br /&gt;
+    如果服务器打开了maxmemory选项，并且服务器用于回收内存的算法为volatile-lru或者allkeys-lru，那么当服务器占用的内存数超过了maxmemory选项所设置的上限值时，空转时长较高的那部分键会优先被服务器释放，从而回收内存。&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;命令的类型检查和多态&quot;&gt;命令的类型检查和多态&lt;/h3&gt;
+
+&lt;p&gt;当执行一个处理数据类型命令的时候，redis执行以下步骤：&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;根据给定的key，在数据库字典中查找和他相对应的redisObject，如果没找到，就返回NULL；&lt;/li&gt;
+  &lt;li&gt;检查redisObject的type属性和执行命令所需的类型是否相符，如果不相符，返回类型错误；&lt;/li&gt;
+  &lt;li&gt;根据redisObject的encoding属性所指定的编码，选择合适的操作函数来处理底层的数据结构；&lt;/li&gt;
+  &lt;li&gt;返回数据结构的操作结果作为命令的返回值；&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;对象共享&quot;&gt;对象共享&lt;/h3&gt;
+
+&lt;p&gt;    redis一般会把一些常见的值放在一个共享对象中，这样可使程序避免了重复分配的麻烦，也节约了一些CPU时间。&lt;br /&gt;
+redis预分配的值对象如下：&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;各种命令的返回值，比如成功时返回的OK，错误时返回的ERROR，命令入队事务时返回的QUEUE等等&lt;/li&gt;
+  &lt;li&gt;包括0在内，小于REDIS_SHARED_INTEGERS的所有整数&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;注意：共享对象只能被字典和双向链表这类能带有指针的数据结构使用。像整数集合和压缩列表这些只能保存字符串、整数等的内存数据结构。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;    为什么redis不共享列表对象、哈希对象、集合对象、有序集合对象，只共享字符串对象？&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;列表对象、哈希对象、集合对象、有序集合对象，本身可以包含字符串对象，复杂度较高&lt;/li&gt;
+  &lt;li&gt;如果共享对象是保存字符串对象，那么验证操作的复杂度为O(1)&lt;/li&gt;
+  &lt;li&gt;如果共享对象是保存字符串值的字符串对象，那么验证操作的复杂度是O(N)&lt;/li&gt;
+  &lt;li&gt;如果共享对象是包含多个值的对象，其中值本身又是字符串对象，即其他对象中嵌套了字符串对象，比如列表对象、哈希对象，那么验证操作的复杂度将会是O(N^2)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;引用计数以及对象的销毁&quot;&gt;引用计数以及对象的销毁&lt;/h3&gt;
+
+&lt;p&gt;    redisObject中有refcount属性，是对象的引用计数，显然计数0那么就是可以回收。&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;每个redisObject结构都带有一个refcount属性，指示这个对象被引用了多少次；&lt;/li&gt;
+  &lt;li&gt;当新创建一个对象时，它的refcount属性被设置为1；&lt;/li&gt;
+  &lt;li&gt;当对一个对象进行共享时，redis将这个对象的rfcount加一；&lt;/li&gt;
+  &lt;li&gt;当使用完一个对象后，或者消除对一个对象的引用之后，程序将对象的rfcount减一；&lt;/li&gt;
+  &lt;li&gt;当对象的rfcount降至0时，这个RedisObject结构，以及它引用的数据结构的内存都会被释放；&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;https://pdai.tech/md/db/nosql-redis/db-redis-x-redis-object.html
+https://axlgrep.github.io/tech/redis-object.html&lt;/p&gt;
+&lt;/blockquote&gt;</content>
+
+      
+      
+      
+      
+      
+
+      <author>
+          <name></name>
+        
+        
+      </author>
+
+      
+        <category term="redis" />
+      
+
+      
+
+      
+        <summary type="html">redisObject概览</summary>
+      
+
+      
+      
+    </entry>
+  
+    <entry>
+      <title type="html">Redis Guide</title>
+      <link href="http://localhost:4000/" rel="alternate" type="text/html" title="Redis Guide" />
+      <published>2024-06-11T00:00:00+08:00</published>
+      <updated>2024-06-11T00:00:00+08:00</updated>
+      <id>http://localhost:4000/redis-guide</id>
+      <content type="html" xml:base="http://localhost:4000/">&lt;h1 id=&quot;redis-为什么这么快&quot;&gt;Redis 为什么这么快&lt;/h1&gt;
+
+&lt;center&gt;
+    &lt;a href=&quot;https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/redis/whyRedisFast.png&quot;&gt;
+    &lt;img style=&quot;border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);&quot; class=&quot;img-responsive img-centered&quot; alt=&quot;Why is Redis so fast&quot; src=&quot;https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/redis/whyRedisFast.png&quot; /&gt;
+    &lt;div style=&quot;color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;&quot;&gt;Why is Redis so fast&lt;/div&gt;
+    &lt;/a&gt;
+&lt;/center&gt;
+
+&lt;h2 id=&quot;完全基于内存&quot;&gt;完全基于内存&lt;/h2&gt;
+
+&lt;p&gt;    redis作为一种内存导向型数据库系统，其关键特性在于将所有的数据实体，包括键值对及其相关的复杂数据结构，完全寄宿于内存之中。相较于依赖磁盘存储的传统数据库系统，redis巧妙地运用内存的高速读写特性，显著提升了系统的响应速度与整体性能表现。&lt;br /&gt;
+    内存相对于磁盘具备无可比拟的读写速度优势，使得redis能够即时、高效地处理数据存取。在读取操作层面，redis无需经过耗时的磁盘I/O过程。只需要在内存空间内迅速定位所需数据，从而显著降低了访问延迟；而在写入操作时，redis同样直接作用于内存区域，新数据能立刻生效，仅在执行持久化策略时，例如RDB快照或AOF日志记录，数据才会被异步地或按需地同步到磁盘，以确保在系统重启后数据还能恢复，但此过程并不会妨碍redis在常规操作中维持其卓越的性能表现。&lt;br /&gt;
+    服务器的内存是有限的，redis究竟是如何在有限内存空间中进行精细且高效的内存管理呢？&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;过期键删除&lt;/strong&gt;&lt;br /&gt;
+    Redis支持为键设置过期时间（TTL），并且在键过期后会通过两种方式自动删除它们:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;惰性删除（Lazy Expire）：
+  在访问某个键时，Redis会检查该键是否已经过期，如果已经过期，则在访问时将其删除。这意味胡总只有当客户端尝试访问过期键时，Redis才会执行删除操作。这种方式的优势在于避免了不必要的操作，只有在需要时才进行删除，但缺点是可能会导致过期键在一段时间内仍然占用内存。&lt;/li&gt;
+  &lt;li&gt;定期删除（Active Expire）： 
+  Redis周期性地（默认每秒10次）随机抽取一部分键，并检查它们的过期时间。如果发现某个键已经过期，则立即删除。这种方式可以保证过期键在一定时间内被及时删除，避免了过期键长时间占用内存。但定期删除会带来额外的CPU消耗，因为需要再每次抽取时检查键的过期时间。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;    这两种方式结合起来，可以有效地管理和清理过期键，保证Redis的内存使用在合理范围内。同时，我们在日常开发中可以根据具体业务场景和需求调整过期策略的配置，以达到最佳的性能和内存利用率。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;内存淘汰策略&lt;/strong&gt;&lt;br /&gt;
+    内存淘汰策略是Redis用于释放内存空间的一种机制，当内存空间不足时（达到或超过了配置的maxmemory），Redis会根据预先设置的淘汰策略来选择要删除的键，从而释放内存空间。通过合理选择和配置内存淘汰策略，可以有效地管理内存使用，防止内存溢出，并保证系统的稳定性和性能。&lt;br /&gt;
+    常见的内存淘汰策略：&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;LRU（最近最少使用）&lt;br /&gt;
+   LRU策略会删除最近最少被访问的键。Redis会记录每个键最好一次被访问的时间戳，并定期检查这些时间戳，选择最久未被访问的键进行删除。LRU策略适用于缓存场景，通常最久未被访问的键可能是最不常用的，因此删除这些键可以释放更多的内存空间。&lt;/li&gt;
+  &lt;li&gt;LFU（最不经常使用）&lt;br /&gt;
+   LFU策略会删除最不经常被访问的键。Redis会记录每个键被访问的频率，并定期检查这些频率，选择访问频率最低的键进行删除。LFU策略适用于对访问频率较低的键进行淘汰，从而释放内存空间。&lt;/li&gt;
+  &lt;li&gt;TTL（键的过期时间）&lt;br /&gt;
+   TTL策略会删除已经过期的键。Redis会定期检查键的过期时间，并删除已经过期的键。通过设置键的过期时间，可以自动清理不再需要的数据，释放内存空间。&lt;/li&gt;
+  &lt;li&gt;随机删除&lt;br /&gt;
+   随机删除策略会随机选择一些键进行删除。虽然这种策略不考虑键的使用频率或过期时间，但在某些情况下可能会是一种简单且有效地淘汰方式，尤其在内存空间不足时。&lt;/li&gt;
+  &lt;li&gt;淘汰固定数量的键&lt;br /&gt;
+   淘汰固定数量的键策略会选择要删除的键数量，然后安装一定的规则（如LRU或LFU）来选择要删除的键。这种策略可以保证每次淘汰都释放固定数量的内存空间。&lt;br /&gt;
+   当Redis的内存使用达到配置的 &lt;strong&gt;maxmemory&lt;/strong&gt; 限制时，就会触发内存淘汰策略，以释放内存空间。合理选择内存淘汰策略，并根据系统的需求设置 &lt;strong&gt;maxmemory&lt;/strong&gt; 参数，可以有效地管理内存使用，保证系统的稳定性和性能。通过合理配置内存限制和内存淘汰策略，可以有效地管理Redis的内存使用，保证系统在内存空间不足时能够及时释放内存，避免因内存溢出而导致系统功能下降或者崩溃。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;修改内存 &lt;strong&gt;maxmemory&lt;/strong&gt; 只需要在 &lt;strong&gt;redis.config&lt;/strong&gt; 配置文件中配置 &lt;strong&gt;maxmemory-policy&lt;/strong&gt; 参数即可。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;strong&gt;内存碎片管理&lt;/strong&gt;&lt;br /&gt;
+    内存碎片管理是指对Redis中的内存空间进行重新排列和整理，以减少内存碎片的数量和大小。内存碎片是指已分配但不再使用的内存块，这些内存块虽然被标记为已分配，但实际上并未被有效利用，造成了内存的浪费。&lt;br /&gt;
+    在Redis中，由于数据的增删改查操作不断进行，会导致内存空间中出现大量的内存碎片。这些内存碎片虽然单个很小，但如果积累起来会导致内存碎片化，降低内存利用率，影响系统的性能和稳定性。&lt;br /&gt;
+    为了解决内存碎片化的问题，Redis会定期进行内存碎片整理操作。内存碎片整理过程包括以下几个步骤：&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;遍历内存空间：Redis会遍历整个内存空间，检查每个内存块的状态，包含已分配和未分配的内存块。&lt;/li&gt;
+  &lt;li&gt;合并相邻的空闲内存块：Redis会尝试合并相邻的空间内存块，将它们合并成一个更大的内存块。这样可以减少内存碎片的数量，提高内存利用率。&lt;/li&gt;
+  &lt;li&gt;移动数据：如果有必要，Redis可能会将数据从一个内存块移动到另一个内存块，以便更好地组织内存空间。这个过程可能会比较耗时，因为需要将数据从一个位置复制到另一个位置。&lt;/li&gt;
+  &lt;li&gt;释放不再使用的内存块：最后，Redis会释放那些不再使用的内存块，以便它们可以被重新分配给新的数据。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;    通过定期进行内存碎片整理操作，Redis可以保持内存空间的连续性，减少内存碎片化的程度，提高内存利用率，从而提高系统的性能和稳定性。但是，内存碎片整理过程可能会消耗一定的系统资源，尤其在内存碎片较多的情况下。所以，通常情况下，Redis会选择在系统负载较低的时候进行碎片整理操作。&lt;/p&gt;
+
+&lt;h2 id=&quot;高效的数据结构&quot;&gt;高效的数据结构&lt;/h2&gt;
+
+&lt;p&gt;    Redis的每种对象其实都由 &lt;strong&gt;对象结构（redisObject）&lt;/strong&gt; 与 &lt;strong&gt;对应编码的数据结构&lt;/strong&gt; 组合而成，而每种对象类型对应若干编码方式，不同的编码方式所对应的底层数据结构是不同的。&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;https://markdown.com.cn/basic-syntax/blockquotes.html
+https://www.cnblogs.com/coderacademy/p/18099027
+https://redis.io/docs/latest/develop/data-types/
+https://pdai.tech/md/db/nosql-redis/db-redis-x-redis-object.html&lt;/p&gt;
+&lt;/blockquote&gt;</content>
+
+      
+      
+      
+      
+      
+
+      <author>
+          <name></name>
+        
+        
+      </author>
+
+      
+        <category term="redis" />
+      
+
+      
+
+      
+        <summary type="html">Redis 为什么这么快</summary>
+      
+
+      
+      
+    </entry>
   
     <entry>
       <title type="html">Introduce</title>
@@ -1175,362 +1462,6 @@ P(第i次遇到值为target的元素下标称为最终返回值) = P(第i次随�
 
       
         <summary type="html">定义   欧几里得算法又称辗转相除法,是指用于计算两个非负整数a、b的最大公约数.</summary>
-      
-
-      
-      
-    </entry>
-  
-    <entry>
-      <title type="html">Hashtable</title>
-      <link href="http://localhost:4000/" rel="alternate" type="text/html" title="Hashtable" />
-      <published>2021-11-26T00:00:00+08:00</published>
-      <updated>2021-11-26T00:00:00+08:00</updated>
-      <id>http://localhost:4000/HashTable</id>
-      <content type="html" xml:base="http://localhost:4000/">&lt;h3 id=&quot;定义&quot;&gt;定义&lt;/h3&gt;
-&lt;hr /&gt;
-
-&lt;p&gt;  根据关键码值(Key Value)而直接进行访问的数据结构.也就是说,它通过把关键码值映射到表中一个位置来访问记录,以加快查找的速度.这个映射函数叫做散列函数,存放记录的数组叫做散列表.&lt;br /&gt;
-  使用散列的查找算法分为两步,第一步是用散列函数将被查找的键转化为数组的一个索引;第二步就是一个处理碰撞冲突的过程,接下来将介绍两种解决碰撞的方法:拉链法和线性探测法.&lt;/p&gt;
-&lt;hr /&gt;
-
-&lt;h3 id=&quot;散列函数&quot;&gt;散列函数&lt;/h3&gt;
-&lt;hr /&gt;
-&lt;p&gt;  如果我们有一个能够保存M个键值对的数组,那么我们就需要一个能够将任意键转化为该数组范围内的索引([0,M-1]范围内的整数)的散列函数.
-我们要找的散列函数应该易于计算并且能够均匀分布所有的键,即对于任意键,0到M-1之间的每个整数都有相等的可能性与之对应.&lt;br /&gt;
-  散列函数和键的类型有关,严格地说,对于每种类型的键我们都需要一个与之对应的散列函数.&lt;br /&gt;
-  主要介绍一下几种类型:&lt;/p&gt;
-&lt;ol&gt;
-  &lt;li&gt;正整数&lt;br /&gt;
-  将整数散列最常用的方法是除留余数法.我们选择大小为素数M的数组,对于任意正整数k,计算k除以M的余数.这个函数的计算非常容易(在Java中为k%M)并能够有效地将键散布在0到M-1的范围内.
-如果M不是素数,我们可能无法利用键中包含的所有信息,这可能导致我们无法均匀的散列散列值.&lt;/li&gt;
-  &lt;li&gt;浮点数&lt;br /&gt;
-  如果键是0到1之间的实数,我们可以将它乘以M并四舍五入得到一个0至M-1之间的索引值.尽管这个方法很容易理解,但它是有缺陷的,因为这种情况下键的高位起的作用更大,最低位对散列的结果没有影响.修正这个问题的办法是将键表示为二进制数然后再使用除留余数法.&lt;/li&gt;
-  &lt;li&gt;字符串&lt;br /&gt;
-  除留余数法也可以处理较长的键,&lt;/li&gt;
-  &lt;li&gt;组合键&lt;br /&gt;
-  如果键的类型含有多个整型变量,我们可以和String类型一样将它们混合起来.
-&amp;amp;emps; 例如:假设被查找的键的类型是Date,其中含有几个整型的域:day(两个数字表示的日)、month(两个数字表示的月)和year(4个数字表示的年).我们可以这样计算它的散列值:
-    &lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;hash&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(((&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;day&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;R&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;month&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)%&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;M&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)*&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;R&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;year&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)%&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;M&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Java的约定&lt;br /&gt;
-  每种数据类型都需要相应的散列函数,于是Java令所有数据类型都继承了一个能够返回一个32比特整数的hashCode().每一种数据结构的hashCode()方法都必须和equals()方法一致.
-也就是说,如果a.equals(b)返回true,那么a.hashCode()的返回值必然和b.hashCode()的返回值相同.相反,如果两个对象的hashCode()方法的返回值不同,那么我们就知道这两个对象是不同的.
-但是如果两个对象的hashCode()方法的返回值相同,这两个对象也有可能不同,我们还需要使用equals()方法进行判断.请注意,这说明你要为自定义的数据类型定义散列函数,你需要同时重写hashCode()和equals()两个方法.&lt;/li&gt;
-  &lt;li&gt;将hashCode()的返回值转化为一个数组索引&lt;br /&gt;
-  因为我们需要的是数组的索引而不是一个32位的整数,我们在实现中会将默认的hashCode()方法和除留余数法结合起来产生一个0到M-1的整数,方法如下:
-    &lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;hash&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Key&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;){&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;hashCode&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x7fffffff&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;M&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-    &lt;p&gt;  这段代码会将符号位屏蔽(将一个32位整数变为一个31位非负整数),然后用除留余数法计算它除以M的余数.在使用这样的代码时我们一般会将数组的大小M取为素数以充分利用原散列值的所有位.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;自定义的hashCode()方法&lt;br /&gt;
-  散列表的用例希望hashCode()方法能够将键平均地散布为所有可能的32位整数.也就是说,对于任意对象x,你可以调用x.hashCode()并认为有均等的机会得到2^32个不同整数中的任意一个32位整数值.
-对于自定义的数据类型,必须试着自己实现这一点,示例如下:
-    &lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Transaction&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;
-  &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;final&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;who&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-  &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;final&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Date&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;when&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-  &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;final&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;double&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;amount&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-    
-  &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;hashCode&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(){&lt;/span&gt;
-      &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;hash&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;17&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-      &lt;span class=&quot;n&quot;&gt;hash&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;31&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;hash&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;who&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;hashCode&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-      &lt;span class=&quot;n&quot;&gt;hash&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;31&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;hash&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;when&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;hashCode&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-      &lt;span class=&quot;n&quot;&gt;hash&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;31&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;hash&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Double&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;amount&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;hashCode&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-      &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;hash&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-    &lt;p&gt;  在Java中,所有的数据类型都继承了hashCode()方法,因此还有一个更简单的做法:将对象中的每个变量的hashCode()返回值转化为32位整数并计算得到散列值,如上示例所示.
-对于原始类型的对象,可以将其转化为对于的数据类型然后再调用hashCode()方法.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;软缓存&lt;br /&gt;
-  如果散列值的计算很耗时,那么我们或许可以将每个键的散列值缓存起来,即在每个键中使用一个hash变量来保存它的hashCode()的返回值.
-第一次调用hashCode()方法时,我们需要计算对象的散列值,但之后对hashCode()方法的调用会直接返回hash变量的值.
-  总的来说,要为一个数据类型实现一个优秀的散列方法需要使用满足三个条件:
-    &lt;ul&gt;
-      &lt;li&gt;一致性:等价的键必然产生相等的散列值&lt;/li&gt;
-      &lt;li&gt;高效性:计算简便&lt;/li&gt;
-      &lt;li&gt;均匀性:均匀地散列所有的键&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;hr /&gt;
-
-&lt;h3 id=&quot;基于拉链法的散列表&quot;&gt;基于拉链法的散列表&lt;/h3&gt;
-&lt;hr /&gt;
-&lt;p&gt;  一个散列函数能够将键转化为数组索引.散列算法的第二步是碰撞处理,也就是处理两个或多个键的散列值相同的情况.一种直接的办法是将大小为M的数组中的每个元素指向一条链表,
-链表中的每个节点都存储了散列值为该元素的索引的键值对.这种方法被称为拉链法,因为发生冲突的元素都被存储在链表中.这个方法的基本思想就是选择足够大的M,使得所有链表都尽可能短以保证高效的查找.
-查找分两步:首先根据散列值找到对应的链表,然后沿着链表顺序查找相应的键.&lt;br /&gt;
-  拉链法的一种实现方法是使用原始的链表数据类型类扩展SequentialSearchST.另一种更简单的方法是采用一般性的策略,为M个元素分别构建符号表来保存散列到这里的键,这样也可以重用之前的代码.&lt;br /&gt;
-  因为我们要用M条链表保存N个键,无论键在各个链表中的分布如何,链表的平均长度肯定是N/M.在标准索引用例中使用基于拉链法的散列表如下图所示:&lt;/p&gt;
-&lt;center&gt;
-    &lt;a href=&quot;https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/hashTable/标准索引用例使用基于拉链法的散列表.png&quot;&gt;
-    &lt;img style=&quot;border-radius: 0.3125em;
-    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);&quot; class=&quot;img-responsive img-centered&quot; alt=&quot;标准索引用例使用基于拉链法的散列表&quot; src=&quot;https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/hashTable/标准索引用例使用基于拉链法的散列表.png&quot; /&gt;
-    &lt;div style=&quot;color:orange; border-bottom: 1px solid #d9d9d9;
-    display: inline-block;
-    color: #999;
-    padding: 2px;&quot;&gt;标准索引用例使用基于拉链法的散列表&lt;/div&gt;
-    &lt;/a&gt;
-&lt;/center&gt;
-
-&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;SeparateChainingHashST&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Key&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Value&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 键值对总数&lt;/span&gt;
-  &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;M&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 散列表的大小&lt;/span&gt;
-  &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;SequentialSearchST&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Key&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Value&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;[]&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;st&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 存放链表对象的数组&lt;/span&gt;
-  &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;SeparateChainingHashST&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;997&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-  &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;SeparateChainingHashST&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;M&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 创建M条链表&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;M&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;M&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;st&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;SequentialSearchST&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Key&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Value&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;[])&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;SequentialSearchST&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;M&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;];&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;M&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++)&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;st&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;SequentialSearchST&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-  &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;hash&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Key&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;hashCode&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x7fffffff&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;M&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-  &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Value&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Key&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Value&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;st&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;hash&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)].&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-  &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;put&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Key&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Value&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;val&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;st&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;hash&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)].&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;put&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;val&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-  &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Iterable&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Key&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;keys&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;  这段简单的符号表实现维护这一条链表的数组,用散列函数来为每个键选择一条链表.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;散列表的大小&lt;br /&gt;
-  在实现基于拉链法的散列表时,目标是选择适当的数组大小M,既不会因为空链表而浪费大量内存,也不会因为链表太长而在查找上浪费太多时间.&lt;/li&gt;
-  &lt;li&gt;删除操作&lt;br /&gt;
-  要删除一个键值对,先用散列值找到含有该键的SequencetialSearchST对象,然后再调用该对象的delete()方法.&lt;/li&gt;
-  &lt;li&gt;有序性相关操作&lt;br /&gt;
-  散列最主要的目的在于均匀地将键散布开来,因此在计算散列后键的顺序信息就会丢失了.所以散列不适合有序操作.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;hr /&gt;
-
-&lt;h3 id=&quot;基于线性探测的散列表&quot;&gt;基于线性探测的散列表&lt;/h3&gt;
-&lt;hr /&gt;
-&lt;p&gt;  实现散列表的另一种方式就是用大小为M的数组保存N个键值对,其中M&amp;gt;N.我们需要依靠数组中的空位解决碰撞冲突.基于这种策略的所有方法被统称为开放地址散列表.&lt;br /&gt;
-  开放地址散列表中最简单的方法叫做线性探测法:当碰撞发生时(当一个键的散列值已经被另一个不同的键占用),我们直接检查散列表中的下一个位置(将索引值加1).这样的线性探测可能会产生三种结果:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;命中,该位置的键和被查找的键相同&lt;/li&gt;
-  &lt;li&gt;未命中,键为空(该位置没有键)&lt;/li&gt;
-  &lt;li&gt;继续查找,该位置的键和被查找的键不同&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;  我们用散列函数找到键在数组中的索引,检查其中的键和被查找的键是否相同.如果不同则继续查找(将索引增大,到达数组结尾时折回数组的开头),直到找到该键或者遇到一个空元素,我们习惯将检查一个数组位置是否含有被查找的键的操作称作探测.&lt;br /&gt;
-  开放地址类的散列表的核心思想是与其将内存用作链表,不如将它们作为在散列表的空元素.这些空元素可以作为查找结束的标志.&lt;/p&gt;
-&lt;center&gt;
-    &lt;a href=&quot;https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/hashTable/标准索引用例使用的基于线性探测的符号表的轨迹.png&quot;&gt;
-    &lt;img style=&quot;border-radius: 0.3125em;
-    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);&quot; class=&quot;img-responsive img-centered&quot; alt=&quot;标准索引用例使用的基于线性探测的符号表的轨迹&quot; src=&quot;https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/hashTable/标准索引用例使用的基于线性探测的符号表的轨迹.png&quot; /&gt;
-    &lt;div style=&quot;color:orange; border-bottom: 1px solid #d9d9d9;
-    display: inline-block;
-    color: #999;
-    padding: 2px;&quot;&gt;标准索引用例使用的基于线性探测的符号表的轨迹&lt;/div&gt;
-    &lt;/a&gt;
-&lt;/center&gt;
-
-&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;LinearProbingHashST&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Key&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Value&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 符号表中键值对的总数&lt;/span&gt;
-  &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;M&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;16&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 线性探测表的大小&lt;/span&gt;
-  &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Key&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;keys&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 键&lt;/span&gt;
-  &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Value&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;vals&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 值&lt;/span&gt;
-  &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;LinearProbingHashST&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;keys&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Key&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[])&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Object&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;M&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;];&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;vals&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Value&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[])&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Object&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;M&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;];&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-  &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;hash&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Key&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;hashCode&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x7fffffff&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;M&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-  &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;resize&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 请见3.4.4节&lt;/span&gt;
-  &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;put&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Key&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Value&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;val&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;N&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;M&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;resize&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;M&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 将M加倍（请见正文）&lt;/span&gt;
-    &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;hash&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;keys&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;M&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;keys&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;equals&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;vals&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;val&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;keys&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;vals&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;val&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;no&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++;&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-  &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Value&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Key&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;hash&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;keys&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;M&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;keys&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;equals&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;vals&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;];&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;  这段符号表的实现将键和值分别保存在两个数组中,使用空来表示一簇键的结束.如果一个新键的散列值是一个空元素,那么就将它保存在那里;如果不是,
-我们就顺序查找一个空元素来保存它.要查找一个键,我们从它的散列值开始顺序查找,如果找到则是命中,如果遇到空元素则未命中.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;删除操作&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;  如何从基于线性探测的散列表中删除一个键?仔细想想,直接将该键所在的位置设为null是不行的,因为这会使得此位置之后的元素无法被查找.因此我们需要将簇中被删除键的右侧的所有键重新插入散列表.这个过程比想象的复杂.删除代码如下所示:&lt;/p&gt;
-&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;delete&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Key&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;contains&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-  &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;hash&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;while&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;equals&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;keys&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]))&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;M&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;keys&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;vals&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;M&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;while&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;keys&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;nc&quot;&gt;Key&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;keyToRedo&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;keys&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;];&lt;/span&gt;
-    &lt;span class=&quot;nc&quot;&gt;Value&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;valToRedo&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;vals&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;];&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;keys&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;vals&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;no&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;--;&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;put&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;keyToRedo&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;valToRedo&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;M&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-  &lt;span class=&quot;no&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;--;&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;N&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;N&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;M&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;resize&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;M&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;ul&gt;
-  &lt;li&gt;键簇&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;  线性探测的平均成本取决于元素在插入数组后聚集成的一组连续的条目,也叫做键簇.如下图所示:&lt;/p&gt;
-&lt;center&gt;
-    &lt;a href=&quot;https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/hashTable/线性探测法中的键簇.png&quot;&gt;
-    &lt;img style=&quot;border-radius: 0.3125em;
-    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);&quot; class=&quot;img-responsive img-centered&quot; alt=&quot;线性探测法中的键簇&quot; src=&quot;https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/hashTable/线性探测法中的键簇.png&quot; /&gt;
-    &lt;div style=&quot;color:orange; border-bottom: 1px solid #d9d9d9;
-    display: inline-block;
-    color: #999;
-    padding: 2px;&quot;&gt;线性探测法中的键簇&lt;/div&gt;
-    &lt;/a&gt;
-&lt;/center&gt;
-
-&lt;hr /&gt;
-
-&lt;h3 id=&quot;调整数组大小&quot;&gt;调整数组大小&lt;/h3&gt;
-&lt;hr /&gt;
-&lt;p&gt;  首先,我们的LinearProbingHashST需要一个新的构造函数,它接受一个固定的容量作为参数.然后,我们需要右边给出的resize()方法.它会创建出一个新的给定大小的LinearProbingHashST,保存原表中的keys和values变量,
-然后将原表中所有的键重新散列并插入到新表中.这使我们可以将数组的长度加倍.put()方法中的第一条语句会调用resize()来保证散列表最多为半满状态.这段代码构造的散列表比原来大一倍.因此α的值就会减半.
-和其他需要调整数组大小的应用场景一样,我们也需要在delete()方法的最后加上 &lt;strong&gt;if (N &amp;gt; 0 &amp;amp;&amp;amp; N &amp;lt;= M/8) resize(M/2);&lt;/strong&gt; 以保证所使用的内存量和表中的键值对数量的比例总在一定范围之内.&lt;/p&gt;
-&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;resize&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cap&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;nc&quot;&gt;LinearProbingHashST&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Key&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Value&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;t&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;LinearProbingHashST&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Key&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Value&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cap&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;M&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++)&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;keys&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;put&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;keys&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;vals&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]);&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;keys&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;keys&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;vals&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;vals&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-  &lt;span class=&quot;no&quot;&gt;M&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;M&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;拉链法&quot;&gt;拉链法&lt;/h3&gt;
-&lt;p&gt;  我们可以用相同的方法在拉链法中保持较短的链表(平均长度在2到8之间):当N&amp;gt;=8&lt;em&gt;M时调用resize(2&lt;/em&gt;M),并在delete()中(在N&amp;gt;0&amp;amp;&amp;amp;N&amp;lt;=2*M时)调用resize(M/2).&lt;/p&gt;
-
-&lt;hr /&gt;</content>
-
-      
-      
-      
-      
-      
-
-      <author>
-          <name></name>
-        
-        
-      </author>
-
-      
-        <category term="algorithm" />
-      
-
-      
-
-      
-        <summary type="html">定义</summary>
-      
-
-      
-      
-    </entry>
-  
-    <entry>
-      <title type="html">Statecompression</title>
-      <link href="http://localhost:4000/" rel="alternate" type="text/html" title="Statecompression" />
-      <published>2021-11-17T00:00:00+08:00</published>
-      <updated>2021-11-17T00:00:00+08:00</updated>
-      <id>http://localhost:4000/StateCompression</id>
-      <content type="html" xml:base="http://localhost:4000/">&lt;h3 id=&quot;定义&quot;&gt;定义&lt;/h3&gt;
-&lt;hr /&gt;
-&lt;p&gt;状态压缩的主要思想就是利用二进制和位运算代替繁琐的操作。&lt;/p&gt;
-&lt;hr /&gt;
-
-&lt;h3 id=&quot;常见二进制变换操作&quot;&gt;常见二进制变换操作&lt;/h3&gt;
-&lt;hr /&gt;
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    功能             |         示例             |       位运算     
-去掉最后一位          |  (101101 -&amp;gt; 10110)       |       x&amp;gt;&amp;gt;1
-在最后加一个0         |  (101101 -&amp;gt; 1011010)     |       x&amp;lt;&amp;lt;1
-在最后加一个1         |  (101101 -&amp;gt; 1011011)     |       x&amp;lt;&amp;lt;1+1
-把最后一位变成1       |  (101100 -&amp;gt; 101101)      |       x|1
-把最后一位变成0       |  (101101 -&amp;gt; 101100)      |       x|1-1
-最后一位取反          |  (101101 -&amp;gt; 101100)      |       x^1
-把右数第k位变成1      |  (101001 -&amp;gt; 101101,k=3)  |       x|(1&amp;lt;&amp;lt;(k-1))
-把右数第k位变成0      |  (101101 -&amp;gt; 101001,k=3)  |       x&amp;amp;~(1&amp;lt;&amp;lt;(k-1))
-右数第k位取反         |  (101001 -&amp;gt; 101101,k=3)  |       x^(1&amp;lt;&amp;lt;(k-1))
-取末三位             |  (1101101 -&amp;gt; 101)        |       x&amp;amp;7
-取末k位              |  (1101101 -&amp;gt; 1101.k=5)   |       x&amp;amp;(1&amp;lt;&amp;lt;k-1)
-取右数第k位          |  (1101101 -&amp;gt; 1.k=4)      |        x&amp;gt;&amp;gt;(k-1)&amp;amp;1
-把末k位变成1         |  (101001 -&amp;gt; 101111,k=4)  |        x|(1&amp;lt;&amp;lt;k-1)
-末k位取反            |  (101001 -&amp;gt; 100110,k=4)  |        x^(1&amp;lt;&amp;lt;k-1)
-把右边连续的1变成0    |  (100101111 -&amp;gt; 100100000)|        x&amp;amp;(x+1)
-把右起第一个0变为1    |  (100101111 -&amp;gt; 100111111)|        x|(x+1)
-把右起连续的0变成1    |  (11011000 -&amp;gt; 11011111)  |        x|(x-1)
-取右边连续的1        |  (100101111 -&amp;gt; 1111)     |        (x^(x+1))&amp;gt;&amp;gt;1
-去掉右起第一个1的左边 |  (100101000 -&amp;gt; 1000)     |        x&amp;amp;(x^(x-1))
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;hr /&gt;</content>
-
-      
-      
-      
-      
-      
-
-      <author>
-          <name></name>
-        
-        
-      </author>
-
-      
-        <category term="algorithm" />
-      
-
-      
-
-      
-        <summary type="html">定义 状态压缩的主要思想就是利用二进制和位运算代替繁琐的操作。</summary>
       
 
       

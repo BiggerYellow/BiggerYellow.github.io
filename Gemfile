@@ -9,3 +9,4 @@ git_source(:github) { |repo_name| "https://github.com/#{repo_name}" }
 gem "kramdown-parser-gfm"
 gem "jekyll-watch"
 gem "rouge"
+gem "webrick", "~> 1.8"
