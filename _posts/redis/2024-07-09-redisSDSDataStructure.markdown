@@ -760,10 +760,10 @@ C语言由于不记录字符串长度，所以如果要修改字符串，必须�
 ##### 小结  
 redis的字符串表示为sds，而不是C字符串（以\0结尾的char*），它是redis底层所使用的字符串表示，对比如下：  
 <center>
-    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/redis/sds/sds和c字符串对比.png">
+    <a href="https://BiggerYellow/BiggerYellow.github.io/img/redis/sds/sds和c字符串对比.png">
     <img style="border-radius: 0.3125em;
     box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="字符串对比图"
-    src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/redis/sds/sds和c字符串对比.png">
+    src="https://BiggerYellow/BiggerYellow.github.io/redis/sds/sds和c字符串对比.png">
     <div style="color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
     color: #999;
@@ -784,12 +784,12 @@ redis的字符串表示为sds，而不是C字符串（以\0结尾的char*），�
 ### 跳表 - ZSkipList
 
 
-> https://pdai.tech/md/db/nosql-redis/db-redis-overview.html
-> https://blog.wangjunfeng.com/post/redis-sds/
-> https://juejin.cn/post/7064359936842530830
-> https://www.cnblogs.com/chenchuxin/p/14189925.html
-> https://cloud.tencent.com/developer/article/1911682
-> https://www.cnblogs.com/chenchuxin/p/14204452.html
-> https://juejin.cn/post/6894539895084154887
-> https://blog.csdn.net/yangbodong22011/article/details/78419966
-> https://www.aphysia.cn/archives/redis-2---sdsyuan-ma-fen-xi
+> https://pdai.tech/md/db/nosql-redis/db-redis-overview.html  
+> https://blog.wangjunfeng.com/post/redis-sds/  
+> https://juejin.cn/post/7064359936842530830  
+> https://www.cnblogs.com/chenchuxin/p/14189925.html  
+> https://cloud.tencent.com/developer/article/1911682  
+> https://www.cnblogs.com/chenchuxin/p/14204452.html  
+> https://juejin.cn/post/6894539895084154887  
+> https://blog.csdn.net/yangbodong22011/article/details/78419966  
+> https://www.aphysia.cn/archives/redis-2---sdsyuan-ma-fen-xi  
