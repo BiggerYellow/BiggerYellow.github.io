@@ -12,10 +12,10 @@ description: redisObject
 ---
 
 <center>
-    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/redis/redisObject.jpg">
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/redis/redisObject/redisObject.jpg">
     <img style="border-radius: 0.3125em;
     box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="redisObject"
-    src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/redis/redisObject.jpg">
+    src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/redis/redisObject/redisObject.jpg">
     <div style="color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
     color: #999;
@@ -48,20 +48,20 @@ description: redisObject
 &nbsp;&nbsp;&nbsp;&nbsp;redisObject是Redis类型系统的核心，数据库中的每个键、值以及Redis本身处理的参数，都表示为这种数据类型。  
 ``` C
 typedef struct redisObject {
-    unsigned type:4;            //redisObject的类型
-    unsigned encoding:4;        //同一种类型的不同编码方式
-    unsigned lru:LRU_BITS; /* LRU time (relative to global lru_clock) or
+    unsigned type:4;            //redisObject的类型    4bit
+    unsigned encoding:4;        //同一种类型的不同编码方式  4bit
+    unsigned lru:LRU_BITS; /* LRU time (relative to global lru_clock) or  
                             * LFU data (least significant 8 bits frequency
                             * and most significant 16 bits access time). */
-                            //记录RedisObject的访问时间信息
+                            //记录RedisObject的访问时间信息      24bit
                             //LRU时间（相对于全局 lru_clock）
                             //LFU数据(最低有效的8位频率和最高有效的16位访问时间)
-    int refcount;           //引用计数
-    void *ptr;              //指向底层实现数据结构的指针
+    int refcount;           //引用计数      32bit
+    void *ptr;              //指向底层实现数据结构的指针     64bit
 } robj;
 ```  
 
-结构图待补充  
+redisObject占用 16 个字节( 4 + 4 + 24 + 32 + 64 = 128 位)。  
 其中type、encoding和ptr是最重要的三个属性。  
 - type记录了对象所保存的值的类型，它的值可能是以下常量中的一个：  
 

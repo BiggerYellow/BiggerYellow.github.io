@@ -4,7 +4,7 @@
   <generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator>
   <link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" />
   <link href="http://localhost:4000/" rel="alternate" type="text/html" />
-  <updated>2024-07-09T10:16:52+08:00</updated>
+  <updated>2024-07-25T16:38:47+08:00</updated>
   <id>http://localhost:4000/</id>
 
   
@@ -20,15 +20,837 @@
   
   
     <entry>
+      <title type="html">Redissdsdatastructure</title>
+      <link href="http://localhost:4000/" rel="alternate" type="text/html" title="Redissdsdatastructure" />
+      <published>2024-07-09T00:00:00+08:00</published>
+      <updated>2024-07-09T00:00:00+08:00</updated>
+      <id>http://localhost:4000/redisSDSDataStructure</id>
+      <content type="html" xml:base="http://localhost:4000/">&lt;h3 id=&quot;redis底层数据结构&quot;&gt;Redis底层数据结构&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;简单动态字符串 - sds&lt;/li&gt;
+  &lt;li&gt;压缩列表 - ZipList&lt;/li&gt;
+  &lt;li&gt;快表 - QuickList&lt;/li&gt;
+  &lt;li&gt;字典/哈希表 - Dict&lt;/li&gt;
+  &lt;li&gt;整数集 - IntSet&lt;/li&gt;
+  &lt;li&gt;跳表 - ZSkipList&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;简单动态字符串---sds&quot;&gt;简单动态字符串 - sds&lt;/h3&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;一种用于存储二进制数据的一种结构，具有动态扩容的特点，其实现位于src/sds.h和src/sds.c中。从版本3.2开始，sds底层数据结构也发生改变。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;strong&gt;字符串编码类型&lt;/strong&gt;&lt;br /&gt;
+字符串有三种 encoding 类型 int 、 raw 、 embstr 。&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;int：用于整数类型&lt;/li&gt;
+  &lt;li&gt;embstr：用于短字符串&lt;/li&gt;
+  &lt;li&gt;raw：用于长字符串&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;定义在 server.h 中，下面列出 string 类型的编码&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-C&quot;&gt;#define OBJ_ENCODING_RAW 0     /* Raw representation */
+#define OBJ_ENCODING_INT 1     /* Encoded as integer */
+#define OBJ_ENCODING_EMBSTR 8  /* Embedded sds string encoding */
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;int&lt;/strong&gt;&lt;br /&gt;
+如果一个字符串对象保存的是整数值，并且这个整数值可以用 long 类型来表示，那么这个整数值将会保存在字符串对象结构的 ptr 属性里面（将 void* 转换成 long ），并将字符串对象的编码设置为 int 。&lt;br /&gt;
+相对于用 raw 编码， int 编码既节省了指针占用的内存，也节省了 sds 结构的内存。&lt;/p&gt;
+
+&lt;center&gt;
+    &lt;a href=&quot;https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/redis/sds/string-int.png&quot;&gt;
+    &lt;img style=&quot;border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);&quot; class=&quot;img-responsive img-centered&quot; alt=&quot;int示例&quot; src=&quot;https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/redis/sds/string-int.png&quot; /&gt;
+    &lt;div style=&quot;color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;&quot;&gt;int示例&lt;/div&gt;
+    &lt;/a&gt;
+&lt;/center&gt;
+
+&lt;p&gt;&lt;strong&gt;embstr&lt;/strong&gt;&lt;br /&gt;
+embstr 编码是专门用于保存短字符串的一种优化编码方式。当字符串的长度小于等于 44(redis 3.2版本之前为39) 的时候，将采用 embstr 编码。&lt;br /&gt;
+创建字符串对象的代码如下（object.c）：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-C&quot;&gt;/* Create a string object with EMBSTR encoding if it is smaller than
+ * OBJ_ENCODING_EMBSTR_SIZE_LIMIT, otherwise the RAW encoding is
+ * used.
+ * 如果字符串小于等于OBJ_ENCODING_EMBSTR_SIZE_LIMIT 创建embstr编码，否则使用raw编码
+ *
+ * The current limit of 44 is chosen so that the biggest string object
+ * we allocate as EMBSTR will still fit into the 64 byte arena of jemalloc.
+ * 选择当前44的限制是为了作为embstr分配的最大字符串对象仍然适合64字节的jemalloc
+ *
+ */
+#define OBJ_ENCODING_EMBSTR_SIZE_LIMIT 44
+robj *createStringObject(const char *ptr, size_t len) {
+    if (len &amp;lt;= OBJ_ENCODING_EMBSTR_SIZE_LIMIT)
+        return createEmbeddedStringObject(ptr,len);
+    else
+        return createRawStringObject(ptr,len);
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;embstr 有个显著的特点，就是 redisObject 跟 sds 的内存是连在一起的。好处有：&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;分配内存的时候只需要分配一次。而 raw 编码的 sds 跟 RedisObject 分离，就是分配两次内存&lt;/li&gt;
+  &lt;li&gt;同样，释放内存也只需要释放一次&lt;/li&gt;
+  &lt;li&gt;连续内存能更好利用内存带来的优势&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;center&gt;
+    &lt;a href=&quot;https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/redis/sds/embstr结构示意图.png&quot;&gt;
+    &lt;img style=&quot;border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);&quot; class=&quot;img-responsive img-centered&quot; alt=&quot;embstr结构示意图&quot; src=&quot;https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/redis/sds/embstr结构示意图.png&quot; /&gt;
+    &lt;div style=&quot;color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;&quot;&gt;embstr结构示意图&lt;/div&gt;
+    &lt;/a&gt;
+&lt;/center&gt;
+
+&lt;p&gt;&lt;strong&gt;raw&lt;/strong&gt;&lt;br /&gt;
+raw 编码主要用来保存长度超过 44（redis 3.2版本之后） 的字符串。其真实数据由sdshdr结构来表示存储，外层还是由 RedisObject 包装。&lt;br /&gt;
+sds 的结构大致如下：&lt;/p&gt;
+&lt;center&gt;
+    &lt;a href=&quot;https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/redis/sds/raw-sds结构.png&quot;&gt;
+    &lt;img style=&quot;border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);&quot; class=&quot;img-responsive img-centered&quot; alt=&quot;raw-sds结构&quot; src=&quot;https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/redis/sds/raw-sds结构.png&quot; /&gt;
+    &lt;div style=&quot;color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;&quot;&gt;raw-sds结构&lt;/div&gt;
+    &lt;/a&gt;
+&lt;/center&gt;
+
+&lt;p&gt;redisObject 中的 ptr 指针，就是指向 sds 。&lt;/p&gt;
+&lt;center&gt;
+    &lt;a href=&quot;https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/redis/sds/raw-robj.png&quot;&gt;
+    &lt;img style=&quot;border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);&quot; class=&quot;img-responsive img-centered&quot; alt=&quot;raw-robj&quot; src=&quot;https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/redis/sds/raw-robj.png&quot; /&gt;
+    &lt;div style=&quot;color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;&quot;&gt;raw-robj&lt;/div&gt;
+    &lt;/a&gt;
+&lt;/center&gt;
+
+&lt;p&gt;&lt;strong&gt;编码转换&lt;/strong&gt;&lt;br /&gt;
+&lt;strong&gt;int 转 raw&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;当字符串传的不是整数的时候，int 就会转成 raw 编码&lt;/li&gt;
+  &lt;li&gt;如果执行了一些修改命令，如 append 等（set 不算），都会转成 raw 编码&lt;/li&gt;
+  &lt;li&gt;一旦编码变为 raw 之后，将不会再转成 embstr&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;embstr 转 raw&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;如果执行了一些修改的命令，如 append 等，都会转成 raw 编码，不管修改后字符串的长度。因为没有给 embstr 编码实现修改接口，实际上 embstr 是只读的。&lt;/li&gt;
+  &lt;li&gt;一旦编码为 raw 之后，将不会再转成 embstr&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;embstr编码为什么从 39 位修改为 44 位&lt;/strong&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;embstr 编码中，RedisObject 和 sds 是一块连续的内存空间，这块内存空间 Redis 限制了 64 个字节，而 RedisObject 固定占了 16 字节，
+redis3.2 版本之前的 sds 占了 8 个字节，再加上字符串末尾 \0 占用了 1 个字节，所以：64-16-8-1=39 字节。&lt;br /&gt;
+redis3.2 版本之后 sds 做了优化，对于 embstr 编码会采用 sdshdr8 来存储，而 sdshdr8 占用的空间只有 24 位，即 3 字节（len+alloc+flag） + \0 字符(1字节)，
+所以最后为： 64-16-3-1=44 字节。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;strong&gt;sds结构优化&lt;/strong&gt;&lt;/p&gt;
+
+&lt;center&gt;
+    &lt;a href=&quot;https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/redis/sds/sds结构图-3.0.png&quot;&gt;
+    &lt;img style=&quot;border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);&quot; class=&quot;img-responsive img-centered&quot; alt=&quot;sds示例-3.0&quot; src=&quot;https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/redis/sds/sds结构图-3.0.png&quot; /&gt;
+    &lt;div style=&quot;color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;&quot;&gt;sds示例-3.0&lt;/div&gt;
+    &lt;/a&gt;
+&lt;/center&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-C&quot;&gt;#redis3.2 sdshdr结构  
+
+struct sdshdr {
+    //记录buf数组中已使用字节的数量  4字节
+    //等于SDS所保存字符串的长度
+    unsigned int len;
+
+    //记录buf数组中未使用字节的数量  4字节
+    unsigned int free;
+
+    //char数组，用于保存字符串
+    char buf[];
+};
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;len为6，表示这个SDS保存了一个长度为5的字符串  4字节&lt;/li&gt;
+  &lt;li&gt;free为0，表示这个SDS没有剩余空间  4字节&lt;/li&gt;
+  &lt;li&gt;buf是个char类型的数组，注意末尾保存了一个空字符 ‘\0’(1字节)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-C&quot;&gt;#redis6.2 sdshdr结构  
+
+struct __attribute__ ((__packed__)) sdshdr5 {
+    unsigned char flags; /* 3 lsb of type, and 5 msb of string length */
+    char buf[];
+};
+struct __attribute__ ((__packed__)) sdshdr8 {
+    uint8_t len; /* used */ 已使用 1字节存储
+    uint8_t alloc; /* excluding the header and null terminator */ 1字节存储
+    unsigned char flags; /* 3 lsb of type, 5 unused bits */ 1字节存储
+    char buf[];
+};
+struct __attribute__ ((__packed__)) sdshdr16 {
+    uint16_t len; /* used */
+    uint16_t alloc; /* excluding the header and null terminator */
+    unsigned char flags; /* 3 lsb of type, 5 unused bits */
+    char buf[];
+};
+struct __attribute__ ((__packed__)) sdshdr32 {
+    uint32_t len; /* used */
+    uint32_t alloc; /* excluding the header and null terminator */
+    unsigned char flags; /* 3 lsb of type, 5 unused bits */
+    char buf[];
+};
+struct __attribute__ ((__packed__)) sdshdr64 {
+    uint64_t len; /* used */
+    uint64_t alloc; /* excluding the header and null terminator */
+    unsigned char flags; /* 3 lsb of type, 5 unused bits */
+    char buf[];
+};
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;其中 &lt;strong&gt;sdshd&lt;/strong&gt; 是头部， &lt;strong&gt;buf&lt;/strong&gt; 是真实存储用户数据的地方，另外注意，从命名上能看出来，这个数据结构除了能存储二进制数据，显然是用于设计作为字符串使用的，所以在 &lt;strong&gt;buf&lt;/strong&gt; 中，用户数据后总跟着一个 &lt;strong&gt;\0&lt;/strong&gt;，即图中的 “数据”+”\0” 就是所谓的buf。&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;len:保存了SDS保存字符串的长度  1字节 (len-alloc 即为之前的 free)&lt;/li&gt;
+  &lt;li&gt;alloc:分别以uint8, uint16, uint32, uint64表示整个SDS，除头部与末位的 \0，剩余的字节数  1字节&lt;/li&gt;
+  &lt;li&gt;flags:始终为 1 字节，以低三位标示着头部的类型，高五位未使用 1字节&lt;/li&gt;
+  &lt;li&gt;buf[]:数组用来保存字符串的每个元素，注意末尾保存了一个空字符 ‘\0’(1字节)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;另外，我们还需要注意以下源码中的 &lt;strong&gt;attribute&lt;/strong&gt; ((&lt;strong&gt;packed&lt;/strong&gt;)) 。它的作用就是告诉编译器取消结构在编译过程中的优化对齐，按照实际占用的字节数进行对齐。&lt;br /&gt;
+从上面我们已经知道，结构体会按照所有变量中最宽的基本数据类型做字节对齐。但是用 packed 修饰后，结构体则变为按 1 字节对齐。&lt;br /&gt;
+以 sdshdr32 为例，修饰前按 4 字节对齐大小为 12（4&lt;em&gt;3 - len=4;alloc=4;flags=4(实际是1)） 字节；修饰后按 1 字节对齐，共 9 （4&lt;/em&gt;2+1 - len=4;alloc=4;flags=1(实际是1)）  字节。注意 buf 是个 char 类型的柔性数组，地址连续，始终在 flags 之后，packed 修饰前后如下图所示。&lt;/p&gt;
+
+&lt;center&gt;
+    &lt;a href=&quot;https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/redis/sds/packed修饰前后示意.png&quot;&gt;
+    &lt;img style=&quot;border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);&quot; class=&quot;img-responsive img-centered&quot; alt=&quot;packed修饰前后示意&quot; src=&quot;https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/redis/sds/packed修饰前后示意.png&quot; /&gt;
+    &lt;div style=&quot;color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;&quot;&gt;packed修饰前后示意&lt;/div&gt;
+    &lt;/a&gt;
+&lt;/center&gt;
+
+&lt;p&gt;这样做有两个好处：&lt;br /&gt;
+1 - 节省内存：例如 sdshdr32 可节省 3 个字节（12-9）&lt;br /&gt;
+2 - SDS 返回给上层的，不是结构体首地址，而是指向内容的 buf 指针。因为此时按 1 字节对齐，故 SDS创建成功后， 无论是 sdshdr8、sdsdhr16、还是 sdshdr32，都能通过 (char*)sh+hdrlen 得到 buf 指针地址（其中 hdrlen 是结构体长度，通过 sizeof 计算得到）。修饰后，无论是 sdshdr8、sdshdr16 还是 sdshdr32，都能通过 buf[-1] 找到 flags，因为此时按 1 字节对齐。若没有 packed 的修饰，还需要对不同结构进行处理，实现更复杂。&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;存在问题:&lt;br /&gt;
+  不同长度的字符串是否有必要占用大小的头部？一个int占 4 字节，在实际应用中，存放与redis的字符串往往没有这么长，每个字符串都用 4 字节存储未免太浪费空间。&lt;br /&gt;
+  短字符串，len 和 free 的长度为 1 字节就够了；长字符串，用 2 字节或 4 字节；更长的字符串，用 8 字节。&lt;br /&gt;
+&lt;br /&gt;&lt;br /&gt;
+这样确实更省内存，但依然存在以下问题：&lt;br /&gt;
+1-如何区分三种情况？&lt;br /&gt;
+2-对于短字符串来说，头部还是太长了。以长度为 1 字节的字符串为例，len 和 free 本身就占了 2 字节，能不能进一步压缩呢？&lt;br /&gt;
+对于问题 1，考虑增加一个字符 flags 来标识类型，用最小的 1 字节来存储，且把 flags 加在柔性数组 buf 之前，这样虽然多了 1 字节，但是通过偏移柔性数组的指针即能快速定位 flags ，区分类型也可以接受。&lt;br /&gt;
+对于问题 2，由于 len 已经是最小的 1 字节了，再压缩只能考虑用位长来存储长度了。&lt;/p&gt;
+
+&lt;p&gt;  结合以上两个问题，5 中类型（长度 1 字节、2 字节、4 字节、8 字节、小于 1 字节）的SDS至少需要 3 位来存储类型（2^3=8），1 个字节 8 位，剩余的 5 位存储长度，可以满足长度小于 32 的短字符串。&lt;/p&gt;
+
+&lt;p&gt;在 Redis 5.0 中，我们用如下结构来存储长度小于 32 的短字符串。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-C&quot;&gt;struct __attribute__ ((__packed__)) sdshdr5 {
+    unsigned char flags; /* 低 3 位存储类型，高 5 位存储长度 */
+    char buf[];
+};
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;sdshdr5 结构如下，flags 占 1 个字节，其低三位（bit）表示 type，高 5 位（bit）表示长度。能表示的长度区间为 0~31(2^5)。flags 后面就是字符串的内容。&lt;/p&gt;
+
+&lt;center&gt;
+    &lt;a href=&quot;https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/redis/sds/sdshdr5结构.png&quot;&gt;
+    &lt;img style=&quot;border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);&quot; class=&quot;img-responsive img-centered&quot; alt=&quot;sdshdr5结构&quot; src=&quot;https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/redis/sds/sdshdr5结构.png&quot; /&gt;
+    &lt;div style=&quot;color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;&quot;&gt;sdshdr5结构&lt;/div&gt;
+    &lt;/a&gt;
+&lt;/center&gt;
+
+&lt;p&gt;而长度大于 31 的字符串，1 字节依然放不下。按之前的思路，将 len 和 free 单独存放。sdshdr8、sdshdr16、sdshdr32和sdshdr64的结构相同，以 sdshdr8 为例，结构如下：&lt;/p&gt;
+
+&lt;center&gt;
+    &lt;a href=&quot;https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/redis/sds/sdshdr8结构.png&quot;&gt;
+    &lt;img style=&quot;border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);&quot; class=&quot;img-responsive img-centered&quot; alt=&quot;sdshdr8结构&quot; src=&quot;https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/redis/sds/sdshdr8结构.png&quot; /&gt;
+    &lt;div style=&quot;color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;&quot;&gt;sdshdr8结构&lt;/div&gt;
+    &lt;/a&gt;
+&lt;/center&gt;
+
+&lt;p&gt;其中表头共占用了 S[1(len) + 1(alloc) + 1(flags)] 个字节。flags的内容与 sdshdr5 类型，依然采用 3 位存储类型，但剩余 5 位不存储长度。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;sds源码分析&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;字符串创建&lt;/strong&gt;&lt;br /&gt;
+核心代码在 sds.c#sdsnewlen() :&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-C&quot;&gt;/* Create a new sds string with the content specified by the &apos;init&apos; pointer
+ * and &apos;initlen&apos;.
+ * 通过init指针和initlen指定的内容创建一个新的sds字符串
+ * If NULL is used for &apos;init&apos; the string is initialized with zero bytes.
+ * 如果init为null 字符串将被初始化为0字节
+ * If SDS_NOINIT is used, the buffer is left uninitialized;
+ * 如果使用SDS_NOINIT，缓冲区将不会初始化
+ *
+ * The string is always null-termined (all the sds strings are, always) so
+ * even if you create an sds string with:
+ * 字符串总是空结尾（适用于所有的sds字符串），即使你创建mystring = sdsnewlen(&quot;abc&quot;,3) 字符串
+ *
+ * mystring = sdsnewlen(&quot;abc&quot;,3);
+ *
+ * You can print the string with printf() as there is an implicit \0 at the
+ * end of the string. However the string is binary safe and can contain
+ * \0 characters in the middle, as the length is stored in the sds header.
+ * 你可以通过printl()打印字符串，在字符串末尾会有一个隐含的 \0. 然而 字符串是二进制安全的，可以包含中间的 \0 字符，因为长度存储在sds头部
+ *
+ */
+sds _sdsnewlen(const void *init, size_t initlen, int trymalloc) {
+    void *sh;
+    sds s;
+    //根据字符串长度初始化sds类型
+    char type = sdsReqType(initlen);
+    /* Empty strings are usually created in order to append. Use type 8
+     * since type 5 is not good at this. */
+    //空字符串通常是为了添加而创建。使用 8 代替 5
+    if (type == SDS_TYPE_5 &amp;amp;&amp;amp; initlen == 0) type = SDS_TYPE_8;
+    //根据上一步获取的type计算header的长度
+    int hdrlen = sdsHdrSize(type);
+    //标志位的指针
+    unsigned char *fp; /* flags pointer. */
+    //已分配的空间
+    size_t usable;
+
+    assert(initlen + hdrlen + 1 &amp;gt; initlen); /* Catch size_t overflow */
+    //申请内存 大小为 头部+字符串大小+null字符串结尾
+    sh = trymalloc?
+        s_trymalloc_usable(hdrlen+initlen+1, &amp;amp;usable) ://尝试分配内存，失败返回null
+        s_malloc_usable(hdrlen+initlen+1, &amp;amp;usable);//分配内存或抛出异常
+    if (sh == NULL) return NULL;
+    if (init==SDS_NOINIT)
+        init = NULL;
+    else if (!init)
+        //初始化内存 将 sh 内存块中前 hdrlen+initlen+1 个字节设置为 0
+        memset(sh, 0, hdrlen+initlen+1);
+    //将 s 指向字符串的首地址 即指向buf，从首地址向右偏移 hdrlen 长度
+    s = (char*)sh+hdrlen;
+    //fp 指向头部的最后一个字节 即flag
+    fp = ((unsigned char*)s)-1;
+
+    //已使用大小 即申请内容大小减去 头部大小 + 末尾 1 字节占位符
+    usable = usable-hdrlen-1;
+    if (usable &amp;gt; sdsTypeMaxSize(type))
+        usable = sdsTypeMaxSize(type);
+    //根据类型初始化字符串
+    switch(type) {
+        case SDS_TYPE_5: {
+            //sdshdr5 的 flags 的 高5bit 存放着 len， 低3bit位存放着 type
+            *fp = type | (initlen &amp;lt;&amp;lt; SDS_TYPE_BITS);
+            break;
+        }
+        case SDS_TYPE_8: {
+            SDS_HDR_VAR(8,s);
+            sh-&amp;gt;len = initlen;//初始化总长度
+            sh-&amp;gt;alloc = usable;//初始化已使用长度
+            *fp = type;//初始化类型
+            break;
+        }
+        case SDS_TYPE_16: {
+            SDS_HDR_VAR(16,s);
+            sh-&amp;gt;len = initlen;
+            sh-&amp;gt;alloc = usable;
+            *fp = type;
+            break;
+        }
+        case SDS_TYPE_32: {
+            SDS_HDR_VAR(32,s);
+            sh-&amp;gt;len = initlen;
+            sh-&amp;gt;alloc = usable;
+            *fp = type;
+            break;
+        }
+        case SDS_TYPE_64: {
+            SDS_HDR_VAR(64,s);
+            sh-&amp;gt;len = initlen;
+            sh-&amp;gt;alloc = usable;
+            *fp = type;
+            break;
+        }
+    }
+    if (initlen &amp;amp;&amp;amp; init)
+        //将 init 字符串的内容复制到 s 中
+        memcpy(s, init, initlen);
+    //初始化字符串结尾 占位符
+    s[initlen] = &apos;\0&apos;;
+    return s;
+}
+
+
+/**
+ * 根据字符串长度判断 sds类型
+ * 1&amp;lt;&amp;lt;5 = 32 :      SDS_TYPE_5
+ * 1&amp;lt;&amp;lt;5 = 256:      SDS_TYPE_8
+ * 1&amp;lt;&amp;lt;16 = 65536:   SDS_TYPE_16
+ * 1&amp;lt;&amp;lt;32 = 4294967296:   SDS_TYPE_32
+ * else:   SDS_TYPE_64
+ * @param string_size
+ * @return
+ */
+static inline char sdsReqType(size_t string_size) {
+    if (string_size &amp;lt; 1&amp;lt;&amp;lt;5)
+        return SDS_TYPE_5;
+    if (string_size &amp;lt; 1&amp;lt;&amp;lt;8)
+        return SDS_TYPE_8;
+    if (string_size &amp;lt; 1&amp;lt;&amp;lt;16)
+        return SDS_TYPE_16;
+#if (LONG_MAX == LLONG_MAX)
+    if (string_size &amp;lt; 1ll&amp;lt;&amp;lt;32)
+        return SDS_TYPE_32;
+    return SDS_TYPE_64;
+#else
+    return SDS_TYPE_32;
+#endif
+}
+
+
+/**
+ * 获取不同类型头部长度
+ * @param type 
+ * @return 
+ */
+static inline int sdsHdrSize(char type) {
+    switch(type&amp;amp;SDS_TYPE_MASK) {
+        case SDS_TYPE_5:
+            return sizeof(struct sdshdr5);
+        case SDS_TYPE_8:
+            return sizeof(struct sdshdr8);
+        case SDS_TYPE_16:
+            return sizeof(struct sdshdr16);
+        case SDS_TYPE_32:
+            return sizeof(struct sdshdr32);
+        case SDS_TYPE_64:
+            return sizeof(struct sdshdr64);
+    }
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;总结&lt;/strong&gt;&lt;br /&gt;
+根据字符串长度选择合适的 sds 类型并分配内存，根据字符串类型初始化 sds 。返回值是 sds 结构中 buf 的指针。&lt;br /&gt;
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;字符串扩容&lt;/strong&gt;&lt;br /&gt;
+核心代码在 sds.c#sdscat()#sdsMakeRoomFor()&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-C&quot;&gt;/* Append the specified null terminated C string to the sds string &apos;s&apos;.
+ * 将指定的以空结尾的C字符串追加到sds字符串 &apos;s&apos;后面
+ *
+ * After the call, the passed sds string is no longer valid and all the
+ * references must be substituted with the new pointer returned by the call.
+ * 在此调用之后，传入的sds字符串不再有效，所有的引用必须被该调用返回的指针替代
+ */
+sds sdscat(sds s, const char *t) {
+    return sdscatlen(s, t, strlen(t));
+}
+
+/* Append the specified binary-safe string pointed by &apos;t&apos; of &apos;len&apos; bytes to the
+ * end of the specified sds string &apos;s&apos;.
+ * 将指定的以空结尾的C字符串追加到sds字符串 &apos;s&apos;后面
+ *
+ * After the call, the passed sds string is no longer valid and all the
+ * references must be substituted with the new pointer returned by the call.
+ * 在此调用之后，传入的sds字符串不再有效，所有的引用必须被该调用返回的指针替代
+ */
+sds sdscatlen(sds s, const void *t, size_t len) {
+    //获取字符串 s 的长度，即取 len 属性 sds5取flags的高五位
+    size_t curlen = sdslen(s);
+    //字符串扩容
+    s = sdsMakeRoomFor(s,len);
+    if (s == NULL) return NULL;
+    //将 len 长度 t 复制到 s字符串中， 从 s+curlen 位置开始
+    memcpy(s+curlen, t, len);
+    //更新字符串长度 即len属性， sds5更新flags的高五位
+    sdssetlen(s, curlen+len);
+    //末尾添加占位符
+    s[curlen+len] = &apos;\0&apos;;
+    return s;
+}
+
+
+/* Enlarge the free space at the end of the sds string so that the caller
+ * is sure that after calling this function can overwrite up to addlen
+ * bytes after the end of the string, plus one more byte for nul term.
+ * 扩大sds字符串末尾的可用空间，调用后可以保证在字符串结束后覆盖最多 addlen 个字节，再加上一个字节为 null 占位符
+ *
+ * Note: this does not change the *length* of the sds string as returned
+ * by sdslen(), but only the free buffer space we have.
+ * 注意：他不会改变 sds 字符串的长度，例如调用 sdslen()， 但是只有可用的缓冲空间
+ */
+sds sdsMakeRoomFor(sds s, size_t addlen) {
+    void *sh, *newsh;
+    //获取可用空间 即 len-alloc=free
+    size_t avail = sdsavail(s);
+    size_t len, newlen, reqlen;
+    //获取 s 字符串类型 s指向buf的指针，s[-1]即为flags地址
+    char type, oldtype = s[-1] &amp;amp; SDS_TYPE_MASK;
+    int hdrlen;
+    size_t usable;
+
+    /* Return ASAP if there is enough space left. */
+    //如果 可用大于 addlen 直接返回
+    if (avail &amp;gt;= addlen) return s;
+
+    //获取字符串长度
+    len = sdslen(s);
+    //将指针向左偏移 hdr 长度，即当前指针指向 sds头部，而不是从 buf 开始
+    sh = (char*)s-sdsHdrSize(oldtype);
+    //初始化新增的长度
+    reqlen = newlen = (len+addlen);
+    assert(newlen &amp;gt; len);   /* Catch size_t overflow */
+    //如果拼接字符串后的长度小于 1M， 则扩容为拼接字符串后长度的两倍
+    if (newlen &amp;lt; SDS_MAX_PREALLOC)
+        newlen *= 2;
+    else
+        //否则在拼接长度的基础上新增 1M
+        newlen += SDS_MAX_PREALLOC;
+
+    //根据最终字符串长度 获取字符串类型
+    type = sdsReqType(newlen);
+
+    /* Don&apos;t use type 5: the user is appending to the string and type 5 is
+     * not able to remember empty space, so sdsMakeRoomFor() must be called
+     * at every appending operation. */
+    if (type == SDS_TYPE_5) type = SDS_TYPE_8;
+    //获取新字符串类型长度
+    hdrlen = sdsHdrSize(type);
+    assert(hdrlen + newlen + 1 &amp;gt; reqlen);  /* Catch size_t overflow */
+    //如果扩容后结构体不变
+    if (oldtype==type) {
+        //根据原始字符串及扩容后的长度重新分配内存，并将内容复制到新内存中，并清空原内存空间
+        //usable会被设置为当前分配的大小
+        newsh = s_realloc_usable(sh, hdrlen+newlen+1, &amp;amp;usable);
+        if (newsh == NULL) return NULL;
+        //将 s 字符串指针指向 buf 数组
+        s = (char*)newsh+hdrlen;
+    } else {
+        /* Since the header size changes, need to move the string forward,
+         * and can&apos;t use realloc */
+        //由于头部长度改变，需要向前移动字符串，不能使用内存重新分配
+        //分配最新长度的内存空间，从堆上重新申请数据空间
+        newsh = s_malloc_usable(hdrlen+newlen+1, &amp;amp;usable);
+        if (newsh == NULL) return NULL;
+        //将 len+1 长度的 s 内容复制新内存空间中
+        memcpy((char*)newsh+hdrlen, s, len+1);
+        //释放原内容空间
+        s_free(sh);
+        //将 s 字符串指针指向 buf 数组
+        s = (char*)newsh+hdrlen;
+        //设置字符串类型 flags
+        s[-1] = type;
+        //更新新字符串长度
+        sdssetlen(s, len);
+    }
+    //获取实际可用数据空间
+    usable = usable-hdrlen-1;
+    if (usable &amp;gt; sdsTypeMaxSize(type))
+        usable = sdsTypeMaxSize(type);
+    //设置新字符串已使用总长度 alloc
+    sdssetalloc(s, usable);
+    return s;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;总结&lt;/strong&gt;&lt;br /&gt;
+扩容阶段：&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;若 SDS 中剩余空闲空间 avail 大于新增内容的长度 addlen，则无需扩容；&lt;/li&gt;
+  &lt;li&gt;若 SDS 中剩余空闲空间 avail 小于或等于新增内容的长度 addlen：
+    &lt;ul&gt;
+      &lt;li&gt;若新增后的总长度 len+addlen &amp;lt; 1MB ，则按新长度的两倍扩容；&lt;/li&gt;
+      &lt;li&gt;若新增后的总长度 len+addlen &amp;gt; 1MB ，则按新长度加上 1MB 扩容。&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;内容分配阶段：&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;根据扩容后的长度选择对应的SDS类型：
+    &lt;ul&gt;
+      &lt;li&gt;若类型不变，则只需通过 s_realloc_usable 扩大 buf 数组即可；&lt;/li&gt;
+      &lt;li&gt;若类型变化，则需要为整个 SDS 重新分配内存，并将原来的 SDS 内容拷贝至新位置。&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;center&gt;
+    &lt;a href=&quot;https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/redis/sds/sdsMakeRoomFor流程图.png&quot;&gt;
+    &lt;img style=&quot;border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);&quot; class=&quot;img-responsive img-centered&quot; alt=&quot;sdsMakeRoomFor流程图&quot; src=&quot;https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/redis/sds/sdsMakeRoomFor流程图.png&quot; /&gt;
+    &lt;div style=&quot;color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;&quot;&gt;sdsMakeRoomFor流程图&lt;/div&gt;
+    &lt;/a&gt;
+&lt;/center&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;字符串释放（惰性空间释放）&lt;/strong&gt;&lt;br /&gt;
+重置len属性清空SDS在 sds.c#sdsclear()&lt;br /&gt;
+真正清空SDS在 sds.c#sdsfree()&lt;br /&gt;
+清空空闲缓存在 sds.c#sdsRemoveFreeSpace()&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-C&quot;&gt;/* Modify an sds string in-place to make it empty (zero length).
+ * However all the existing buffer is not discarded but set as free space
+ * so that next append operations will not require allocations up to the
+ * number of bytes previously available.
+ * 原地修改 SDS 字符串使用为空（长度为0）
+ * 但是所有的缓冲区不会被丢弃而是被设置为空闲区域，这样下一个追加操作不需要分配之前可用的字节数
+ */
+void sdsclear(sds s) {
+    //将长度设置为0
+    sdssetlen(s, 0);
+    s[0] = &apos;\0&apos;;
+}
+
+/* Free an sds string. No operation is performed if &apos;s&apos; is NULL.
+ * 释放 sds字符串。当 s 为 NULL 时不会执行任何操作
+ */
+void sdsfree(sds s) {
+    if (s == NULL) return;
+    //s-sdsHdrSize(s[-1]):指针指向sds起始地址  s_free释放内存
+    s_free((char*)s-sdsHdrSize(s[-1]));
+}
+
+/* Reallocate the sds string so that it has no free space at the end. The
+ * contained string remains not altered, but next concatenation operations
+ * will require a reallocation.
+ * 重新分配sds字符串，使得结尾没有任何空余空间。
+ * 原来包含的字符串不会改动，但是下一个串联操作将需要重新分配内存
+ *
+ * After the call, the passed sds string is no longer valid and all the
+ * references must be substituted with the new pointer returned by the call.
+ * 在此调用之后，传入的sds字符串将不再有效。且所有的引用将被调用返回的新指针代替
+ */
+sds sdsRemoveFreeSpace(sds s, int would_regrow) {
+    return sdsResize(s, sdslen(s), would_regrow);
+}
+
+/* Resize the allocation, this can make the allocation bigger or smaller,
+ * if the size is smaller than currently used len, the data will be truncated.
+ * 调整分配大小，这可以使分配更大或更小，如果大小小于当前已使用的长度，数据将被截断
+ *
+ * The when the would_regrow argument is set to 1, it prevents the use of
+ * SDS_TYPE_5, which is desired when the sds is likely to be changed again.
+ * 当would_regrow参数为1时，它将阻止使用sds5，这是在sds可能再次更改时所需要的
+ *
+ * The sdsAlloc size will be set to the requested size regardless of the actual
+ * allocation size, this is done in order to avoid repeated calls to this
+ * function when the caller detects that it has excess space.
+ * 无论实际大小多少，sdsAlloc大小都将被设置为请求的大小，这么做是为了当调用者检测到它有多余的空间时防止重复调用此方法
+ */
+sds sdsResize(sds s, size_t size, int would_regrow) {
+    void *sh, *newsh;
+    //取原sds类型
+    char type, oldtype = s[-1] &amp;amp; SDS_TYPE_MASK;
+    //取原sds头部长度
+    int hdrlen, oldhdrlen = sdsHdrSize(oldtype);
+    //取sds 长度
+    size_t len = sdslen(s);
+    //指针指向sds起始位置
+    sh = (char*)s-oldhdrlen;
+
+    /* Return ASAP if the size is already good. */
+    //如果大小已经满足则直接满足  即 len=alloc
+    if (sdsalloc(s) == size) return s;
+
+    /* Truncate len if needed. */
+    //如果size小于len 直接直接截断
+    if (size &amp;lt; len) len = size;
+
+    /* Check what would be the minimum SDS header that is just good enough to
+     * fit this string. */
+    //根据size  重新计算sds类型
+    type = sdsReqType(size);
+    if (would_regrow) {
+        /* Don&apos;t use type 5, it is not good for strings that are expected to grow back. */
+        //不要使用type5， 它不适合那些期望增长回来的字符串
+        if (type == SDS_TYPE_5) type = SDS_TYPE_8;
+    }
+    //根据sds类型计算头部大小
+    hdrlen = sdsHdrSize(type);
+
+    /* If the type is the same, or can hold the size in it with low overhead
+     * (larger than SDS_TYPE_8), we just realloc(), letting the allocator
+     * to do the copy only if really needed. Otherwise if the change is
+     * huge, we manually reallocate the string to use the different header
+     * type.
+     * 如果类型相同，或可以用低位表示大小（type大于8），我们只需要 realloc()，让分配器只在真正需要的时候进行复制。
+     * 如果改变很大，根据不同的头部大小手动重新分配内存
+     */
+    //判断是需要重新分配
+    int use_realloc = (oldtype==type || (type &amp;lt; oldtype &amp;amp;&amp;amp; type &amp;gt; SDS_TYPE_8));
+    //若重新分配使用原类型
+    size_t newlen = use_realloc ? oldhdrlen+size+1 : hdrlen+size+1;
+    int alloc_already_optimal = 0;
+    #if defined(USE_JEMALLOC)
+        /* je_nallocx returns the expected allocation size for the newlen.
+         * We aim to avoid calling realloc() when using Jemalloc if there is no
+         * change in the allocation size, as it incurs a cost even if the
+         * allocation size stays the same. */
+        alloc_already_optimal = (je_nallocx(newlen, 0) == zmalloc_size(sh));
+    #endif
+
+    //使用重新分配内存
+    if (use_realloc &amp;amp;&amp;amp; !alloc_already_optimal) {
+        //根据newlen重新分配内存
+        newsh = s_realloc(sh, newlen);
+        if (newsh == NULL) return NULL;
+        //指针指向 buf 缓冲区
+        s = (char*)newsh+oldhdrlen;
+    } else if (!alloc_already_optimal) {
+        //使用新建内存空间 新分配newlen的空间
+        newsh = s_malloc(newlen);
+        if (newsh == NULL) return NULL;
+        //将s的len长度内存复制到newsh+hdrlen中
+        memcpy((char*)newsh+hdrlen, s, len);
+        //释放sh
+        s_free(sh);
+        //指针指向 buf缓冲区
+        s = (char*)newsh+hdrlen;
+        //设置flgas类型
+        s[-1] = type;
+    }
+    //设置字符串末尾占位符
+    s[len] = 0;
+    //更新长度
+    sdssetlen(s, len);
+    //更新已使用大小
+    sdssetalloc(s, size);
+    return s;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;总结&lt;/strong&gt;&lt;br /&gt;
+redis提供了三种方法清空 SDS。&lt;br /&gt;
+sdsclear：重置len属性，不直接释放内存，新的数据可以复写，而不用重新申请内存。&lt;br /&gt;
+sdsfree：通过 s_free 释放内存。&lt;br /&gt;
+sdsRemoveFreeSpace：清空未使用缓存空间，执行字符串相关指令时通过 tryObjectEncoding 触发或通过 clientsCron 定时触发。&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;h5 id=&quot;为什么使用sds&quot;&gt;为什么使用sds&lt;/h5&gt;
+&lt;ul&gt;
+  &lt;li&gt;常数复杂度获取字符串长度&lt;br /&gt;
+由于len属性的存在，我们获取sds字符串的长度只需要获取len属性，时间复杂度为O(1)。而对于C语言，获取字符串的长度通常是经过遍历计数来实现的，时间复杂度为O(n)。通过&lt;strong&gt;strlen key&lt;/strong&gt;命令可以获取key的字符串长度。&lt;/li&gt;
+  &lt;li&gt;杜绝缓冲区溢出&lt;br /&gt;
+在C语言中使用strcat函数来进行两个字符串的拼接，一旦没有分配足够长度的内存空间就会造成缓冲区溢出。而对于SDS数据类型，在进行字符修改的时候，会首先根据记录的len属性检查内存空间是否满足需求，如果不满足，会进行相应的空间扩展，然后在进行修改操作，所以不会出现缓冲区溢出。&lt;/li&gt;
+  &lt;li&gt;减少修改字符串的内存重分配次数&lt;br /&gt;
+C语言由于不记录字符串长度，所以如果要修改字符串，必须要重新分配内存，如果没有重新分配，字符串长度增大时会造成内存缓冲区溢出，字符串长度减小时会造成内存泄漏。&lt;br /&gt;
+而对于SDS，由于len和alloc属性的存在，对于修改字符串SDS实现了空间预分配和惰性空间释放两种策略:
+    &lt;ol&gt;
+      &lt;li&gt;空间预分配：对字符串进行空间扩展的时候，扩展的内存比实际需要的多，这样可以减少连续执行字符串增长操作所需的内存重分配次数。&lt;/li&gt;
+      &lt;li&gt;惰性空间释放：对字符串进行缩短操作时，程序不立即使用内存重分配来回收缩短后多余的字节，而是使用&lt;strong&gt;alloc&lt;/strong&gt;属性将这些字节的数量记录下来，等待后续使用。&lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+  &lt;li&gt;二进制安全&lt;br /&gt;
+因为C字符串以空字符作为字符串结束的标识，而对于一些二进制文件，内容可能包括空字符串，因此C字符串无法正确存取；而所有SDS的API都是以处理二进制的方式来处理buf里面的元素，并且SDS不是以空字符串来判断是否结束，而是以len属性表示的长度来判断字符串是否结束。&lt;/li&gt;
+  &lt;li&gt;兼容部分C字符串函数&lt;br /&gt;
+虽然SDS是二进制安全的，但是一样遵从每个字符串都是以空字符串结尾的惯例，这样可以重用C语言库 string.h 中的一部分函数。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;h5 id=&quot;空间预分配进一步理解&quot;&gt;空间预分配进一步理解&lt;/h5&gt;
+&lt;p&gt;当执行追加操作时，比如现在给key=’Hello World’的字符后追加’ again!’，则这时的len=18，free由0变成了18，此时的 buf=’Hello World again!\0………………’(.表示空格)，也就是buf的内存空间是18+18+1=37字节，其中’\0’占1个字节redis给字符串多分配了18个字节的预分配空间，所以下次还有append追加的时候，如果预分配空间足够，
+就无须在进行空间分配了。在当前版本中，当新字符串长度小于1M时，redis会分配他们所需大小一倍的空间，当大于1M的时候，就为他们额外多分配1M的空间。&lt;br /&gt;
+思考：&lt;strong&gt;这种分配策略会浪费内存资源吗？&lt;/strong&gt; &lt;br /&gt;
+答：执行过APPEND命令的字符串会带有额外的预分配空间，这些预分配空间不会被释放，除非该字符串所对应的键被删除，或者等到关闭redis之后，再次启动时重新载入的字符串对象将不会有预分配空间。
+因为执行APPEND命令的字符串键数量通常并不多，占用内存的体积通常也不大，所以这一般并不算什么问题。另一方面，如果执行APPEND操作的键很多，而字符串的体积又很大的话，那可能就需要修改redis服务器，让它定时释放一些字符串键的预分配空间，从而更有效地使用内存。&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;h5 id=&quot;小结&quot;&gt;小结&lt;/h5&gt;
+&lt;p&gt;redis的字符串表示为sds，而不是C字符串（以\0结尾的char*），它是redis底层所使用的字符串表示，对比如下：&lt;/p&gt;
+&lt;center&gt;
+    &lt;a href=&quot;https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/redis/sds/sds和c字符串对比.png&quot;&gt;
+    &lt;img style=&quot;border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);&quot; class=&quot;img-responsive img-centered&quot; alt=&quot;字符串对比图&quot; src=&quot;https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/redis/sds/sds和c字符串对比.png&quot; /&gt;
+    &lt;div style=&quot;color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;&quot;&gt;redis字符串对比图&lt;/div&gt;
+    &lt;/a&gt;
+&lt;/center&gt;
+
+&lt;h3 id=&quot;压缩列表---ziplist&quot;&gt;压缩列表 - ZipList&lt;/h3&gt;
+
+&lt;h3 id=&quot;快表---quicklist&quot;&gt;快表 - QuickList&lt;/h3&gt;
+
+&lt;h3 id=&quot;字典哈希表---dict&quot;&gt;字典/哈希表 - Dict&lt;/h3&gt;
+
+&lt;h3 id=&quot;整数集---intset&quot;&gt;整数集 - IntSet&lt;/h3&gt;
+
+&lt;h3 id=&quot;跳表---zskiplist&quot;&gt;跳表 - ZSkipList&lt;/h3&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;https://pdai.tech/md/db/nosql-redis/db-redis-overview.html
+https://blog.wangjunfeng.com/post/redis-sds/
+https://juejin.cn/post/7064359936842530830
+https://www.cnblogs.com/chenchuxin/p/14189925.html
+https://cloud.tencent.com/developer/article/1911682
+https://www.cnblogs.com/chenchuxin/p/14204452.html
+https://juejin.cn/post/6894539895084154887
+https://blog.csdn.net/yangbodong22011/article/details/78419966
+https://www.aphysia.cn/archives/redis-2—sdsyuan-ma-fen-xi&lt;/p&gt;
+&lt;/blockquote&gt;</content>
+
+      
+      
+      
+      
+      
+
+      <author>
+          <name></name>
+        
+        
+      </author>
+
+      
+        <category term="redis" />
+      
+
+      
+
+      
+        <summary type="html">Redis底层数据结构 简单动态字符串 - sds 压缩列表 - ZipList 快表 - QuickList 字典/哈希表 - Dict 整数集 - IntSet 跳表 - ZSkipList</summary>
+      
+
+      
+      
+    </entry>
+  
+    <entry>
       <title type="html">Redisobject</title>
       <link href="http://localhost:4000/" rel="alternate" type="text/html" title="Redisobject" />
       <published>2024-06-24T00:00:00+08:00</published>
       <updated>2024-06-24T00:00:00+08:00</updated>
       <id>http://localhost:4000/redisObject</id>
       <content type="html" xml:base="http://localhost:4000/">&lt;center&gt;
-    &lt;a href=&quot;https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/redis/redisObject.jpg&quot;&gt;
+    &lt;a href=&quot;https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/redis/redisObject/redisObject.jpg&quot;&gt;
     &lt;img style=&quot;border-radius: 0.3125em;
-    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);&quot; class=&quot;img-responsive img-centered&quot; alt=&quot;redisObject&quot; src=&quot;https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/redis/redisObject.jpg&quot; /&gt;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);&quot; class=&quot;img-responsive img-centered&quot; alt=&quot;redisObject&quot; src=&quot;https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/redis/redisObject/redisObject.jpg&quot; /&gt;
     &lt;div style=&quot;color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
     color: #999;
@@ -63,20 +885,20 @@
 &lt;h3 id=&quot;redisobject数据结构&quot;&gt;redisObject数据结构&lt;/h3&gt;
 &lt;p&gt;    redisObject是Redis类型系统的核心，数据库中的每个键、值以及Redis本身处理的参数，都表示为这种数据类型。&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-C&quot;&gt;typedef struct redisObject {
-    unsigned type:4;            //redisObject的类型
-    unsigned encoding:4;        //同一种类型的不同编码方式
-    unsigned lru:LRU_BITS; /* LRU time (relative to global lru_clock) or
+    unsigned type:4;            //redisObject的类型    4bit
+    unsigned encoding:4;        //同一种类型的不同编码方式  4bit
+    unsigned lru:LRU_BITS; /* LRU time (relative to global lru_clock) or  
                             * LFU data (least significant 8 bits frequency
                             * and most significant 16 bits access time). */
-                            //记录RedisObject的访问时间信息
+                            //记录RedisObject的访问时间信息      24bit
                             //LRU时间（相对于全局 lru_clock）
                             //LFU数据(最低有效的8位频率和最高有效的16位访问时间)
-    int refcount;           //引用计数
-    void *ptr;              //指向底层实现数据结构的指针
+    int refcount;           //引用计数      32bit
+    void *ptr;              //指向底层实现数据结构的指针     64bit
 } robj;
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;结构图待补充&lt;br /&gt;
+&lt;p&gt;redisObject占用 16 个字节( 4 + 4 + 24 + 32 + 64 = 128 位)。&lt;br /&gt;
 其中type、encoding和ptr是最重要的三个属性。&lt;/p&gt;
 &lt;ul&gt;
   &lt;li&gt;type记录了对象所保存的值的类型，它的值可能是以下常量中的一个：&lt;/li&gt;
@@ -204,12 +1026,12 @@ https://axlgrep.github.io/tech/redis-object.html&lt;/p&gt;
       <published>2024-06-11T00:00:00+08:00</published>
       <updated>2024-06-11T00:00:00+08:00</updated>
       <id>http://localhost:4000/redis-guide</id>
-      <content type="html" xml:base="http://localhost:4000/">&lt;h1 id=&quot;redis-为什么这么快&quot;&gt;Redis 为什么这么快&lt;/h1&gt;
+      <content type="html" xml:base="http://localhost:4000/">&lt;h3 id=&quot;redis-为什么这么快&quot;&gt;Redis 为什么这么快&lt;/h3&gt;
 
 &lt;center&gt;
-    &lt;a href=&quot;https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/redis/whyRedisFast.png&quot;&gt;
+    &lt;a href=&quot;https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/redis/guide/whyRedisFast.png&quot;&gt;
     &lt;img style=&quot;border-radius: 0.3125em;
-    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);&quot; class=&quot;img-responsive img-centered&quot; alt=&quot;Why is Redis so fast&quot; src=&quot;https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/redis/whyRedisFast.png&quot; /&gt;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);&quot; class=&quot;img-responsive img-centered&quot; alt=&quot;Why is Redis so fast&quot; src=&quot;https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/redis/guide/whyRedisFast.png&quot; /&gt;
     &lt;div style=&quot;color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
     color: #999;
@@ -217,7 +1039,7 @@ https://axlgrep.github.io/tech/redis-object.html&lt;/p&gt;
     &lt;/a&gt;
 &lt;/center&gt;
 
-&lt;h2 id=&quot;完全基于内存&quot;&gt;完全基于内存&lt;/h2&gt;
+&lt;h3 id=&quot;完全基于内存&quot;&gt;完全基于内存&lt;/h3&gt;
 
 &lt;p&gt;    redis作为一种内存导向型数据库系统，其关键特性在于将所有的数据实体，包括键值对及其相关的复杂数据结构，完全寄宿于内存之中。相较于依赖磁盘存储的传统数据库系统，redis巧妙地运用内存的高速读写特性，显著提升了系统的响应速度与整体性能表现。&lt;br /&gt;
     内存相对于磁盘具备无可比拟的读写速度优势，使得redis能够即时、高效地处理数据存取。在读取操作层面，redis无需经过耗时的磁盘I/O过程。只需要在内存空间内迅速定位所需数据，从而显著降低了访问延迟；而在写入操作时，redis同样直接作用于内存区域，新数据能立刻生效，仅在执行持久化策略时，例如RDB快照或AOF日志记录，数据才会被异步地或按需地同步到磁盘，以确保在系统重启后数据还能恢复，但此过程并不会妨碍redis在常规操作中维持其卓越的性能表现。&lt;br /&gt;
@@ -269,7 +1091,7 @@ https://axlgrep.github.io/tech/redis-object.html&lt;/p&gt;
 
 &lt;p&gt;    通过定期进行内存碎片整理操作，Redis可以保持内存空间的连续性，减少内存碎片化的程度，提高内存利用率，从而提高系统的性能和稳定性。但是，内存碎片整理过程可能会消耗一定的系统资源，尤其在内存碎片较多的情况下。所以，通常情况下，Redis会选择在系统负载较低的时候进行碎片整理操作。&lt;/p&gt;
 
-&lt;h2 id=&quot;高效的数据结构&quot;&gt;高效的数据结构&lt;/h2&gt;
+&lt;h3 id=&quot;高效的数据结构&quot;&gt;高效的数据结构&lt;/h3&gt;
 
 &lt;p&gt;    Redis的每种对象其实都由 &lt;strong&gt;对象结构（redisObject）&lt;/strong&gt; 与 &lt;strong&gt;对应编码的数据结构&lt;/strong&gt; 组合而成，而每种对象类型对应若干编码方式，不同的编码方式所对应的底层数据结构是不同的。&lt;/p&gt;
 
@@ -314,9 +1136,9 @@ https://pdai.tech/md/db/nosql-redis/db-redis-x-redis-object.html&lt;/p&gt;
       <id>http://localhost:4000/introduce</id>
       <content type="html" xml:base="http://localhost:4000/">&lt;h1 id=&quot;图例&quot;&gt;图例&lt;/h1&gt;
 &lt;center&gt;
-    &lt;a href=&quot;https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/ddd/DDD基本概念.jpg&quot;&gt;
+    &lt;a href=&quot;https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/ddd/DDD基本概念.png&quot;&gt;
     &lt;img style=&quot;border-radius: 0.3125em;
-    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);&quot; class=&quot;img-responsive img-centered&quot; alt=&quot;DDD基本概念&quot; src=&quot;https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/springboot/AutoConfigurationImportSelector.jpg&quot; /&gt;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);&quot; class=&quot;img-responsive img-centered&quot; alt=&quot;DDD基本概念&quot; src=&quot;https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/ddd/DDD基本概念.png&quot; /&gt;
     &lt;div style=&quot;color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
     color: #999;
@@ -325,9 +1147,9 @@ https://pdai.tech/md/db/nosql-redis/db-redis-x-redis-object.html&lt;/p&gt;
 &lt;/center&gt;
 
 &lt;center&gt;
-    &lt;a href=&quot;https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/ddd/DDD脑图.jpg&quot;&gt;
+    &lt;a href=&quot;https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/ddd/DDD脑图.png&quot;&gt;
     &lt;img style=&quot;border-radius: 0.3125em;
-    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);&quot; class=&quot;img-responsive img-centered&quot; alt=&quot;DDD脑图&quot; src=&quot;https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/springboot/AutoConfigurationImportSelector.jpg&quot; /&gt;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);&quot; class=&quot;img-responsive img-centered&quot; alt=&quot;DDD脑图&quot; src=&quot;https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/ddd/DDD脑图.png&quot; /&gt;
     &lt;div style=&quot;color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
     color: #999;
@@ -1384,84 +2206,6 @@ P(第i次遇到值为target的元素下标称为最终返回值) = P(第i次随�
 
       
         <summary type="html">定义   给定一串很长的数据流,对该数据流中数据只能访问一次,使得数据流中所有数据被选中的概率相等.   解决这样的问题,就可以利用蓄水池算法(Reservoir Sampling).</summary>
-      
-
-      
-      
-    </entry>
-  
-    <entry>
-      <title type="html">Euclidean</title>
-      <link href="http://localhost:4000/" rel="alternate" type="text/html" title="Euclidean" />
-      <published>2022-03-28T00:00:00+08:00</published>
-      <updated>2022-03-28T00:00:00+08:00</updated>
-      <id>http://localhost:4000/Euclidean</id>
-      <content type="html" xml:base="http://localhost:4000/">&lt;h3 id=&quot;定义&quot;&gt;定义&lt;/h3&gt;
-&lt;hr /&gt;
-&lt;p&gt;  欧几里得算法又称辗转相除法,是指用于计算两个非负整数a、b的最大公约数.&lt;/p&gt;
-&lt;hr /&gt;
-
-&lt;h3 id=&quot;基本思路&quot;&gt;基本思路&lt;/h3&gt;
-&lt;hr /&gt;
-&lt;p&gt;定理:&lt;br /&gt;
-  两个整数的最大公约数等于其中较小的那个数和两数相除余数的最大公约数.最大公约数(Greatest Common Divisor)缩写GCD.&lt;br /&gt;
-原理:&lt;br /&gt;
-  gcd(a, b) = gcd(b, a mod b)&lt;br /&gt;
-条件:&lt;br /&gt;
-  a&amp;gt;b 且 a mod b 不为0&lt;/p&gt;
-&lt;hr /&gt;
-
-&lt;h3 id=&quot;示例&quot;&gt;示例&lt;/h3&gt;
-&lt;hr /&gt;
-&lt;p&gt;假如需要求1997和615两个正整数的最大公约数,用欧几里得算法进行:&lt;/p&gt;
-&lt;ol&gt;
-  &lt;li&gt;1997/615 = 3 (余152)&lt;/li&gt;
-  &lt;li&gt;615/152 = 4 (余7)&lt;/li&gt;
-  &lt;li&gt;152/7 = 21 (余5)&lt;/li&gt;
-  &lt;li&gt;7/5 = 1 (余2)&lt;/li&gt;
-  &lt;li&gt;5/2 = 2 (余1)&lt;/li&gt;
-  &lt;li&gt;2/1 = 2 (余0)&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;至此余数为0,取最后一个被除数b即为1,所以最大公约数为1.&lt;br /&gt;
-以除数和余数反复做除法运算,当余数为0时,取当前算式除数为最大公约数,所以1997和615的最大公约数为1.&lt;/p&gt;
-&lt;hr /&gt;
-
-&lt;h3 id=&quot;代码&quot;&gt;代码&lt;/h3&gt;
-&lt;blockquote&gt;
-  &lt;p&gt;java&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; &lt;span class=&quot;n&quot;&gt;gcd&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;gcd&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mod&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
- 
-&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;gcd&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;){&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;b&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;){&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;gcd&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content>
-
-      
-      
-      
-      
-      
-
-      <author>
-          <name></name>
-        
-        
-      </author>
-
-      
-        <category term="algorithm" />
-      
-
-      
-
-      
-        <summary type="html">定义   欧几里得算法又称辗转相除法,是指用于计算两个非负整数a、b的最大公约数.</summary>
       
 
       

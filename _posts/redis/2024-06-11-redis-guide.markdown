@@ -11,13 +11,13 @@ category: redis
 description: redis概览
 ---
 
-# Redis 为什么这么快  
+### Redis 为什么这么快  
 
 <center>
-    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/redis/whyRedisFast.png">
+    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/redis/guide/whyRedisFast.png">
     <img style="border-radius: 0.3125em;
     box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="Why is Redis so fast"
-    src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/redis/whyRedisFast.png">
+    src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/redis/guide/whyRedisFast.png">
     <div style="color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
     color: #999;
@@ -25,7 +25,7 @@ description: redis概览
     </a>
 </center>
 
-## 完全基于内存    
+### 完全基于内存    
 
 &nbsp;&nbsp;&nbsp;&nbsp;redis作为一种内存导向型数据库系统，其关键特性在于将所有的数据实体，包括键值对及其相关的复杂数据结构，完全寄宿于内存之中。相较于依赖磁盘存储的传统数据库系统，redis巧妙地运用内存的高速读写特性，显著提升了系统的响应速度与整体性能表现。  
 &nbsp;&nbsp;&nbsp;&nbsp;内存相对于磁盘具备无可比拟的读写速度优势，使得redis能够即时、高效地处理数据存取。在读取操作层面，redis无需经过耗时的磁盘I/O过程。只需要在内存空间内迅速定位所需数据，从而显著降低了访问延迟；而在写入操作时，redis同样直接作用于内存区域，新数据能立刻生效，仅在执行持久化策略时，例如RDB快照或AOF日志记录，数据才会被异步地或按需地同步到磁盘，以确保在系统重启后数据还能恢复，但此过程并不会妨碍redis在常规操作中维持其卓越的性能表现。  
@@ -69,7 +69,7 @@ description: redis概览
 
 &nbsp;&nbsp;&nbsp;&nbsp;通过定期进行内存碎片整理操作，Redis可以保持内存空间的连续性，减少内存碎片化的程度，提高内存利用率，从而提高系统的性能和稳定性。但是，内存碎片整理过程可能会消耗一定的系统资源，尤其在内存碎片较多的情况下。所以，通常情况下，Redis会选择在系统负载较低的时候进行碎片整理操作。  
 
-## 高效的数据结构
+### 高效的数据结构
 
 &nbsp;&nbsp;&nbsp;&nbsp;Redis的每种对象其实都由 **对象结构（redisObject）** 与 **对应编码的数据结构** 组合而成，而每种对象类型对应若干编码方式，不同的编码方式所对应的底层数据结构是不同的。  
 
