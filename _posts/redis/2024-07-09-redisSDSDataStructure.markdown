@@ -40,17 +40,13 @@ description: redis底层数据结构
 如果一个字符串对象保存的是整数值，并且这个整数值可以用 long 类型来表示，那么这个整数值将会保存在字符串对象结构的 ptr 属性里面（将 void* 转换成 long ），并将字符串对象的编码设置为 int 。  
 相对于用 raw 编码， int 编码既节省了指针占用的内存，也节省了 sds 结构的内存。  
 
-<center>
-    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/redis/sds/string-int.png">
-    <img style="border-radius: 0.3125em;
-    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="int示例"
-    src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/redis/sds/string-int.png">
-    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+<center>   
+<img src="img/redis/sds/string-int.png" class="img-responsive img-centered" alt="image-alt">
+<div style="color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
     color: #999;
     padding: 2px;">int示例</div>
-    </a>
-</center>   
+</center>
 
 **embstr**  
 embstr 编码是专门用于保存短字符串的一种优化编码方式。当字符串的长度小于等于 44(redis 3.2版本之前为39) 的时候，将采用 embstr 编码。  
@@ -79,45 +75,35 @@ embstr 有个显著的特点，就是 redisObject 跟 sds 的内存是连在一�
 - 同样，释放内存也只需要释放一次  
 - 连续内存能更好利用内存带来的优势  
 
-<center>
-    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/redis/sds/embstr结构示意图.png">
-    <img style="border-radius: 0.3125em;
-    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="embstr结构示意图"
-    src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/redis/sds/embstr结构示意图.png">
-    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+
+<center>   
+<img src="img/redis/sds/embstr结构示意图.png" class="img-responsive img-centered" alt="image-alt">
+<div style="color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
     color: #999;
     padding: 2px;">embstr结构示意图</div>
-    </a>
-</center>   
+</center>
 
 **raw**  
 raw 编码主要用来保存长度超过 44（redis 3.2版本之后） 的字符串。其真实数据由sdshdr结构来表示存储，外层还是由 RedisObject 包装。  
 sds 的结构大致如下：  
-<center>
-    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/redis/sds/raw-sds结构.png">
-    <img style="border-radius: 0.3125em;
-    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="raw-sds结构"
-    src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/redis/sds/raw-sds结构.png">
-    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+
+<center>   
+<img src="img/redis/sds/raw-sds结构.png" class="img-responsive img-centered" alt="image-alt">
+<div style="color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
     color: #999;
     padding: 2px;">raw-sds结构</div>
-    </a>
 </center>  
 
-redisObject 中的 ptr 指针，就是指向 sds 。  
-<center>
-    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/redis/sds/raw-robj.png">
-    <img style="border-radius: 0.3125em;
-    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="raw-robj"
-    src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/redis/sds/raw-robj.png">
-    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+redisObject 中的 ptr 指针，就是指向 sds 。
+<center>   
+<img src="img/redis/sds/raw-robj.png" class="img-responsive img-centered" alt="image-alt">
+<div style="color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
     color: #999;
     padding: 2px;">raw-robj</div>
-    </a>
-</center>  
+</center>
 
 **编码转换**  
 **int 转 raw**    
@@ -138,17 +124,14 @@ redis3.2 版本之后 sds 做了优化，对于 embstr 编码会采用 sdshdr8 �
 
 **sds结构优化**  
 
-<center>
-    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/redis/sds/sds结构图-3.0.png">
-    <img style="border-radius: 0.3125em;
-    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="sds示例-3.0"
-    src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/redis/sds/sds结构图-3.0.png">
-    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+<center>   
+<img src="img/redis/sds/sds结构图-3.0.png" class="img-responsive img-centered" alt="image-alt">
+<div style="color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
     color: #999;
-    padding: 2px;">sds示例-3.0</div>
-    </a>
-</center>  
+    padding: 2px;">sds结构图-3.0</div>
+</center>
+ 
 
 ```C
 #redis3.2 sdshdr结构  
@@ -214,17 +197,14 @@ struct __attribute__ ((__packed__)) sdshdr64 {
 从上面我们已经知道，结构体会按照所有变量中最宽的基本数据类型做字节对齐。但是用 packed 修饰后，结构体则变为按 1 字节对齐。  
 以 sdshdr32 为例，修饰前按 4 字节对齐大小为 12（4*3 - len=4;alloc=4;flags=4(实际是1)） 字节；修饰后按 1 字节对齐，共 9 （4*2+1 - len=4;alloc=4;flags=1(实际是1)）  字节。注意 buf 是个 char 类型的柔性数组，地址连续，始终在 flags 之后，packed 修饰前后如下图所示。  
 
-<center>
-    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/redis/sds/packed修饰前后示意.png">
-    <img style="border-radius: 0.3125em;
-    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="packed修饰前后示意"
-    src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/redis/sds/packed修饰前后示意.png">
-    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+
+<center>   
+<img src="img/redis/sds/packed修饰前后示意.png" class="img-responsive img-centered" alt="image-alt">
+<div style="color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
     color: #999;
     padding: 2px;">packed修饰前后示意</div>
-    </a>
-</center>  
+</center>
 
 这样做有两个好处：  
 1 - 节省内存：例如 sdshdr32 可节省 3 个字节（12-9）  
@@ -252,33 +232,27 @@ struct __attribute__ ((__packed__)) sdshdr5 {
     char buf[];
 };
 ```  
-sdshdr5 结构如下，flags 占 1 个字节，其低三位（bit）表示 type，高 5 位（bit）表示长度。能表示的长度区间为 0~31(2^5)。flags 后面就是字符串的内容。  
+sdshdr5 结构如下，flags 占 1 个字节，其低三位（bit）表示 type，高 5 位（bit）表示长度。能表示的长度区间为 0~31(2^5)。flags 后面就是字符串的内容。
 
-<center>
-    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/redis/sds/sdshdr5结构.png">
-    <img style="border-radius: 0.3125em;
-    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="sdshdr5结构"
-    src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/redis/sds/sdshdr5结构.png">
-    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+<center>   
+<img src="img/redis/sds/sdshdr5结构.png" class="img-responsive img-centered" alt="image-alt">
+<div style="color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
     color: #999;
     padding: 2px;">sdshdr5结构</div>
-    </a>
-</center>   
+</center>
 
 而长度大于 31 的字符串，1 字节依然放不下。按之前的思路，将 len 和 free 单独存放。sdshdr8、sdshdr16、sdshdr32和sdshdr64的结构相同，以 sdshdr8 为例，结构如下：  
 
-<center>
-    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/redis/sds/sdshdr8结构.png">
-    <img style="border-radius: 0.3125em;
-    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="sdshdr8结构"
-    src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/redis/sds/sdshdr8结构.png">
-    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+
+<center>   
+<img src="img/redis/sds/sdshdr8结构.png" class="img-responsive img-centered" alt="image-alt">
+<div style="color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
     color: #999;
     padding: 2px;">sdshdr8结构</div>
-    </a>
-</center>  
+</center>
+
 
 其中表头共占用了 S[1(len) + 1(alloc) + 1(flags)] 个字节。flags的内容与 sdshdr5 类型，依然采用 3 位存储类型，但剩余 5 位不存储长度。  
 
@@ -574,17 +548,13 @@ sds sdsMakeRoomFor(sds s, size_t addlen) {
   - 若类型不变，则只需通过 s_realloc_usable 扩大 buf 数组即可；
   - 若类型变化，则需要为整个 SDS 重新分配内存，并将原来的 SDS 内容拷贝至新位置。   
 
-<center>
-    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/redis/sds/sdsMakeRoomFor流程图.png">
-    <img style="border-radius: 0.3125em;
-    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="sdsMakeRoomFor流程图"
-    src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/redis/sds/sdsMakeRoomFor流程图.png">
-    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+<center>   
+<img src="img/redis/sds/sdsMakeRoomFor流程图.png" class="img-responsive img-centered" alt="image-alt">
+<div style="color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
     color: #999;
     padding: 2px;">sdsMakeRoomFor流程图</div>
-    </a>
-</center>   
+</center> 
 <br/>
 
 
@@ -758,20 +728,15 @@ C语言由于不记录字符串长度，所以如果要修改字符串，必须�
 <br/>
 
 ##### 小结  
-redis的字符串表示为sds，而不是C字符串（以\0结尾的char*），它是redis底层所使用的字符串表示，对比如下：  
-<center>
-    <a href="https://BiggerYellow/BiggerYellow.github.io/img/redis/sds/sds和c字符串对比.png">
-    <img style="border-radius: 0.3125em;
-    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="字符串对比图"
-    src="https://BiggerYellow/BiggerYellow.github.io/redis/sds/sds和c字符串对比.png">
-    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+redis的字符串表示为sds，而不是C字符串（以\0结尾的char*），它是redis底层所使用的字符串表示，对比如下：
+
+<center>   
+<img src="img/redis/sds/sds和c字符串对比.png" class="img-responsive img-centered" alt="image-alt">
+<div style="color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
     color: #999;
     padding: 2px;">redis字符串对比图</div>
-    </a>
-</center>   
-
-
+</center>
 
 ### 压缩列表 - ZipList
 

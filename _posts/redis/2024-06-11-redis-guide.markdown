@@ -11,19 +11,15 @@ category: redis
 description: redis概览
 ---
 
-### Redis 为什么这么快  
+### Redis 为什么这么快
 
-<center>
-    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/redis/guide/whyRedisFast.png">
-    <img style="border-radius: 0.3125em;
-    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="Why is Redis so fast"
-    src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/redis/guide/whyRedisFast.png">
-    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+<center>   
+<img src="img/redis/guide/whyRedisFast.png" class="img-responsive img-centered" alt="image-alt">
+<div style="color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
     color: #999;
     padding: 2px;">Why is Redis so fast</div>
-    </a>
-</center>
+</center> 
 
 ### 完全基于内存    
 

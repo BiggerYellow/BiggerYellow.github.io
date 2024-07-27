@@ -11,17 +11,13 @@ category: redis
 description: redisObject
 ---
 
-<center>
-    <a href="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/redis/redisObject/redisObject.jpg">
-    <img style="border-radius: 0.3125em;
-    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" class="img-responsive img-centered" alt="redisObject"
-    src="https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/redis/redisObject/redisObject.jpg">
-    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+<center>   
+<img src="img/redis/redisObject/redisObject.jpg" class="img-responsive img-centered" alt="image-alt">
+<div style="color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
     color: #999;
     padding: 2px;">redisObject概览</div>
-    </a>
-</center>
+</center> 
 
 &nbsp;&nbsp;&nbsp;&nbsp;上图展示了redisObject，Redis所有数据类型、Redis所欲编码方式以及底层数据结构之间的关系。  
 &nbsp;&nbsp;&nbsp;&nbsp;它反映了redis的每种对象其实都由 **对象结构（redisObject）** 与 **对应编码的数据结构** 组合而成，而每种对象类型对应若干编码方式，不同的编码方式所对应的底层数据结构是不同的。  
