@@ -8,16 +8,9 @@ alt: image-alt
 project-date: July 2024
 client: Start Bootstrap
 category: redis
-description: redis底层数据结构
+subtitle: 简单动态字符串
+description: sds
 ---
-
-### Redis底层数据结构  
-- 简单动态字符串 - sds
-- 压缩列表 - ZipList
-- 快表 - QuickList
-- 字典/哈希表 - Dict
-- 整数集 - IntSet
-- 跳表 - ZSkipList
 
 ### 简单动态字符串 - sds    
 > 一种用于存储二进制数据的一种结构，具有动态扩容的特点，其实现位于src/sds.h和src/sds.c中。从版本3.2开始，sds底层数据结构也发生改变。  
@@ -41,7 +34,7 @@ description: redis底层数据结构
 相对于用 raw 编码， int 编码既节省了指针占用的内存，也节省了 sds 结构的内存。  
 
 <center>   
-<img src="img/redis/sds/string-int.png" class="img-responsive img-centered" alt="image-alt">
+<img src="../../img/redis/sds/string-int.png" class="img-responsive img-centered" alt="image-alt">
 <div style="color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
     color: #999;
@@ -49,7 +42,7 @@ description: redis底层数据结构
 </center>
 
 **embstr**  
-embstr 编码是专门用于保存短字符串的一种优化编码方式。当字符串的长度小于等于 44(redis 3.2版本之前为39) 的时候，将采用 embstr 编码。  
+embstr 编码是专门用于保存短字符串的一种优化编码方式。当字符串的长度小于等于 44(redis 3.2版本之前为39) 字节的时候，将采用 embstr 编码。  
 创建字符串对象的代码如下（object.c）：
 ```C
 /* Create a string object with EMBSTR encoding if it is smaller than
@@ -77,7 +70,7 @@ embstr 有个显著的特点，就是 redisObject 跟 sds 的内存是连在一�
 
 
 <center>   
-<img src="img/redis/sds/embstr结构示意图.png" class="img-responsive img-centered" alt="image-alt">
+<img src="../../img/redis/sds/embstr结构示意图.png" class="img-responsive img-centered" alt="image-alt">
 <div style="color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
     color: #999;
@@ -85,11 +78,11 @@ embstr 有个显著的特点，就是 redisObject 跟 sds 的内存是连在一�
 </center>
 
 **raw**  
-raw 编码主要用来保存长度超过 44（redis 3.2版本之后） 的字符串。其真实数据由sdshdr结构来表示存储，外层还是由 RedisObject 包装。  
+raw 编码主要用来保存长度超过 44（redis 3.2版本之后） 字节的字符串。其真实数据由sdshdr结构来表示存储，外层还是由 RedisObject 包装。  
 sds 的结构大致如下：  
 
 <center>   
-<img src="img/redis/sds/raw-sds结构.png" class="img-responsive img-centered" alt="image-alt">
+<img src="../../img/redis/sds/raw-sds结构.png" class="img-responsive img-centered" alt="image-alt">
 <div style="color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
     color: #999;
@@ -98,7 +91,7 @@ sds 的结构大致如下：
 
 redisObject 中的 ptr 指针，就是指向 sds 。
 <center>   
-<img src="img/redis/sds/raw-robj.png" class="img-responsive img-centered" alt="image-alt">
+<img src="../../img/redis/sds/raw-robj.png" class="img-responsive img-centered" alt="image-alt">
 <div style="color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
     color: #999;
@@ -125,7 +118,7 @@ redis3.2 版本之后 sds 做了优化，对于 embstr 编码会采用 sdshdr8 �
 **sds结构优化**  
 
 <center>   
-<img src="img/redis/sds/sds结构图-3.0.png" class="img-responsive img-centered" alt="image-alt">
+<img src="../../img/redis/sds/sds结构图-3.0.png" class="img-responsive img-centered" alt="image-alt">
 <div style="color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
     color: #999;
@@ -195,11 +188,11 @@ struct __attribute__ ((__packed__)) sdshdr64 {
 
 另外，我们还需要注意以下源码中的 __attribute__ ((__packed__)) 。它的作用就是告诉编译器取消结构在编译过程中的优化对齐，按照实际占用的字节数进行对齐。  
 从上面我们已经知道，结构体会按照所有变量中最宽的基本数据类型做字节对齐。但是用 packed 修饰后，结构体则变为按 1 字节对齐。  
-以 sdshdr32 为例，修饰前按 4 字节对齐大小为 12（4*3 - len=4;alloc=4;flags=4(实际是1)） 字节；修饰后按 1 字节对齐，共 9 （4*2+1 - len=4;alloc=4;flags=1(实际是1)）  字节。注意 buf 是个 char 类型的柔性数组，地址连续，始终在 flags 之后，packed 修饰前后如下图所示。  
+以 sdshdr32 为例，修饰前按 4 字节对齐大小为 12（4\*3 - [len=4;alloc=4;flags=4(实际是1)]） 字节；修饰后按 1 字节对齐，共 9 （4\*2+1 - [len=4;alloc=4;flags=1(实际是1)]）  字节。注意 buf 是个 char 类型的柔性数组，地址连续，始终在 flags 之后，packed 修饰前后如下图所示。  
 
 
 <center>   
-<img src="img/redis/sds/packed修饰前后示意.png" class="img-responsive img-centered" alt="image-alt">
+<img src="../../img/redis/sds/packed修饰前后示意.png" class="img-responsive img-centered" alt="image-alt">
 <div style="color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
     color: #999;
@@ -213,7 +206,7 @@ struct __attribute__ ((__packed__)) sdshdr64 {
 <br/>
 
 存在问题:  
-&emsp;&emsp;不同长度的字符串是否有必要占用大小的头部？一个int占 4 字节，在实际应用中，存放与redis的字符串往往没有这么长，每个字符串都用 4 字节存储未免太浪费空间。  
+&emsp;&emsp;不同长度的字符串是否有必要占用大小相同的头部？一个int占 4 字节，在实际应用中，存放与redis的字符串往往没有这么长，每个字符串都用 4 字节存储未免太浪费空间。  
 &emsp;&emsp;短字符串，len 和 free 的长度为 1 字节就够了；长字符串，用 2 字节或 4 字节；更长的字符串，用 8 字节。  
 <br/>  
 这样确实更省内存，但依然存在以下问题：  
@@ -223,7 +216,7 @@ struct __attribute__ ((__packed__)) sdshdr64 {
 对于问题 2，由于 len 已经是最小的 1 字节了，再压缩只能考虑用位长来存储长度了。  
 
 
-&emsp;&emsp;结合以上两个问题，5 中类型（长度 1 字节、2 字节、4 字节、8 字节、小于 1 字节）的SDS至少需要 3 位来存储类型（2^3=8），1 个字节 8 位，剩余的 5 位存储长度，可以满足长度小于 32 的短字符串。  
+&emsp;&emsp;结合以上两个问题，5 种类型（长度 1 字节、2 字节、4 字节、8 字节、小于 1 字节）的SDS至少需要 3 位来存储类型（2^3=8），1 个字节 8 位，剩余的 5 位存储长度，可以满足长度小于 32 的短字符串。  
 
 在 Redis 5.0 中，我们用如下结构来存储长度小于 32 的短字符串。  
 ```C
@@ -235,7 +228,7 @@ struct __attribute__ ((__packed__)) sdshdr5 {
 sdshdr5 结构如下，flags 占 1 个字节，其低三位（bit）表示 type，高 5 位（bit）表示长度。能表示的长度区间为 0~31(2^5)。flags 后面就是字符串的内容。
 
 <center>   
-<img src="img/redis/sds/sdshdr5结构.png" class="img-responsive img-centered" alt="image-alt">
+<img src="../../img/redis/sds/sdshdr5结构.png" class="img-responsive img-centered" alt="image-alt">
 <div style="color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
     color: #999;
@@ -246,7 +239,7 @@ sdshdr5 结构如下，flags 占 1 个字节，其低三位（bit）表示 type�
 
 
 <center>   
-<img src="img/redis/sds/sdshdr8结构.png" class="img-responsive img-centered" alt="image-alt">
+<img src="../../img/redis/sds/sdshdr8结构.png" class="img-responsive img-centered" alt="image-alt">
 <div style="color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
     color: #999;
@@ -540,7 +533,7 @@ sds sdsMakeRoomFor(sds s, size_t addlen) {
 - 若 SDS 中剩余空闲空间 avail 大于新增内容的长度 addlen，则无需扩容；  
 - 若 SDS 中剩余空闲空间 avail 小于或等于新增内容的长度 addlen：  
   - 若新增后的总长度 len+addlen < 1MB ，则按新长度的两倍扩容；  
-  - 若新增后的总长度 len+addlen > 1MB ，则按新长度加上 1MB 扩容。  
+  - 若新增后的总长度 len+addlen >= 1MB ，则按新长度加上 1MB 扩容。  
 
 
 内容分配阶段：  
@@ -549,7 +542,7 @@ sds sdsMakeRoomFor(sds s, size_t addlen) {
   - 若类型变化，则需要为整个 SDS 重新分配内存，并将原来的 SDS 内容拷贝至新位置。   
 
 <center>   
-<img src="img/redis/sds/sdsMakeRoomFor流程图.png" class="img-responsive img-centered" alt="image-alt">
+<img src="../../img/redis/sds/sdsMakeRoomFor流程图.png" class="img-responsive img-centered" alt="image-alt">
 <div style="color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
     color: #999;
@@ -731,22 +724,12 @@ C语言由于不记录字符串长度，所以如果要修改字符串，必须�
 redis的字符串表示为sds，而不是C字符串（以\0结尾的char*），它是redis底层所使用的字符串表示，对比如下：
 
 <center>   
-<img src="img/redis/sds/sds和c字符串对比.png" class="img-responsive img-centered" alt="image-alt">
+<img src="../../img/redis/sds/sds和c字符串对比.png" class="img-responsive img-centered" alt="image-alt">
 <div style="color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
     color: #999;
     padding: 2px;">redis字符串对比图</div>
-</center>
-
-### 压缩列表 - ZipList
-
-### 快表 - QuickList
-
-### 字典/哈希表 - Dict
-
-### 整数集 - IntSet
-
-### 跳表 - ZSkipList
+</center>  
 
 
 > https://pdai.tech/md/db/nosql-redis/db-redis-overview.html  

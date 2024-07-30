@@ -8,13 +8,14 @@ alt: image-alt
 project-date: June 2024
 client: Start Bootstrap
 category: redis
+subtitle: redis概览
 description: redis概览
 ---
 
 ### Redis 为什么这么快
 
 <center>   
-<img src="img/redis/guide/whyRedisFast.png" class="img-responsive img-centered" alt="image-alt">
+<img src="../../img/redis/guide/whyRedisFast.png" class="img-responsive img-centered" alt="image-alt">
 <div style="color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
     color: #999;

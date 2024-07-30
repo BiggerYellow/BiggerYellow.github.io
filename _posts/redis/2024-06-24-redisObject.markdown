@@ -8,11 +8,12 @@ alt: image-alt
 project-date: June 2024
 client: Start Bootstrap
 category: redis
+subtitle: redisObject
 description: redisObject
 ---
 
 <center>   
-<img src="img/redis/redisObject/redisObject.jpg" class="img-responsive img-centered" alt="image-alt">
+<img src="../../img/redis/redisObject/redisObject.jpg" class="img-responsive img-centered" alt="image-alt">
 <div style="color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
     color: #999;
@@ -135,6 +136,14 @@ redis预分配的值对象如下：
 - 当对象的rfcount降至0时，这个RedisObject结构，以及它引用的数据结构的内存都会被释放；  
 
 
+### Redis底层数据结构
+- 简单动态字符串 - sds
+- 压缩列表 - ZipList
+- 快表 - QuickList
+- 字典/哈希表 - Dict
+- 整数集 - IntSet
+- 跳表 - ZSkipList  
+下面就逐一介绍下以上数据结构。  
 
 > https://pdai.tech/md/db/nosql-redis/db-redis-x-redis-object.html
 > https://axlgrep.github.io/tech/redis-object.html

@@ -4,7 +4,7 @@
   <generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator>
   <link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" />
   <link href="http://localhost:4000/" rel="alternate" type="text/html" />
-  <updated>2024-07-27T11:19:11+08:00</updated>
+  <updated>2024-07-30T10:33:40+08:00</updated>
   <id>http://localhost:4000/</id>
 
   
@@ -20,22 +20,61 @@
   
   
     <entry>
-      <title type="html">Redissdsdatastructure</title>
-      <link href="http://localhost:4000/" rel="alternate" type="text/html" title="Redissdsdatastructure" />
-      <published>2024-07-09T00:00:00+08:00</published>
-      <updated>2024-07-09T00:00:00+08:00</updated>
-      <id>http://localhost:4000/redisSDSDataStructure</id>
-      <content type="html" xml:base="http://localhost:4000/">&lt;h3 id=&quot;redis底层数据结构&quot;&gt;Redis底层数据结构&lt;/h3&gt;
+      <title type="html">Redis Ziplist</title>
+      <link href="http://localhost:4000/" rel="alternate" type="text/html" title="Redis Ziplist" />
+      <published>2024-07-30T00:00:00+08:00</published>
+      <updated>2024-07-30T00:00:00+08:00</updated>
+      <id>http://localhost:4000/redis-ziplist</id>
+      <content type="html" xml:base="http://localhost:4000/">&lt;h3 id=&quot;简单动态字符串---sds&quot;&gt;简单动态字符串 - sds&lt;/h3&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;一种用于存储二进制数据的一种结构，具有动态扩容的特点，其实现位于src/sds.h和src/sds.c中。从版本3.2开始，sds底层数据结构也发生改变。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;strong&gt;字符串编码类型&lt;/strong&gt;&lt;br /&gt;
+字符串有三种 encoding 类型 int 、 raw 、 embstr 。&lt;/p&gt;
 &lt;ul&gt;
-  &lt;li&gt;简单动态字符串 - sds&lt;/li&gt;
-  &lt;li&gt;压缩列表 - ZipList&lt;/li&gt;
-  &lt;li&gt;快表 - QuickList&lt;/li&gt;
-  &lt;li&gt;字典/哈希表 - Dict&lt;/li&gt;
-  &lt;li&gt;整数集 - IntSet&lt;/li&gt;
-  &lt;li&gt;跳表 - ZSkipList&lt;/li&gt;
+  &lt;li&gt;int：用于整数类型&lt;/li&gt;
+  &lt;li&gt;embstr：用于短字符串&lt;/li&gt;
+  &lt;li&gt;raw：用于长字符串&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&quot;简单动态字符串---sds&quot;&gt;简单动态字符串 - sds&lt;/h3&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;https://pdai.tech/md/db/nosql-redis/db-redis-overview.html&lt;/p&gt;
+&lt;/blockquote&gt;</content>
+
+      
+      
+      
+      
+      
+
+      <author>
+          <name></name>
+        
+        
+      </author>
+
+      
+        <category term="redis" />
+      
+
+      
+
+      
+        <summary type="html">简单动态字符串 - sds 一种用于存储二进制数据的一种结构，具有动态扩容的特点，其实现位于src/sds.h和src/sds.c中。从版本3.2开始，sds底层数据结构也发生改变。</summary>
+      
+
+      
+      
+    </entry>
+  
+    <entry>
+      <title type="html">Redis Sds</title>
+      <link href="http://localhost:4000/" rel="alternate" type="text/html" title="Redis Sds" />
+      <published>2024-07-09T00:00:00+08:00</published>
+      <updated>2024-07-09T00:00:00+08:00</updated>
+      <id>http://localhost:4000/redis-sds</id>
+      <content type="html" xml:base="http://localhost:4000/">&lt;h3 id=&quot;简单动态字符串---sds&quot;&gt;简单动态字符串 - sds&lt;/h3&gt;
 &lt;blockquote&gt;
   &lt;p&gt;一种用于存储二进制数据的一种结构，具有动态扩容的特点，其实现位于src/sds.h和src/sds.c中。从版本3.2开始，sds底层数据结构也发生改变。&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -59,7 +98,7 @@
 相对于用 raw 编码， int 编码既节省了指针占用的内存，也节省了 sds 结构的内存。&lt;/p&gt;
 
 &lt;center&gt;   
-&lt;img src=&quot;img/redis/sds/string-int.png&quot; class=&quot;img-responsive img-centered&quot; alt=&quot;image-alt&quot; /&gt;
+&lt;img src=&quot;../../img/redis/sds/string-int.png&quot; class=&quot;img-responsive img-centered&quot; alt=&quot;image-alt&quot; /&gt;
 &lt;div style=&quot;color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
     color: #999;
@@ -67,7 +106,7 @@
 &lt;/center&gt;
 
 &lt;p&gt;&lt;strong&gt;embstr&lt;/strong&gt;&lt;br /&gt;
-embstr 编码是专门用于保存短字符串的一种优化编码方式。当字符串的长度小于等于 44(redis 3.2版本之前为39) 的时候，将采用 embstr 编码。&lt;br /&gt;
+embstr 编码是专门用于保存短字符串的一种优化编码方式。当字符串的长度小于等于 44(redis 3.2版本之前为39) 字节的时候，将采用 embstr 编码。&lt;br /&gt;
 创建字符串对象的代码如下（object.c）：&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-C&quot;&gt;/* Create a string object with EMBSTR encoding if it is smaller than
  * OBJ_ENCODING_EMBSTR_SIZE_LIMIT, otherwise the RAW encoding is
@@ -95,7 +134,7 @@ robj *createStringObject(const char *ptr, size_t len) {
 &lt;/ul&gt;
 
 &lt;center&gt;   
-&lt;img src=&quot;img/redis/sds/embstr结构示意图.png&quot; class=&quot;img-responsive img-centered&quot; alt=&quot;image-alt&quot; /&gt;
+&lt;img src=&quot;../../img/redis/sds/embstr结构示意图.png&quot; class=&quot;img-responsive img-centered&quot; alt=&quot;image-alt&quot; /&gt;
 &lt;div style=&quot;color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
     color: #999;
@@ -103,11 +142,11 @@ robj *createStringObject(const char *ptr, size_t len) {
 &lt;/center&gt;
 
 &lt;p&gt;&lt;strong&gt;raw&lt;/strong&gt;&lt;br /&gt;
-raw 编码主要用来保存长度超过 44（redis 3.2版本之后） 的字符串。其真实数据由sdshdr结构来表示存储，外层还是由 RedisObject 包装。&lt;br /&gt;
+raw 编码主要用来保存长度超过 44（redis 3.2版本之后） 字节的字符串。其真实数据由sdshdr结构来表示存储，外层还是由 RedisObject 包装。&lt;br /&gt;
 sds 的结构大致如下：&lt;/p&gt;
 
 &lt;center&gt;   
-&lt;img src=&quot;img/redis/sds/raw-sds结构.png&quot; class=&quot;img-responsive img-centered&quot; alt=&quot;image-alt&quot; /&gt;
+&lt;img src=&quot;../../img/redis/sds/raw-sds结构.png&quot; class=&quot;img-responsive img-centered&quot; alt=&quot;image-alt&quot; /&gt;
 &lt;div style=&quot;color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
     color: #999;
@@ -116,7 +155,7 @@ sds 的结构大致如下：&lt;/p&gt;
 
 &lt;p&gt;redisObject 中的 ptr 指针，就是指向 sds 。&lt;/p&gt;
 &lt;center&gt;   
-&lt;img src=&quot;img/redis/sds/raw-robj.png&quot; class=&quot;img-responsive img-centered&quot; alt=&quot;image-alt&quot; /&gt;
+&lt;img src=&quot;../../img/redis/sds/raw-robj.png&quot; class=&quot;img-responsive img-centered&quot; alt=&quot;image-alt&quot; /&gt;
 &lt;div style=&quot;color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
     color: #999;
@@ -148,7 +187,7 @@ redis3.2 版本之后 sds 做了优化，对于 embstr 编码会采用 sdshdr8 �
 &lt;p&gt;&lt;strong&gt;sds结构优化&lt;/strong&gt;&lt;/p&gt;
 
 &lt;center&gt;   
-&lt;img src=&quot;img/redis/sds/sds结构图-3.0.png&quot; class=&quot;img-responsive img-centered&quot; alt=&quot;image-alt&quot; /&gt;
+&lt;img src=&quot;../../img/redis/sds/sds结构图-3.0.png&quot; class=&quot;img-responsive img-centered&quot; alt=&quot;image-alt&quot; /&gt;
 &lt;div style=&quot;color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
     color: #999;
@@ -218,10 +257,10 @@ struct __attribute__ ((__packed__)) sdshdr64 {
 
 &lt;p&gt;另外，我们还需要注意以下源码中的 &lt;strong&gt;attribute&lt;/strong&gt; ((&lt;strong&gt;packed&lt;/strong&gt;)) 。它的作用就是告诉编译器取消结构在编译过程中的优化对齐，按照实际占用的字节数进行对齐。&lt;br /&gt;
 从上面我们已经知道，结构体会按照所有变量中最宽的基本数据类型做字节对齐。但是用 packed 修饰后，结构体则变为按 1 字节对齐。&lt;br /&gt;
-以 sdshdr32 为例，修饰前按 4 字节对齐大小为 12（4&lt;em&gt;3 - len=4;alloc=4;flags=4(实际是1)） 字节；修饰后按 1 字节对齐，共 9 （4&lt;/em&gt;2+1 - len=4;alloc=4;flags=1(实际是1)）  字节。注意 buf 是个 char 类型的柔性数组，地址连续，始终在 flags 之后，packed 修饰前后如下图所示。&lt;/p&gt;
+以 sdshdr32 为例，修饰前按 4 字节对齐大小为 12（4*3 - [len=4;alloc=4;flags=4(实际是1)]） 字节；修饰后按 1 字节对齐，共 9 （4*2+1 - [len=4;alloc=4;flags=1(实际是1)]）  字节。注意 buf 是个 char 类型的柔性数组，地址连续，始终在 flags 之后，packed 修饰前后如下图所示。&lt;/p&gt;
 
 &lt;center&gt;   
-&lt;img src=&quot;img/redis/sds/packed修饰前后示意.png&quot; class=&quot;img-responsive img-centered&quot; alt=&quot;image-alt&quot; /&gt;
+&lt;img src=&quot;../../img/redis/sds/packed修饰前后示意.png&quot; class=&quot;img-responsive img-centered&quot; alt=&quot;image-alt&quot; /&gt;
 &lt;div style=&quot;color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
     color: #999;
@@ -235,7 +274,7 @@ struct __attribute__ ((__packed__)) sdshdr64 {
 &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
 
 &lt;p&gt;存在问题:&lt;br /&gt;
-  不同长度的字符串是否有必要占用大小的头部？一个int占 4 字节，在实际应用中，存放与redis的字符串往往没有这么长，每个字符串都用 4 字节存储未免太浪费空间。&lt;br /&gt;
+  不同长度的字符串是否有必要占用大小相同的头部？一个int占 4 字节，在实际应用中，存放与redis的字符串往往没有这么长，每个字符串都用 4 字节存储未免太浪费空间。&lt;br /&gt;
   短字符串，len 和 free 的长度为 1 字节就够了；长字符串，用 2 字节或 4 字节；更长的字符串，用 8 字节。&lt;br /&gt;
 &lt;br /&gt;&lt;br /&gt;
 这样确实更省内存，但依然存在以下问题：&lt;br /&gt;
@@ -244,7 +283,7 @@ struct __attribute__ ((__packed__)) sdshdr64 {
 对于问题 1，考虑增加一个字符 flags 来标识类型，用最小的 1 字节来存储，且把 flags 加在柔性数组 buf 之前，这样虽然多了 1 字节，但是通过偏移柔性数组的指针即能快速定位 flags ，区分类型也可以接受。&lt;br /&gt;
 对于问题 2，由于 len 已经是最小的 1 字节了，再压缩只能考虑用位长来存储长度了。&lt;/p&gt;
 
-&lt;p&gt;  结合以上两个问题，5 中类型（长度 1 字节、2 字节、4 字节、8 字节、小于 1 字节）的SDS至少需要 3 位来存储类型（2^3=8），1 个字节 8 位，剩余的 5 位存储长度，可以满足长度小于 32 的短字符串。&lt;/p&gt;
+&lt;p&gt;  结合以上两个问题，5 种类型（长度 1 字节、2 字节、4 字节、8 字节、小于 1 字节）的SDS至少需要 3 位来存储类型（2^3=8），1 个字节 8 位，剩余的 5 位存储长度，可以满足长度小于 32 的短字符串。&lt;/p&gt;
 
 &lt;p&gt;在 Redis 5.0 中，我们用如下结构来存储长度小于 32 的短字符串。&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-C&quot;&gt;struct __attribute__ ((__packed__)) sdshdr5 {
@@ -255,7 +294,7 @@ struct __attribute__ ((__packed__)) sdshdr64 {
 &lt;p&gt;sdshdr5 结构如下，flags 占 1 个字节，其低三位（bit）表示 type，高 5 位（bit）表示长度。能表示的长度区间为 0~31(2^5)。flags 后面就是字符串的内容。&lt;/p&gt;
 
 &lt;center&gt;   
-&lt;img src=&quot;img/redis/sds/sdshdr5结构.png&quot; class=&quot;img-responsive img-centered&quot; alt=&quot;image-alt&quot; /&gt;
+&lt;img src=&quot;../../img/redis/sds/sdshdr5结构.png&quot; class=&quot;img-responsive img-centered&quot; alt=&quot;image-alt&quot; /&gt;
 &lt;div style=&quot;color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
     color: #999;
@@ -265,7 +304,7 @@ struct __attribute__ ((__packed__)) sdshdr64 {
 &lt;p&gt;而长度大于 31 的字符串，1 字节依然放不下。按之前的思路，将 len 和 free 单独存放。sdshdr8、sdshdr16、sdshdr32和sdshdr64的结构相同，以 sdshdr8 为例，结构如下：&lt;/p&gt;
 
 &lt;center&gt;   
-&lt;img src=&quot;img/redis/sds/sdshdr8结构.png&quot; class=&quot;img-responsive img-centered&quot; alt=&quot;image-alt&quot; /&gt;
+&lt;img src=&quot;../../img/redis/sds/sdshdr8结构.png&quot; class=&quot;img-responsive img-centered&quot; alt=&quot;image-alt&quot; /&gt;
 &lt;div style=&quot;color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
     color: #999;
@@ -557,7 +596,7 @@ sds sdsMakeRoomFor(sds s, size_t addlen) {
   &lt;li&gt;若 SDS 中剩余空闲空间 avail 小于或等于新增内容的长度 addlen：
     &lt;ul&gt;
       &lt;li&gt;若新增后的总长度 len+addlen &amp;lt; 1MB ，则按新长度的两倍扩容；&lt;/li&gt;
-      &lt;li&gt;若新增后的总长度 len+addlen &amp;gt; 1MB ，则按新长度加上 1MB 扩容。&lt;/li&gt;
+      &lt;li&gt;若新增后的总长度 len+addlen &amp;gt;= 1MB ，则按新长度加上 1MB 扩容。&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
 &lt;/ul&gt;
@@ -573,7 +612,7 @@ sds sdsMakeRoomFor(sds s, size_t addlen) {
 &lt;/ul&gt;
 
 &lt;center&gt;   
-&lt;img src=&quot;img/redis/sds/sdsMakeRoomFor流程图.png&quot; class=&quot;img-responsive img-centered&quot; alt=&quot;image-alt&quot; /&gt;
+&lt;img src=&quot;../../img/redis/sds/sdsMakeRoomFor流程图.png&quot; class=&quot;img-responsive img-centered&quot; alt=&quot;image-alt&quot; /&gt;
 &lt;div style=&quot;color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
     color: #999;
@@ -758,22 +797,12 @@ C语言由于不记录字符串长度，所以如果要修改字符串，必须�
 &lt;p&gt;redis的字符串表示为sds，而不是C字符串（以\0结尾的char*），它是redis底层所使用的字符串表示，对比如下：&lt;/p&gt;
 
 &lt;center&gt;   
-&lt;img src=&quot;img/redis/sds/sds和c字符串对比.png&quot; class=&quot;img-responsive img-centered&quot; alt=&quot;image-alt&quot; /&gt;
+&lt;img src=&quot;../../img/redis/sds/sds和c字符串对比.png&quot; class=&quot;img-responsive img-centered&quot; alt=&quot;image-alt&quot; /&gt;
 &lt;div style=&quot;color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
     color: #999;
     padding: 2px;&quot;&gt;redis字符串对比图&lt;/div&gt;
 &lt;/center&gt;
-
-&lt;h3 id=&quot;压缩列表---ziplist&quot;&gt;压缩列表 - ZipList&lt;/h3&gt;
-
-&lt;h3 id=&quot;快表---quicklist&quot;&gt;快表 - QuickList&lt;/h3&gt;
-
-&lt;h3 id=&quot;字典哈希表---dict&quot;&gt;字典/哈希表 - Dict&lt;/h3&gt;
-
-&lt;h3 id=&quot;整数集---intset&quot;&gt;整数集 - IntSet&lt;/h3&gt;
-
-&lt;h3 id=&quot;跳表---zskiplist&quot;&gt;跳表 - ZSkipList&lt;/h3&gt;
 
 &lt;blockquote&gt;
   &lt;p&gt;https://pdai.tech/md/db/nosql-redis/db-redis-overview.html&lt;br /&gt;
@@ -806,7 +835,7 @@ https://www.aphysia.cn/archives/redis-2—sdsyuan-ma-fen-xi&lt;/p&gt;
       
 
       
-        <summary type="html">Redis底层数据结构 简单动态字符串 - sds 压缩列表 - ZipList 快表 - QuickList 字典/哈希表 - Dict 整数集 - IntSet 跳表 - ZSkipList</summary>
+        <summary type="html">简单动态字符串 - sds 一种用于存储二进制数据的一种结构，具有动态扩容的特点，其实现位于src/sds.h和src/sds.c中。从版本3.2开始，sds底层数据结构也发生改变。</summary>
       
 
       
@@ -820,7 +849,7 @@ https://www.aphysia.cn/archives/redis-2—sdsyuan-ma-fen-xi&lt;/p&gt;
       <updated>2024-06-24T00:00:00+08:00</updated>
       <id>http://localhost:4000/redisObject</id>
       <content type="html" xml:base="http://localhost:4000/">&lt;center&gt;   
-&lt;img src=&quot;img/redis/redisObject/redisObject.jpg&quot; class=&quot;img-responsive img-centered&quot; alt=&quot;image-alt&quot; /&gt;
+&lt;img src=&quot;../../img/redis/redisObject/redisObject.jpg&quot; class=&quot;img-responsive img-centered&quot; alt=&quot;image-alt&quot; /&gt;
 &lt;div style=&quot;color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
     color: #999;
@@ -958,6 +987,17 @@ redis预分配的值对象如下：&lt;/p&gt;
   &lt;li&gt;当对象的rfcount降至0时，这个RedisObject结构，以及它引用的数据结构的内存都会被释放；&lt;/li&gt;
 &lt;/ul&gt;
 
+&lt;h3 id=&quot;redis底层数据结构&quot;&gt;Redis底层数据结构&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;简单动态字符串 - sds&lt;/li&gt;
+  &lt;li&gt;压缩列表 - ZipList&lt;/li&gt;
+  &lt;li&gt;快表 - QuickList&lt;/li&gt;
+  &lt;li&gt;字典/哈希表 - Dict&lt;/li&gt;
+  &lt;li&gt;整数集 - IntSet&lt;/li&gt;
+  &lt;li&gt;跳表 - ZSkipList&lt;br /&gt;
+下面就逐一介绍下以上数据结构。&lt;/li&gt;
+&lt;/ul&gt;
+
 &lt;blockquote&gt;
   &lt;p&gt;https://pdai.tech/md/db/nosql-redis/db-redis-x-redis-object.html
 https://axlgrep.github.io/tech/redis-object.html&lt;/p&gt;
@@ -998,7 +1038,7 @@ https://axlgrep.github.io/tech/redis-object.html&lt;/p&gt;
       <content type="html" xml:base="http://localhost:4000/">&lt;h3 id=&quot;redis-为什么这么快&quot;&gt;Redis 为什么这么快&lt;/h3&gt;
 
 &lt;center&gt;   
-&lt;img src=&quot;img/redis/guide/whyRedisFast.png&quot; class=&quot;img-responsive img-centered&quot; alt=&quot;image-alt&quot; /&gt;
+&lt;img src=&quot;../../img/redis/guide/whyRedisFast.png&quot; class=&quot;img-responsive img-centered&quot; alt=&quot;image-alt&quot; /&gt;
 &lt;div style=&quot;color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
     color: #999;
@@ -1894,284 +1934,6 @@ https://zhuanlan.zhihu.com/p/543865001&lt;/p&gt;
 
       
         <summary type="html">定义   对于二叉树的遍历我们常用的方法就是迭代和递归遍历，两种遍历方式使用压栈的方式，递归调用的是虚拟机的栈，迭代使用的是自定义的栈，两者的空间复杂度都为 O(n) 。   为了追求极致的效率,莫里斯遍历应运而生,它使用一种巧妙的方式将空间复杂度降为 O(1) .下面我们就一起来看看如何巧妙:</summary>
-      
-
-      
-      
-    </entry>
-  
-    <entry>
-      <title type="html">Reservoirsampling</title>
-      <link href="http://localhost:4000/" rel="alternate" type="text/html" title="Reservoirsampling" />
-      <published>2022-06-15T00:00:00+08:00</published>
-      <updated>2022-06-15T00:00:00+08:00</updated>
-      <id>http://localhost:4000/ReservoirSampling</id>
-      <content type="html" xml:base="http://localhost:4000/">&lt;h3 id=&quot;定义&quot;&gt;定义&lt;/h3&gt;
-&lt;hr /&gt;
-&lt;p&gt;  给定一串很长的数据流,对该数据流中数据只能访问一次,使得数据流中所有数据被选中的概率相等.&lt;br /&gt;
-  解决这样的问题,就可以利用蓄水池算法(Reservoir Sampling).&lt;/p&gt;
-&lt;hr /&gt;
-
-&lt;h3 id=&quot;基本思路&quot;&gt;基本思路&lt;/h3&gt;
-&lt;hr /&gt;
-&lt;p&gt;  假设需要采样的数量为 &lt;strong&gt;k&lt;/strong&gt; .&lt;/p&gt;
-&lt;ol&gt;
-  &lt;li&gt;首先构建一个 &lt;strong&gt;k&lt;/strong&gt; 个元素的数组,将序列前的 &lt;strong&gt;k&lt;/strong&gt; 个元素放入数组中.&lt;/li&gt;
-  &lt;li&gt;对于从第 &lt;strong&gt;j&lt;/strong&gt; 个元素 &lt;strong&gt;(j&amp;gt;k)&lt;/strong&gt; ,以 &lt;strong&gt;$\frac{k}{j}$&lt;/strong&gt; 的概率来决定该元素是否被替换到数组中,数组中的 &lt;strong&gt;k&lt;/strong&gt; 个元素被替换的概率是相同的.&lt;/li&gt;
-  &lt;li&gt;当遍历完所有元素之后,数组中剩下的元素即为采样样本.
-    &lt;hr /&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h3 id=&quot;证明过程&quot;&gt;证明过程&lt;/h3&gt;
-&lt;hr /&gt;
-&lt;ol&gt;
-  &lt;li&gt;对于第 &lt;strong&gt;i&lt;/strong&gt; 个元素 &lt;strong&gt;(i&amp;lt;k)&lt;/strong&gt; .在 &lt;strong&gt;k&lt;/strong&gt; 步之前,被选中的概率为1.
-当走到第 &lt;strong&gt;k+1&lt;/strong&gt; 步时,被 &lt;strong&gt;k+1&lt;/strong&gt; 个元素替换的概率 = 第 &lt;strong&gt;k+1&lt;/strong&gt; 个元素被选中的概率 &lt;strong&gt;$\times$&lt;/strong&gt; &lt;strong&gt;i&lt;/strong&gt; 被选中替换的概率,即 &lt;strong&gt;$\frac{k}{k+1} \times \frac{1}{k} = \frac{1}{k+1}$&lt;/strong&gt; .&lt;br /&gt;
-那么,不被第 &lt;strong&gt;k+1&lt;/strong&gt; 个元素替换的概率为 &lt;strong&gt;$1-\frac{1}{k+1} = \frac{k}{k+1}$&lt;/strong&gt; .以此类推,不被 &lt;strong&gt;k+2&lt;/strong&gt; 个元素替换的概率为 &lt;strong&gt;$1-\frac{k}{k+2} \times \frac{1}{k} = \frac{k+1}{k+2}$&lt;/strong&gt; .&lt;br /&gt;
-当递推到第 &lt;strong&gt;n&lt;/strong&gt; 个元素时,第 &lt;strong&gt;i&lt;/strong&gt; 个元素被保留的概率 = 被选中的概率 &lt;strong&gt;$\times$&lt;/strong&gt; 不被替换的概率,即 &lt;strong&gt;\[1 \times \frac{k}{k+1} \times \frac{k+1}{k+2} \times \frac{k+2}{k+3} … \times \frac{n-1}{n} = \frac{1}{n}\]&lt;/strong&gt;&lt;/li&gt;
-  &lt;li&gt;对于第 &lt;strong&gt;j&lt;/strong&gt; 个元素 &lt;strong&gt;(j&amp;gt;k)&lt;/strong&gt; . 在第 &lt;strong&gt;j&lt;/strong&gt; 步被选中的概率为 &lt;strong&gt;$\frac{k}{j}$&lt;/strong&gt; ,不被 &lt;strong&gt;j+1&lt;/strong&gt; 个元素替换的概率为 &lt;strong&gt;$1- \frac{k}{j+1} \times \frac{1}{k}$&lt;/strong&gt; ,当递推到第 &lt;strong&gt;n&lt;/strong&gt; 个元素时,被保留的概率 = 被选中的概率 * 不被替换的概率，即 &lt;strong&gt;\[\frac{k}{j} \times \frac{j}{j+1} \times \frac{j+1}{j+2} … \times \frac{n-1}{n} = \frac{k}{n}\]&lt;/strong&gt; 因此对于每个元素,被保留的概率都是 &lt;strong&gt;$\frac{k}{n}$&lt;/strong&gt;
-    &lt;hr /&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h3 id=&quot;理解过程&quot;&gt;理解过程&lt;/h3&gt;
-&lt;hr /&gt;
-&lt;p&gt;  遍历长度等于 &lt;strong&gt;n&lt;/strong&gt; 的数组.当第 &lt;strong&gt;i&lt;/strong&gt; 次遇到 &lt;strong&gt;target&lt;/strong&gt; 的元素时,随机选择区间 &lt;strong&gt;[0, i)&lt;/strong&gt; 内的一个整数,如果其等于 &lt;strong&gt;0&lt;/strong&gt; ,则将返回值置为该元素的下标,否则返回值不变.&lt;br /&gt;
-  设nums中有 &lt;strong&gt;k&lt;/strong&gt; 个值为 &lt;strong&gt;target&lt;/strong&gt; 的元素,该算法会保证这 &lt;strong&gt;k&lt;/strong&gt; 个元素的下标最终返回值概率均为$\frac{1}{k}$,证明如下&lt;br /&gt;
-P(第i次遇到值为target的元素下标称为最终返回值) = P(第i次随机选择的值=0) &lt;strong&gt;$\times$&lt;/strong&gt; P(第i+1次随机选择的值!=0) &lt;strong&gt;$\times…\times$&lt;/strong&gt; P(第k次随机选择的值!=0)&lt;/p&gt;
-
-\[\frac{1}{i} \times (1-\frac{1}{i+1}) \times...\times(1-\frac{1}{k}) = \frac{1}{i} \times \frac{i}{i+1} \times...\times \frac{k-1}{k} = \frac{1}{k}\]
-
-&lt;hr /&gt;
-
-&lt;h3 id=&quot;例题&quot;&gt;例题&lt;/h3&gt;
-&lt;hr /&gt;
-&lt;p&gt;1.&lt;a href=&quot;https://leetcode.cn/problems/random-pick-index/&quot;&gt;随机数索引-随机选一个数&lt;/a&gt;&lt;/p&gt;
-&lt;center&gt;
-    &lt;a href=&quot;https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/reservoirSampling/随机数索引.jpg&quot;&gt;
-    &lt;img style=&quot;border-radius: 0.3125em;
-    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);&quot; class=&quot;img-responsive img-centered&quot; alt=&quot;随机数索引&quot; src=&quot;https://cdn.jsdelivr.net/gh/BiggerYellow/BiggerYellow.github.io/img/algorithm/reservoirSampling/随机数索引.jpg&quot; /&gt;
-    &lt;div style=&quot;color:orange; border-bottom: 1px solid #d9d9d9;
-    display: inline-block;
-    color: #999;
-    padding: 2px;&quot;&gt;随机数索引&lt;/div&gt;
-    &lt;/a&gt;
-&lt;/center&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;java&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Solution&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;num&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;nc&quot;&gt;Random&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;random&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;Solution&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;num&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;random&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Random&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-    
-    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;pick&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;target&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;res&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;count&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;num&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;length&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++){&lt;/span&gt;
-            &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;num&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;target&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;){&lt;/span&gt;
-                &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;random&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;nextInt&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(++&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;count&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;){&lt;/span&gt;
-                    &lt;span class=&quot;n&quot;&gt;res&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-                &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-            &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;res&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;时间复杂度:O(n)&lt;br /&gt;
-空间复杂度为:O(1)&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;随机选k个数
-    &lt;blockquote&gt;
-      &lt;p&gt;java&lt;/p&gt;
-    &lt;/blockquote&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;selectK&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;k&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;){&lt;/span&gt;
-    &lt;span class=&quot;nc&quot;&gt;Random&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;random&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Random&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-    &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;res&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;k&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;];&lt;/span&gt;
-    &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;len&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;length&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;k&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++){&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;res&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;];&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-    &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;count&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;k&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;k&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;while&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;len&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;){&lt;/span&gt;
-        &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;j&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;random&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;nextInt&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(++&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;count&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;j&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;k&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;){&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;res&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;j&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;];&lt;/span&gt;
-        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++;&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;res&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;blockquote&gt;
-  &lt;p&gt;时间复杂度:O(n)&lt;br /&gt;
-空间复杂度度:O(1)&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h3 id=&quot;其他语言&quot;&gt;其他语言&lt;/h3&gt;
-&lt;hr /&gt;
-&lt;blockquote&gt;
-  &lt;p&gt;C++&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;div class=&quot;language-cpp highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;//随机选一个数&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Solution&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-	&lt;span class=&quot;n&quot;&gt;vector&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;amp;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-
-&lt;span class=&quot;nl&quot;&gt;public:&lt;/span&gt;
-		&lt;span class=&quot;n&quot;&gt;Solution&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;vector&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;amp;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{}&lt;/span&gt;
-
-		&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pick&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;target&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-			&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;res&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-			&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;count&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-				&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;target&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-				&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-					&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;count&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-					&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rand&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;count&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-					&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-						&lt;span class=&quot;n&quot;&gt;res&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-					&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-				&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-			&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-			&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;res&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-		&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
-
-&lt;span class=&quot;c1&quot;&gt;//随机选K个数&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Solution&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-	&lt;span class=&quot;n&quot;&gt;vector&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;selectK&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;vector&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;amp;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;k&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-	&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-		&lt;span class=&quot;n&quot;&gt;vector&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;res&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;k&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-		&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;k&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-		&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-			&lt;span class=&quot;n&quot;&gt;res&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
-		&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-		
-		&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;count&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;k&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-		&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;k&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-		&lt;span class=&quot;k&quot;&gt;while&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())&lt;/span&gt;
-		&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-			&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;count&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-			&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;j&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rand&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;count&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-			&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;j&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;k&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-			&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-				&lt;span class=&quot;n&quot;&gt;res&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;j&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
-			&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-		&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-		&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;res&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-	&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;blockquote&gt;
-  &lt;p&gt;python3&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;随机选一个数&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Solution&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;__init__&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]):&lt;/span&gt;
-        &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt;
-
-    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;pick&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;target&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;ans&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cnt&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;num&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;enumerate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-            &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;num&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;target&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-                &lt;span class=&quot;n&quot;&gt;cnt&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
-                &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;randrange&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cnt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-                    &lt;span class=&quot;n&quot;&gt;ans&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ans&lt;/span&gt;
-        
-&lt;span class=&quot;o&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;随机选K个数&lt;/span&gt;        
-&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Solution&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-    
-    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;selectK&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;k&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]:&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;res&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;k&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;res&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;count&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;k&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;k&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;while&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-            &lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;count&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;j&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;randrange&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;count&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-            &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;j&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;k&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-                &lt;span class=&quot;n&quot;&gt;res&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;j&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;res&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;blockquote&gt;
-  &lt;p&gt;go&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;div class=&quot;language-go highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;//随机选一个数&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Solution&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Constructor1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Solution&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-	&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Solution&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pick&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;target&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;res&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-	&lt;span class=&quot;n&quot;&gt;count&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:=&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;0&lt;/span&gt;
-	&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;num&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;range&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-		&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;num&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;target&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-			&lt;span class=&quot;n&quot;&gt;count&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;
-			&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rand&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Intn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;count&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-				&lt;span class=&quot;n&quot;&gt;res&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;
-			&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-		&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-	&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-	&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;c&quot;&gt;//随机选K个数&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SelectK&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;k&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;res&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-	&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:=&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;k&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-		&lt;span class=&quot;n&quot;&gt;res&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-	&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-	&lt;span class=&quot;n&quot;&gt;count&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;k&lt;/span&gt;
-	&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;k&lt;/span&gt;
-	&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-		&lt;span class=&quot;n&quot;&gt;count&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;
-		&lt;span class=&quot;n&quot;&gt;j&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rand&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Intn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;count&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-		&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;j&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;k&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-			&lt;span class=&quot;n&quot;&gt;res&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;j&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-		&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-	&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-	&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;res&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content>
-
-      
-      
-      
-      
-      
-
-      <author>
-          <name></name>
-        
-        
-      </author>
-
-      
-        <category term="algorithm" />
-      
-
-      
-
-      
-        <summary type="html">定义   给定一串很长的数据流,对该数据流中数据只能访问一次,使得数据流中所有数据被选中的概率相等.   解决这样的问题,就可以利用蓄水池算法(Reservoir Sampling).</summary>
       
 
       
