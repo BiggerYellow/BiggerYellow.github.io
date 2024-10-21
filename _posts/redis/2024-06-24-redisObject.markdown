@@ -20,7 +20,7 @@ description: redisObject
     padding: 2px;">redisObject概览</div>
 </center> 
 
-&nbsp;&nbsp;&nbsp;&nbsp;上图展示了redisObject，Redis所有数据类型、Redis所欲编码方式以及底层数据结构之间的关系。  
+&nbsp;&nbsp;&nbsp;&nbsp;上图展示了redisObject，Redis所有数据类型、Redis所有编码方式以及底层数据结构之间的关系。  
 &nbsp;&nbsp;&nbsp;&nbsp;它反映了redis的每种对象其实都由 **对象结构（redisObject）** 与 **对应编码的数据结构** 组合而成，而每种对象类型对应若干编码方式，不同的编码方式所对应的底层数据结构是不同的。  
 所以，我们需要从几个角度来研究：
 - 对象设计机制：对象结构（redisObject）
