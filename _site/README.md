@@ -38,6 +38,7 @@ https://jekyllrb.com/docs/structure/
 #### 图片素材
 https://www.pexels.com/zh-cn/
 图片大小: 900*650
+在线裁剪: https://www.iloveimg.com/zh-cn/crop-image/crop-png
 
 #### 数学公式网站
 https://latex.codecogs.com/
