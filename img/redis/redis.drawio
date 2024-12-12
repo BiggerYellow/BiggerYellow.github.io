@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36" version="24.9.0" pages="3">
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36" version="25.0.3" pages="3">
   <diagram name="quicklist#quicklistPush" id="MyWPbtvvegczRtQhynBv">
     <mxGraphModel dx="2647" dy="2976" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -941,11 +941,29 @@
       </root>
     </mxGraphModel>
   </diagram>
-  <diagram id="WcCkrnEYe-5Pm2Ilg3zI" name="第 3 页">
-    <mxGraphModel grid="1" page="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+  <diagram id="WcCkrnEYe-5Pm2Ilg3zI" name="dict#dictAdd">
+    <mxGraphModel dx="2022" dy="834" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
+        <mxCell id="JiObKxEv_WZIpC8PVOXD-1" value="dictAdd" style="swimlane;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-430" y="80" width="460" height="510" as="geometry" />
+        </mxCell>
+        <mxCell id="7Uadfo1Sd2Dd5zonU2cw-1" value="新建哈希节点&lt;div&gt;dictEntry&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="JiObKxEv_WZIpC8PVOXD-1">
+          <mxGeometry x="170" y="60" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="JiObKxEv_WZIpC8PVOXD-3" value="判断节点是否&lt;div&gt;新建成功&lt;/div&gt;" style="rhombus;whiteSpace=wrap;html=1;" vertex="1" parent="JiObKxEv_WZIpC8PVOXD-1">
+          <mxGeometry x="190" y="160" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="JiObKxEv_WZIpC8PVOXD-4" value="新建失败&lt;div&gt;直接返回&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="JiObKxEv_WZIpC8PVOXD-1">
+          <mxGeometry x="50" y="270" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="JiObKxEv_WZIpC8PVOXD-5" value="设置哈希节点&lt;div&gt;对应的值&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="JiObKxEv_WZIpC8PVOXD-1">
+          <mxGeometry x="290" y="270" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="JiObKxEv_WZIpC8PVOXD-6" value="新建成功" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="JiObKxEv_WZIpC8PVOXD-1">
+          <mxGeometry x="290" y="390" width="120" height="60" as="geometry" />
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
