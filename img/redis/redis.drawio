@@ -1284,7 +1284,7 @@
     </mxGraphModel>
   </diagram>
   <diagram id="Yxhrp4k-LPoTfJEhDqFq" name="dict#dictRehash">
-    <mxGraphModel dx="2036" dy="1371" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" background="none" math="0" shadow="0">
+    <mxGraphModel dx="2436" dy="1371" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" background="none" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -1293,6 +1293,18 @@
         </mxCell>
         <mxCell id="MhkiJPEMwAr-cZgUFS9y-5" value="1.哈希表&lt;div&gt;禁止调整大小&lt;div&gt;2.哈希表未处于&lt;/div&gt;&lt;div&gt;渐进式哈希&lt;/div&gt;&lt;/div&gt;" style="rhombus;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="-1110" y="-640" width="120" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="MhkiJPEMwAr-cZgUFS9y-6" value="返回0" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-1340" y="-450" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="MhkiJPEMwAr-cZgUFS9y-7" value="1.哈希表&lt;span style=&quot;background-color: initial;&quot;&gt;处于&lt;/span&gt;&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;避免哈希状态&lt;/span&gt;&lt;div&gt;&lt;div&gt;2.哈希表大小小于resize_ratio(5)&lt;br&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;" style="rhombus;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-850" y="-480" width="120" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="MhkiJPEMwAr-cZgUFS9y-8" value="返回0" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-1010" y="-280" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="MhkiJPEMwAr-cZgUFS9y-9" value="返回0" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-670" y="-280" width="120" height="60" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
