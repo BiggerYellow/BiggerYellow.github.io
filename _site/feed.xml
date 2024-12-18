@@ -4,7 +4,7 @@
   <generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator>
   <link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" />
   <link href="http://localhost:4000/" rel="alternate" type="text/html" />
-  <updated>2024-12-17T11:12:51+08:00</updated>
+  <updated>2024-12-18T10:19:11+08:00</updated>
   <id>http://localhost:4000/</id>
 
   
@@ -967,9 +967,25 @@ redis 通过 ht[0] 和 ht[1] 来完成 rehash 的操作，步骤如下：&lt;/p&
 &lt;/center&gt;
 &lt;p&gt;因此，最终得到的新 v，就是向最高位加 1，且向低位方向进位。&lt;/p&gt;
 
-&lt;p&gt;&lt;strong&gt;为什么要这个设计&lt;/strong&gt;&lt;br /&gt;
+&lt;p&gt;或者参考下图：&lt;/p&gt;
+&lt;center&gt;   
+&lt;img src=&quot;../../img/redis/dict/逆二进制翻转.png&quot; class=&quot;img-responsive img-centered&quot; alt=&quot;image-alt&quot; /&gt;
+&lt;div style=&quot;color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;&quot;&gt;逆二进制翻转示意图&lt;/div&gt;
+&lt;/center&gt;
+
+&lt;p&gt;&lt;strong&gt;为什么要这么设计&lt;/strong&gt;&lt;br /&gt;
 这样设计的原因就在于，字典中的哈希表有可能扩展，也有可能缩小。在字典不稳定的情况下，既要遍历到所有没被删除的元素，又要尽可能较少的重复遍历。&lt;br /&gt;
-下面详细解释一下这样设计好处，以及为什么不是按照正常的 0,1,2,3… 这样的顺序迭代？&lt;/p&gt;
+迭代哈希表时，有以下三种情况：&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;从迭代开始到结束，哈希表不 rehash&lt;/li&gt;
+  &lt;li&gt;从迭代开始到结束，哈希表 rehash，但每次迭代，哈希表要么不开始 rehash，要么已经结束 rehash&lt;/li&gt;
+  &lt;li&gt;从一次迭代开始到结束，哈希表在一次或多次迭代中 rehash - 即在 rehash 过程中，执行 Scan 命令，这时数据可能只迁移了一部分&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;下面详细解释一下这样设计好处，以及为什么不是按照正常的 0,1,2,3… 这样的顺序迭代？&lt;/p&gt;
 
 &lt;p&gt;计算一个哈希表节点索引的方法是 hashkey&amp;amp;mask ，其中，mask 的值永远是哈希表大小减 1。哈希表长度为 8，则 mask 为 111，因此，节点的索引值就取决于 hashkey 的低三位，假设是 abc，如果哈希表长度为16，则 mask 为 1111，同样的节点计算得到的哈希值不变，而索引值是 ?abc ，其中 ? 既可能是 0，也可能是 1，也就是说，该节点在长度为 16 的哈希表中，索引是 0abc 或者 1abc。以此类推，如何哈希表长度为 32，则该节点的索引是 00abc，01abc，10abc或者11abc 中的一个。&lt;br /&gt;
 重新看一下该算法中，哈希表长度分别为 8 和 16时，cursor 变化过程：&lt;/p&gt;
@@ -1016,6 +1032,13 @@ redis 通过 ht[0] 和 ht[1] 来完成 rehash 的操作，步骤如下：&lt;/p&
     color: #999;
     padding: 2px;&quot;&gt;字典扫描执行流程&lt;/div&gt;
 &lt;/center&gt;
+
+&lt;p&gt;&lt;strong&gt;scan迭代器的缺点&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;函数可能返回重复的元素，需要在应用层去处理&lt;/li&gt;
+  &lt;li&gt;为了不遗漏任何元素，迭代器需要返回给定桶上的所有键，以及因为扩展哈希表而产生的新表，所以迭代器必须在一次迭代中返回多个元素&lt;/li&gt;
+  &lt;li&gt;具体英文注释见下方源码&lt;/li&gt;
+&lt;/ul&gt;
 
 &lt;p&gt;源码如下:&lt;/p&gt;
 
@@ -1290,7 +1313,8 @@ static unsigned long rev(unsigned long v) {
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;blockquote&gt;
-  &lt;p&gt;https://pdai.tech/md/db/nosql-redis/db-redis-x-redis-ds.html#%E5%AD%97%E5%85%B8-%E5%93%88%E5%B8%8C%E8%A1%A8-dict&lt;br /&gt;
+  &lt;p&gt;相关参考：
+https://pdai.tech/md/db/nosql-redis/db-redis-x-redis-ds.html#%E5%AD%97%E5%85%B8-%E5%93%88%E5%B8%8C%E8%A1%A8-dict&lt;br /&gt;
 https://juejin.cn/post/7096097985976598564&lt;br /&gt;
 https://zhuanlan.zhihu.com/p/332480573&lt;br /&gt;
 https://www.cnblogs.com/yinbiao/p/10766357.html&lt;br /&gt;

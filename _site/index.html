@@ -3036,9 +3036,25 @@ redis 通过 ht[0] 和 ht[1] 来完成 rehash 的操作，步骤如下：</p>
 </center>
 <p>因此，最终得到的新 v，就是向最高位加 1，且向低位方向进位。</p>
 
-<p><strong>为什么要这个设计</strong><br />
+<p>或者参考下图：</p>
+<center>   
+<img src="../../img/redis/dict/逆二进制翻转.png" class="img-responsive img-centered" alt="image-alt" />
+<div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">逆二进制翻转示意图</div>
+</center>
+
+<p><strong>为什么要这么设计</strong><br />
 这样设计的原因就在于，字典中的哈希表有可能扩展，也有可能缩小。在字典不稳定的情况下，既要遍历到所有没被删除的元素，又要尽可能较少的重复遍历。<br />
-下面详细解释一下这样设计好处，以及为什么不是按照正常的 0,1,2,3… 这样的顺序迭代？</p>
+迭代哈希表时，有以下三种情况：</p>
+<ul>
+  <li>从迭代开始到结束，哈希表不 rehash</li>
+  <li>从迭代开始到结束，哈希表 rehash，但每次迭代，哈希表要么不开始 rehash，要么已经结束 rehash</li>
+  <li>从一次迭代开始到结束，哈希表在一次或多次迭代中 rehash - 即在 rehash 过程中，执行 Scan 命令，这时数据可能只迁移了一部分</li>
+</ul>
+
+<p>下面详细解释一下这样设计好处，以及为什么不是按照正常的 0,1,2,3… 这样的顺序迭代？</p>
 
 <p>计算一个哈希表节点索引的方法是 hashkey&amp;mask ，其中，mask 的值永远是哈希表大小减 1。哈希表长度为 8，则 mask 为 111，因此，节点的索引值就取决于 hashkey 的低三位，假设是 abc，如果哈希表长度为16，则 mask 为 1111，同样的节点计算得到的哈希值不变，而索引值是 ?abc ，其中 ? 既可能是 0，也可能是 1，也就是说，该节点在长度为 16 的哈希表中，索引是 0abc 或者 1abc。以此类推，如何哈希表长度为 32，则该节点的索引是 00abc，01abc，10abc或者11abc 中的一个。<br />
 重新看一下该算法中，哈希表长度分别为 8 和 16时，cursor 变化过程：</p>
@@ -3085,6 +3101,13 @@ redis 通过 ht[0] 和 ht[1] 来完成 rehash 的操作，步骤如下：</p>
     color: #999;
     padding: 2px;">字典扫描执行流程</div>
 </center>
+
+<p><strong>scan迭代器的缺点</strong></p>
+<ul>
+  <li>函数可能返回重复的元素，需要在应用层去处理</li>
+  <li>为了不遗漏任何元素，迭代器需要返回给定桶上的所有键，以及因为扩展哈希表而产生的新表，所以迭代器必须在一次迭代中返回多个元素</li>
+  <li>具体英文注释见下方源码</li>
+</ul>
 
 <p>源码如下:</p>
 
@@ -3359,7 +3382,8 @@ static unsigned long rev(unsigned long v) {
 </code></pre>
 
 <blockquote>
-  <p>https://pdai.tech/md/db/nosql-redis/db-redis-x-redis-ds.html#%E5%AD%97%E5%85%B8-%E5%93%88%E5%B8%8C%E8%A1%A8-dict<br />
+  <p>相关参考：
+https://pdai.tech/md/db/nosql-redis/db-redis-x-redis-ds.html#%E5%AD%97%E5%85%B8-%E5%93%88%E5%B8%8C%E8%A1%A8-dict<br />
 https://juejin.cn/post/7096097985976598564<br />
 https://zhuanlan.zhihu.com/p/332480573<br />
 https://www.cnblogs.com/yinbiao/p/10766357.html<br />

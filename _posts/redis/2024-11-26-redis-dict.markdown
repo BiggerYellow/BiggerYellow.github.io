@@ -939,8 +939,22 @@ void test_dictScan_cursor(int tablesize)
 </center>  
 因此，最终得到的新 v，就是向最高位加 1，且向低位方向进位。  
 
-**为什么要这个设计**  
+或者参考下图：  
+<center>   
+<img src="../../img/redis/dict/逆二进制翻转.png" class="img-responsive img-centered" alt="image-alt">
+<div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">逆二进制翻转示意图</div>
+</center>  
+
+**为什么要这么设计**  
 这样设计的原因就在于，字典中的哈希表有可能扩展，也有可能缩小。在字典不稳定的情况下，既要遍历到所有没被删除的元素，又要尽可能较少的重复遍历。  
+迭代哈希表时，有以下三种情况：  
+- 从迭代开始到结束，哈希表不 rehash  
+- 从迭代开始到结束，哈希表 rehash，但每次迭代，哈希表要么不开始 rehash，要么已经结束 rehash  
+- 从一次迭代开始到结束，哈希表在一次或多次迭代中 rehash - 即在 rehash 过程中，执行 Scan 命令，这时数据可能只迁移了一部分  
+
 下面详细解释一下这样设计好处，以及为什么不是按照正常的 0,1,2,3... 这样的顺序迭代？  
 
 计算一个哈希表节点索引的方法是 hashkey&mask ，其中，mask 的值永远是哈希表大小减 1。哈希表长度为 8，则 mask 为 111，因此，节点的索引值就取决于 hashkey 的低三位，假设是 abc，如果哈希表长度为16，则 mask 为 1111，同样的节点计算得到的哈希值不变，而索引值是 ?abc ，其中 ? 既可能是 0，也可能是 1，也就是说，该节点在长度为 16 的哈希表中，索引是 0abc 或者 1abc。以此类推，如何哈希表长度为 32，则该节点的索引是 00abc，01abc，10abc或者11abc 中的一个。  
@@ -984,6 +998,11 @@ void test_dictScan_cursor(int tablesize)
     color: #999;
     padding: 2px;">字典扫描执行流程</div>
 </center>  
+
+**scan迭代器的缺点**  
+- 函数可能返回重复的元素，需要在应用层去处理  
+- 为了不遗漏任何元素，迭代器需要返回给定桶上的所有键，以及因为扩展哈希表而产生的新表，所以迭代器必须在一次迭代中返回多个元素  
+- 具体英文注释见下方源码  
 
 源码如下:
 
